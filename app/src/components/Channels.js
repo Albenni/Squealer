@@ -1,8 +1,9 @@
 import "./Channels.css";
-function Channels() {
+
+function Channels({ text }) {
   return (
     <div className="channels">
-      <h1>Canali</h1>
+      <h1>{text}</h1>
     </div>
   );
 }

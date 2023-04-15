@@ -1,18 +1,36 @@
 import "./Feed.css";
 import Channels from "./../components/Channels.js";
-function Feed() {
-  return (
-    <div className="feed">
-        <div className="feedHeader">
-            <ul className="navbar">
-              <Channels/> 
-              <Channels/> 
-              <Channels/> 
-            </ul>
-        </div>
+import Icons from "../components/Icons";
+import { Component } from "react";
 
-    </div>
-  );
+class Feed extends Component {
+  state = {
+    tags: [
+      "TRENDING",
+      "NEWS",
+      "TOP_1000",
+      "RANDOM_1000",
+      "RANDOM_ITALY",
+      "RANDOM_BOLOGNA",
+    ],
+  };
+
+  render() {
+    return (
+      <div className="feed">
+        <div className="feedHeader">
+          <Icons name={"star"} color={"black"} />
+          <ul className="navbar">
+            {this.state.tags.map((tag) => (
+              <li>
+                <Channels text={tag} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Feed;
