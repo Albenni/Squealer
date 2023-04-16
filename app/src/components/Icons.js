@@ -1,11 +1,9 @@
 import React from "react";
 import Icon from "@mui/material/Icon";
 
-function Icons({ iconsName, iconsColor }) {
+function Icons({ iconsName, iconsColor, iconsSize }) {
   return (
-    <div className="icon">
-      <Icon color={iconsColor}> {iconsName} </Icon>
-    </div>
+    <Icon sx={{ color: iconsColor, fontSize: iconsSize }}>{iconsName}</Icon>
   );
 }
 
