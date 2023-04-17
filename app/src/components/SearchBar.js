@@ -17,9 +17,9 @@ function SearchBar({ placeholder, data }) {
           />
         </div>
       </div>
-      <div className="dataResults">
+      <div className="dataResult">
         {data.map((value, key) => {
-          return <div> {value.title} </div>;
+          return <div> <p>{value.title}</p> </div>;
         })}
       </div>
     </div>
