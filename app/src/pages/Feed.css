@@ -1,11 +1,16 @@
 
-.navbar {
+.channelsbar {
     display: flex;
     flex-direction: row;
     text-align: center;
     width: 100%;
 }
-
+.feedHeader{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: 100%;
+}
 ul{
     list-style-type: none;
 }
