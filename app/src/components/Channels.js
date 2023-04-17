@@ -1,9 +1,11 @@
 import "./Channels.css";
+import Button from "@mui/material/Button";
 
 function Channels({ text }) {
   return (
     <div className="channels">
-      <h1>{text}</h1>
+      <Button variant="text" color="primary">{text}</Button>
+      
     </div>
   );
 }

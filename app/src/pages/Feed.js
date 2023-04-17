@@ -19,7 +19,7 @@ class Feed extends Component {
     return (
       <div className="feed">
         <div className="feedHeader">
-          <Icons iconsName={"star"} iconsColor={"red"} iconsSize={"6rem"} />
+          <Icons iconsName={"fa-hippo"} iconsColor={"red"} iconsSize={"6rem"} />
           <ul className="navbar">
             {this.state.tags.map((tag) => (
               <li>
