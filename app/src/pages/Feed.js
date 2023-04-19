@@ -1,6 +1,7 @@
 import "./Feed.css";
 import Channels from "./../components/Channels.js";
 import Icons from "../components/Icons";
+import SquealBox from "../components/SquealBox";
 import { Component } from "react";
 import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
@@ -43,6 +44,10 @@ class Feed extends Component {
             ))}
           </ul>
         </div>
+        <div className="feedSquealBox">
+          <SquealBox />
+        </div>
+      
       </div>
     );
   }

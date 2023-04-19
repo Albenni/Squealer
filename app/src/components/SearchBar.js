@@ -8,9 +8,11 @@ import { Button } from "@mui/material";
 function SearchBar({ placeholder, data }) {
 
   const [filteredData, setFilteredData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
+    setWordEntered(searchWord);
     const newFilter = data.filter((value) => {
       //toLowerCase() serve per rendere la ricerca case insensitive
       // trasforma tutto in minuscolo
@@ -33,13 +35,14 @@ function SearchBar({ placeholder, data }) {
 
   const clearInput = () => {
     setFilteredData([]);
+    setWordEntered("");
   };
 
 
   return (
     <div className="search">
       <div className="searchInputs">
-        <input type="text" placeholder={placeholder} className="searchInput" onChange={handleFilter} />
+        <input type="text" placeholder={placeholder} className="searchInput" value={wordEntered} onChange={handleFilter} />
         <div className="searchIcon">
           {
             filteredData.length === 0           
