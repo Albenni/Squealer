@@ -1,12 +1,9 @@
 import "./SquealBox.css";
 
 import { Avatar, Button } from "@mui/material";
-import { closeIcon } from "../config/IconsPath";
-import Icons from "../components/Icons";
 
 function SquealBox() {
-
- /*  const clearInput = () => {
+  /*  const clearInput = () => {
     //oggettocontenenteinput([]);
   }; */
 
@@ -16,12 +13,6 @@ function SquealBox() {
         <div className="squealBoxInput">
           <Avatar />
           <input placeholder="Cosa vuoi postare?" type="text" />
-          <Button id="clearButton" /* onClick={clearInput} */>
-            <Icons iconsColor={"#000"}
-            iconsSize={"1.5rem"}
-            iconsName={closeIcon}
-            />
-          </Button>
         </div>
         <input
           className="squealBoxInputImage"

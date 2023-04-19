@@ -6,6 +6,7 @@ import { Component } from "react";
 import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
 import { wrooomIcon } from "../config/IconsPath";
+import Post from "../components/Post";
 
 class Feed extends Component {
   state = {
@@ -46,8 +47,8 @@ class Feed extends Component {
         </div>
         <div className="feedSquealBox">
           <SquealBox />
+          <Post />
         </div>
-      
       </div>
     );
   }
