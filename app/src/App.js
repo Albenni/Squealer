@@ -3,16 +3,16 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Feed from "./pages/Feed";
-import LoginForm from "./pages/LoginForm";
-import Accout from "./pages/Accout";
+import Login from "./pages/Login";
+import Account from "./pages/Account";
 
 export default function App() {
   return (
     <>
       <Routes>
         <Route index element={<Feed />} />
-        <Route path="login" element={<LoginForm />} />
-        <Route path="account" element={<Accout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/account" element={<Account />} />
         <Route
           path="*"
           element={
