@@ -12,7 +12,7 @@ import "./Post.css";
 function Post({ displayName, username, verified, text, image, avatar }) {
   return (
     <div className="post">
-      <div className="avatarPost">
+      <div className="postAvatar">
         <Avatar src={avatar} />
       </div>
       <div className="postBody">

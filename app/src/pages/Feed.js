@@ -26,7 +26,7 @@ class Feed extends Component {
         <div className="feedHeader">
           <div className="feedHeaderIconLeft">
             <Icons
-              iconsColor={"#000"}
+              iconsColor={"#FFFFFF"}
               iconsSize={"large"}
               iconsName={wrooomIcon}
             />
@@ -47,6 +47,8 @@ class Feed extends Component {
         </div>
         <div className="feedSquealBox">
           <SquealBox />
+          <Post />
+          <Post />
           <Post />
         </div>
       </div>

@@ -1,7 +1,7 @@
 .post {
     display: flex;
     align-items: flex-start;
-    border-bottom: 1px solid var(--twitter-background);
+    border-bottom: 1px solid grey;
     padding-bottom: 10px;
 }
 
@@ -32,7 +32,7 @@
 
 .postBadge {
     font-size: 14px !important;
-    color: var(--twitter-color);
+    color: lightblue;
 }
 
 .postHeaderSpecial {
