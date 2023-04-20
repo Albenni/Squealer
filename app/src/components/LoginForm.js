@@ -10,11 +10,11 @@ function LoginForm() {
         <form>
         {/* Email input */}
         <div className="usernameInput">
-            <TextField id="outlined-basic" label="Username" variant="outlined" />
+            <TextField id="outlined-required" label="Username" variant="outlined" size="small" />
         </div>
         {/* Password input */}
         <div class="passwordInput">
-            <TextField id="outlined-basic" label="Password" variant="outlined" />
+            <TextField id="outlined-required" label="Password" variant="outlined" size="small" />
         </div>
         </form>
     
