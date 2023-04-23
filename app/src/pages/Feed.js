@@ -1,5 +1,4 @@
 import "./Feed.css";
-import Channels from "./../components/Channels.js";
 import Icons from "../components/Icons";
 import SquealBox from "../components/SquealBox";
 import { Component } from "react";
@@ -7,6 +6,7 @@ import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
 import { wrooomIcon } from "../config/IconsPath";
 import Post from "../components/Post";
+import TrendBar from "../components/TrendBar";
 
 class Feed extends Component {
   state = {
@@ -18,6 +18,7 @@ class Feed extends Component {
       "RANDOM_ITALY",
       "RANDOM_BOLOGNA",
     ],
+    logged: true,
   };
 
   render() {
@@ -36,17 +37,13 @@ class Feed extends Component {
           </div>
           <div className="feedHeaderIconRight" />
         </div>
-        <div className="channels">
-          <ul className="channelsbar">
-            {this.state.tags.map((tag) => (
-              <li>
-                <Channels text={tag} />
-              </li>
-            ))}
-          </ul>
+
+        <div className="feedTrendBar">
+          <TrendBar login={this.state.logged} trending={this.state.tags} />
         </div>
         <div className="feedSquealBox">
           <SquealBox />
+
           <Post />
           <Post />
           <Post />

@@ -1,16 +1,10 @@
 .feed {
     flex: 0.4;
     border-right: 1px solid grey;
-    /* min-width: fit-content;
-    overflow-y: scroll; */
+    /* min-width: fit-content; */
+    /* overflow-y: scroll; */
+    overflow: hidden;
   }
-
-.channelsbar {
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    width: 100%;
-}
 .feedHeader{
     display: flex;
     flex-direction: row;
@@ -25,4 +19,11 @@ ul{
 .feedHeaderIconLeft
 {
     width: 100px;
+}
+
+.feedSquealBox{
+    
+    width: 100%;
+    background-image: linear-gradient(90deg, #4767b0, #7cf0ff);
+    
 }
