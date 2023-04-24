@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 import "./Login.css";
-import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Register() {
   return (
     <>
       <Link to="/">
@@ -32,9 +32,9 @@ function Login() {
         </li>
       </ul>
 
-      <LoginForm className="loginForm" />
+      <RegisterForm className="registerForm" />
     </>
   );
 }
 
-export default Login;
+export default Register;

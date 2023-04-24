@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Account from "./pages/Account";
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
       <Routes>
         <Route index element={<Feed />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account />} />
         <Route
           path="*"
