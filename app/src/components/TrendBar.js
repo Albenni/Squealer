@@ -7,7 +7,7 @@ function TrendBar({ login, trending }) {
     <div className="trendbar">
       <nav className="trendbarNav">
         <ul className="trendbarNavList">
-          <li className="trendbarNavListItem">
+          <div className="trendbarNavListItem">
             {login ? (
               trending.map((trend) => (
                 <li>
@@ -17,7 +17,7 @@ function TrendBar({ login, trending }) {
             ) : (
               <Channels text={"TRENDING"} />
             )}
-          </li>
+          </div>
         </ul>
       </nav>
     </div>
