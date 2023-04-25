@@ -1,15 +1,17 @@
 import "./Feed.css";
 import Icons from "../components/Icons";
 import SquealBox from "../components/SquealBox";
-import { Component } from "react";
 import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
-import { wrooomIcon } from "../config/IconsPath";
+import { settingsIcon, wrooomIcon } from "../config/IconsPath";
 import Post from "../components/Post";
 import TrendBar from "../components/TrendBar";
+import { useNavigate } from "react-router-dom";
 
-class Feed extends Component {
-  state = {
+function Feed() {
+  let navigate = useNavigate();
+
+  const state = {
     tags: [
       "TRENDING",
       "NEWS",
@@ -21,36 +23,43 @@ class Feed extends Component {
     logged: true,
   };
 
-  render() {
-    return (
-      <div className="feed">
-        <div className="feedHeader">
-          <div className="feedHeaderIconLeft">
-            <Icons
-              iconsColor={"#FFFFFF"}
-              iconsSize={"large"}
-              iconsName={wrooomIcon}
-            />
-          </div>
-          <div className="feedHeaderSearchbar">
-            <SearchBar placeholder={"Placeholder example"} data={BooksData} />
-          </div>
-          <div className="feedHeaderIconRight" />
+  return (
+    <div className="feed">
+      <div className="feedHeader">
+        <div className="feedHeaderIconLeft" onClick={() => navigate("/login")}>
+          <Icons
+            iconsColor={"#FFFFFF"}
+            iconsSize={"large"}
+            iconsName={wrooomIcon}
+          />
         </div>
-
-        <div className="feedTrendBar">
-          <TrendBar login={this.state.logged} trending={this.state.tags} />
+        <div className="feedHeaderSearchbar">
+          <SearchBar placeholder={"Placeholder example"} data={BooksData} />
         </div>
-        <div className="feedSquealBox">
-          <SquealBox />
-
-          <Post />
-          <Post />
-          <Post />
+        <div
+          className="feedHeaderIconRight"
+          onClick={() => navigate("/account")}
+        >
+          <Icons
+            iconsColor={"#FFFFFF"}
+            iconsSize={"large"}
+            iconsName={settingsIcon}
+          />
         </div>
       </div>
-    );
-  }
+
+      <div className="feedTrendBar">
+        <TrendBar login={state.logged} trending={state.tags} />
+      </div>
+      <div className="feedSquealBox">
+        <SquealBox />
+
+        <Post />
+        <Post />
+        <Post />
+      </div>
+    </div>
+  );
 }
 
 export default Feed;

@@ -72,7 +72,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 /_ --squealer-color: #50b7f5;
 --squealer-background: #e6ecf0;
 _/
-
-https://fontawesome.com/search?m=free&o=r
-
-https://remixicon.com/icon/wheelchair-fill
