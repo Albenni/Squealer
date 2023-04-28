@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -8,11 +8,13 @@ import Register from "./pages/Register";
 import Account from "./pages/Account";
 
 export default function App() {
+  const [token, setToken] = useState("a");
+
   return (
     <>
       <Routes>
         <Route index element={<Feed />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account />} />
         <Route

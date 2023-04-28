@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import "./LoginForm.css";
-import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LoginForm() {
-  //tengono traccia di ciò che c'è nei TextField
+import { Button, TextField } from "@mui/material";
+import "./LoginForm.css";
+
+function LoginForm({ setToken }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const uriApi = "http://localhost:3500/auth";
 
@@ -17,8 +20,10 @@ function LoginForm() {
         pwd: password,
       })
       .then((res) => {
-        //qua bisogna fare il redirect alla home e gestire il token per l'autenticazione
+        //qua bisogna fare il redirect alla home
         alert(res.statusText);
+        setToken(res.data.accessToken);
+        navigate("../");
       })
       .catch((err) => {
         //qua bisogna gestire gli errori in una maniera un po più carina

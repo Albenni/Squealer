@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import "./RegisterForm.css";
-import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import { Button, TextField } from "@mui/material";
+
+import "./RegisterForm.css";
 
 function RegisterForm() {
   const [name, setName] = useState("");
@@ -9,6 +12,8 @@ function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [verPassword, setVerPassword] = useState("");
+
+  const navigate = useNavigate();
 
   //sarebbe carino non avere tutti gli url hardcoded
   //magari la prima parte sempre uguale e che cambia sarebbe da passare come parametro
@@ -26,8 +31,9 @@ function RegisterForm() {
           pwd: password,
         })
         .then((res) => {
-          //qua bisogna fare il redirect alla home e gestire il token per l'autenticazione
+          //si può rendere più carino
           alert(res.statusText);
+          navigate("../login"); //redirect to login
         })
         .catch((err) => {
           //qua bisogna gestire gli errori in una maniera un po più carina

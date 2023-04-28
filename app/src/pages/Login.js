@@ -4,7 +4,7 @@ import "./Login.css";
 import LoginForm from "../components/LoginForm";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Login({ setToken }) {
   return (
     <>
       <Link to="/">
@@ -32,7 +32,7 @@ function Login() {
         </li>
       </ul>
 
-      <LoginForm className="loginForm" />
+      <LoginForm className="loginForm" setToken={setToken} />
     </>
   );
 }
