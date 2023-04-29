@@ -8,7 +8,7 @@ import Register from "./pages/Register";
 import Account from "./pages/Account";
 
 export default function App() {
-  const [token, setToken] = useState("a");
+  const [token, setToken] = useState(""); //token per l'autenticazione
 
   return (
     <>

@@ -1,38 +1,76 @@
-import React from "react";
-import { Button } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { Button, TextField } from "@mui/material";
+import LoginRegisMenu from "../components/LoginRegisMenu";
 import "./Login.css";
-import LoginForm from "../components/LoginForm";
-import { Link } from "react-router-dom";
 
 function Login({ setToken }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const uriApi = "http://localhost:3500/auth";
+
+  function submitForm() {
+    axios
+      .post(uriApi, {
+        user: username,
+        pwd: password,
+      })
+      .then((res) => {
+        alert(res.statusText);
+        setToken(res.data.accessToken);
+        navigate("../");
+      })
+      .catch((err) => {
+        //qua bisogna gestire gli errori in una maniera un po più carina
+        if (err.response.status === 400)
+          alert("username e password sono obbligatori");
+        else if (err.response.status === 401)
+          alert("username e password sbagliati");
+      });
+  }
+
   return (
     <>
-      <Link to="/">
-        <h1 className="loginTitle">Squeal</h1>
-      </Link>
-      <ul className="loginRegister">
-        <li className="selectLoginElement">
-          <Link to="/login">
-            <Button variant="text" className="selectLoginButton" size="large">
-              LOGIN
-            </Button>
-          </Link>
-        </li>
+      <LoginRegisMenu />
+      <div className="loginForm">
+        <form>
+          <div className="usernameInput">
+            <TextField
+              id="outlined-required"
+              label="Username"
+              variant="outlined"
+              size="small"
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              required
+            />
+          </div>
 
-        <li className="selectUsernameElement">
-          <Link to="/register">
-            <Button
-              variant="text"
-              className="selectRegisterButton"
-              size="large"
-            >
-              REGISTER
-            </Button>
-          </Link>
-        </li>
-      </ul>
+          <div className="passwordInput">
+            <TextField
+              id="outlined-required"
+              label="Password"
+              variant="outlined"
+              size="small"
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+            />
+          </div>
 
-      <LoginForm className="loginForm" setToken={setToken} />
+          <Button variant="contained" onClick={submitForm}>
+            Submit
+          </Button>
+        </form>
+      </div>
     </>
   );
 }
