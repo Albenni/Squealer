@@ -2,21 +2,30 @@ import React, { useState } from "react";
 
 import { Routes, Route } from "react-router-dom";
 
+import useAuth from "./hooks/useAuth";
+import RequireAuth from "./components/RequireAuth";
+
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Account from "./pages/Account";
 
 export default function App() {
-  const [token, setToken] = useState(""); //token per l'autenticazione
+  const { auth } = useAuth();
 
   return (
     <>
+      <p>token: {auth}</p>
       <Routes>
         <Route index element={<Feed />} />
-        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/account" element={<Account />} />
+
+        {/* Questo components serve per richiedere il login nelle pagine figlie */}
+        <Route element={<RequireAuth />}>
+          <Route path="/account" element={<Account />} />
+        </Route>
+
         <Route
           path="*"
           element={

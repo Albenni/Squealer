@@ -1,5 +1,5 @@
-Filo: autenticazione backend, collegamento database, pagina login(50%)
+Filo: autenticazione frontend + backend, collegamento database, pagina login(50%)
 
-Anna: pagine login(50%)
+Anna: pagina login(50%)
 
-Albe: 
+Albe:

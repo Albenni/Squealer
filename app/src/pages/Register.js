@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios";
 
 import { Button, TextField } from "@mui/material";
 import LoginRegisMenu from "../components/LoginRegisMenu";
@@ -15,16 +15,12 @@ function Register() {
 
   const navigate = useNavigate();
 
-  //sarebbe carino non avere tutti gli url hardcoded
-  //magari la prima parte sempre uguale e che cambia sarebbe da passare come parametro
-  const uriApi = "http://localhost:3500/register";
-
   function submitForm() {
     if (verPassword !== password)
       alert("le password non corrispondono"); //si può fare più carino
     else {
       axios
-        .post(uriApi, {
+        .post("/register", {
           firstname: name,
           surname: surname,
           user: username,

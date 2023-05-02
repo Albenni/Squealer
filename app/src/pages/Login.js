@@ -1,37 +1,48 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useAuth from "../hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import axios from "../api/axios";
 
 import { Button, TextField } from "@mui/material";
 import LoginRegisMenu from "../components/LoginRegisMenu";
 import "./Login.css";
 
-function Login({ setToken }) {
+const LOGIN_URL = "/auth";
+
+function Login() {
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  async function submitForm() {
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        {
+          user: username,
+          pwd: password,
+        },
+        {
+          // headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
 
-  const uriApi = "http://localhost:3500/auth";
-
-  function submitForm() {
-    axios
-      .post(uriApi, {
-        user: username,
-        pwd: password,
-      })
-      .then((res) => {
-        alert(res.statusText);
-        setToken(res.data.accessToken);
-        navigate("../");
-      })
-      .catch((err) => {
-        //qua bisogna gestire gli errori in una maniera un po più carina
-        if (err.response.status === 400)
-          alert("username e password sono obbligatori");
-        else if (err.response.status === 401)
-          alert("username e password sbagliati");
-      });
+      alert(response.statusText);
+      setAuth(response?.data?.accessToken);
+      navigate(from, { replace: true });
+    } catch (err) {
+      if (err.response.status === 400)
+        alert("username e password sono obbligatori");
+      else if (err.response.status === 401)
+        alert("username e password sbagliati");
+    }
   }
 
   return (
