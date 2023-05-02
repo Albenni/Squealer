@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Routes, Route } from "react-router-dom";
 
-import useAuth from "./hooks/useAuth";
 import RequireAuth from "./components/RequireAuth";
 
 import Feed from "./pages/Feed";
@@ -11,11 +10,8 @@ import Register from "./pages/Register";
 import Account from "./pages/Account";
 
 export default function App() {
-  const { auth } = useAuth();
-
   return (
     <>
-      <p>token: {auth}</p>
       <Routes>
         <Route index element={<Feed />} />
         <Route path="/login" element={<Login />} />

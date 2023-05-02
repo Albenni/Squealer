@@ -15,7 +15,8 @@ export default function Account() {
   return (
     <>
       <h1>ACCOUNT</h1>
-      <button onClick={() => getUsers()}>refresh</button>
+      <p>bottone di prova per testare autenticaizione</p>
+      <button onClick={() => getUsers()}>get Users</button>
     </>
   );
 }
