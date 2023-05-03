@@ -3,6 +3,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import RequireAuth from "./components/RequireAuth";
+import PersistLogin from "./components/PersistLogin";
 
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
@@ -18,8 +19,10 @@ export default function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}
-        <Route element={<RequireAuth />}>
-          <Route path="/account" element={<Account />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/account" element={<Account />} />
+          </Route>
         </Route>
 
         <Route
