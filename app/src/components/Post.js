@@ -1,5 +1,7 @@
-import { Avatar } from "@mui/material";
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import { Avatar, Button } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import RepeatIcon from "@mui/icons-material/Repeat";
@@ -9,33 +11,48 @@ import "./Post.css";
 
 // Sta funzione poi dobbiamo cambiarla con un forwardRef
 
-function Post({ displayName, username, verified, text, image, avatar }) {
+function Post({ item }) {
   return (
-    <div className="post">
+    <div className="post container container-fluid">
       <div className="postAvatar">
-        <Avatar src={avatar} />
+        <Avatar src={item.propic} />
       </div>
       <div className="postBody">
         <div className="postHeader">
           <div className="postHeaderText">
             <h3>
-              {displayName}{" "}
+              {item.name}{" "}
               <span className="postHeaderSpecial">
-                {verified && <VerifiedIcon className="postBadge" />} @{" "}
-                {username}
+                {item.verified && <VerifiedIcon className="postBadge" />} @{" "}
+                {item.username}
               </span>
             </h3>
           </div>
           <div className="postHeaderDescription">
-            <p>{text}</p>
+            <p>{item.posttext}</p>
           </div>
         </div>
-        <img src={image} alt="" />
+        <div className="postImage ">
+          {item.postimage && (
+            <img src={item.postimage} alt="Immagine pubblicata" />
+          )}
+        </div>
         <div className="postFooter">
-          <ChatBubbleOutlineIcon fontSize="small" />
-          <RepeatIcon fontSize="small" />
-          <FavoriteBorderIcon fontSize="small" />
-          <PublishIcon fontSize="small" />
+          <Button>
+            {item.postcomments}
+            <ChatBubbleOutlineIcon fontSize="small" />
+          </Button>
+          <Button>
+            {item.postshares}
+            <RepeatIcon fontSize="small" />
+          </Button>
+          <Button>
+            {item.postlikes}
+            <FavoriteBorderIcon fontSize="small" />
+          </Button>
+          <Button>
+            <PublishIcon fontSize="small" />
+          </Button>
         </div>
       </div>
     </div>

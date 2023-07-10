@@ -72,10 +72,10 @@ function SearchBar({ placeholder, data }) {
           {/* slice(0, 15) serve per limitare il numero di risultati a 15 */}
           {filteredData.slice(0, 15).map((value, key) => {
             return (
-              <div>
+              <ul>
                 {" "}
-                <p>{value.title}</p>{" "}
-              </div>
+                <li key={key}>{value.title}</li>{" "}
+              </ul>
             );
           })}
         </div>

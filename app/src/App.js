@@ -14,30 +14,31 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route index element={<Feed />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" index element={<Feed />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
 
-        {/* Questo components serve per richiedere il login nelle pagine figlie */}
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}>
-            <Route path="/account" element={<Account />} />
+          {/* Questo components serve per richiedere il login nelle pagine figlie */}
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="account" element={<Account />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route
-          path="*"
-          element={
-            <h1
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              404 not found
-            </h1>
-          }
-        />
+          <Route
+            path="*"
+            element={
+              <h1
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                404 not found
+              </h1>
+            }
+          />
+        </Route>
       </Routes>
     </>
   );

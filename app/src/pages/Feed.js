@@ -4,9 +4,12 @@ import SquealBox from "../components/SquealBox";
 import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
 import { settingsIcon, wrooomIcon } from "../config/IconsPath";
-import Post from "../components/Post";
+import PostList from "../components/PostList";
+
 import TrendBar from "../components/TrendBar";
 import { useNavigate } from "react-router-dom";
+
+import postdatasample from "../assets/postdatasample.json";
 
 function Feed() {
   let navigate = useNavigate();
@@ -53,10 +56,10 @@ function Feed() {
       </div>
       <div className="feedSquealBox">
         <SquealBox />
+      </div>
 
-        <Post />
-        <Post />
-        <Post />
+      <div className="postList">
+        <PostList posts={postdatasample} />
       </div>
     </div>
   );
