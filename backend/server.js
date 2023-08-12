@@ -40,8 +40,12 @@ app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 
-app.use(verifyJWT);
-app.use("/users", require("./routes/api/users"));
+//solo chi è autenticato può accedere a queste api
+// app.use(verifyJWT);
+
+app.use("/users", require("./routes/users"));
+app.use("/messages", require("./routes/messages"));
+app.use("/posts", require("./routes/posts"));
 
 app.all("*", (req, res) => {
   res.status(404);

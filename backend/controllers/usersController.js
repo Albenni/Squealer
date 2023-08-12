@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const User = require("../model/User");
 
 const getAllUsers = async (req, res) => {
@@ -7,9 +8,9 @@ const getAllUsers = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  if (!req?.body?.id)
+  if (!req?.params?.id)
     return res.status(400).json({ message: "User ID required" });
-  const user = await User.findOne({ _id: req.body.id }).exec();
+  const user = await User.findOne({ _id: req.params.id }).exec();
   if (!user) {
     return res
       .status(204)
