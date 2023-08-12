@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const handleNewUser = async (req, res) => {
   const { user, pwd, firstname, surname } = req.body;
   if (!user || !pwd || !firstname || !surname) {
-    console.log("ECOO");
     return res
       .status(400)
       .json({ message: "Username, password, name and surname are required." });
@@ -26,7 +25,7 @@ const handleNewUser = async (req, res) => {
       surname: surname,
     });
 
-    console.log(result);
+    // console.log("Nuovo utente creato:\n" + result);
 
     res.status(201).json({ success: `New user ${user} created!` });
   } catch (err) {
