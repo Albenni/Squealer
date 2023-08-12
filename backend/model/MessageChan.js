@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const messageSchema = new Schema({
+const messageChanSchema = new Schema({
   author: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: "User",
     required: true,
+    ref: "User",
   },
-  //può essere un utente o un canale, come gestiamo il canale?
-  receiver: {
+  channel: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: "User",
     required: true,
+    refPath: "channelType", //può essere canale user oppure redazione
+  },
+  channelType: {
+    type: String,
+    required: true,
+    enum: ["ChannelUser", "ChannelRed"],
   },
   content: {
     type: String,
@@ -35,4 +39,4 @@ const messageSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Message", messageSchema);
+module.exports = mongoose.model("MessageChan", messageChanSchema);

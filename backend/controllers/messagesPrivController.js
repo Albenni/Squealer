@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const Message = require("../model/Message");
+const MessagePriv = require("../model/MessagePriv");
 
 const getAllMessageByUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.id))
     return res.status(400).json({ message: "Invalid user ID" });
-  const messages = await Message.find({ author: req.params.id }).exec();
+  const messages = await MessagePriv.find({ author: req.params.id }).exec();
   if (!messages?.length) {
     return res.status(204).json({ message: `No messages found` });
   }
@@ -36,7 +36,7 @@ const createMessage = async (req, res) => {
     contentType: req.body.contentType,
   };
   try {
-    const result = await Message.create(message);
+    const result = await MessagePriv.create(message);
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -48,7 +48,7 @@ const deleteMessage = async (req, res) => {
     return res.status(400).json({ message: "Message ID not valid" });
 
   try {
-    const result = await Message.findByIdAndDelete(req.params.id);
+    const result = await MessagePriv.findByIdAndDelete(req.params.id);
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -69,9 +69,13 @@ const editMessage = async (req, res) => {
   };
 
   try {
-    const result = await Message.findByIdAndUpdate(req.params.id, editedMess, {
-      new: true,
-    });
+    const result = await MessagePriv.findByIdAndUpdate(
+      req.params.id,
+      editedMess,
+      {
+        new: true,
+      }
+    );
     res.json(result);
   } catch (e) {
     console.error(e);

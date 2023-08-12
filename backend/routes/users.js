@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
-const messagesController = require("../controllers/messagesController");
+const messagesPrivController = require("../controllers/messagesPrivController");
 const postsController = require("../controllers/postsController");
 
 // router.route("/").get(usersController.getAllUsers);
@@ -14,8 +14,8 @@ router
 
 router
   .route("/:id/messages")
-  .get(messagesController.getAllMessageByUser)
-  .post(messagesController.createMessage);
+  .get(messagesPrivController.getAllMessageByUser)
+  .post(messagesPrivController.createMessage);
 // .patch()
 
 router
