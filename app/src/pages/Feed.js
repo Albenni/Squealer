@@ -3,16 +3,20 @@ import Icons from "../components/Icons";
 import SquealBox from "../components/SquealBox";
 import SearchBar from "../components/SearchBar";
 import BooksData from "../DataExample.json";
-import { settingsIcon, wrooomIcon } from "../config/IconsPath";
+import { settingsIcon, wrooomIcon, chatIcon } from "../config/IconsPath";
 import PostList from "../components/PostList";
 
 import TrendBar from "../components/TrendBar";
 import { useNavigate } from "react-router-dom";
 
 import postdatasample from "../assets/postdatasample.json";
+import PrivateMessages from "./PrivateMessages";
+import { useState } from "react";
 
 function Feed() {
   let navigate = useNavigate();
+
+  const [showchat, setShowChat] = useState(false);
 
   const state = {
     tags: [
@@ -39,15 +43,27 @@ function Feed() {
         <div className="feedHeaderSearchbar">
           <SearchBar placeholder={"Placeholder example"} data={BooksData} />
         </div>
-        <div
-          className="feedHeaderIconRight"
-          onClick={() => navigate("/account")}
-        >
-          <Icons
-            iconsColor={"#FFFFFF"}
-            iconsSize={"large"}
-            iconsName={settingsIcon}
-          />
+        <div className="feedIconsRight">
+          <div
+            className="feedHeaderIconRight1"
+            onClick={() => navigate("/account")}
+          >
+            <Icons
+              iconsColor={"#FFFFFF"}
+              iconsSize={"large"}
+              iconsName={settingsIcon}
+            />
+          </div>
+          <div
+            className="feedHeaderIconRight2"
+            onClick={() => setShowChat(true)}
+          >
+            <Icons
+              iconsColor={"#FFFFFF"}
+              iconsSize={"large"}
+              iconsName={chatIcon}
+            />
+          </div>
         </div>
       </div>
 
@@ -61,6 +77,12 @@ function Feed() {
       <div className="postList">
         <PostList posts={postdatasample} />
       </div>
+
+      <PrivateMessages
+        showchat={showchat}
+        setShowChat={setShowChat}
+        placement={"end"}
+      />
     </div>
   );
 }

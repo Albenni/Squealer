@@ -1,45 +1,63 @@
 .feed {
-    flex: 0.4;
-    border-right: 1px solid grey;
-    /* min-width: fit-content; */
-    /* overflow-y: scroll; */
-    overflow: hidden;
-  }
-.feedHeader{
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background-image: linear-gradient(90deg, #4767b0, #7cf0ff);
+  flex: 0.4;
+  border-right: 1px solid grey;
+  /* min-width: fit-content; */
+  /* overflow-y: scroll; */
+  overflow: hidden;
 }
-ul{
-    list-style-type: none;
+.feedHeader {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-image: linear-gradient(90deg, #4767b0, #7cf0ff);
 }
-
-.feedHeaderIconLeft
-{
-    flex: 0.05;
-    padding: 10px;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
+ul {
+  list-style-type: none;
 }
 
-.feedSquealBox{
-    
-    width: 100%;
-    background-image: linear-gradient(90deg, #4767b0, #7cf0ff);
-    
+.feedHeaderIconLeft {
+  flex: 0.05;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-.feedHeaderIconRight{
-    flex: 0.05;
-    padding: 10px;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
+.feedSquealBox {
+  width: 100%;
+  background-image: linear-gradient(90deg, black, lightblue);
+}
+
+.feedIconsRight {
+  display: flex;
+  flex: 0.1;
+  justify-content: space-between;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.feedHeaderIconRight1 {
+  display: flex;
+  flex: 0.05;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.feedHeaderIconRight2 {
+  display: flex;
+  flex: 0.05;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  align-content: center;
 }
 
 /* .feedHeaderSearchbar{

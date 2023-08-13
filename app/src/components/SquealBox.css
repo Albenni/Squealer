@@ -36,6 +36,20 @@
   border-radius: 30px !important;
   width: 80px;
   height: 40px !important;
-  margin-top: 20px !important;
   margin-left: auto !important;
+}
+
+.squealCharacterLimit {
+  margin-left: auto;
+  margin-right: 10px;
+  color: grey;
+}
+
+.squealForm {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
