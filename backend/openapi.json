@@ -1,0 +1,432 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Ristorante",
+    "version": "1.0.0",
+    "title": "API Nuova per progetto"
+  },
+  "paths": {
+    "/users/{idUser}": {
+      "get": {
+        "summary": "get singolo utente",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "info utente"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      },
+      "delete": {
+        "summary": "cancella user",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user cancellato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/users/{idUser}/messages": {
+      "get": {
+        "summary": "get tutti i messsaggi dell'utente",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggio"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/users/{idUser}/posts": {
+      "get": {
+        "summary": "get tutti i post dell'utente",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      },
+      "post": {
+        "summary": "utente crea un post",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "messaggio",
+            "in": "body",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggio creato"
+          },
+          "400": {
+            "description": "messaggio non creato"
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "delete": {
+        "summary": "cancella un post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post cancellato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      },
+      "patch": {
+        "summary": "modifica un post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "messaggio",
+            "in": "body",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "post modificato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "summary": "utente crea un messaggio",
+        "parameters": [
+          {
+            "name": "messaggio",
+            "in": "body",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggio creato"
+          },
+          "400": {
+            "description": "messaggio non creato"
+          }
+        }
+      }
+    },
+    "/messages/{messagesId}": {
+      "delete": {
+        "summary": "cancella un messaggio",
+        "parameters": [
+          {
+            "name": "messagesId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggio cancellato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      },
+      "patch": {
+        "summary": "modifica un messaggio",
+        "parameters": [
+          {
+            "name": "messagesId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "messaggio",
+            "in": "body",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggio modificato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/channels": {
+      "get": {
+        "summary": "get tutti i canali",
+        "responses": {
+          "200": {
+            "description": "info utente"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/channels/{channelId}": {
+      "get": {
+        "summary": "get singolo canale",
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "info canale"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      },
+      "delete": {
+        "summary": "cancella canale",
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "canale cancellato"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    },
+    "/channels/{channelId}/messages": {
+      "get": {
+        "summary": "get tutti i messaggi in un canale",
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "messaggi canale"
+          },
+          "400": {
+            "description": "errore richiesta"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": ["username", "password", "firstname", "surname", "vip"],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "vip": {
+          "type": "boolean"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "required": ["author", "content", "contentType"],
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["text", "picture", "geolocalization"]
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "lastEdited": {
+          "type": "date"
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "required": [
+        "author",
+        "receiver",
+        "receiverType",
+        "content",
+        "contentType"
+      ],
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "receiver": {
+          "type": "string"
+        },
+        "receiverType": {
+          "type": "string",
+          "enum": ["User", "Channel"]
+        },
+        "content": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "integer",
+          "enum": ["text", "picture", "geolocalization"]
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "lastEdited": {
+          "type": "date"
+        }
+      }
+    },
+    "Channel": {
+      "type": "object",
+      "required": ["name", "channelAdmin", "adminType", "editorialChannel"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "channelAdmin": {
+          "type": "string"
+        },
+        "adminType": {
+          "type": "string",
+          "enum": ["User", "Channel"]
+        },
+        "editorialChannel": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "date"
+        }
+      }
+    },
+    "Moderator": {
+      "type": "object",
+      "required": ["username", "password", "firstname", "surname"],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string",
+          "enum": ["User", "Channel"]
+        },
+        "surname": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

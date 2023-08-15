@@ -1,21 +1,24 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const messageChanSchema = new Schema({
+const messageSchema = new Schema({
   author: {
     type: mongoose.SchemaTypes.ObjectId,
-    required: true,
     ref: "User",
-  },
-  channel: {
-    type: mongoose.SchemaTypes.ObjectId,
     required: true,
-    refPath: "channelType", //può essere canale user oppure redazione
   },
-  channelType: {
+  receiver: {
+    type: mongoose.SchemaTypes.ObjectId,
+    refPath: "receiverType",
+    required: true,
+  },
+  receiverType: {
     type: String,
     required: true,
-    enum: ["ChannelUser", "ChannelRed"],
+    enum: {
+      values: ["User", "Moderator"],
+      message: "{VALUE} is not supported",
+    },
   },
   content: {
     type: String,
@@ -27,6 +30,10 @@ const messageChanSchema = new Schema({
   contentType: {
     type: String,
     required: true,
+    enum: {
+      values: ["text", "picture", "geolocalization"],
+      message: "{VALUE} is not supported",
+    },
   },
   createdAt: {
     type: Date,
@@ -39,4 +46,4 @@ const messageChanSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("MessageChan", messageChanSchema);
+module.exports = mongoose.model("Message", messageSchema);

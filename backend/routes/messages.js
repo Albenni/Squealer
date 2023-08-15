@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const messagesPrivController = require("../controllers/messagesPrivController");
+const messagesController = require("../controllers/messagesController");
+
+router.route("/").post(messagesController.createMessage);
 
 router
   .route("/:id")
-  .delete(messagesPrivController.deleteMessage)
-  .patch(messagesPrivController.editMessage);
+  .delete(messagesController.deleteMessage)
+  .patch(messagesController.editMessage);
 
 module.exports = router;

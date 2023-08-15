@@ -17,6 +17,10 @@ const postSchema = new Schema({
   contentType: {
     type: String,
     required: true,
+    enum: {
+      values: ["text", "picture", "geolocalization"],
+      message: "{VALUE} is not supported",
+    },
   },
   createdAt: {
     type: Date,
