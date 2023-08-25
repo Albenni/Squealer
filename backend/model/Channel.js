@@ -8,17 +8,13 @@ const channelSchema = new Schema({
   },
   channelAdmin: {
     type: [mongoose.SchemaTypes.ObjectId],
-    refPath: "adminType",
+    ref: "admin",
+  },
+  private: {
+    type: Boolean,
+    required: true,
   },
   //può essere un canale gestito da utenti oppure dalla redazione
-  adminType: {
-    type: String,
-    required: true,
-    enum: {
-      values: ["User", "Moderator"],
-      message: "{VALUE} is not supported",
-    },
-  },
   editorialChannel: {
     type: Boolean,
     required: true,

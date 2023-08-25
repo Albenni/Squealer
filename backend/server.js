@@ -42,12 +42,12 @@ app.use("/logout", require("./routes/logout"));
 
 //in questa funzione vengono settati req.username e req.id
 //questi parametri verranno usati nei vari controllers per verificare autorizzazioni
-app.use(verifyJWT);
+// app.use(verifyJWT);
 
 app.use("/users", require("./routes/users"));
 app.use("/messages", require("./routes/messages"));
 app.use("/posts", require("./routes/posts"));
-app.use("/channels", require("./routes/channels"));
+// app.use("/channels", require("./routes/channels"));
 
 app.all("*", (req, res) => {
   res.status(404);

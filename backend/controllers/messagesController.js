@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 const Message = require("../model/Message");
 
-const getAllMessageByUser = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.id))
-    return res.status(400).json({ message: "Invalid user ID" });
-  const messages = await Message.find({ author: req.params.id }).exec();
+const getAllMessageInConversation = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.conversationId))
+    return res.status(400).json({ message: "Invalid conversation ID" });
+
+  const messages = await Message.find({
+    receiver: req.params.channelId,
+  }).exec();
+
   if (!messages?.length) {
     return res.status(204).json({ message: `No messages found` });
   }
@@ -12,9 +16,10 @@ const getAllMessageByUser = async (req, res) => {
   res.json(messages);
 };
 
-const getAllMessagesInChannel = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
-    return res.status(400).json({ message: "Invalid channel ID" });
+const getAllMessageInChannel = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.conversationId))
+    return res.status(400).json({ message: "Invalid conversation ID" });
+
   const messages = await Message.find({
     receiver: req.params.channelId,
   }).exec();
@@ -94,8 +99,7 @@ const editMessage = async (req, res) => {
 };
 
 module.exports = {
-  getAllMessageByUser,
-  getAllMessagesInChannel,
+  getAllMessageInConversation,
   createMessage,
   deleteMessage,
   editMessage,

@@ -3,20 +3,32 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 const messagesController = require("../controllers/messagesController");
 const postsController = require("../controllers/postsController");
+const conversationsController = require("../controllers/conversationsController");
 
-// router.route("/").get(usersController.getAllUsers);
+router.route("/").get(usersController.getAllUsers);
 
 router
-  .route("/:id")
+  .route("/:userId")
   .get(usersController.getUser)
   .delete(usersController.deleteUser);
 // .patch()
 
-router.route("/:id/messages").get(messagesController.getAllMessageByUser);
-// .patch()
+router
+  .route("/:userId/conversations")
+  .get(conversationsController.getAllUserConversations)
+  .post(conversationsController.createConversation);
 
 router
-  .route("/:id/posts")
+  .route("/:userId/conversations/:convId")
+  .get(messagesController.getAllMessageInConversation);
+// .patch()
+
+// router
+//   .route("/:userId/channels")
+//   .get(usersController.getAllUserChannels);
+
+router
+  .route("/:userId/posts")
   .get(postsController.getAllPostByUser)
   .post(postsController.createPost);
 

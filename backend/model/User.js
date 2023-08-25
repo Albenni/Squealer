@@ -23,7 +23,19 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  refreshToken: String,
+  conversations: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "PrivateConversation",
+    },
+  ],
+  subscribedChannel: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Channel",
+    },
+  ],
+  refreshToken: { type: String },
 });
 
 module.exports = mongoose.model("User", userSchema);

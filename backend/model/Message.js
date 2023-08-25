@@ -7,16 +7,16 @@ const messageSchema = new Schema({
     ref: "User",
     required: true,
   },
-  receiver: {
+  conversation: {
     type: mongoose.SchemaTypes.ObjectId,
-    refPath: "receiverType",
+    refPath: "conversationType",
     required: true,
   },
-  receiverType: {
+  conversationType: {
     type: String,
     required: true,
     enum: {
-      values: ["User", "Moderator"],
+      values: ["PrivateConversation", "Channel"],
       message: "{VALUE} is not supported",
     },
   },
