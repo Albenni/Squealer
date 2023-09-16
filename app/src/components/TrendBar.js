@@ -1,11 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/TrendBar.css";
+import theme from "../config/theme";
 
 import { Nav, Button } from "react-bootstrap";
 
 function TrendBar(props) {
   return (
-    <div className="d-flex">
+    <div className="d-flex" style={{ backgroundColor: theme.colors.white }}>
       <h3 className="p-3">Trending:</h3>
 
       <div
