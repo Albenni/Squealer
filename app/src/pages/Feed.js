@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SquealBox from "../components/SquealBox";
 
@@ -15,9 +14,17 @@ import PrivateMessages from "./PrivateMessages";
 import TopBar from "../components/TopBar";
 
 function Feed() {
-  let navigate = useNavigate();
-
   const [showchat, setShowChat] = useState(false);
+  const [isLogged, setLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLogin(true);
+      return;
+    }
+    setLogin(false);
+  }, []);
 
   const state = {
     tags: [
@@ -28,18 +35,18 @@ function Feed() {
       "RANDOM_ITALY",
       "RANDOM_BOLOGNA",
     ],
-    logged: true,
   };
 
   return (
     <div className="Feed">
       <div className="sticky-top">
         <div className="topbar">
-          <TopBar setShowChat={setShowChat} />
+          <TopBar isLogged={isLogged} setShowChat={setShowChat} />
         </div>
 
         <div className="trendBar">
-          <TrendBar login={state.logged} trending={state.tags} />
+          {/* Le tag passate devono essere cambiate in base a se siamo loggati o meno */}
+          <TrendBar trending={state.tags} />
         </div>
       </div>
       <div className="body">

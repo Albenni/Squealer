@@ -13,19 +13,10 @@ import squeallogo from "../assets/SLogo.png";
 import BooksData from "../assets/DataExample.json";
 
 function TopBar(props) {
-  const [isLogged, setIsLogged] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLogged(true);
-    }
-  }, []);
-
   return (
     <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href={isLogged ? "/account" : "/login"}>
+        <Navbar.Brand href="#">
           <div className="row">
             <div className="col">
               <img alt="Logo" src={squeallogo} style={{ maxHeight: "3rem" }} />
@@ -47,7 +38,7 @@ function TopBar(props) {
         </div>
 
         <Nav className="justify-content-end">
-          <Nav.Link href="/account">
+          <Nav.Link href={props.isLogged ? "/account" : "/login"}>
             <Button variant="outline-primary">
               <Gear size={20} />
             </Button>
