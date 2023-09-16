@@ -1,4 +1,4 @@
-import "./SquealBox.css";
+import "../css/SquealBox.css";
 
 import { Avatar, Button } from "@mui/material";
 

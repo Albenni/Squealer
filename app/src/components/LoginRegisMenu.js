@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import "./LoginRegisMenu.css";
+import "../css/LoginRegisMenu.css";
 import { Link } from "react-router-dom";
 
 function LoginRegisMenu() {

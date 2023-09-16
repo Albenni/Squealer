@@ -1,10 +1,10 @@
+import "../css/Register.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
 import { Button, TextField } from "@mui/material";
 import LoginRegisMenu from "../components/LoginRegisMenu";
-import "./Register.css";
 
 function Register() {
   const [name, setName] = useState("");

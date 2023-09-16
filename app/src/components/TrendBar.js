@@ -1,5 +1,5 @@
 import React from "react";
-import "./TrendBar.css";
+import "../css/TrendBar.css";
 import Channels from "./Channels";
 
 function TrendBar({ login, trending }) {

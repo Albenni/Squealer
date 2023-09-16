@@ -1,3 +1,4 @@
+import "../css/Login.css";
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -6,7 +7,6 @@ import axios from "../api/axios";
 
 import { Button, TextField } from "@mui/material";
 import LoginRegisMenu from "../components/LoginRegisMenu";
-import "./Login.css";
 
 const LOGIN_URL = "/auth";
 
