@@ -4,6 +4,7 @@ import theme from "../config/theme";
 
 import { useState } from "react";
 import { Form, InputGroup, Button, Modal } from "react-bootstrap";
+import { Paperclip } from "react-bootstrap-icons";
 
 import { defaultchars, imagecharsize } from "../config/constants.js";
 
@@ -38,10 +39,12 @@ function SquealBox(props) {
   function handleSelectAttachment(event) {
     if (event.target.value === "Geolocation") {
       setIsLocation(true);
-      setSquealLocation(event.target.value);
+      setPostLink(event.target.value);
+      // setSquealLocation();
     } else {
       setIsLocation(false);
-      setSquealImage(event.target.value);
+      setPostLink(event.target.value);
+      // setSquealImage();
     }
   }
 
@@ -63,6 +66,17 @@ function SquealBox(props) {
     // } else {
     //   setCurrentChars(squealtext.length);
     // }
+  }
+
+  function handleCustomAttachment(event) {
+    // if (event.target.files[0].size > 10000000) {
+    //   alert("File too big!");
+    //   return;
+    // }
+
+    if (event.target.files[0] !== undefined) {
+      // setSquealImage(URL.createObjectURL(event.target.files[0]));
+    }
   }
 
   function handleCharacterLimit(event) {
@@ -170,6 +184,19 @@ function SquealBox(props) {
                 </Form.Select>
               </div>
             </InputGroup>
+
+            <Form.Group
+              controlId="formFile"
+              className="mb-3"
+              hidden={islocation}
+            >
+              <Form.Label>oppure</Form.Label>
+              <Form.Control
+                type="file"
+                disabled={squealimage.length > 0}
+                onChange={handleCustomAttachment}
+              />
+            </Form.Group>
 
             <div className="container-fluid">
               <AttachPreview
