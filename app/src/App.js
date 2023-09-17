@@ -9,6 +9,7 @@ import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Account from "./pages/Account";
+import SettingsPage from "./pages/SettingsPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" index element={<Feed />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="settings" element={<SettingsPage />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}
         <Route element={<PersistLogin />}>

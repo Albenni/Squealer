@@ -1,7 +1,5 @@
 import theme from "../config/theme";
 
-import { useEffect, useState } from "react";
-
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 import { Button } from "react-bootstrap";
@@ -38,7 +36,8 @@ function TopBar(props) {
         </div>
 
         <Nav className="justify-content-end">
-          <Nav.Link href={props.isLogged ? "/account" : "/login"}>
+          {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
+          <Nav.Link href="/settings">
             <Button variant="outline-primary">
               <Gear size={20} />
             </Button>

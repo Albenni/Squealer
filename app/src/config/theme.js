@@ -12,6 +12,7 @@ const theme = {
     dark: "#18020C",
     white: "#FFFFFF",
     lightdanger: "#F9B4B4",
+    lightgrey: "#A9A9A9",
   },
 };
 
