@@ -55,17 +55,15 @@ function Feed() {
             <TrendBar trending={state.tags} />
           </div>
         </div>
+        <div className="container">
+          <PostList posts={postdatasample} />
+        </div>
         <div className="container-fluid">
-          <div className="feedSquealBox">
-            <PostList posts={postdatasample} />
-          </div>
-
           <PrivateMessages
             showchat={showchat}
             setShowChat={setShowChat}
             placement={"end"}
           />
-
           <div className="fixed-bottom m-3">
             <PlusCircleFill
               size={"4em"}
