@@ -1,12 +1,16 @@
 import "../css/Login.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import TopBar from "../components/TopBar";
 
+import logo from "../assets/SLogo.png";
+
+import { Image, Tab, Tabs } from "react-bootstrap";
 import axios from "../api/axios";
 
-import { Button, TextField } from "@mui/material";
-import LoginRegisMenu from "../components/LoginRegisMenu";
+import ErrorMessage from "../components/ErrorMessage";
 
 const LOGIN_URL = "/auth";
 
@@ -19,6 +23,7 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginFailed, setLoginFailed] = useState(false);
 
   async function submitForm() {
     try {
@@ -38,51 +43,121 @@ function Login() {
       setAuth(response?.data?.accessToken);
       navigate(from, { replace: true });
     } catch (err) {
+      setLoginFailed(true);
       if (err.response.status === 400)
-        alert("username e password sono obbligatori");
+        alert("Username e password sono obbligatori");
       else if (err.response.status === 401)
-        alert("username e password sbagliati");
+        alert("Username e password sbagliati");
     }
   }
 
   return (
-    <>
-      <LoginRegisMenu />
-      <div className="loginForm">
-        <form>
-          <div className="usernameInput">
-            <TextField
-              id="outlined-required"
-              label="Username"
-              variant="outlined"
-              size="small"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              required
-            />
+    <div className="container-fluid">
+      <TopBar isnotloginpage={false} />
+      <div
+        className="container-fluid row"
+        style={{
+          height: "90vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        <div className="col-sm-4">
+          <div className="row">
+            <Image src={logo} fluid thumbnail />
           </div>
+        </div>
+        <div className="col-sm-3">
+          <Tabs defaultActiveKey="accedi" className="mb-3" justify>
+            <Tab eventKey="accedi" title="Accedi">
+              <form
+                className="text-align-center container"
+                onSubmit={submitForm}
+              >
+                <div className="form-group py-2">
+                  {/* <h3>Accedi</h3> */}
+                  <ErrorMessage
+                    error="Email o password non valida"
+                    visible={loginFailed}
+                  />
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Inserisci email"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
 
-          <div className="passwordInput">
-            <TextField
-              id="outlined-required"
-              label="Password"
-              variant="outlined"
-              size="small"
-              type="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              required
-            />
-          </div>
+                <div className="form-group py-2">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Inserisci password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <p>
+                  <Link to="NewPassword">Hai dimenticato la password</Link>?
+                </p>
 
-          <Button variant="contained" onClick={submitForm}>
-            Submit
-          </Button>
-        </form>
+                <button type="submit" className="text btn btn-dark">
+                  Accedi
+                </button>
+              </form>
+            </Tab>
+            <Tab eventKey="registrati" title="Registrati">
+              <form
+                className="text-align-center container"
+                // onSubmit={submitForm}
+              >
+                <div className="form-group py-2">
+                  {/* <ErrorMessage
+                    error="Email o password non valida"
+                    visible={loginFailed}
+                  /> */}
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Inserisci email"
+                    // onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group py-2">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Inserisci password"
+                    // onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className="form-group py-2">
+                  <label>Conferma password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Inserisci password"
+                    // onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <p>
+                  <Link to="NewPassword">Hai dimenticato la password</Link>?
+                </p>
+
+                <button type="submit" className="text btn btn-dark">
+                  Accedi
+                </button>
+              </form>
+            </Tab>
+          </Tabs>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
