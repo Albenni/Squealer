@@ -52,8 +52,10 @@ function Login() {
   }
 
   return (
-    <div className="container-fluid">
+    <>
+    
       <TopBar isnotloginpage={false} />
+    <div className="container-fluid" style={{backgroundColor:" rgb(184, 226, 240)", userSelect: "none"}}>
       <div
         className="container-fluid row"
         style={{
@@ -65,7 +67,7 @@ function Login() {
       >
         <div className="col-sm-4">
           <div className="row">
-            <Image src={logo} fluid thumbnail />
+            <Image src={logo} fluid  />
           </div>
         </div>
         <div className="col-sm-3">
@@ -158,6 +160,7 @@ function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
