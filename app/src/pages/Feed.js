@@ -47,7 +47,11 @@ function Feed() {
       <div className="Feed">
         <div className="sticky-top">
           <div className="topbar">
-            <TopBar isLogged={isLogged} setShowChat={setShowChat} />
+            <TopBar
+              isnotloginpage={true}
+              isLogged={isLogged}
+              setShowChat={setShowChat}
+            />
           </div>
 
           <div className="trendBar">

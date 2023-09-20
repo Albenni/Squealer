@@ -31,23 +31,27 @@ function TopBar(props) {
           </div>
         </Navbar.Brand>
 
-        <div className="justify-content-center">
-          <SearchBar data={BooksData} />
-        </div>
+        {props.isnotloginpage && (
+          <>
+            <div className="justify-content-center">
+              <SearchBar data={BooksData} />
+            </div>
 
-        <Nav className="justify-content-end">
-          {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
-          <Nav.Link href="/settings">
-            <Button variant="outline-primary">
-              <Gear size={20} />
-            </Button>
-          </Nav.Link>
-          <Nav.Link onClick={() => props.setShowChat(true)}>
-            <Button variant="outline-primary">
-              <Bell size={20} />
-            </Button>
-          </Nav.Link>
-        </Nav>
+            <Nav className="justify-content-end">
+              {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
+              <Nav.Link href="/settings">
+                <Button variant="outline-primary">
+                  <Gear size={20} />
+                </Button>
+              </Nav.Link>
+              <Nav.Link onClick={() => props.setShowChat(true)}>
+                <Button variant="outline-primary">
+                  <Bell size={20} />
+                </Button>
+              </Nav.Link>
+            </Nav>
+          </>
+        )}
       </Container>
     </Navbar>
   );
