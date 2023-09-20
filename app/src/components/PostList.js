@@ -7,7 +7,7 @@ function PostList({ posts }) {
   return posts.length === 0 ? (
     <p className="text-center">Nessun post trovato</p>
   ) : (
-    <ListGroup>
+    <ListGroup style={{ pointerEvents: "none" }}>
       {posts.map((item) => (
         <ListGroupItem key={item.id}>
           <Post item={item} />

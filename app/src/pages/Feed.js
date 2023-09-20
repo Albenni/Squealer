@@ -32,12 +32,12 @@ function Feed() {
 
   const state = {
     tags: [
-      "TRENDING",
-      "NEWS",
-      "TOP_1000",
-      "RANDOM_1000",
-      "RANDOM_ITALY",
-      "RANDOM_BOLOGNA",
+      "#grandetopic",
+      "#grandetopic",
+      "#grandetopic",
+      "#grandetopic",
+      "#grandetopic",
+      "#grandetopic",
     ],
   };
 

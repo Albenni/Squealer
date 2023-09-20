@@ -81,7 +81,7 @@ function Login() {
               borderRadius: "1rem",
             }}
           >
-            <Tabs defaultActiveKey="accedi" className="mb-3" justify>
+            <Tabs defaultActiveKey="accedi" justify>
               <Tab eventKey="accedi" title="Accedi">
                 <form
                   className="text-align-center container"
