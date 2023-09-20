@@ -5,7 +5,7 @@ const messagesController = require("../controllers/messagesController");
 const postsController = require("../controllers/postsController");
 const conversationsController = require("../controllers/conversationsController");
 
-router.route("/").get(usersController.getAllUsers);
+router.route("/").get(usersController.searchUser);
 
 router
   .route("/:userId")
@@ -20,16 +20,9 @@ router
 
 router
   .route("/:userId/conversations/:convId")
-  .get(messagesController.getAllMessageInConversation);
+  .get(messagesController.getAllMessagesInConversation);
 // .patch()
 
-// router
-//   .route("/:userId/channels")
-//   .get(usersController.getAllUserChannels);
-
-router
-  .route("/:userId/posts")
-  .get(postsController.getAllPostByUser)
-  .post(postsController.createPost);
+router.route("/:userId/posts").get(postsController.getAllPostByUser);
 
 module.exports = router;

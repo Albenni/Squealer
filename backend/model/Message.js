@@ -16,7 +16,7 @@ const messageSchema = new Schema({
     type: String,
     required: true,
     enum: {
-      values: ["PrivateConversation", "Channel"],
+      values: ["Conversation", "Channel"],
       message: "{VALUE} is not supported",
     },
   },

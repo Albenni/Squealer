@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Message = require("../model/Message");
 
-const getAllMessageInConversation = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.conversationId))
+const getAllMessagesInConversation = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.convId))
     return res.status(400).json({ message: "Invalid conversation ID" });
 
   const messages = await Message.find({
-    receiver: req.params.channelId,
+    conversation: req.params.convId,
+    conversationType: "Conversation",
   }).exec();
 
   if (!messages?.length) {
@@ -16,12 +17,13 @@ const getAllMessageInConversation = async (req, res) => {
   res.json(messages);
 };
 
-const getAllMessageInChannel = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.conversationId))
+const getAllMessagesInChannel = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Invalid conversation ID" });
 
   const messages = await Message.find({
-    receiver: req.params.channelId,
+    conversation: req.params.channelId,
+    conversationType: "Channel",
   }).exec();
 
   if (!messages?.length) {
@@ -32,26 +34,20 @@ const getAllMessageInChannel = async (req, res) => {
 };
 
 const createMessage = async (req, res) => {
-  const contentTypeOptions = ["text", "picture", "geolocalization"];
-
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.receiver))
-    return res
-      .status(400)
-      .json({ message: "User ID and receiver ID not valid" });
-
-  if (!contentTypeOptions.includes(req?.body?.contentType))
-    return res.status(400).json({ message: "Content type not valid" });
-
-  if (!req?.body?.receiverType)
-    return res.status(400).json({ message: "Receiver type not valid" });
-
   if (!req?.body?.content)
-    return res.status(406).json({ message: "Body message required" });
+    return res.status(400).json({ message: "Body message required" });
+  if (!req?.body?.contentType)
+    return res.status(400).json({ message: "Content type required" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.conversation))
+    return res.status(400).json({ message: "Conversation ID not valid" });
+  if (!req?.body?.conversationType)
+    return res.status(400).json({ message: "Conversation type required" });
 
   const message = {
     author: req.id,
-    receiver: req.body.receiver,
-    receiverType: req.body.receiverType,
+    conversation: req.body.conversation,
+    conversationType: req.body.conversationType,
     content: req.body.content,
     contentType: req.body.contentType,
   };
@@ -99,7 +95,8 @@ const editMessage = async (req, res) => {
 };
 
 module.exports = {
-  getAllMessageInConversation,
+  getAllMessagesInConversation,
+  getAllMessagesInChannel,
   createMessage,
   deleteMessage,
   editMessage,

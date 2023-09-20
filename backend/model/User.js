@@ -26,7 +26,7 @@ const userSchema = new Schema({
   conversations: [
     {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "PrivateConversation",
+      ref: "Conversation",
     },
   ],
   subscribedChannel: [

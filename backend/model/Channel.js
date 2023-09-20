@@ -8,7 +8,7 @@ const channelSchema = new Schema({
   },
   channelAdmin: {
     type: [mongoose.SchemaTypes.ObjectId],
-    ref: "admin",
+    ref: "User",
   },
   private: {
     type: Boolean,

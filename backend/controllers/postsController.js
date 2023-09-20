@@ -16,14 +16,11 @@ const getAllPostByUser = async (req, res) => {
 const createPost = async (req, res) => {
   const contentTypeOptions = ["text", "picture", "geolocalization"];
 
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.id))
-    return res.status(400).json({ message: "User ID not valid" });
-
   if (!contentTypeOptions.includes(req?.body?.contentType))
     return res.status(400).json({ message: "Content type not valid" });
 
   const post = {
-    author: req.params.id,
+    author: req.id,
     content: req.body.content,
     contentType: req.body.contentType,
   };

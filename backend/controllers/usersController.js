@@ -2,23 +2,34 @@ const mongoose = require("mongoose");
 const User = require("../model/User");
 const Moderator = require("../model/Moderator");
 
-const getAllUsers = async (req, res) => {
-  const users = await User.find();
-  if (!users) return res.status(204).json({ message: "No users found" });
-  res.json(users);
+const searchUser = async (req, res) => {
+  try {
+    const findUser = req.query.username ? req.query.username : "";
+    const users = await User.find({
+      username: { $regex: ".*" + findUser + ".*" },
+    });
+    if (!users) return res.status(204).json({ message: "No users found" });
+    res.json(users);
+  } catch (error) {
+    res.json({ message: error });
+  }
 };
 
 const getUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  const user = await User.findOne({ _id: req.params.userId }).exec();
-  if (!user) {
-    return res
-      .status(204)
-      .json({ message: `User ID ${req.params.userId} not found` });
+  try {
+    const user = await User.findOne({ _id: req.params.userId }).exec();
+    if (!user) {
+      return res
+        .status(204)
+        .json({ message: `User ID ${req.params.userId} not found` });
+    }
+    res.json(user);
+  } catch (error) {
+    res.json({ message: error });
   }
-  res.json(user);
 };
 
 const deleteUser = async (req, res) => {
@@ -57,7 +68,7 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
+  searchUser,
   deleteUser,
   getUser,
 };

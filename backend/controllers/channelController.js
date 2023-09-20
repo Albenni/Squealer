@@ -20,14 +20,14 @@ const getChannelById = async (req, res) => {
 
 const deleteChannel = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.id))
-    return res.status(400).json({ message: "User ID required" });
+    return res.status(400).json({ message: "Channel ID required" });
   const channel = await Channel.findById({ _id: req.params.id }).exec();
   if (!channel?.length) {
     return res
       .status(204)
       .json({ message: `Channel ID ${req.body.id} not found` });
   }
-  const result = await user.deleteOne({ _id: req.body.id });
+  const result = await Channel.deleteOne({ _id: req.body.id });
   res.json(result);
 };
 

@@ -1,0 +1,47 @@
+{
+  "/auth": { "post": "post" },
+  "/register": { "post": "post" },
+  "/refresh": { "get": "get" },
+  "/logout": { "get": "get" },
+  "/users": {
+    "get": "searchUser",
+    "/:userId": {
+      "get": "getUser",
+      "delete": "deleteUser",
+      "/conversations": {
+        "get": "getAllUserConversations",
+        "post": "createConversation",
+        "/:convId": {
+          "get": "getAllMessagesInConversation"
+        }
+      },
+      "/posts": {
+        "get": "getAllPostByUser"
+      }
+    }
+  },
+  "/messages": {
+    "post": "createMessage",
+    "/:id": {
+      "delete": "deleteMessage",
+      "patch": "editMessage"
+    }
+  },
+  "/posts": {
+    "post": "createPost",
+    "/:id": {
+      "delete": "deletePost",
+      "patch": "editPost"
+    }
+  },
+  "/channels": {
+    "get": "getAllChannels",
+    "/:id": {
+      "get": "getChannelById",
+      "delete": "deleteChannel",
+      "/messages": {
+        "get": "getAllMessagesInChannel"
+      }
+    }
+  }
+}

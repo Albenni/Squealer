@@ -14,6 +14,7 @@ const handleLogin = async (req, res) => {
   if (!foundUser) return res.sendStatus(401); //Unauthorized
   // evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
+
   if (match) {
     // create JWTs
     const accessToken = jwt.sign(
@@ -27,6 +28,7 @@ const handleLogin = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "10m" }
     );
+
     const refreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
@@ -34,6 +36,7 @@ const handleLogin = async (req, res) => {
     );
     // Saving refreshToken with current user
     foundUser.refreshToken = refreshToken;
+    console.log("CIAOOOOOOO");
     const result = await foundUser.save();
     console.log(result);
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const privateConversationSchema = new Schema({
+const conversationSchema = new Schema({
   user1: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
@@ -14,7 +14,4 @@ const privateConversationSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model(
-  "PrivateConversation",
-  privateConversationSchema
-);
+module.exports = mongoose.model("Conversation", conversationSchema);

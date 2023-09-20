@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../model/User");
-const PrivateConversation = require("../model/PrivateConversation");
+const Conversation = require("../model/Conversation");
 
 const getAllUserConversations = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
@@ -13,7 +13,7 @@ const getAllUserConversations = async (req, res) => {
     );
 
     const conversName = conversations.map((conv) => {
-      PrivateConversation.findById(conv).then(
+      Conversation.findById(conv).then(
         result.user1 !== req.params.id ? result.user1 : result.user2
       );
     });
@@ -30,7 +30,7 @@ const createConversation = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.body?.receiverId))
     return res.status(400).json({ message: "Receiver ID invalid" });
 
-  if (req?.id !== req.params.id) return res.status(403);
+  // if (req?.id !== req.params.id) return res.status(403);
 
   try {
     const receiver = await User.findById(req.body.receiverId).select(
@@ -44,7 +44,7 @@ const createConversation = async (req, res) => {
       user2: req.body.receiverId,
     };
 
-    const result = await PrivateConversation.create(conversation);
+    const result = await Conversation.create(conversation);
 
     await User.findByIdAndUpdate(req.params.userId, {
       $push: {
