@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
 import { Button, TextField } from "@mui/material";
-import LoginRegisMenu from "../components/LoginRegisMenu";
+
 
 function Register() {
   const [name, setName] = useState("");
@@ -42,7 +42,7 @@ function Register() {
   }
   return (
     <>
-      <LoginRegisMenu />
+      
       <div className="registerForm">
         <form>
           <div className="nameInput">

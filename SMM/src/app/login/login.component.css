@@ -4,6 +4,7 @@
   align-items: center;
   height: 100vh;
   background-color: rgb(184, 226, 240);
+  user-select: none;
   }
   
   #login-logo {
@@ -15,6 +16,7 @@
     max-width: 200px;
     max-height: 200px;
   }
+  
   
   #login-form {
     flex: 1;

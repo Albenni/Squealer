@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username: string = ''; // Dichiarazione della proprietà username
+  email: string = ''; // Dichiarazione della proprietà username
   password: string = ''; // Dichiarazione della proprietà password
+
+  onSubmit() {
+  }
 }
