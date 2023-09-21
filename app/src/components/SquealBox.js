@@ -4,6 +4,7 @@ import theme from "../config/theme";
 
 import { useState } from "react";
 import { Form, InputGroup, Button, Modal } from "react-bootstrap";
+
 import { Paperclip } from "react-bootstrap-icons";
 
 import { defaultchars, imagecharsize } from "../config/constants.js";
@@ -13,12 +14,13 @@ import AttachPreview from "./AttachPreview";
 function SquealBox(props) {
   // Form variables
   const [postChannel, setPostChannel] = useState("Scrivi il tuo destinatario");
-  const [postLink, setPostLink] = useState("Link");
+  const [postAttach, setPostAttach] = useState("Immagine");
 
   // Squeal variables
   const [squealchannel, setSquealChannel] = useState("");
   const [squealtext, setSquealText] = useState("");
   const [squealimage, setSquealImage] = useState("");
+  const [squealvideo, setSquealVideo] = useState("");
   const [squeallocation, setSquealLocation] = useState("");
 
   // Control variables
@@ -39,11 +41,11 @@ function SquealBox(props) {
   function handleSelectAttachment(event) {
     if (event.target.value === "Geolocation") {
       setIsLocation(true);
-      setPostLink(event.target.value);
+      setPostAttach(event.target.value);
       // setSquealLocation();
     } else {
       setIsLocation(false);
-      setPostLink(event.target.value);
+      setPostAttach(event.target.value);
       // setSquealImage();
     }
   }
@@ -56,10 +58,11 @@ function SquealBox(props) {
 
     if (islocation) {
       setSquealLocation(event.target.value);
-      return;
+    } else if (postAttach === "Video") {
+      setSquealVideo(event.target.value);
+    } else {
+      setSquealImage(event.target.value);
     }
-
-    setSquealImage(event.target.value);
 
     // if (squealimage.length > 0) {
     //   setCurrentChars(squealtext.length + imagecharsize);
@@ -162,7 +165,7 @@ function SquealBox(props) {
 
             <InputGroup className="mb-3">
               <Form.Control
-                placeholder={"Inserisci " + postLink}
+                placeholder={"Inserisci " + postAttach}
                 aria-label="With textarea"
                 aria-describedby="Attachment"
                 onChange={handleAttachment}
@@ -173,13 +176,13 @@ function SquealBox(props) {
                   onChange={handleSelectAttachment}
                   style={{
                     backgroundColor: "#e9ecef",
-
                     textAlign: "center",
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
                   }}
                 >
-                  <option value="Link">Image or video</option>
+                  <option value="Immagine">Image</option>
+                  <option value="Video">Video</option>
                   <option value="Geolocation">Location</option>
                 </Form.Select>
               </div>
@@ -191,9 +194,10 @@ function SquealBox(props) {
               hidden={islocation}
             >
               <Form.Label>oppure</Form.Label>
+
               <Form.Control
                 type="file"
-                disabled={squealimage.length > 0}
+                disabled={squealimage.length > 0 || squealvideo.length > 0}
                 onChange={handleCustomAttachment}
               />
             </Form.Group>
