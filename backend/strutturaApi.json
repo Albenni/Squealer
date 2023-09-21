@@ -1,8 +1,19 @@
 {
-  "/auth": { "post": "post" },
-  "/register": { "post": "post" },
-  "/refresh": { "get": "get" },
-  "/logout": { "get": "get" },
+  "/auth": {
+    "post": "userLogin",
+    "/moderator": { "post": "modLogin" }
+  },
+  "/register": {
+    "post": "registerNewUser"
+  },
+  "/refresh": {
+    "get": "userRefreshToken",
+    "/moderator": { "get": "modRefreshToken" }
+  },
+  "/logout": {
+    "get": "get",
+    "/moderator": { "get": "modRefreshToken" }
+  },
   "/users": {
     "get": "searchUser",
     "/:userId": {
@@ -23,19 +34,17 @@
   "/messages": {
     "post": "createMessage",
     "/:id": {
-      "delete": "deleteMessage",
-      "patch": "editMessage"
+      "delete": "deleteMessage"
     }
   },
   "/posts": {
     "post": "createPost",
     "/:id": {
-      "delete": "deletePost",
-      "patch": "editPost"
+      "delete": "deletePost"
     }
   },
   "/channels": {
-    "get": "getAllChannels",
+    "get": "searchChannels",
     "/:id": {
       "get": "getChannelById",
       "delete": "deleteChannel",

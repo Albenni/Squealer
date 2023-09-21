@@ -1,7 +1,8 @@
 const User = require("../model/User");
+const Moderator = require("../model/Moderator");
 const jwt = require("jsonwebtoken");
 
-const handleRefreshToken = async (req, res) => {
+const userRefreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
@@ -16,6 +17,8 @@ const handleRefreshToken = async (req, res) => {
       {
         UserInfo: {
           username: decoded.username,
+          id: foundUser._id,
+          isMod: false,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
@@ -25,4 +28,30 @@ const handleRefreshToken = async (req, res) => {
   });
 };
 
-module.exports = { handleRefreshToken };
+const modRefreshToken = async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(401);
+  const refreshToken = cookies.jwt;
+
+  const foundMod = await Moderator.findOne({ refreshToken }).exec();
+  if (!foundMod) return res.sendStatus(403); //Forbidden
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err || foundMod.username !== decoded.username)
+      return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          username: decoded.username,
+          id: foundMod._id,
+          isMod: true,
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "10s" }
+    );
+    res.json({ accessToken });
+  });
+};
+
+module.exports = { userRefreshToken, modRefreshToken };

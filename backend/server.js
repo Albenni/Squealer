@@ -40,8 +40,8 @@ app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 
-//in questa funzione vengono settati req.username e req.id
-//questi parametri verranno usati nei vari controllers per verificare autorizzazioni
+//in questo middleware vengono settati req.username, req.id e req.isMod tramite i dati contenuti nel token
+//per accedere a tutte le routes sotto bisogna essere loggati
 app.use(verifyJWT);
 
 app.use("/users", require("./routes/users"));

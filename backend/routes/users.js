@@ -13,6 +13,8 @@ router
   .delete(usersController.deleteUser);
 // .patch()
 
+router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
+
 router
   .route("/:userId/conversations")
   .get(conversationsController.getAllUserConversations)

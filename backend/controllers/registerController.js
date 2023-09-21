@@ -1,7 +1,7 @@
 const User = require("../model/User");
 const bcrypt = require("bcrypt");
 
-const handleNewUser = async (req, res) => {
+const registerNewUser = async (req, res) => {
   const { user, pwd, firstname, surname } = req.body;
   if (!user || !pwd || !firstname || !surname) {
     return res
@@ -33,4 +33,4 @@ const handleNewUser = async (req, res) => {
   }
 };
 
-module.exports = { handleNewUser };
+module.exports = { registerNewUser };

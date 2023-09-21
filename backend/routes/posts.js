@@ -4,9 +4,6 @@ const postsController = require("../controllers/postsController");
 
 router.route("/").post(postsController.createPost);
 
-router
-  .route("/:id")
-  .delete(postsController.deletePost)
-  .patch(postsController.editPost);
+router.route("/:id").delete(postsController.deletePost);
 
 module.exports = router;

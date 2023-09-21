@@ -3,7 +3,7 @@ const router = express.Router();
 const channelController = require("../controllers/channelController");
 const messagesController = require("../controllers/messagesController");
 
-router.route("/").get(channelController.getAllChannels);
+router.route("/").get(channelController.searchChannels);
 
 router
   .route("/:id")

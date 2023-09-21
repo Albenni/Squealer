@@ -15,6 +15,30 @@ const searchUser = async (req, res) => {
   }
 };
 
+const getCharsAvailable = async (req, res) => {
+  // da fare
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  if (req.id !== req.params.id) {
+  } else {
+    const moderator = await Moderator.findOne({ _id: req.id }).exec();
+    if (!moderator) return res.status(403);
+  }
+
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res
+        .status(204)
+        .json({ message: `User ID ${req.params.userId} not found` });
+    }
+    res.json(user);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const getUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -36,7 +60,7 @@ const deleteUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  //un utente può cancellare solo il proprio profilo
+  //un utente vuole cancellare il proprio profilo
   if (req.id === req.params.userId) {
     try {
       const result = await User.findByIdAndRemove(req.params.userId);
@@ -46,29 +70,22 @@ const deleteUser = async (req, res) => {
     }
 
     // un moderatore può cancellare tutti i profili
-  } else if (req?.body?.modRequest) {
-    const moderator = await Moderator.findOne({ _id: req.id }).exec();
-    if (!moderator) {
-      return res
-        .status(403)
-        .json({ message: `User ${req.id} is not Moderator` });
-    } else {
-      try {
-        const result = await User.findByIdAndRemove(req.params.userId);
-        res.json(result);
-      } catch (e) {
-        res.status(500);
-      }
-    }
   } else {
-    return res
-      .status(403)
-      .json({ message: `User ${req.id} doesn't have permission` });
+    const moderator = await Moderator.findOne({ _id: req.id }).exec();
+    if (!moderator) return res.status(403);
+
+    try {
+      const result = await User.findByIdAndRemove(req.params.userId);
+      res.json(result);
+    } catch (e) {
+      res.status(500);
+    }
   }
 };
 
 module.exports = {
   searchUser,
+  getCharsAvailable,
   deleteUser,
   getUser,
 };

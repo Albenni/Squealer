@@ -71,33 +71,9 @@ const deleteMessage = async (req, res) => {
   }
 };
 
-const editMessage = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.id))
-    return res.status(400).json({ message: "Message ID not valid" });
-
-  if (!req?.body?.content && !req?.body?.contentType)
-    return res.status(406).json({ message: "Body message e type required" });
-
-  const editedMess = {
-    content: req.body.content,
-    contentType: req.body.contentType,
-    lastEdited: Date.now(),
-  };
-
-  try {
-    const result = await Message.findByIdAndUpdate(req.params.id, editedMess, {
-      new: true,
-    });
-    res.json(result);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 module.exports = {
   getAllMessagesInConversation,
   getAllMessagesInChannel,
   createMessage,
   deleteMessage,
-  editMessage,
 };

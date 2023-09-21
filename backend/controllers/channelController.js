@@ -1,9 +1,19 @@
 const mongoose = require("mongoose");
 const Channel = require("../model/Channel");
 
-const getAllChannels = async (req, res) => {
-  const channels = await Channel.find();
-  res.json(channels);
+const searchChannels = async (req, res) => {
+  // const channels = await Channel.find();
+  // res.json(channels);
+  try {
+    const findChannels = req.query.channel ? req.query.channel : "";
+    const channels = await Channel.find({
+      name: { $regex: ".*" + findChannels + ".*" },
+    });
+    if (!channels) return res.status(204).json({ message: "No users found" });
+    res.json(channels);
+  } catch (error) {
+    res.json({ message: error });
+  }
 };
 
 const getChannelById = async (req, res) => {
@@ -32,7 +42,7 @@ const deleteChannel = async (req, res) => {
 };
 
 module.exports = {
-  getAllChannels,
+  searchChannels,
   getChannelById,
   deleteChannel,
 };
