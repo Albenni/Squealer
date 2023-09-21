@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css"
+@font-face {
+    font-family: 'OctopusItalic';
+    src: url('assets/fonts/OctopusGameItalic-lgvnV.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'MontserratItalic';
+    src: url('assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  }  
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";

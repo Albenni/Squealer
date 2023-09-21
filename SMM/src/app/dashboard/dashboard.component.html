@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squeal SMM</title>
+
+</head>
+
+<body>
+    <div class="row px-2" id="topTabDashboard"
+        style="size: 10%; background-color: rgb(212, 167, 253); text-align: center;">
+        <div class="col-1" style="padding-top: 0.5rem;"> <img style="max-height: 3rem;" class="img-fluid"
+                src="./assets/SLogo.png" alt="Logo"></div>
+        <div class="col" style="padding-top: 0.3rem;">
+            <h1 class=" align-middle" style="color: rgb(255, 255, 255); font-family: 'MontserratItalic';">Squealer SMM
+            </h1>
+
+        </div>
+        <div class="col-5"></div>
+        <div class="col-1" style="padding-top: 1.2rem; color: white;"><mat-icon>shopping_cart</mat-icon></div>
+        <div class="col-1" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+            <div class="btn-group" dropdown>
+                <button id="button-animated" dropdownToggle type="button" class="btn btn-outline-light dropdown-toggle"
+                    aria-controls="dropdown-animated">
+                    <mat-icon>group</mat-icon> <span class="caret"></span> <span class="caret"></span>
+                </button>
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                    aria-labelledby="button-animated">
+                    <li role="menuitem"><a class="dropdown-item" href="#">Account 1</a></li>
+                    <li role="menuitem"><a class="dropdown-item" href="#">Account 2</a>
+                    </li>
+                    <li role="menuitem"><a class="dropdown-item" href="#">Account 3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
