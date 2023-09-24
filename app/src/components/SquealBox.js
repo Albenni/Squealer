@@ -8,6 +8,7 @@ import { Form, InputGroup, Button, Modal } from "react-bootstrap";
 import { defaultchars, imagecharsize } from "../config/constants.js";
 
 import AttachPreview from "./AttachPreview";
+import ChannelSelector from "./ChannelSelector";
 
 function SquealBox(props) {
   // Form variables
@@ -15,7 +16,7 @@ function SquealBox(props) {
   const [postAttach, setPostAttach] = useState("Immagine");
 
   // Squeal variables
-  const [squealchannel, setSquealChannel] = useState("");
+  const [squealchannel, setSquealChannel] = useState([]);
   const [squealtext, setSquealText] = useState("");
   const [squealimage, setSquealImage] = useState("");
   const [squealvideo, setSquealVideo] = useState("");
@@ -34,6 +35,12 @@ function SquealBox(props) {
     event.preventDefault();
 
     props.setShowBox(false);
+
+    console.log(squealchannel);
+    console.log(squealimage);
+    console.log(squealvideo);
+    console.log(squeallocation);
+    console.log(squealtext);
 
     //post request to send squeal to db and show on the feed
   }
@@ -175,33 +182,10 @@ function SquealBox(props) {
 
           <InputGroup className="mb-3 container-fluid">
             <div className="container-fluid">
-              <InputGroup className="mb-3">
-                <div className="col-m-2">
-                  <Form.Select
-                    placeholder="Seleziona il canale"
-                    aria-label="SelectChannel"
-                    onChange={(e) => setPostChannel(e.target.value)}
-                    style={{
-                      backgroundColor: "#e9ecef",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      borderTopRightRadius: 0,
-                      borderBottomRightRadius: 0,
-                    }}
-                  >
-                    <option value="Username">@</option>
-                    <option value="Channel">§</option>
-                    <option value="Hashtag">#</option>
-                  </Form.Select>
-                </div>
-                <Form.Control
-                  placeholder={postChannel}
-                  aria-label="Channel"
-                  aria-describedby="Channel"
-                  autoFocus
-                  onChange={(e) => setSquealChannel(e.target.value)}
-                />
-              </InputGroup>
+              <ChannelSelector
+                squealchannel={squealchannel}
+                setSquealChannel={setSquealChannel}
+              />
             </div>
             <div className="container-fluid">
               <InputGroup className="mb-3">
