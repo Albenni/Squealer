@@ -5,8 +5,6 @@ import theme from "../config/theme";
 import { useState } from "react";
 import { Form, InputGroup, Button, Modal } from "react-bootstrap";
 
-import { Paperclip } from "react-bootstrap-icons";
-
 import { defaultchars, imagecharsize } from "../config/constants.js";
 
 import AttachPreview from "./AttachPreview";
@@ -21,17 +19,19 @@ function SquealBox(props) {
   const [squealtext, setSquealText] = useState("");
   const [squealimage, setSquealImage] = useState("");
   const [squealvideo, setSquealVideo] = useState("");
-  const [squeallocation, setSquealLocation] = useState("");
+  const [squealfile, setSquealFile] = useState(null);
+
+  const [squeallocation, setSquealLocation] = useState(null);
 
   // Control variables
   const [currentchars, setCurrentChars] = useState(0);
   const [islocation, setIsLocation] = useState(false);
+  const [disableinputtext, setDisableInputText] = useState(false);
+  const [isLink, setIsLink] = useState(false);
+  const [isAttachment, setIsAttachment] = useState(false);
 
   function handleSqueal(event) {
     event.preventDefault();
-
-    console.log(squealtext);
-    console.log(squealimage);
 
     props.setShowBox(false);
 
@@ -39,6 +39,17 @@ function SquealBox(props) {
   }
 
   function handleSelectAttachment(event) {
+    // block the user from changing the attachment type if he has already uploaded a file or link
+    if (isAttachment) {
+      alert("You have already uploaded a file or link!");
+      return (event.target.value = postAttach);
+    }
+
+    // if the user selects the same attachment type, return
+    if (event.target.value === postAttach) {
+      return;
+    }
+
     if (event.target.value === "Geolocation") {
       setIsLocation(true);
       setPostAttach(event.target.value);
@@ -50,10 +61,13 @@ function SquealBox(props) {
     }
   }
 
-  function handleAttachment(event) {
-    if (squealtext.length + imagecharsize > defaultchars) {
-      alert("You have exceeded the character limit!");
-      return;
+  function handleAttachmentLink(event) {
+    if (event.target.value.length > 0) {
+      setDisableInputText(true);
+      setIsLink(true);
+    } else {
+      setDisableInputText(false);
+      setIsLink(false);
     }
 
     if (islocation) {
@@ -63,12 +77,6 @@ function SquealBox(props) {
     } else {
       setSquealImage(event.target.value);
     }
-
-    // if (squealimage.length > 0) {
-    //   setCurrentChars(squealtext.length + imagecharsize);
-    // } else {
-    //   setCurrentChars(squealtext.length);
-    // }
   }
 
   function handleCustomAttachment(event) {
@@ -77,9 +85,40 @@ function SquealBox(props) {
     //   return;
     // }
 
-    if (event.target.files[0] !== undefined) {
-      // setSquealImage(URL.createObjectURL(event.target.files[0]));
+    // if the event is not given (e.g. when the user cancels the file selection), return
+    if (!event.target.files[0]) {
+      setIsAttachment(false);
+      setDisableInputText(false);
+      return;
     }
+    console.log();
+
+    // check if the file is an image or a video
+    if (
+      !event.target.files[0].type.includes("image") &&
+      !event.target.files[0].type.includes("video")
+    ) {
+      alert("Wrong file type, only images or video are allowed!");
+      return (event.target.value = null);
+    }
+
+    if (
+      event.target.files[0].type.includes("image") &&
+      postAttach !== "Immagine"
+    ) {
+      alert("Wrong file type, not an image!");
+      return (event.target.value = null);
+    } else if (
+      event.target.files[0].type.includes("video") &&
+      postAttach !== "Video"
+    ) {
+      alert("Wrong file type, not a video!");
+      return (event.target.value = null);
+    }
+
+    setDisableInputText(true);
+    setIsAttachment(true);
+    setSquealFile(event.target.files[0]);
   }
 
   function handleCharacterLimit(event) {
@@ -134,90 +173,104 @@ function SquealBox(props) {
             </div>
           </div>
 
-          <InputGroup className="mb-3">
-            <InputGroup className="mb-3">
-              <div className="col-m-2">
-                <Form.Select
-                  placeholder="Seleziona il canale"
-                  aria-label="SelectChannel"
-                  onChange={(e) => setPostChannel(e.target.value)}
-                  style={{
-                    backgroundColor: "#e9ecef",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    borderTopRightRadius: 0,
-                    borderBottomRightRadius: 0,
-                  }}
-                >
-                  <option value="Username">@</option>
-                  <option value="Channel">§</option>
-                  <option value="Hashtag">#</option>
-                </Form.Select>
-              </div>
-              <Form.Control
-                placeholder={postChannel}
-                aria-label="Channel"
-                aria-describedby="Channel"
-                autoFocus
-                onChange={(e) => setSquealChannel(e.target.value)}
-              />
-            </InputGroup>
+          <InputGroup className="mb-3 container-fluid">
+            <div className="container-fluid">
+              <InputGroup className="mb-3">
+                <div className="col-m-2">
+                  <Form.Select
+                    placeholder="Seleziona il canale"
+                    aria-label="SelectChannel"
+                    onChange={(e) => setPostChannel(e.target.value)}
+                    style={{
+                      backgroundColor: "#e9ecef",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      borderTopRightRadius: 0,
+                      borderBottomRightRadius: 0,
+                    }}
+                  >
+                    <option value="Username">@</option>
+                    <option value="Channel">§</option>
+                    <option value="Hashtag">#</option>
+                  </Form.Select>
+                </div>
+                <Form.Control
+                  placeholder={postChannel}
+                  aria-label="Channel"
+                  aria-describedby="Channel"
+                  autoFocus
+                  onChange={(e) => setSquealChannel(e.target.value)}
+                />
+              </InputGroup>
+            </div>
+            <div className="container-fluid">
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder={"Inserisci URL " + postAttach}
+                  aria-label="With textarea"
+                  aria-describedby="Attachment"
+                  onChange={handleAttachmentLink}
+                  disabled={isAttachment}
+                />
+                <div className="col-m-2">
+                  <Form.Select
+                    aria-label="SelectAttachment"
+                    onChange={handleSelectAttachment}
+                    style={{
+                      backgroundColor: "#e9ecef",
+                      textAlign: "center",
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
+                  >
+                    <option value="Immagine">Image</option>
+                    <option value="Video">Video</option>
+                    <option value="Geolocation">Location</option>
+                  </Form.Select>
+                </div>
+              </InputGroup>
 
-            <InputGroup className="mb-3">
-              <Form.Control
-                placeholder={"Inserisci " + postAttach}
-                aria-label="With textarea"
-                aria-describedby="Attachment"
-                onChange={handleAttachment}
-              />
-              <div className="col-m-2">
-                <Form.Select
-                  aria-label="SelectAttachment"
-                  onChange={handleSelectAttachment}
-                  style={{
-                    backgroundColor: "#e9ecef",
-                    textAlign: "center",
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  }}
-                >
-                  <option value="Immagine">Image</option>
-                  <option value="Video">Video</option>
-                  <option value="Geolocation">Location</option>
-                </Form.Select>
-              </div>
-            </InputGroup>
+              <Form.Group
+                controlId="formFile"
+                className="mb-3"
+                hidden={islocation}
+              >
+                <Form.Label>oppure</Form.Label>
 
-            <Form.Group
-              controlId="formFile"
-              className="mb-3"
-              hidden={islocation}
-            >
-              <Form.Label>oppure</Form.Label>
-
-              <Form.Control
-                type="file"
-                disabled={squealimage.length > 0 || squealvideo.length > 0}
-                onChange={handleCustomAttachment}
-              />
-            </Form.Group>
+                <Form.Control
+                  type="file"
+                  disabled={isLink}
+                  onChange={handleCustomAttachment}
+                />
+              </Form.Group>
+            </div>
 
             <div className="container-fluid">
               <AttachPreview
-                islocation={islocation}
+                setSquealLocation={setSquealLocation}
+                iscustom={isAttachment}
+                type={postAttach}
                 image={squealimage}
+                video={squealvideo}
                 location={squeallocation}
+                file={squealfile}
               />
             </div>
 
-            <InputGroup>
-              <InputGroup.Text>Scrivi il tuo squeal</InputGroup.Text>
-              <Form.Control
-                as="textarea"
-                aria-label="Squeal textarea"
-                onChange={handleCharacterLimit}
-              />
-            </InputGroup>
+            <div
+              className="container-fluid"
+              disabled={disableinputtext}
+              aria-disabled={disableinputtext}
+            >
+              <InputGroup>
+                <InputGroup.Text>Scrivi il tuo squeal</InputGroup.Text>
+                <Form.Control
+                  as="textarea"
+                  aria-label="Squeal textarea"
+                  onChange={handleCharacterLimit}
+                />
+              </InputGroup>
+            </div>
           </InputGroup>
         </div>
       </Modal.Body>
