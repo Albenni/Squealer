@@ -1,24 +1,45 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "../css/Post.css";
+import { useState } from "react";
+
 import theme from "../config/theme";
 
 import { Avatar } from "@mui/material";
-import { Button } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import {
   PatchCheckFill,
   Chat,
-  ShareFill,
-  HandThumbsDown,
-  HandThumbsDownFill,
-  HandThumbsUp,
-  HandThumbsUpFill,
+  EmojiAngry,
+  EmojiAngryFill,
+  EmojiFrown,
+  EmojiFrownFill,
+  EmojiNeutral,
+  EmojiNeutralFill,
+  EmojiSmile,
+  EmojiSmileFill,
+  EmojiHeartEyes,
+  EmojiHeartEyesFill,
 } from "react-bootstrap-icons";
-import { Image } from "react-bootstrap";
 
 function Post({ item }) {
+  const [reaction, setReaction] = useState({
+    reallydislike: false,
+    dislike: false,
+    neutral: false,
+    like: false,
+    reallylike: false,
+  });
+
+  function handleReaction(type) {
+    // if there are no reactions, set the reaction to true
+    if (!reaction[type]) {
+      setReaction({ [type]: true });
+      return;
+    }
+  }
+
   return (
     <div className="container-fluid">
-      <div className="row">
+      <div className="row" style={{ pointerEvents: "none" }}>
         <div className="d-flex">
           <div className="m-1">
             <Avatar src={item.propic} />
@@ -43,7 +64,7 @@ function Post({ item }) {
       </div>
 
       <div className="row">
-        <div className="my-1">
+        <div className="my-1" style={{ pointerEvents: "none" }}>
           <p>{item.posttext}</p>
         </div>
 
@@ -60,36 +81,73 @@ function Post({ item }) {
         <div className="container-fluid p-3">
           <div className="row">
             <div className="col">
-              <Button variant="secondary">
+              <Button
+                style={{
+                  backgroundColor: theme.colors.reallydislike,
+                  borderColor: theme.colors.reallydislike,
+                }}
+                onClick={() => handleReaction("reallydislike")}
+              >
+                {reaction.reallydislike ? <EmojiAngryFill /> : <EmojiAngry />}
+              </Button>
+            </div>
+            <div className="col">
+              <Button
+                style={{
+                  backgroundColor: theme.colors.dislike,
+                  borderColor: theme.colors.dislike,
+                }}
+                onClick={() => handleReaction("dislike")}
+              >
+                {reaction.dislike ? <EmojiFrownFill /> : <EmojiFrown />}
+              </Button>
+            </div>
+            <div className="col">
+              <Button
+                style={{
+                  backgroundColor: theme.colors.neutral,
+                  borderColor: theme.colors.neutral,
+                }}
+                onClick={() => handleReaction("neutral")}
+              >
+                {reaction.neutral ? <EmojiNeutralFill /> : <EmojiNeutral />}
+              </Button>
+            </div>
+            <div className="col">
+              <Button
+                style={{
+                  backgroundColor: theme.colors.like,
+                  borderColor: theme.colors.like,
+                }}
+                onClick={() => handleReaction("like")}
+              >
+                {reaction.like ? <EmojiSmileFill /> : <EmojiSmile />}
+              </Button>
+            </div>
+            <div className="col">
+              <Button
+                style={{
+                  backgroundColor: theme.colors.reallylike,
+                  borderColor: theme.colors.reallylike,
+                }}
+                onClick={() => handleReaction("reallylike")}
+              >
+                {reaction.reallylike ? (
+                  <EmojiHeartEyesFill />
+                ) : (
+                  <EmojiHeartEyes />
+                )}
+              </Button>
+            </div>
+            <div
+              className="col"
+              style={{
+                textAlign: "end",
+              }}
+            >
+              <Button variant="outline-secondary">
                 <Chat />
               </Button>
-              {item.postcomments}
-            </div>
-            <div className="col">
-              <Button variant="secondary">
-                <ShareFill />
-              </Button>
-              {item.postshares}
-            </div>
-            <div className="col">
-              <Button variant="success">
-                {item.postliked ? (
-                  <HandThumbsUpFill color={theme.colors.lightdanger} />
-                ) : (
-                  <HandThumbsUp />
-                )}
-              </Button>
-              {item.postlikes}
-            </div>
-            <div className="col">
-              <Button variant="danger">
-                {item.postdisliked ? (
-                  <HandThumbsDownFill color={theme.colors.lightdanger} />
-                ) : (
-                  <HandThumbsDown />
-                )}
-              </Button>
-              {item.postlikes}
             </div>
           </div>
         </div>

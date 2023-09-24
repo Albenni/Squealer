@@ -68,7 +68,7 @@ function Feed() {
             setShowChat={setShowChat}
             placement={"end"}
           />
-          <div className="fixed-bottom m-3">
+          <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
             <PlusCircleFill
               size={"4em"}
               color={theme.colors.button}
