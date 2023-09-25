@@ -5,7 +5,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 
-import { Gear, Bell } from "react-bootstrap-icons";
+import { Gear, Bell, Shop } from "react-bootstrap-icons";
 import squeallogo from "../assets/SLogo.png";
 
 import BooksData from "../assets/DataExample.json";
@@ -43,6 +43,14 @@ function TopBar(props) {
 
             <Nav className="justify-content-end">
               {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
+              <div className="d-flex align-items-end">
+                <p>Numero caratteri rimanenti</p>
+              </div>
+              <Nav.Link href="/shop">
+                <Button variant="outline-primary">
+                  <Shop size={20} />
+                </Button>
+              </Nav.Link>
               <Nav.Link href="/settings">
                 <Button variant="outline-primary">
                   <Gear size={20} />
