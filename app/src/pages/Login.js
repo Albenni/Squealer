@@ -54,7 +54,7 @@ function Login() {
 
   return (
     <>
-      <TopBar isnotloginpage={false} />
+      <TopBar />
       <div
         className="container-fluid"
         style={{ backgroundColor: " rgb(184, 226, 240)", userSelect: "none" }}

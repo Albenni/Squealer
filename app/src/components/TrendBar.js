@@ -14,7 +14,7 @@ function TrendBar(props) {
         style={{ overflowY: "hidden", overflowX: "auto" }}
       >
         {props.trending.map((trend, key) => (
-          <div className="col">
+          <div className="col" key={key}>
             <Button
               key={key}
               variant="outline-secondary"

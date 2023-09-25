@@ -52,7 +52,7 @@ function SearchBar({ data }) {
 
   return (
     <>
-      <Form inline onSubmit={handleSubmit} className="d-flex">
+      <Form onSubmit={handleSubmit} className="d-flex">
         <Form.Control
           type="search"
           placeholder="Cerca"

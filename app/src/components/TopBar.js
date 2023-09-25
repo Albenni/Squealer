@@ -10,7 +10,11 @@ import squeallogo from "../assets/SLogo.png";
 
 import BooksData from "../assets/DataExample.json";
 
+import { useLocation } from "react-router-dom";
+
 function TopBar(props) {
+  const location = useLocation();
+
   return (
     <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid>
@@ -31,7 +35,7 @@ function TopBar(props) {
           </div>
         </Navbar.Brand>
 
-        {props.isnotloginpage && (
+        {location.pathname !== "/login" && (
           <>
             <div className="justify-content-center">
               <SearchBar data={BooksData} />
