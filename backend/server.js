@@ -11,6 +11,8 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const PORT = process.env.PORT || 3500;
 
+mongoose.set("strictQuery", false);
+
 // Connect to MongoDB
 connectDB();
 
