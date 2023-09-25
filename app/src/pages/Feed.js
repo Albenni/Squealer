@@ -47,11 +47,7 @@ function Feed() {
       <div className="Feed" style={{ backgroundColor: theme.colors.bg1 }}>
         <div className="sticky-top">
           <div className="topbar">
-            <TopBar
-              isnotloginpage={true}
-              isLogged={isLogged}
-              setShowChat={setShowChat}
-            />
+            <TopBar isLogged={isLogged} setShowChat={setShowChat} />
           </div>
 
           <div className="trendBar">
