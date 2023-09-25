@@ -43,9 +43,7 @@ function TopBar(props) {
 
             <Nav className="justify-content-end">
               {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
-              <div className="d-flex align-items-end">
-                <p>Numero caratteri rimanenti</p>
-              </div>
+
               <Nav.Link href="/shop">
                 <Button variant="outline-primary">
                   <Shop size={20} />
