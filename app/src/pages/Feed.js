@@ -44,7 +44,7 @@ function Feed() {
   return (
     <>
       <SquealBox show={showbox} setShowBox={setShowBox} />
-      <div className="Feed">
+      <div className="Feed" style={{ backgroundColor: theme.colors.bg1 }}>
         <div className="sticky-top">
           <div className="topbar">
             <TopBar
@@ -59,7 +59,7 @@ function Feed() {
             <TrendBar trending={state.tags} />
           </div>
         </div>
-        <div className="container">
+        <div className="container mt-sm-3">
           <PostList posts={postdatasample} />
         </div>
         <div className="container-fluid">
