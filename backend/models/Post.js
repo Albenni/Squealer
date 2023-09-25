@@ -11,24 +11,25 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  //"text", "picture", "geolocalization"
-  //le immagini e le geolocalizz vengono salvate come link e poi sostituite nel frontend
-  //idee migliori???
   contentType: {
     type: String,
     required: true,
     enum: {
-      values: ["text", "picture", "geolocalization"],
+      values: ["text", "media", "geolocalization"],
       message: "{VALUE} is not supported",
     },
+  },
+  positiveReaction: {
+    type: Number,
+    default: 0,
+  },
+  negativeReaction: {
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,
     immutable: true,
-    default: () => Date.now(),
-  },
-  lastEdited: {
-    type: Date,
     default: () => Date.now(),
   },
 });

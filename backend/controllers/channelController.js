@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Channel = require("../model/Channel");
+const Channel = require("../models/Channel");
 
 const searchChannels = async (req, res) => {
   // const channels = await Channel.find();

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const User = require("../model/User");
-const Moderator = require("../model/Moderator");
+const User = require("../models/User");
+const Moderator = require("../models/Moderator");
 
 const searchUser = async (req, res) => {
   try {

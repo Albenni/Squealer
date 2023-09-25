@@ -25,6 +25,9 @@ router
   .get(messagesController.getAllMessagesInConversation);
 // .patch()
 
-router.route("/:userId/posts").get(postsController.getAllPostByUser);
+router
+  .route("/:userId/posts")
+  .get(postsController.getAllPostByUser)
+  .post(postsController.createPost);
 
 module.exports = router;

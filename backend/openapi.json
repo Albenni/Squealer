@@ -342,7 +342,7 @@
         },
         "contentType": {
           "type": "string",
-          "enum": ["text", "picture", "geolocalization"]
+          "enum": ["text", "media", "geolocalization"]
         },
         "createdAt": {
           "type": "date"
@@ -377,7 +377,7 @@
         },
         "contentType": {
           "type": "integer",
-          "enum": ["text", "picture", "geolocalization"]
+          "enum": ["text", "media", "geolocalization"]
         },
         "createdAt": {
           "type": "date"

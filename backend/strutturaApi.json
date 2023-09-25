@@ -27,7 +27,8 @@
         }
       },
       "/posts": {
-        "get": "getAllPostByUser"
+        "get": "getAllPostByUser",
+        "post": "createPost"
       }
     }
   },
@@ -38,7 +39,6 @@
     }
   },
   "/posts": {
-    "post": "createPost",
     "/:id": {
       "delete": "deletePost"
     }

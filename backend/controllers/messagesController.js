@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const Message = require("../model/Message");
+const User = require("../models/User");
+const Message = require("../models/Message");
+const constants = require("../constants");
 
 const getAllMessagesInConversation = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.convId))
@@ -39,13 +41,35 @@ const createMessage = async (req, res) => {
   if (!req?.body?.contentType)
     return res.status(400).json({ message: "Content type required" });
 
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.authorId))
+    return res.status(400).json({ message: "Author ID not valid" });
   if (!mongoose.Types.ObjectId.isValid(req?.body?.conversation))
     return res.status(400).json({ message: "Conversation ID not valid" });
   if (!req?.body?.conversationType)
     return res.status(400).json({ message: "Conversation type required" });
 
+  const author = await User.findById(req.body.authorId).select("charAvailable");
+  //controlliamo che l'autore del messaggio esista
+  if (!author) return res.status(400).json({ message: "Author not found" });
+
+  //controllo che ci siano abbastanza caratteri disponibili
+  if (req.body.conversationType === "Channel") {
+    if (contentType === "media" || contentType === "geolocalization") {
+      if (author.charAvailable < constants.MEDIA_CHAR_DIMENSION)
+        return res
+          .status(400)
+          .json({ message: "Not enough character available" });
+    } else if (contentType === "text") {
+      if (author.charAvailable < req.body.content.length)
+        return res
+          .status(400)
+          .json({ message: "Not enough character available" });
+    } else
+      return res.status(400).json({ message: "Content type not accepted" });
+  }
+
   const message = {
-    author: req.id,
+    author: req.body.authorId,
     conversation: req.body.conversation,
     conversationType: req.body.conversationType,
     content: req.body.content,

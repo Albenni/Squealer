@@ -20,14 +20,25 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  vip: {
+  professional: {
     type: Boolean,
     default: false,
+  },
+  charAvailable: {
+    type: Number,
+    min: [0, "Not enough character available"],
+    default: 0,
   },
   conversations: [
     {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "Conversation",
+    },
+  ],
+  userFollowed: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
     },
   ],
   subscribedChannel: [

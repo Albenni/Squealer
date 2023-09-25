@@ -4,6 +4,6 @@ const refreshTokenController = require("../controllers/refreshTokenController");
 
 router.route("/").get(refreshTokenController.userRefreshToken);
 
-router.route("/moderator").post(authController.modRefresh);
+router.route("/moderator").post(refreshTokenController.modRefreshToken);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const User = require("../model/User");
-const Conversation = require("../model/Conversation");
+const User = require("../models/User");
+const Conversation = require("../models/Conversation");
 
 const getAllUserConversations = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
