@@ -10,13 +10,12 @@ const messageSchema = new Schema({
   conversation: {
     type: mongoose.SchemaTypes.ObjectId,
     refPath: "conversationType",
-    required: true,
   },
   conversationType: {
     type: String,
     required: true,
     enum: {
-      values: ["Conversation", "Channel"],
+      values: ["Conversation", "Channel", "Public"],
       message: "{VALUE} is not supported",
     },
   },

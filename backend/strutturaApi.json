@@ -19,6 +19,9 @@
     "/:userId": {
       "get": "getUser",
       "delete": "deleteUser",
+      "/channels": {
+        "post": "followChannel"
+      },
       "/conversations": {
         "get": "getAllUserConversations",
         "post": "createConversation",
@@ -45,6 +48,7 @@
   },
   "/channels": {
     "get": "searchChannels",
+    "post": "createChannel",
     "/:id": {
       "get": "getChannelById",
       "delete": "deleteChannel",

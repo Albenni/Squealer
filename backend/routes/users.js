@@ -4,6 +4,7 @@ const usersController = require("../controllers/usersController");
 const messagesController = require("../controllers/messagesController");
 const postsController = require("../controllers/postsController");
 const conversationsController = require("../controllers/conversationsController");
+const channelsController = require("../controllers/channelsController");
 
 router.route("/").get(usersController.searchUser);
 
@@ -11,9 +12,10 @@ router
   .route("/:userId")
   .get(usersController.getUser)
   .delete(usersController.deleteUser);
-// .patch()
 
 router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
+
+router.route("/:userId/channels").post(channelsController.followChannel);
 
 router
   .route("/:userId/conversations")
@@ -23,7 +25,6 @@ router
 router
   .route("/:userId/conversations/:convId")
   .get(messagesController.getAllMessagesInConversation);
-// .patch()
 
 router
   .route("/:userId/posts")

@@ -42,6 +42,8 @@ app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 
+app.use("/feed", require("./routes/feed"));
+
 //in questo middleware vengono settati req.username, req.id e req.isMod tramite i dati contenuti nel token
 //per accedere a tutte le routes sotto bisogna essere loggati
 app.use(verifyJWT);

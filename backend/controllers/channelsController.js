@@ -1,6 +1,43 @@
 const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 
+const followChannel = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.channelId))
+    return res.status(400).json({ message: "Channel ID required" });
+
+  const channel = await Channel.findById(req.body.channelId);
+  if (!channel) return res.status(400).json({ message: "Channel not found" });
+
+  try {
+    await User.findByIdAndUpdate(req.id, {
+      $push: {
+        subscribedChannel: channel._id,
+      },
+    });
+    res.status(200);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+const createChannel = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.channelName))
+    return res.status(400).json({ message: "Channel name required" });
+
+  const channel = await Channel.find(req.body.channelName);
+  if (channel) return res.status(400).json({ message: "Channel name taken" });
+
+  try {
+    Channel.create({
+      name: req.body.channelName,
+      channelAdmin: req.id,
+      private: false,
+    });
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const searchChannels = async (req, res) => {
   // const channels = await Channel.find();
   // res.json(channels);
@@ -25,7 +62,7 @@ const getChannelById = async (req, res) => {
       .status(204)
       .json({ message: `Channel ID ${req.body.id} not found` });
   }
-  return channel;
+  res.status(200).json(channel);
 };
 
 const deleteChannel = async (req, res) => {
@@ -42,6 +79,8 @@ const deleteChannel = async (req, res) => {
 };
 
 module.exports = {
+  followChannel,
+  createChannel,
   searchChannels,
   getChannelById,
   deleteChannel,
