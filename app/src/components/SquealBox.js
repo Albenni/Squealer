@@ -178,6 +178,9 @@ function SquealBox(props) {
                 </h6>
               </div>
             </div>
+            <div className="col d-flex align-items-center">
+              <p>Numero caratteri rimanenti</p>
+            </div>
           </div>
 
           <InputGroup className="mb-3 container-fluid">
