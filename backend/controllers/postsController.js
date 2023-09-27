@@ -20,7 +20,7 @@ const createPost = async (req, res) => {
   if (!req?.body?.content)
     return res.status(400).json({ message: "Body message required" });
 
-  const contentTypeOptions = ["text", "media", "geolocalization"];
+  const contentTypeOptions = ["text", "video", "image", "geolocalization"]; // Da dividere per facilitare la gestione
   if (!contentTypeOptions.includes(req?.body?.contentType))
     return res.status(400).json({ message: "Content type not valid" });
 

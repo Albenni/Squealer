@@ -27,7 +27,7 @@ const messageSchema = new Schema({
     type: String,
     required: true,
     enum: {
-      values: ["text", "media", "geolocalization"],
+      values: ["text", "image", "video", "geolocalization"],
       message: "{VALUE} is not supported",
     },
   },
