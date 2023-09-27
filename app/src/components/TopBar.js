@@ -11,9 +11,21 @@ import squeallogo from "../assets/SLogo.png";
 import BooksData from "../assets/DataExample.json";
 
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function TopBar(props) {
   const location = useLocation();
+
+  const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLogin(true);
+      return;
+    }
+    setLogin(false);
+  }, []);
 
   return (
     <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">

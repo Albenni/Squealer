@@ -19,16 +19,6 @@ import TopBar from "../components/TopBar";
 function Feed() {
   const [showbox, setShowBox] = useState(false);
   const [showchat, setShowChat] = useState(false);
-  const [isLogged, setLogin] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setLogin(true);
-      return;
-    }
-    setLogin(false);
-  }, []);
 
   const state = {
     tags: [
@@ -47,7 +37,7 @@ function Feed() {
       <div className="Feed" style={{ backgroundColor: theme.colors.bg1 }}>
         <div className="sticky-top">
           <div className="topbar">
-            <TopBar isLogged={isLogged} setShowChat={setShowChat} />
+            <TopBar setShowChat={setShowChat} />
           </div>
 
           <div className="trendBar">
