@@ -13,9 +13,8 @@ const getAllUserSqueals = async (req, res) => {
     publicSqueal: true,
   }).exec();
 
-  if (!squeals?.length) {
-    return res.status(204).json({ message: `No messages found` });
-  }
+  if (!squeals?.length)
+    return res.status(204).json({ message: "No squeals found" });
 
   res.json(squeals);
 };
@@ -24,16 +23,16 @@ const getAllSquealsInChannel = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Invalid channel ID" });
 
-  const messages = await Squeal.find({
+  const squeals = await Squeal.find({
     channel: req.params.channelId,
     publicSqueal: false,
   }).exec();
 
-  if (!messages?.length) {
-    return res.status(204).json({ message: `No messages found` });
+  if (!squeals?.length) {
+    return res.status(204).json({ message: `No squeals found` });
   }
 
-  res.json(messages);
+  res.json(squeals);
 };
 
 const createSqueal = async (req, res) => {

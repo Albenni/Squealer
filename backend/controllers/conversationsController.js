@@ -6,22 +6,11 @@ const getAllUserConversations = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  //ogni user può ottenere solo le proprie conversazioni
-  if (req.id === req.params.userId) {
-    const conversations = await User.findById(req.params.userId).select(
-      "conversations"
-    );
+  const convers = Conversation.find({
+    $or: [{ user1: req.params.userId }, { user2: req.params.userId }],
+  });
 
-    const conversName = conversations.map((conv) => {
-      Conversation.findById(conv).then(
-        result.user1 !== req.params.id ? result.user1 : result.user2
-      );
-    });
-
-    return res.json(conversName);
-  } else {
-    res.status(403).json({ message: "Private conversation of another user" });
-  }
+  return res.json(convers);
 };
 
 const createConversation = async (req, res) => {
