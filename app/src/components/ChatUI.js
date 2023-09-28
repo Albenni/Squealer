@@ -17,6 +17,7 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 
 function ChatUI() {
+  const [conversation, setConversation] = useState({});
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -25,9 +26,20 @@ function ChatUI() {
       message: "Hello my friend",
       sentTime: "just now",
       sender: "Joe",
+      outgoing: false,
+    };
+
+    const convomodel = {
+      // prendere dati dal db
+      name: "Joe",
+      lastSenderName: "Joe",
+      info: "Ultimo messaggio se abbiamo voglia di farlo",
+      unreadCnt: 0,
+      active: true,
     };
 
     setMessages([...messages, model]);
+    setConversation(convomodel);
   }, []);
 
   function handleSendMessage(event) {
@@ -37,8 +49,13 @@ function ChatUI() {
         message: event,
         sentTime: "just now",
         sender: "MIO USERNAME",
+        outgoing: true,
       },
     ]);
+  }
+
+  function handleCovoChange(data) {
+    setConversation(data);
   }
 
   return (
@@ -52,9 +69,15 @@ function ChatUI() {
               lastSenderName="Joe"
               info="Ultimo messaggio se abbiamo voglia di farlo"
               unreadCnt={0}
-              active={true}
+              active={conversation.name === "Joe"}
               onClick={() => {
-                console.log("Clicked on conversation");
+                handleCovoChange({
+                  name: "Joe",
+                  lastSenderName: "Joe",
+                  info: "Ultimo messaggio se abbiamo voglia di farlo",
+                  unreadCnt: 0,
+                  active: true,
+                });
               }}
             >
               <Avatar src="https://picsum.photos/200/300" name="Joe" />
@@ -67,7 +90,13 @@ function ChatUI() {
               unreadCnt={0}
               active={false}
               onClick={() => {
-                console.log("Clicked on conversation");
+                handleCovoChange({
+                  name: "Lily",
+                  lastSenderName: "Lily",
+                  info: "Ultimo messaggio se abbiamo voglia di farlo",
+                  unreadCnt: 0,
+                  active: true,
+                });
               }}
             >
               <Avatar src="https://picsum.photos/200/300" name="Lilly" />
@@ -76,8 +105,11 @@ function ChatUI() {
         </Sidebar>
         <ChatContainer>
           <ConversationHeader>
-            <Avatar src="https://picsum.photos/300/300" name="Joe" />
-            <ConversationHeader.Content userName="Joe" />
+            <Avatar
+              src="https://picsum.photos/300/300"
+              name={conversation.name}
+            />
+            <ConversationHeader.Content userName={conversation.name} />
             <ConversationHeader.Actions>
               <InfoButton />
             </ConversationHeader.Actions>
@@ -91,10 +123,12 @@ function ChatUI() {
                   message: message.message,
                   sentTime: message.sentTime,
                   sender: message.sender,
+                  direction: message.outgoing ? "outgoing" : "incoming",
                 }}
               />
             ))}
           </MessageList>
+
           <MessageInput
             placeholder="Scrivi qui il tuo messaggio"
             onSend={handleSendMessage}
