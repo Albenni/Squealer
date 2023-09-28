@@ -9,15 +9,7 @@ const messageSchema = new Schema({
   },
   conversation: {
     type: mongoose.SchemaTypes.ObjectId,
-    refPath: "conversationType",
-  },
-  conversationType: {
-    type: String,
-    required: true,
-    enum: {
-      values: ["Conversation", "Channel", "Public"],
-      message: "{VALUE} is not supported",
-    },
+    ref: "Conversation",
   },
   content: {
     type: String,
@@ -27,7 +19,7 @@ const messageSchema = new Schema({
     type: String,
     required: true,
     enum: {
-      values: ["text", "media", "geolocalization"],
+      values: ["text", "picture", "video", "geolocalization"],
       message: "{VALUE} is not supported",
     },
   },

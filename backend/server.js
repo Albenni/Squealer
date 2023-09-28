@@ -49,8 +49,7 @@ app.use("/feed", require("./routes/feed"));
 app.use(verifyJWT);
 
 app.use("/users", require("./routes/users"));
-app.use("/messages", require("./routes/messages"));
-app.use("/posts", require("./routes/posts"));
+app.use("/squeals", require("./routes/squeals"));
 app.use("/channels", require("./routes/channels"));
 
 app.all("*", (req, res) => {

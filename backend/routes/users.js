@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
-const messagesController = require("../controllers/messagesController");
-const postsController = require("../controllers/postsController");
+const squealsController = require("../controllers/squealsController");
 const conversationsController = require("../controllers/conversationsController");
 const channelsController = require("../controllers/channelsController");
+const messagesController = require("../controllers/messagesController");
 
 router.route("/").get(usersController.searchUser);
 
@@ -27,8 +27,8 @@ router
   .get(messagesController.getAllMessagesInConversation);
 
 router
-  .route("/:userId/posts")
-  .get(postsController.getAllPostByUser)
-  .post(postsController.createPost);
+  .route("/:userId/squeals")
+  .get(squealsController.getAllUserSqueals)
+  .post(squealsController.createSqueal);
 
 module.exports = router;

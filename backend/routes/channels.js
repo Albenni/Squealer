@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const channelsController = require("../controllers/channelsController");
-const messagesController = require("../controllers/messagesController");
+const squealsController = require("../controllers/squealsController");
 
 router
   .route("/")
@@ -9,11 +9,13 @@ router
   .post(channelsController.createChannel);
 
 router
-  .route("/:id")
+  .route("/:channelId")
   .get(channelsController.getChannelById)
   .delete(channelsController.deleteChannel);
 // .patch()
 
-router.route("/:id/messages").get(messagesController.getAllMessagesInChannel);
+router
+  .route("/:channelId/squeals")
+  .get(squealsController.getAllSquealsInChannel);
 
 module.exports = router;

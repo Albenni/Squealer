@@ -1,10 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema({
+const squealSchema = new Schema({
   author: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
+    required: true,
+  },
+  channel: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Channel",
+  },
+  channelSqueal: {
+    type: Boolean,
     required: true,
   },
   content: {
@@ -15,7 +23,7 @@ const postSchema = new Schema({
     type: String,
     required: true,
     enum: {
-      values: ["text", "media", "geolocalization"],
+      values: ["text", "picture", "video", "geolocalization"],
       message: "{VALUE} is not supported",
     },
   },
@@ -34,4 +42,4 @@ const postSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Squeal", squealSchema);
