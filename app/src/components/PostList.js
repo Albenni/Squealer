@@ -19,18 +19,11 @@ function PostList({ posts }) {
   return (
     <div className="container pb-3">
       {posts.map((item) => {
+        if (item.type === "text") return <Post key={item.id} item={item} />;
+
         if (item.type === "image") {
           return <PostImage key={item.id} item={item} />;
         }
-        if (item.type === "text") return <Post key={item.id} item={item} />;
-
-        // return (
-        //   <Card key={item.id} className="my-3">
-        //     <Card.Body>
-        //       <Post item={item} />
-        //     </Card.Body>
-        //   </Card>
-        // );
       })}
     </div>
 

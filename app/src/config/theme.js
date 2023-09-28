@@ -19,6 +19,7 @@ const theme = {
     neutral: "#A7A7A7",
     dislike: "#B5545E",
     reallydislike: "#C20114",
+    transparent: "rgba(0,0,0,0.1)",
   },
 };
 
