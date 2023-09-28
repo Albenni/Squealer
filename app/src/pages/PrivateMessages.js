@@ -10,13 +10,9 @@ function PrivateMessages({ showchat, setShowChat, ...props }) {
   return (
     <>
       <Offcanvas show={showchat} onHide={handleClose} {...props}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Sezione messaggi privati</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <div className="container-fluid">
-            <ChatUI />
-          </div>
+        <Offcanvas.Header closeButton />
+        <Offcanvas.Body className="container-fluid">
+          <ChatUI />
         </Offcanvas.Body>
       </Offcanvas>
     </>

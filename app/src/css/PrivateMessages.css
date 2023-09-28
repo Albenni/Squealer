@@ -2,6 +2,12 @@
   width: 50% !important;
 }
 
+@media (max-width: 768px) {
+  .offcanvas {
+    width: 100% !important;
+  }
+}
+
 /* 
 .offcanvas.offcanvas-{position}{
      width:50% !important;
