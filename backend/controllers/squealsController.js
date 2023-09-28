@@ -54,7 +54,7 @@ const createSqueal = async (req, res) => {
 
   //controllo che ci siano abbastanza caratteri disponibili
   if (
-    contentType === "picture" ||
+    contentType === "image" ||
     contentType === "video" ||
     contentType === "geolocalization"
   ) {
