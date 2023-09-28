@@ -62,9 +62,10 @@ const userLogin = async (req, res) => {
       .json({ message: "Username and password are required." });
 
   const foundUser = await User.findOne({ username: user }).exec();
-  if (!foundUser) return res.sendStatus(401); //Unauthorized
-  // evaluate password
-  const match = await bcrypt.compare(pwd, foundUser.password);
+  if (!foundUser) return res.status(401).json({ message: "User not found." });
+  // confronti le password nel caso in cui sia salvata come hash
+  // const match = await bcrypt.compare(pwd, foundUser.password);
+  const match = pwd === foundUser.password; // controllo se password coincidono
 
   if (match) {
     // create JWTs

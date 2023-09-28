@@ -1,38 +1,22 @@
 const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 
-const followChannel = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.channelId))
-    return res.status(400).json({ message: "Channel ID required" });
-
-  const channel = await Channel.findById(req.body.channelId);
-  if (!channel) return res.status(400).json({ message: "Channel not found" });
-
-  try {
-    await User.findByIdAndUpdate(req.id, {
-      $push: {
-        subscribedChannel: channel._id,
-      },
-    });
-    res.status(200);
-  } catch (error) {
-    res.json({ message: error });
-  }
-};
-
 const createChannel = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.channelName))
+  if (!req?.body?.channelName)
     return res.status(400).json({ message: "Channel name required" });
 
-  const channel = await Channel.find(req.body.channelName);
+  const channel = await Channel.findOne({ name: req.body.channelName });
   if (channel) return res.status(400).json({ message: "Channel name taken" });
 
+  const newChannel = {
+    name: req.body.channelName,
+    channelAdmin: req.id,
+    private: req?.body?.channelPrivate === "true",
+  };
+
   try {
-    Channel.create({
-      name: req.body.channelName,
-      channelAdmin: req.id,
-      private: false,
-    });
+    const result = await Channel.create(newChannel);
+    res.json(result);
   } catch (error) {
     res.json({ message: error });
   }
@@ -45,7 +29,7 @@ const searchChannels = async (req, res) => {
     const findChannels = req.query.channel ? req.query.channel : "";
     const channels = await Channel.find({
       name: { $regex: ".*" + findChannels + ".*" },
-    });
+    }).select("-__v -channelAdmin");
     if (!channels) return res.status(204).json({ message: "No users found" });
     res.json(channels);
   } catch (error) {
@@ -56,11 +40,10 @@ const searchChannels = async (req, res) => {
 const getChannelById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Channel ID required" });
-  const channel = await Channel.findById({ _id: req.params.channelId }).exec();
-  if (!channel?.length) {
-    return res
-      .status(204)
-      .json({ message: `Channel ID ${req.params.channelId} not found` });
+
+  const channel = await Channel.findById(req.params.channelId).exec();
+  if (!channel) {
+    return res.status(204).json({ message: "Channel not found" });
   }
   res.status(200).json(channel);
 };
@@ -68,18 +51,22 @@ const getChannelById = async (req, res) => {
 const deleteChannel = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Channel ID required" });
+
   const channel = await Channel.findById({ _id: req.params.channelId }).exec();
-  if (!channel?.length) {
+  if (!channel) {
     return res
       .status(204)
       .json({ message: `Channel ID ${req.params.channelId} not found` });
   }
+
+  if (!channel.channelAdmin.includes(req.id))
+    return res.status(403).json({ message: "Permission denied" });
+
   const result = await Channel.deleteOne({ _id: req.params.channelId });
   res.json(result);
 };
 
 module.exports = {
-  followChannel,
   createChannel,
   searchChannels,
   getChannelById,

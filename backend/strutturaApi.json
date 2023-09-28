@@ -1,10 +1,10 @@
 {
-  "/auth": {
-    "post": "userLogin",
-    "/moderator": { "post": "modLogin" }
-  },
   "/register": {
-    "post": "registerNewUser"
+    "post": "registerNewUser" //BODY: user, pwd, firstname, surname
+  },
+  "/auth": {
+    "post": "userLogin", //BODY: user, pwd
+    "/moderator": { "post": "modLogin" }
   },
   "/refresh": {
     "get": "userRefreshToken",
@@ -19,6 +19,9 @@
     "/:userId": {
       "get": "getUser",
       "delete": "deleteUser",
+      "/charAvailable": {
+        "get": "getCharsAvailable"
+      },
       "/channels": {
         "post": "followChannel"
       },

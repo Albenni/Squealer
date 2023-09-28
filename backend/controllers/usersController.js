@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Moderator = require("../models/Moderator");
+const ChannelSubscription = require("../models/ChannelSubscription");
 
 const searchUser = async (req, res) => {
   try {
     const findUser = req.query.username ? req.query.username : "";
     const users = await User.find({
       username: { $regex: ".*" + findUser + ".*" },
-    });
+    }).select("username profilePic");
     if (!users) return res.status(204).json({ message: "No users found" });
     res.json(users);
   } catch (error) {
@@ -22,13 +23,15 @@ const getCharsAvailable = async (req, res) => {
 
   if (req.id !== req.params.id) {
   } else {
-    const moderator = await Moderator.findOne({ _id: req.id }).exec();
+    const moderator = await Moderator.findById(req.id).exec();
     if (!moderator) return res.status(403);
   }
+  console.log("CIAO");
 
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.userId).select("charAvailable");
     if (!user) {
+      console.log("CIAO");
       return res
         .status(204)
         .json({ message: `User ID ${req.params.userId} not found` });
@@ -71,8 +74,10 @@ const deleteUser = async (req, res) => {
 
     // un moderatore può cancellare tutti i profili
   } else {
-    const moderator = await Moderator.findOne({ _id: req.id }).exec();
+    //sembra non funzionare, da testare
+    const moderator = await Moderator.findById(req.id).exec();
     if (!moderator) return res.status(403);
+    console.log("CIOA");
 
     try {
       const result = await User.findByIdAndRemove(req.params.userId);
@@ -83,9 +88,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserSubscribedChannels = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const channels = await ChannelSubscription.find({
+      user: req.params.userId,
+    }).select("channel");
+    if (!channels)
+      return res.status(204).json({ message: "No channels found" });
+
+    res.json(channels);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 module.exports = {
   searchUser,
   getCharsAvailable,
   deleteUser,
   getUser,
+  getUserSubscribedChannels,
 };

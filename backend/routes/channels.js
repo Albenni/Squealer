@@ -12,10 +12,9 @@ router
   .route("/:channelId")
   .get(channelsController.getChannelById)
   .delete(channelsController.deleteChannel);
-// .patch()
 
 router
   .route("/:channelId/squeals")
-  .get(squealsController.getAllSquealsInChannel);
+  .get(squealsController.getAllSquealsInChannel); //da testare
 
 module.exports = router;

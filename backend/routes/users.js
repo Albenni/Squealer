@@ -3,7 +3,7 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 const squealsController = require("../controllers/squealsController");
 const conversationsController = require("../controllers/conversationsController");
-const channelsController = require("../controllers/channelsController");
+const channelSubscriptionController = require("../controllers/channelSubscriptionController");
 const messagesController = require("../controllers/messagesController");
 
 router.route("/").get(usersController.searchUser);
@@ -15,7 +15,14 @@ router
 
 router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
 
-router.route("/:userId/channels").post(channelsController.followChannel);
+router
+  .route("/:userId/channels")
+  .get(usersController.getUserSubscribedChannels); //da testare
+
+router
+  .route("/:userId/channels/:channelId")
+  .post(channelSubscriptionController.followChannel)
+  .delete(channelSubscriptionController.unfollowChannel);
 
 router
   .route("/:userId/conversations")

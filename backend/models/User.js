@@ -29,24 +29,27 @@ const userSchema = new Schema({
     min: [0, "Not enough character available"],
     default: 0,
   },
-  conversations: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Conversation",
-    },
-  ],
+  profilePic: {
+    type: String,
+  },
+  // conversations: [
+  //   {
+  //     type: mongoose.SchemaTypes.ObjectId,
+  //     ref: "Conversation",
+  //   },
+  // ],
   userFollowed: [
     {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
     },
   ],
-  subscribedChannel: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Channel",
-    },
-  ],
+  // subscribedChannel: [
+  //   {
+  //     type: mongoose.SchemaTypes.ObjectId,
+  //     ref: "Channel",
+  //   },
+  // ],
   refreshToken: { type: String },
 });
 
