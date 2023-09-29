@@ -15,6 +15,6 @@ router
 
 router
   .route("/:channelId/squeals")
-  .get(squealsController.getAllSquealsInChannel); //da testare
+  .get(squealsController.getAllSquealsInChannel);
 
 module.exports = router;

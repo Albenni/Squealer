@@ -35,7 +35,7 @@ router
   .post(messagesController.createMessage);
 
 router
-  .route("/:userId/squeals") // da testare
+  .route("/:userId/squeals")
   .get(squealsController.getAllUserSqueals)
   .post(squealsController.createSqueal);
 

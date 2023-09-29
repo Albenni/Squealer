@@ -10,7 +10,7 @@ const getAllUserSqueals = async (req, res) => {
 
   const squeals = await Squeal.find({
     author: req.params.userId,
-    publicSqueal: true,
+    channelSqueal: false,
   }).exec();
 
   if (!squeals?.length)
@@ -25,7 +25,7 @@ const getAllSquealsInChannel = async (req, res) => {
 
   const squeals = await Squeal.find({
     channel: req.params.channelId,
-    publicSqueal: false,
+    channelSqueal: true,
   }).exec();
 
   if (!squeals?.length) {
@@ -51,42 +51,43 @@ const createSqueal = async (req, res) => {
   //controlliamo che l'autore del messaggio esista
   if (!author) return res.status(400).json({ message: "Author not found" });
 
-  //controllo che ci siano abbastanza caratteri disponibili
-  if (
-    contentType === "image" ||
-    contentType === "video" ||
-    contentType === "geolocalization"
-  ) {
-    if (author.charAvailable < constants.MEDIA_CHAR_DIMENSION)
-      return res
-        .status(400)
-        .json({ message: "Not enough character available" });
-  } else if (contentType === "text") {
-    if (author.charAvailable < req.body.content.length)
-      return res
-        .status(400)
-        .json({ message: "Not enough character available" });
-  } else return res.status(400).json({ message: "Content type not accepted" });
+  const messLength =
+    req.body.contentType === "text"
+      ? req.body.content.length
+      : constants.MEDIA_CHAR_DIMENSION;
 
-  const squeal = req?.body?.channelSqueal
+  //controllo che ci siano abbastanza caratteri disponibili
+  if (author.charAvailable < messLength)
+    return res.status(400).json({ message: "Not enough character available" });
+  // } else return res.status(400).json({ message: "Content type not accepted" });
+
+  const isChannelSqueal = req?.body?.channelSqueal === "true";
+
+  const squeal = isChannelSqueal
     ? {
-        author: req.body.userId,
+        author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        channelSqueal: req?.body?.channelSqueal,
+        channelSqueal: isChannelSqueal,
+        channel: req.body.channel,
       }
     : {
-        author: req.body.userId,
+        author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        channelSqueal: req?.body?.channelSqueal,
-        channel: req.body.channel,
+        channelSqueal: isChannelSqueal,
       };
   try {
     const result = await Squeal.create(squeal);
+    // author.update({ charAvailable: author.charAvailable - messLength });
+    // author.save();
+    await User.findByIdAndUpdate(req.params.userId, {
+      charAvailable: author.charAvailable - messLength,
+    });
     res.json(result);
   } catch (e) {
     console.error(e);
+    res.json(e);
   }
 };
 
@@ -99,6 +100,7 @@ const deleteSqueal = async (req, res) => {
     res.json(result);
   } catch (e) {
     console.error(e);
+    res.json(e);
   }
 };
 

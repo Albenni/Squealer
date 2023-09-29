@@ -27,7 +27,7 @@ const userSchema = new Schema({
   charAvailable: {
     type: Number,
     min: [0, "Not enough character available"],
-    default: 0,
+    default: 1000,
   },
   profilePic: {
     type: String,
