@@ -1,19 +1,21 @@
-// import apiClient from "./axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-// const url = "/:userId/posts";
+const url = "/:userId/posts";
 
-// const getSqueals = (query) => {
-//   return apiClient.get(url + encodeURIComponent(query));
-// };
+const apiClient = useAxiosPrivate();
 
-// const postSqueal = (data) => {
-//   apiClient.headers["Content-Type"] = "application/json";
-//   return apiClient.post(url, data);
-// };
+const getSqueals = (query) => {
+  return apiClient.get(url + encodeURIComponent(query));
+};
 
-// const exportPosts = {
-//   getSqueals,
-//   postSqueal,
-// };
+const postSqueal = (data) => {
+  apiClient.headers["Content-Type"] = "application/json";
+  return apiClient.post(url, data);
+};
 
-// export default exportPosts;
+const exportPosts = {
+  getSqueals,
+  postSqueal,
+};
+
+export default exportPosts;

@@ -18,19 +18,19 @@ function TopBar(props) {
 
   const [login, setLogin] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setLogin(true);
-      return;
-    }
-    setLogin(false);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     setLogin(true);
+  //     return;
+  //   }
+  //   setLogin(false);
+  // }, []);
 
   return (
     <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/feed">
           <div className="row">
             <div className="col">
               <img alt="Logo" src={squeallogo} style={{ maxHeight: "3rem" }} />

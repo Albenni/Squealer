@@ -9,7 +9,7 @@ const apiClient = axios.create({
 
 const apiPrivate = axios.create({
   baseURL: API_URL,
-  // headers: {"Content-Type": "application/json"},
+  // headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
 

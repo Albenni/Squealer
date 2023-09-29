@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
+      {console.log(`auth: ${JSON.stringify(auth)}`)}
       {children}
     </AuthContext.Provider>
   );

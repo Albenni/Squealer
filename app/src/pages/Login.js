@@ -1,6 +1,6 @@
 import "../css/Login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import TopBar from "../components/TopBar";
@@ -15,7 +15,7 @@ import theme from "../config/theme";
 import authapi from "../api/login";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,14 +25,18 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
 
-  async function submitForm(event) {
+  useEffect(() => {}, []);
+
+  async function submitFormLogin(event) {
     event.preventDefault();
 
     authapi
       .postLogin({ user: username, pwd: password })
       .then((response) => {
         // console.log(response);
+
         setAuth(response?.data?.accessToken);
+
         navigate(from, { replace: true });
       })
       .catch((err) => {
@@ -49,7 +53,7 @@ function Login() {
       <TopBar />
       <div
         className="container-fluid"
-        style={{ backgroundColor: " rgb(184, 226, 240)", userSelect: "none" }}
+        style={{ backgroundColor: theme.colors.loginbg, height: "100vh" }}
       >
         <div
           className="container-fluid row"
@@ -77,7 +81,7 @@ function Login() {
               <Tab eventKey="accedi" title="Accedi">
                 <form
                   className="text-align-center container"
-                  onSubmit={submitForm}
+                  onSubmit={submitFormLogin}
                 >
                   <div className="form-group py-2">
                     {/* <h3>Accedi</h3> */}
