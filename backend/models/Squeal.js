@@ -27,6 +27,10 @@ const squealSchema = new Schema({
       message: "{VALUE} is not supported",
     },
   },
+  impression: {
+    type: Number,
+    default: 0,
+  },
   positiveReaction: {
     type: Number,
     default: 0,

@@ -17,7 +17,7 @@ router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
 
 router
   .route("/:userId/channels")
-  .get(usersController.getUserSubscribedChannels); //da testare
+  .get(usersController.getUserSubscribedChannels);
 
 router
   .route("/:userId/channels/:channelId")
@@ -31,10 +31,11 @@ router
 
 router
   .route("/:userId/conversations/:convId")
-  .get(messagesController.getAllMessagesInConversation);
+  .get(messagesController.getAllMessagesInConversation)
+  .post(messagesController.createMessage);
 
 router
-  .route("/:userId/squeals")
+  .route("/:userId/squeals") // da testare
   .get(squealsController.getAllUserSqueals)
   .post(squealsController.createSqueal);
 

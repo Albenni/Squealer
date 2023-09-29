@@ -17,7 +17,6 @@ const searchUser = async (req, res) => {
 };
 
 const getCharsAvailable = async (req, res) => {
-  // da fare
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
@@ -26,7 +25,6 @@ const getCharsAvailable = async (req, res) => {
     const moderator = await Moderator.findById(req.id).exec();
     if (!moderator) return res.status(403);
   }
-  console.log("CIAO");
 
   try {
     const user = await User.findById(req.params.userId).select("charAvailable");
@@ -95,7 +93,7 @@ const getUserSubscribedChannels = async (req, res) => {
   try {
     const channels = await ChannelSubscription.find({
       user: req.params.userId,
-    }).select("channel");
+    }).select("channel -_id");
     if (!channels)
       return res.status(204).json({ message: "No channels found" });
 

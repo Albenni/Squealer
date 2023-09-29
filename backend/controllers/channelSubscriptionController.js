@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const ChannelSubscription = require("../models/ChannelSubscription");
+const Channel = require("../models/Channel");
 
 const followChannel = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
@@ -13,8 +14,9 @@ const followChannel = async (req, res) => {
       user: req.id,
       channel: req.params.channelId,
     });
-    res.status(400).json(result);
+    res.json(result);
   } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 };
@@ -26,12 +28,13 @@ const unfollowChannel = async (req, res) => {
     return res.status(400).json({ message: "Channel ID not valid" });
 
   try {
-    const result = ChannelSubscription.deleteOne({
+    const result = await ChannelSubscription.findOneAndDelete({
       user: req.params.userId,
       channel: req.params.channelId,
     });
     res.json(result);
   } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 };
