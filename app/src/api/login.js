@@ -1,11 +1,9 @@
-import apiClient from "./axios";
+import client from "./axios";
 
 const url = "/auth";
 
 const postLogin = (data) => {
-  // apiClient.headers["Content-Type"] = "application/json";
-  const response = apiClient.post(url, data);
-  return response;
+  return client.apiPrivate.post(url, data);
 };
 
 const exportPosts = {

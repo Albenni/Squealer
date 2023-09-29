@@ -8,7 +8,6 @@ import TopBar from "../components/TopBar";
 import logo from "../assets/SLogo.png";
 
 import { Image, Tab, Tabs } from "react-bootstrap";
-import axios from "../api/axios";
 
 import ErrorMessage from "../components/ErrorMessage";
 import theme from "../config/theme";
@@ -20,7 +19,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/feed";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,26 +27,21 @@ function Login() {
 
   async function submitForm(event) {
     event.preventDefault();
-    try {
-      const req = {
-        username: username,
-        password: password,
-      };
 
-      // use authapi to login and get token from server
-      const response = await authapi.postLogin(req);
-      console.log(response);
-
-      alert(response.statusText);
-      setAuth(response?.data?.accessToken);
-      navigate(from, { replace: true });
-    } catch (err) {
-      setLoginFailed(true);
-      if (err.response.status === 400)
-        alert("Username e password sono obbligatori");
-      else if (err.response.status === 401)
-        alert("Username e password sbagliati");
-    }
+    authapi
+      .postLogin({ user: username, pwd: password })
+      .then((response) => {
+        // console.log(response);
+        setAuth(response?.data?.accessToken);
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        setLoginFailed(true);
+        if (err.response.status === 400)
+          alert("Username e password sono obbligatori");
+        else if (err.response.status === 401)
+          alert("Username e password sbagliati");
+      });
   }
 
   return (
