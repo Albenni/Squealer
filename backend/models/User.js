@@ -20,6 +20,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   professional: {
     type: Boolean,
     default: false,
@@ -32,24 +36,12 @@ const userSchema = new Schema({
   profilePic: {
     type: String,
   },
-  // conversations: [
-  //   {
-  //     type: mongoose.SchemaTypes.ObjectId,
-  //     ref: "Conversation",
-  //   },
-  // ],
   userFollowed: [
     {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
     },
   ],
-  // subscribedChannel: [
-  //   {
-  //     type: mongoose.SchemaTypes.ObjectId,
-  //     ref: "Channel",
-  //   },
-  // ],
   refreshToken: { type: String },
 });
 
