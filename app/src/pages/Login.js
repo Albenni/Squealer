@@ -13,7 +13,7 @@ import axios from "../api/axios";
 import ErrorMessage from "../components/ErrorMessage";
 import theme from "../config/theme";
 
-const LOGIN_URL = "/auth";
+import authapi from "../api/login";
 
 function Login() {
   const { setAuth } = useAuth();
@@ -26,19 +26,17 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
 
-  async function submitForm() {
+  async function submitForm(event) {
+    event.preventDefault();
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        {
-          user: username,
-          pwd: password,
-        },
-        {
-          // headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      const req = {
+        username: username,
+        password: password,
+      };
+
+      // use authapi to login and get token from server
+      const response = await authapi.postLogin(req);
+      console.log(response);
 
       alert(response.statusText);
       setAuth(response?.data?.accessToken);
@@ -90,14 +88,14 @@ function Login() {
                   <div className="form-group py-2">
                     {/* <h3>Accedi</h3> */}
                     <ErrorMessage
-                      error="Email o password non valida"
+                      error="Username o password non valida"
                       visible={loginFailed}
                     />
-                    <label>Email</label>
+                    <label>Username</label>
                     <input
-                      type="email"
+                      type="Username"
                       className="form-control"
-                      placeholder="Inserisci email"
+                      placeholder="Inserisci username"
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>

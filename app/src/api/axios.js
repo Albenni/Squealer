@@ -6,11 +6,15 @@ const API_URL = config.API_URL;
 const apiClient = axios.create({
   baseURL: API_URL,
 });
-
-export default apiClient;
-
-export const axiosPrivate = axios.create({
+const apiPrivate = axios.create({
   baseURL: API_URL,
   // headers: {"Content-Type": "application/json"},
   withCredentials: true,
 });
+
+const ExportApi = {
+  apiClient,
+  apiPrivate,
+};
+
+export default ExportApi;

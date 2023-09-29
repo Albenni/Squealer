@@ -16,16 +16,16 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/" index element={<Feed />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="shop" element={<ShopPage />} />
+        <Route path="/" index element={<Login />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="account" element={<Account />} />
+            <Route path="feed" element={<Feed />} />
+            <Route path="register" element={<Register />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="shop" element={<ShopPage />} />
           </Route>
         </Route>
 
@@ -36,6 +36,7 @@ export default function App() {
               style={{
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "center",
               }}
             >
               404 not found

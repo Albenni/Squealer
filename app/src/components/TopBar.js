@@ -47,7 +47,7 @@ function TopBar(props) {
           </div>
         </Navbar.Brand>
 
-        {location.pathname !== "/login" && (
+        {location.pathname !== "/" && (
           <>
             <div className="justify-content-center">
               <SearchBar data={BooksData} />

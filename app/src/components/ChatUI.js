@@ -55,7 +55,23 @@ function ChatUI() {
   }
 
   function handleCovoChange(data) {
+    // fetch dei messaggi della conversazione cambiata
+
     setConversation(data);
+    setMessages([
+      {
+        message: "Hello my friend",
+        sentTime: "just now",
+        sender: data.name,
+        outgoing: false,
+      },
+      {
+        message: "Conversazione di Lily",
+        sentTime: "just now",
+        sender: data.name,
+        outgoing: false,
+      },
+    ]);
   }
 
   return (
@@ -88,7 +104,7 @@ function ChatUI() {
               lastSenderName="Lilly"
               info="Ultimo messaggio se abbiamo voglia di farlo"
               unreadCnt={0}
-              active={false}
+              active={conversation.name === "Lilly"}
               onClick={() => {
                 handleCovoChange({
                   name: "Lily",
