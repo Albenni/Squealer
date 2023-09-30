@@ -15,23 +15,90 @@ import theme from "../config/theme";
 import authapi from "../api/login";
 
 function Login() {
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/feed";
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginFailed, setLoginFailed] = useState(false);
+  // Register fields
+  const [registerobj, setRegisterobj] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+  });
+  const [registerFailed, setRegisterFailed] = useState(false);
 
-  useEffect(() => {}, []);
+  const [passwordmatch, setPasswordMatch] = useState(false);
+  const [missingFieldsreg, setMissingFieldsreg] = useState(false);
+  const [userNameTaken, setUserNameTaken] = useState(false);
+
+  // Login fields
+  const [loginobj, setLoginobj] = useState({
+    username: "",
+    password: "",
+  });
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [missingFields, setMissingFields] = useState(false);
+
+  // Trovare un modo per vedere se l'utente è loggato e nel caso disabilitare questa pagina
+
+  async function submitFormRegister(event) {
+    event.preventDefault();
+
+    if (
+      !registerobj.username ||
+      !registerobj.firstname ||
+      !registerobj.lastname ||
+      !registerobj.email ||
+      !registerobj.password ||
+      !registerobj.confirmpassword
+    ) {
+      setMissingFieldsreg(true);
+      return;
+    }
+    setMissingFieldsreg(false);
+
+    if (passwordmatch) {
+      return;
+    }
+
+    authapi
+      .postRegister({
+        user: registerobj.username,
+        pwd: registerobj.password,
+        firstname: registerobj.firstname,
+        surname: registerobj.lastname,
+        email: registerobj.email,
+      })
+      .then((response) => {
+        console.log(response);
+        setAuth(response?.data?.accessToken);
+
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        setRegisterFailed(true);
+        if (err.response.status === 400) alert("I campi sono obbligatori");
+        else if (err.response.status === 409) setUserNameTaken(true);
+      });
+  }
 
   async function submitFormLogin(event) {
     event.preventDefault();
 
+    if (!loginobj.username || !loginobj.password) {
+      setMissingFields(true);
+      return;
+    }
+
+    setMissingFields(false);
+
     authapi
-      .postLogin({ user: username, pwd: password })
+      .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
         // console.log(response);
 
@@ -84,7 +151,6 @@ function Login() {
                   onSubmit={submitFormLogin}
                 >
                   <div className="form-group py-2">
-                    {/* <h3>Accedi</h3> */}
                     <ErrorMessage
                       error="Username o password non valida"
                       visible={loginFailed}
@@ -94,23 +160,35 @@ function Login() {
                       type="Username"
                       className="form-control"
                       placeholder="Inserisci username"
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) =>
+                        setLoginobj({
+                          username: e.target.value,
+                          password: loginobj.password,
+                        })
+                      }
                     />
                   </div>
-
                   <div className="form-group py-2">
                     <label>Password</label>
                     <input
                       type="password"
                       className="form-control"
                       placeholder="Inserisci password"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setLoginobj({
+                          username: loginobj.username,
+                          password: e.target.value,
+                        });
+                      }}
                     />
                   </div>
-                  <p>
+                  <ErrorMessage
+                    error="Inserisci username e password"
+                    visible={missingFields}
+                  />
+                  <div className="pb-2">
                     <Link to="NewPassword">Hai dimenticato la password</Link>?
-                  </p>
-
+                  </div>
                   <button type="submit" className="text btn btn-dark">
                     Accedi
                   </button>
@@ -119,19 +197,70 @@ function Login() {
               <Tab eventKey="registrati" title="Registrati">
                 <form
                   className="text-align-center container"
-                  // onSubmit={submitForm}
+                  onSubmit={submitFormRegister}
                 >
-                  <div className="form-group py-2">
-                    {/* <ErrorMessage
-                    error="Email o password non valida"
-                    visible={loginFailed}
+                  {/* <ErrorMessage
+                    error="Registrazione non riuscita"
+                    visible={registerFailed}
                   /> */}
+                  <div className="form-group py-2">
+                    <label>Username</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Inserisci username"
+                      onChange={(e) =>
+                        setRegisterobj({
+                          ...registerobj,
+                          username: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <ErrorMessage
+                    error="Username già in uso"
+                    visible={userNameTaken}
+                  />
+                  <div className="form-group py-2">
+                    <label>Nome</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Inserisci nome"
+                      onChange={(e) =>
+                        setRegisterobj({
+                          ...registerobj,
+                          firstname: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="form-group py-2">
+                    <label>Cognome</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Inserisci cognome"
+                      onChange={(e) =>
+                        setRegisterobj({
+                          ...registerobj,
+                          lastname: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="form-group py-2">
                     <label>Email</label>
                     <input
                       type="email"
                       className="form-control"
                       placeholder="Inserisci email"
-                      // onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) =>
+                        setRegisterobj({
+                          ...registerobj,
+                          email: e.target.value,
+                        })
+                      }
                     />
                   </div>
 
@@ -141,7 +270,12 @@ function Login() {
                       type="password"
                       className="form-control"
                       placeholder="Inserisci password"
-                      // onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setRegisterobj({
+                          ...registerobj,
+                          password: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className="form-group py-2">
@@ -150,15 +284,30 @@ function Login() {
                       type="password"
                       className="form-control"
                       placeholder="Inserisci password"
-                      // onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        if (e.target.value === registerobj.password) {
+                          setPasswordMatch(false);
+                          setRegisterobj({
+                            ...registerobj,
+                            confirmpassword: e.target.value,
+                          });
+                        } else setPasswordMatch(true);
+                      }}
                     />
                   </div>
-                  <p>
-                    <Link to="NewPassword">Hai dimenticato la password</Link>?
-                  </p>
+                  <ErrorMessage
+                    error="Le password non coincidono"
+                    visible={passwordmatch}
+                  />
+
+                  <ErrorMessage
+                    error="Inserisci tutti i campi"
+                    visible={missingFieldsreg}
+                  />
 
                   <button type="submit" className="text btn btn-dark">
-                    Accedi
+                    Registrati
                   </button>
                 </form>
               </Tab>
