@@ -12,8 +12,6 @@ import TrendBar from "../components/TrendBar";
 
 import postdatasample from "../assets/postdatasample.json";
 
-import PrivateMessages from "./PrivateMessages";
-
 import TopBar from "../components/TopBar";
 
 function Feed() {
@@ -49,11 +47,6 @@ function Feed() {
           <PostList posts={postdatasample} />
         </div>
         <div className="container-fluid">
-          <PrivateMessages
-            showchat={showchat}
-            setShowChat={setShowChat}
-            placement={"end"}
-          />
           <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
             <PlusCircleFill
               size={"4em"}

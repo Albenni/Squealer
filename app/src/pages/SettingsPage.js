@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import TopBar from "../components/TopBar";
-import PrivateMessages from "./PrivateMessages";
 
 import { Card, Button, Tab, Nav, Modal } from "react-bootstrap";
 import { ChatDots, PersonFillGear } from "react-bootstrap-icons";
 import theme from "../config/theme";
 
 function SettingsPage() {
-  const [showchat, setShowChat] = useState(false);
   const [user, setUser] = useState({});
 
   const [activetab, setActivetab] = useState("Il mio account");
@@ -26,13 +24,7 @@ function SettingsPage() {
 
   return (
     <>
-      <TopBar setShowChat={setShowChat} />
-
-      <PrivateMessages
-        showchat={showchat}
-        setShowChat={setShowChat}
-        placement={"end"}
-      />
+      <TopBar />
 
       <div className="row">
         <Tab.Container defaultActiveKey="first">

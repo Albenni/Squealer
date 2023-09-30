@@ -1,22 +1,27 @@
+import "../css/TopBar.css";
 import theme from "../config/theme";
+import { useEffect, useState } from "react";
 
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button, Navbar, Container, Nav, Dropdown } from "react-bootstrap";
+import { Bell, Shop } from "react-bootstrap-icons";
 
-import { Button } from "react-bootstrap";
 import SearchBar from "./SearchBar";
+import PrivateMessages from "../pages/PrivateMessages";
 
-import { Gear, Bell, Shop } from "react-bootstrap-icons";
 import squeallogo from "../assets/SLogo.png";
 
 import BooksData from "../assets/DataExample.json";
 
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import logapi from "../api/auth";
 
 function TopBar(props) {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [login, setLogin] = useState(false);
+  const [showchat, setShowChat] = useState(false);
+
+  // const [login, setLogin] = useState(false);
 
   // useEffect(() => {
   //   const token = localStorage.getItem("token");
@@ -27,55 +32,100 @@ function TopBar(props) {
   //   setLogin(false);
   // }, []);
 
+  function handleLogout() {
+    logapi
+      .userLogout()
+      .then((res) => {
+        if (res.status === 204) {
+          alert("Logout effettuato con successo");
+          localStorage.removeItem("token");
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
   return (
-    <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
-      <Container fluid>
-        <Navbar.Brand href="/feed">
-          <div className="row">
-            <div className="col">
-              <img alt="Logo" src={squeallogo} style={{ maxHeight: "3rem" }} />
-            </div>
+    <>
+      <PrivateMessages
+        showchat={showchat}
+        setShowChat={setShowChat}
+        placement={"end"}
+      />
+      <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
+        <Container fluid>
+          <Navbar.Brand href="/feed">
+            <div className="row">
+              <div className="col">
+                <img
+                  alt="Logo"
+                  src={squeallogo}
+                  style={{ maxHeight: "3rem" }}
+                />
+              </div>
 
-            <div className="col d-none d-sm-block">
-              <h1
-                className="px-2 align-middle"
-                style={{ color: theme.colors.dark }}
-              >
-                Squealer
-              </h1>
+              <div className="col d-none d-sm-block">
+                <h1
+                  className="px-2 align-middle"
+                  style={{ color: theme.colors.dark }}
+                >
+                  Squealer
+                </h1>
+              </div>
             </div>
-          </div>
-        </Navbar.Brand>
+          </Navbar.Brand>
 
-        {location.pathname !== "/" && (
-          <>
+          {location.pathname === "/feed" && (
             <div className="justify-content-center">
               <SearchBar data={BooksData} />
             </div>
+          )}
 
+          {location.pathname !== "/" && (
             <Nav className="justify-content-end">
               {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
 
-              <Nav.Link href="/shop">
-                <Button variant="outline-primary">
-                  <Shop size={20} />
-                </Button>
-              </Nav.Link>
-              <Nav.Link href="/settings">
-                <Button variant="outline-primary">
-                  <Gear size={20} />
-                </Button>
-              </Nav.Link>
-              <Nav.Link onClick={() => props.setShowChat(true)}>
-                <Button variant="outline-primary">
-                  <Bell size={20} />
-                </Button>
-              </Nav.Link>
+              <div className="shop-chat-buttons" style={{ display: "flex" }}>
+                <Nav.Link href="/shop">
+                  <Button variant="outline-primary">
+                    <Shop size={20} />
+                  </Button>
+                </Nav.Link>
+                <Nav.Link onClick={() => setShowChat(true)}>
+                  <Button variant="outline-primary">
+                    <Bell size={20} />
+                  </Button>
+                </Nav.Link>
+              </div>
+              <Dropdown>
+                <Dropdown.Toggle variant="light">
+                  <img
+                    alt="Profile"
+                    src="https://picsum.photos/200"
+                    style={{ maxHeight: "4.5vh" }}
+                    className="rounded-circle"
+                  />
+                </Dropdown.Toggle>
+                <Dropdown.Menu align={"end"}>
+                  <Dropdown.Item href="/settings">Il mio account</Dropdown.Item>
+                  <div className="responsive-addons">
+                    <Dropdown.Item href="/shop">Compra caratteri</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setShowChat(true)}>
+                      Notifiche
+                    </Dropdown.Item>
+                  </div>
+
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Nav>
-          </>
-        )}
-      </Container>
-    </Navbar>
+          )}
+        </Container>
+      </Navbar>
+    </>
   );
 }
 

@@ -12,7 +12,7 @@ import { Image, Tab, Tabs } from "react-bootstrap";
 import ErrorMessage from "../components/ErrorMessage";
 import theme from "../config/theme";
 
-import authapi from "../api/login";
+import authapi from "../api/auth";
 
 function Login() {
   const { setAuth } = useAuth();
@@ -44,7 +44,14 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [missingFields, setMissingFields] = useState(false);
 
-  // Trovare un modo per vedere se l'utente è loggato e nel caso disabilitare questa pagina
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     console.log("token found");
+  //     // setAuth(token);
+  //     // navigate(from, { replace: true });
+  //   }
+  // }, []);
 
   async function submitFormRegister(event) {
     event.preventDefault();
@@ -103,6 +110,8 @@ function Login() {
         // console.log(response);
 
         setAuth(response?.data?.accessToken);
+
+        // localStorage.setItem("token", response?.data?.accessToken);
 
         navigate(from, { replace: true });
       })
@@ -199,10 +208,10 @@ function Login() {
                   className="text-align-center container"
                   onSubmit={submitFormRegister}
                 >
-                  {/* <ErrorMessage
+                  <ErrorMessage
                     error="Registrazione non riuscita"
                     visible={registerFailed}
-                  /> */}
+                  />
                   <div className="form-group py-2">
                     <label>Username</label>
                     <input
