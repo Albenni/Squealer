@@ -31,16 +31,6 @@ const squealSchema = new Schema({
     type: Number,
     default: 0,
   },
-  //contano solo le reaction degli utenti non registrati
-  //le reaction degli utenti registrati sono salvate nel modello Reaction
-  positiveAnonReaction: {
-    type: Number,
-    default: 0,
-  },
-  negativeAnonReaction: {
-    type: Number,
-    default: 0,
-  },
   createdAt: {
     type: Date,
     immutable: true,

@@ -5,7 +5,6 @@ const reactionSchema = new Schema({
   userId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
-    required: true,
   },
   squealId: {
     type: mongoose.SchemaTypes.ObjectId,
