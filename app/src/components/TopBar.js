@@ -37,8 +37,7 @@ function TopBar(props) {
       .userLogout()
       .then((res) => {
         if (res.status === 204) {
-          alert("Logout effettuato con successo");
-          localStorage.removeItem("token");
+          sessionStorage.clear();
           navigate("/", { replace: true });
         }
       })
@@ -87,12 +86,7 @@ function TopBar(props) {
             <Nav className="justify-content-end">
               {/* <Nav.Link href={props.isLogged ? "/settings" : "/login"}> */}
 
-              <div className="shop-chat-buttons" style={{ display: "flex" }}>
-                <Nav.Link href="/shop">
-                  <Button variant="outline-primary">
-                    <Shop size={20} />
-                  </Button>
-                </Nav.Link>
+              <div className="shop-chat-buttons">
                 <Nav.Link onClick={() => setShowChat(true)}>
                   <Button variant="outline-primary">
                     <Bell size={20} />

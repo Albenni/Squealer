@@ -1,24 +1,34 @@
+import theme from "../config/theme";
 import { useEffect, useState } from "react";
-import TopBar from "../components/TopBar";
 
 import { Card, Button, Tab, Nav, Modal } from "react-bootstrap";
 import { ChatDots, PersonFillGear } from "react-bootstrap-icons";
-import theme from "../config/theme";
+
+import TopBar from "../components/TopBar";
+
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function SettingsPage() {
+  const userapi = useAxiosPrivate();
+
   const [user, setUser] = useState({});
 
   const [activetab, setActivetab] = useState("Il mio account");
+
   useEffect(() => {
-    // Fetch the user data from API
-    setUser({
-      id: 1,
-      name: "Mario Rossi",
-      picture: "https://picsum.photos/200",
-      email: "ciaociao",
-      role: "admin",
-    });
-  }, []);
+    const user = sessionStorage.getItem("userid");
+    const endpoint = "/users/";
+
+    userapi
+      .get(endpoint + user)
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userapi]);
 
   function handleCheckDelete() {}
 
@@ -78,7 +88,8 @@ function SettingsPage() {
                           <Card.Img
                             className="mx-auto d-block"
                             variant="top"
-                            src={user.picture}
+                            src="https://picsum.photos/200/"
+                            // src={user.picture}
                             style={{
                               width: "50%",
                               height: "auto",
@@ -87,13 +98,14 @@ function SettingsPage() {
                             }}
                           />
                           <Card.Title className="pt-4">
-                            Benvenuto, {user.name}!
+                            Benvenuto, {user.firstname}!
                           </Card.Title>
                           <Card.Subtitle className="pt-1 text-muted">
                             La tua mail: {user.email}
                           </Card.Subtitle>
                           <Card.Text className="pt-3">
-                            Il tuo ruolo: {user.role}
+                            Il tuo tipo di account:{" "}
+                            {user.professional ? "VIP" : "normale"}
                           </Card.Text>
 
                           <Card.Text>

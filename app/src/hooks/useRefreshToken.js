@@ -2,17 +2,18 @@ import axiosapi from "../api/axios";
 import useAuth from "./useAuth";
 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const refresh = async () => {
     const response = await axiosapi.apiPrivate.get("./refresh");
 
-    setAuth((prev) => {
+    await setAuth((prev) => {
       // console.log(JSON.stringify(prev));
       // console.log(response.data.accessToken);
-      console.log("refreshed token");
+
       return response.data.accessToken;
     });
+    console.log(auth);
     return response.data.accessToken;
   };
 

@@ -98,7 +98,6 @@ function SquealBox(props) {
       setDisableInputText(false);
       return;
     }
-    console.log();
 
     // check if the file is an image or a video
     if (

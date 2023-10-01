@@ -7,7 +7,7 @@ import TopBar from "../components/TopBar";
 
 import logo from "../assets/SLogo.png";
 
-import { Image, Tab, Tabs } from "react-bootstrap";
+import { Image, Tab, Tabs, Button } from "react-bootstrap";
 
 import ErrorMessage from "../components/ErrorMessage";
 import theme from "../config/theme";
@@ -15,7 +15,7 @@ import theme from "../config/theme";
 import authapi from "../api/auth";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,14 +44,19 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [missingFields, setMissingFields] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     console.log("token found");
-  //     // setAuth(token);
-  //     // navigate(from, { replace: true });
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      navigate(from, { replace: true });
+    }
+  }, []);
+
+  // function handleGuestUser() {
+  //   // sessionStorage.setItem("token", "guest");
+  //   sessionStorage.setItem("username", "guest");
+  //   setAuth("guest");
+  //   navigate(from, { replace: true });
+  // }
 
   async function submitFormRegister(event) {
     event.preventDefault();
@@ -82,7 +87,7 @@ function Login() {
         email: registerobj.email,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setAuth(response?.data?.accessToken);
 
         navigate(from, { replace: true });
@@ -107,11 +112,12 @@ function Login() {
     authapi
       .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
-        // console.log(response);
-
+        console.log(response.data);
         setAuth(response?.data?.accessToken);
+        console.log(auth);
 
-        // localStorage.setItem("token", response?.data?.accessToken);
+        sessionStorage.setItem("token", response?.data?.accessToken);
+        sessionStorage.setItem("userid", response?.data?.userid);
 
         navigate(from, { replace: true });
       })
@@ -126,7 +132,7 @@ function Login() {
 
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <div
         className="container-fluid"
         style={{ backgroundColor: theme.colors.loginbg, height: "100vh" }}
@@ -140,187 +146,206 @@ function Login() {
             justifyContent: "space-around",
           }}
         >
-          <div className="col-sm-4">
+          <div className="col-md-4">
             <div className="row">
               <Image src={logo} fluid />
             </div>
           </div>
-          <div
-            className="col-sm-3"
-            style={{
-              backgroundColor: theme.colors.white,
-              padding: "2rem",
-              borderRadius: "1rem",
-            }}
-          >
-            <Tabs defaultActiveKey="accedi" justify>
-              <Tab eventKey="accedi" title="Accedi">
-                <form
-                  className="text-align-center container"
-                  onSubmit={submitFormLogin}
-                >
-                  <div className="form-group py-2">
+          <div className="col-md-3">
+            <div
+              className="row d-flex justify-content-center pb-2"
+              style={{
+                color: theme.colors.dark,
+                fontSize: "2rem",
+                fontWeight: "bold",
+              }}
+            >
+              Squealer
+            </div>
+            <div
+              style={{
+                backgroundColor: theme.colors.white,
+                padding: "2rem",
+                borderRadius: "1rem",
+              }}
+            >
+              <Tabs defaultActiveKey="accedi" justify>
+                <Tab eventKey="accedi" title="Accedi">
+                  <form
+                    className="text-align-center container"
+                    onSubmit={submitFormLogin}
+                  >
+                    <div className="form-group py-2">
+                      <ErrorMessage
+                        error="Username o password non valida"
+                        visible={loginFailed}
+                      />
+                      <label>Username</label>
+                      <input
+                        type="Username"
+                        className="form-control"
+                        placeholder="Inserisci username"
+                        onChange={(e) =>
+                          setLoginobj({
+                            username: e.target.value,
+                            password: loginobj.password,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-group py-2">
+                      <label>Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Inserisci password"
+                        onChange={(e) => {
+                          setLoginobj({
+                            username: loginobj.username,
+                            password: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
                     <ErrorMessage
-                      error="Username o password non valida"
-                      visible={loginFailed}
+                      error="Inserisci username e password"
+                      visible={missingFields}
                     />
-                    <label>Username</label>
-                    <input
-                      type="Username"
-                      className="form-control"
-                      placeholder="Inserisci username"
-                      onChange={(e) =>
-                        setLoginobj({
-                          username: e.target.value,
-                          password: loginobj.password,
-                        })
-                      }
+                    <div className="pb-2">
+                      <Link to="NewPassword">Hai dimenticato la password</Link>?
+                    </div>
+                    <button type="submit" className="text btn btn-dark">
+                      Accedi
+                    </button>
+                  </form>
+                </Tab>
+                <Tab eventKey="registrati" title="Registrati">
+                  <form
+                    className="text-align-center container"
+                    onSubmit={submitFormRegister}
+                  >
+                    <ErrorMessage
+                      error="Registrazione non riuscita"
+                      visible={registerFailed}
                     />
-                  </div>
-                  <div className="form-group py-2">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Inserisci password"
-                      onChange={(e) => {
-                        setLoginobj({
-                          username: loginobj.username,
-                          password: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <ErrorMessage
-                    error="Inserisci username e password"
-                    visible={missingFields}
-                  />
-                  <div className="pb-2">
-                    <Link to="NewPassword">Hai dimenticato la password</Link>?
-                  </div>
-                  <button type="submit" className="text btn btn-dark">
-                    Accedi
-                  </button>
-                </form>
-              </Tab>
-              <Tab eventKey="registrati" title="Registrati">
-                <form
-                  className="text-align-center container"
-                  onSubmit={submitFormRegister}
-                >
-                  <ErrorMessage
-                    error="Registrazione non riuscita"
-                    visible={registerFailed}
-                  />
-                  <div className="form-group py-2">
-                    <label>Username</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Inserisci username"
-                      onChange={(e) =>
-                        setRegisterobj({
-                          ...registerobj,
-                          username: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <ErrorMessage
-                    error="Username già in uso"
-                    visible={userNameTaken}
-                  />
-                  <div className="form-group py-2">
-                    <label>Nome</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Inserisci nome"
-                      onChange={(e) =>
-                        setRegisterobj({
-                          ...registerobj,
-                          firstname: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="form-group py-2">
-                    <label>Cognome</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Inserisci cognome"
-                      onChange={(e) =>
-                        setRegisterobj({
-                          ...registerobj,
-                          lastname: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="form-group py-2">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Inserisci email"
-                      onChange={(e) =>
-                        setRegisterobj({
-                          ...registerobj,
-                          email: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-
-                  <div className="form-group py-2">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Inserisci password"
-                      onChange={(e) => {
-                        setRegisterobj({
-                          ...registerobj,
-                          password: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div className="form-group py-2">
-                    <label>Conferma password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Inserisci password"
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                        if (e.target.value === registerobj.password) {
-                          setPasswordMatch(false);
+                    <div className="form-group py-2">
+                      <label>Username</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Inserisci username"
+                        onChange={(e) =>
                           setRegisterobj({
                             ...registerobj,
-                            confirmpassword: e.target.value,
-                          });
-                        } else setPasswordMatch(true);
-                      }}
+                            username: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <ErrorMessage
+                      error="Username già in uso"
+                      visible={userNameTaken}
                     />
-                  </div>
-                  <ErrorMessage
-                    error="Le password non coincidono"
-                    visible={passwordmatch}
-                  />
+                    <div className="form-group py-2">
+                      <label>Nome</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Inserisci nome"
+                        onChange={(e) =>
+                          setRegisterobj({
+                            ...registerobj,
+                            firstname: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-group py-2">
+                      <label>Cognome</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Inserisci cognome"
+                        onChange={(e) =>
+                          setRegisterobj({
+                            ...registerobj,
+                            lastname: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-group py-2">
+                      <label>Email</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Inserisci email"
+                        onChange={(e) =>
+                          setRegisterobj({
+                            ...registerobj,
+                            email: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
 
-                  <ErrorMessage
-                    error="Inserisci tutti i campi"
-                    visible={missingFieldsreg}
-                  />
+                    <div className="form-group py-2">
+                      <label>Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Inserisci password"
+                        onChange={(e) => {
+                          setRegisterobj({
+                            ...registerobj,
+                            password: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="form-group py-2">
+                      <label>Conferma password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Inserisci password"
+                        onChange={(e) => {
+                          if (e.target.value === registerobj.password) {
+                            setPasswordMatch(false);
+                            setRegisterobj({
+                              ...registerobj,
+                              confirmpassword: e.target.value,
+                            });
+                          } else setPasswordMatch(true);
+                        }}
+                      />
+                    </div>
+                    <ErrorMessage
+                      error="Le password non coincidono"
+                      visible={passwordmatch}
+                    />
 
-                  <button type="submit" className="text btn btn-dark">
-                    Registrati
-                  </button>
-                </form>
-              </Tab>
-            </Tabs>
+                    <ErrorMessage
+                      error="Inserisci tutti i campi"
+                      visible={missingFieldsreg}
+                    />
+
+                    <button type="submit" className="text btn btn-dark">
+                      Registrati
+                    </button>
+                  </form>
+                </Tab>
+              </Tabs>
+              <div className="row px-4 pt-3">
+                Oppure entra come ospite
+                <Button
+                  variant="outline-dark"
+                  // onClick={handleGuestUser}
+                >
+                  Entra come ospite
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

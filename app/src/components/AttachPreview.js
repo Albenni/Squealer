@@ -18,7 +18,7 @@ function checkVideo(url) {
   const youtubeUrlPattern =
     /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
 
-  console.log(videoExtensions.includes(fileExtension));
+  // console.log(videoExtensions.includes(fileExtension));
 
   return (
     videoExtensions.includes(fileExtension) ||
