@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html lang="it">
+<!-- Togliere barre scorrimento lat e ver-->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Squeal SMM</title>
+<div class="container-fluid row" id="login-container">
+    <div class="col-md-4" id="login-logo">
+        <img class="img-fluid" [src]="logosrc" alt="Logo">
 
-</head>
-
-<body>
-
-    <div class="row " id="topLoginPage" style="padding-top: 1rem; padding-left: 2rem;">
-        <div class="col-1"> <img style="max-height: 3rem;" class="img-fluid" src="./assets/SLogo.png" alt="Logo"></div>
-        <div class="col">
-            <h1 class=" align-middle" style="">Squealer SMM</h1>
-        </div>
     </div>
-    <div class="row" id="login-container">
-        <div class="col-sm-6" id="login-logo">
-            <img class="img-fluid" src="./assets/SLogo.png" alt="Logo">
+    <div class="col-md-3">
+        <div id="login-title" class="row d-flex justify-content-center pb-2">
+            Squealer
         </div>
-        <div id="login-form" class="container col-sm-3"
-            style="background-color: white; padding: 2rem; border-radius: 1rem">
+        <div id="login-form">
             <tabset>
                 <tab heading="Accedi">
                     <form (ngSubmit)="onSubmit()" class="text-align-center container">
@@ -38,17 +26,12 @@
                         <p class="mt-3"><a href="#">Hai
                                 dimenticato la
                                 password?</a></p>
-                        <button type="submit" style="width: 80px;" class="text btn btn-dark">Accedi</button>
+                        <button id="submitButton" type="submit" class="text btn btn-dark">Accedi</button>
                     </form>
                 </tab>
             </tabset>
-
-
-
         </div>
-
     </div>
 
-</body>
 
-</html>
+</div>
