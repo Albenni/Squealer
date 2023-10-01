@@ -13,6 +13,6 @@
 @media (min-width: 768px) {
   .shop-chat-buttons {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
   }
 }

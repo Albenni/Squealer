@@ -103,7 +103,7 @@ function TopBar(props) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu align={"end"}>
-                  <Dropdown.Item href="/settings">Il mio account</Dropdown.Item>
+                  <Dropdown.Item href="/settings">Impostazioni</Dropdown.Item>
                   <div className="responsive-addons">
                     <Dropdown.Item href="/shop">Compra caratteri</Dropdown.Item>
                     <Dropdown.Item onClick={() => setShowChat(true)}>

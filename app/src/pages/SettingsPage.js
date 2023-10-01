@@ -5,6 +5,7 @@ import { Card, Button, Tab, Nav, Modal } from "react-bootstrap";
 import { ChatDots, PersonFillGear } from "react-bootstrap-icons";
 
 import TopBar from "../components/TopBar";
+import ShopPage from "./ShopPage";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
@@ -45,9 +46,9 @@ function SettingsPage() {
                 <Nav.Item>
                   <Nav.Link
                     eventKey="first"
-                    onClick={() => setActivetab("Il mio account")}
+                    onClick={() => setActivetab("Il mio profilo")}
                   >
-                    Il mio account
+                    Il mio profilo
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -61,9 +62,9 @@ function SettingsPage() {
                 <Nav.Item>
                   <Nav.Link
                     eventKey="third"
-                    onClick={() => setActivetab("I tuoi caratteri")}
+                    onClick={() => setActivetab("Acquista nuovi caratteri")}
                   >
-                    I tuoi caratteri
+                    Acquista nuovi caratteri
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="d-flex justify-content-center align-items-end pt-5">
@@ -180,6 +181,9 @@ function SettingsPage() {
                     <p>Reset password</p>
                     <p>Cambia foto</p>
                   </div>
+                </Tab.Pane>
+                <Tab.Pane eventKey="third">
+                  <ShopPage />
                 </Tab.Pane>
               </Tab.Content>
             </div>
