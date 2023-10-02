@@ -4,6 +4,8 @@ const Admin = require("../models/Admin");
 const Squeal = require("../models/Squeal");
 
 const createChannel = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!req?.body?.channelName)
     return res.status(400).json({ message: "Channel name required" });
 
@@ -26,8 +28,6 @@ const createChannel = async (req, res) => {
 };
 
 const searchChannels = async (req, res) => {
-  // const channels = await Channel.find();
-  // res.json(channels);
   try {
     const findChannels = req.query.channel ? req.query.channel : "";
     const channels = await Channel.find({
@@ -52,6 +52,8 @@ const getChannelById = async (req, res) => {
 };
 
 const deleteChannel = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Channel ID required" });
 

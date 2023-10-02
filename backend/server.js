@@ -42,12 +42,11 @@ app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 
-app.use("/feed", require("./routes/feed"));
-
-//in questo middleware vengono settati req.username, req.id e req.isMod tramite i dati contenuti nel token
+//in questo middleware vengono settati req.authorized, req.username, req.id e req.isMod tramite i dati contenuti nel token
 //per accedere a tutte le routes sotto bisogna essere loggati
 app.use(verifyJWT);
 
+app.use("/feed", require("./routes/feed"));
 app.use("/users", require("./routes/users"));
 app.use("/squeals", require("./routes/squeals"));
 app.use("/channels", require("./routes/channels"));

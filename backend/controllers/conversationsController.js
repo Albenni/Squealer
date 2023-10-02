@@ -3,6 +3,8 @@ const User = require("../models/User");
 const Conversation = require("../models/Conversation");
 
 const getAllUserConversations = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
@@ -14,6 +16,8 @@ const getAllUserConversations = async (req, res) => {
 };
 
 const createConversation = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
   if (!mongoose.Types.ObjectId.isValid(req?.body?.receiverId))

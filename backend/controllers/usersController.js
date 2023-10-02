@@ -17,6 +17,8 @@ const searchUser = async (req, res) => {
 };
 
 const getCharsAvailable = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
@@ -58,6 +60,8 @@ const getUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
@@ -87,6 +91,8 @@ const deleteUser = async (req, res) => {
 };
 
 const getUserSubscribedChannels = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 

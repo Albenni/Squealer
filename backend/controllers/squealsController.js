@@ -36,6 +36,8 @@ const getAllSquealsInChannel = async (req, res) => {
 };
 
 const createSqueal = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "Author ID not valid" });
   if (!req?.body?.content)
@@ -93,6 +95,8 @@ const createSqueal = async (req, res) => {
 };
 
 const deleteSqueal = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
 
