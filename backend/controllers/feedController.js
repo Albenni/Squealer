@@ -18,9 +18,6 @@ const generateUserFeed = async (req, res) => {
       const channelsFollowed = await ChannelSubscription.find({
         userId: decoded.UserInfo.id,
       }).select("channel -_id");
-      console.log("CIAO");
-      console.log(usersFollowed);
-      console.log(channelsFollowed);
 
       const squeals = await Squeal.find({
         $or: [
