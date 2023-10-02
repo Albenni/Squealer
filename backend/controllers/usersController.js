@@ -5,9 +5,9 @@ const ChannelSubscription = require("../models/ChannelSubscription");
 
 const searchUser = async (req, res) => {
   try {
-    const findUser = req.query.username ? req.query.username : "";
+    if (!req.query.username) return res.status(204).json({ message: "No users found" });    
     const users = await User.find({
-      username: { $regex: ".*" + findUser + ".*" },
+      username: { $regex: ".*" + req.query.username + ".*" },
     }).select("username profilePic");
     if (!users) return res.status(204).json({ message: "No users found" });
     res.json(users);
