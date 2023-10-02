@@ -20,7 +20,10 @@ const PersistLogin = () => {
       } finally {
         isMounted && setIsLoading(false);
       }
+      console.log("auth in verifyRefreshToken: " + JSON.stringify(auth));
     };
+
+    console.log("auth in persistlogin: " + JSON.stringify(auth));
 
     // persist Avoids unwanted call to verifyRefreshToken
     // !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);

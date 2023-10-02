@@ -112,11 +112,10 @@ function Login() {
     authapi
       .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
-        console.log(response.data);
         setAuth(response?.data?.accessToken);
-        console.log(auth);
+        console.log("auth del login: " + auth);
 
-        sessionStorage.setItem("token", response?.data?.accessToken);
+        // sessionStorage.setItem("token", response?.data?.accessToken);
         sessionStorage.setItem("userid", response?.data?.userid);
 
         navigate(from, { replace: true });
