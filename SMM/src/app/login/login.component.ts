@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -7,39 +11,50 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
-  username: string = ''; // Dichiarazione della proprietà username
-  password: string = ''; // Dichiarazione della proprietà password
+  userData = {
+    user: '',
+    pwd: ''
+  };
 
   logosrc: string = "./assets/SLogo.png"; // Dichiarazione della proprietà logo
 
   changeUsername(event: any) {
-    this.username = event.target.value;
+    this.userData.user = event.target.value;
   } // Funzione che cambia il valore della proprietà username
 
   changePassword(event: any) {  
-    this.password = event.target.value;
+    this.userData.pwd = event.target.value;
   }
+  constructor(private http: HttpClient) { }
 
   onSubmit() {
-    console.log('Username: ' + this.username + ' Password: ' + this.password);
-    fetch('http://localhost:3500/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-        
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        user: this.username,
-        pwd: this.password
+    const url = 'http://localhost:3500/auth';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      withCredentials: true // Add this option for 'include'
+    };
+
+    // Create an observable for the POST request
+    const loginRequest$: Observable<any> = this.http.post(url, this.userData, httpOptions);
+
+    loginRequest$.pipe(
+      switchMap((response) => {
+        console.log('Login successful:', response);
+        return of(response); // You can return any data you need
       })
-    }).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    ).subscribe(
+      (data) => {
+        // This block will execute after the POST request has completed successfully
+        // You can access the data returned from the switchMap here
+      },
+      (error) => {
+        console.error('Error:', error);
+        // Handle any errors here
+      }
+    );
+
   }
-
-
-
 }
