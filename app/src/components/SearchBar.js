@@ -24,8 +24,7 @@ function SearchBar() {
       const endpoint = "/users?username=";
       try {
         const response = await userapi.get(endpoint + wordEntered);
-        console.log(response.data);
-        setData(response.data);
+        setData(response?.data);
       } catch (error) {
         console.error(error);
       }
@@ -35,19 +34,20 @@ function SearchBar() {
       const endpoint = "/channels?channel=";
       try {
         const response = await userapi.get(endpoint + wordEntered);
-        setChannels(response.data);
-        console.log(response.data);
+        setChannels(response?.data);
       } catch (error) {
         console.error(error);
       }
     };
-
     getUsers();
     getChannels();
   }, [wordEntered]);
 
   function handleChange(event) {
     const word = event.target.value;
+
+    console.log(data);
+    console.log(channels);
 
     const newFilterdata = data.filter((value) => {
       return value.username.toLowerCase().includes(word.toLowerCase());
@@ -58,15 +58,16 @@ function SearchBar() {
 
     if (word === "") {
       setFilteredData([]);
+      setFilteredChannels([]);
     } else {
       setFilteredData(newFilterdata);
       setFilteredChannels(newFilterchannels);
     }
 
-    console.log("found users: " + JSON.stringify(filteredData));
-    // console.log("found channels: " + JSON.stringify(filteredChannels));
-
     setWordEntered(word);
+
+    // console.log("found users: " + JSON.stringify(filteredData));
+    // console.log("found channels: " + JSON.stringify(filteredChannels));
   }
 
   function handleSubmit(event) {
@@ -101,7 +102,6 @@ function SearchBar() {
         </Button>
       </Form>
 
-      {/* slice(0, 15) serve per limitare il numero di risultati a 15 */}
       {filteredData.length !== 0 && (
         <Dropdown>
           <Dropdown.Menu show>
