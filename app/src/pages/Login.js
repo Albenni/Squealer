@@ -129,6 +129,13 @@ function Login() {
       });
   }
 
+  function handleGuestUser() {
+    setAuth("guest");
+    sessionStorage.setItem("userid", "guest");
+
+    navigate(from, { replace: true });
+  }
+
   return (
     <>
       {/* <TopBar /> */}
@@ -337,10 +344,7 @@ function Login() {
               </Tabs>
               <div className="row px-4 pt-3">
                 Oppure entra come ospite
-                <Button
-                  variant="outline-dark"
-                  // onClick={handleGuestUser}
-                >
+                <Button variant="outline-dark" onClick={handleGuestUser}>
                   Entra come ospite
                 </Button>
               </div>

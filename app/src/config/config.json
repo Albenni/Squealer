@@ -1,4 +1,10 @@
 {
   "API_URL": "http://localhost:3500",
-  "googleMapsApiKey": "AIzaSyCROGD0zKCiIUUmix-MaYQ0w-3p6P9Jxuc"
+  "googleMapsApiKey": "AIzaSyCROGD0zKCiIUUmix-MaYQ0w-3p6P9Jxuc",
+  "endpoint": {
+    "users": "/users",
+    "login": "/login",
+    "register": "/register",
+    "logout": "/logout"
+  }
 }
