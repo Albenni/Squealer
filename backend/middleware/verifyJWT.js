@@ -10,14 +10,10 @@ const verifyJWT = (req, res, next) => {
       //invalid token
       req.authorized = false;
     } else {
-      try {
-        req.authorized = true;
-        req.username = decoded.UserInfo.username;
-        req.id = decoded.UserInfo.id;
-        req.isMod = decoded.UserInfo.isMod;
-      } catch (e) {
-        return res.sendStatus(403);
-      }
+      req.authorized = true;
+      req.username = decoded.UserInfo.username;
+      req.id = decoded.UserInfo.id;
+      req.isMod = decoded.UserInfo.isMod;
     }
     next();
   });
