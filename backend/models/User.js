@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const constants = require("../config/constants");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -31,17 +32,17 @@ const userSchema = new Schema({
   charAvailable: {
     type: Number,
     min: [0, "Not enough character available"],
-    default: 1000,
+    default: () => constants.DAILY_CHAR,
   },
   profilePic: {
     type: String,
   },
-  userFollowed: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "User",
-    },
-  ],
+  // userFollowed: [
+  //   {
+  //     type: mongoose.SchemaTypes.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
   refreshToken: { type: String },
 });
 
