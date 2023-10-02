@@ -18,17 +18,6 @@ function Feed() {
   const [showbox, setShowBox] = useState(false);
   const [showchat, setShowChat] = useState(false);
 
-  const state = {
-    tags: [
-      "#grandetopic",
-      "#grandetopic",
-      "#grandetopic",
-      "#grandetopic",
-      "#grandetopic",
-      "#grandetopic",
-    ],
-  };
-
   return (
     <>
       <SquealBox show={showbox} setShowBox={setShowBox} />
@@ -39,8 +28,7 @@ function Feed() {
           </div>
 
           <div className="trendBar">
-            {/* Le tag passate devono essere cambiate in base a se siamo loggati o meno */}
-            <TrendBar trending={state.tags} />
+            <TrendBar />
           </div>
         </div>
         <div className="container mt-sm-3">
