@@ -6,10 +6,6 @@ const channelSchema = new Schema({
     type: String,
     required: true,
   },
-  channelAdmin: {
-    type: [mongoose.SchemaTypes.ObjectId],
-    ref: "User",
-  },
   private: {
     type: Boolean,
     required: true,

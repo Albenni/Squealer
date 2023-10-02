@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
+const Admin = require("../models/Admin");
+const Squeal = require("../models/Squeal");
 
 const createChannel = async (req, res) => {
   if (!req?.body?.channelName)
@@ -10,9 +12,10 @@ const createChannel = async (req, res) => {
 
   const newChannel = {
     name: req.body.channelName,
-    channelAdmin: req.id,
     private: req?.body?.channelPrivate === "true",
   };
+
+  //bisogna creare il documento Admin, che rappresenta il fatto che questo utente è admin del canale creato
 
   try {
     const result = await Channel.create(newChannel);
@@ -29,7 +32,7 @@ const searchChannels = async (req, res) => {
     const findChannels = req.query.channel ? req.query.channel : "";
     const channels = await Channel.find({
       name: { $regex: ".*" + findChannels + ".*" },
-    }).select("-__v -channelAdmin");
+    }).select("-__v");
     if (!channels) return res.status(204).json({ message: "No users found" });
     res.json(channels);
   } catch (error) {
@@ -59,11 +62,19 @@ const deleteChannel = async (req, res) => {
       .json({ message: `Channel ID ${req.params.channelId} not found` });
   }
 
-  if (!channel.channelAdmin.includes(req.id))
-    return res.status(403).json({ message: "Permission denied" });
+  const admin = await Admin.find({
+    userId: req.id,
+    channelId: req.params.channelId,
+  });
+  if (!admin) return res.status(403).json({ message: "Permission denied" });
 
-  const result = await Channel.deleteOne({ _id: req.params.channelId });
-  res.json(result);
+  Channel.deleteOne({ _id: req.params.channelId });
+  Squeal.deleteMany({
+    channel: req.params.channelId,
+    channelSqueal: true,
+  });
+  Admin.deleteMany({ channelId: req.params.channelId });
+  return res.status(200);
 };
 
 module.exports = {

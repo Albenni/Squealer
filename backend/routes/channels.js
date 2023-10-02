@@ -6,12 +6,12 @@ const squealsController = require("../controllers/squealsController");
 router
   .route("/")
   .get(channelsController.searchChannels)
-  .post(channelsController.createChannel);
+  .post(channelsController.createChannel); //da finire e poi da ritestare dopo modifiche
 
 router
   .route("/:channelId")
   .get(channelsController.getChannelById)
-  .delete(channelsController.deleteChannel);
+  .delete(channelsController.deleteChannel); //da ritestare dopo modifiche
 
 router
   .route("/:channelId/squeals")
