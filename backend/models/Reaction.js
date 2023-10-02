@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const channelSubscriptionSchema = new Schema({
+const reactionSchema = new Schema({
   userId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
+  },
+  squealId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Conversation",
     required: true,
   },
-  channelId: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Channel",
+  positiveReaction: {
+    type: Boolean,
     required: true,
   },
 });
 
-module.exports = mongoose.model(
-  "ChannelSubscription",
-  channelSubscriptionSchema
-);
+module.exports = mongoose.model("Reaction", reactionSchema);

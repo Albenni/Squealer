@@ -24,10 +24,10 @@ https://remixicon.com/icon/wheelchair-fill
 
 - Aggiungere la funzione di follow di un utente
 
-- Fixare l'auth e l'errore 403 che da ogni volta che viene refreshato il token
-
 - Aggiustare grafica reazioni per mobile
 
 - Collegare search al backend
 
 - Fixare il pulsante di nuovo squeal
+
+- Codificare il token che teniamo all'interno dell'app

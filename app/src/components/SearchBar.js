@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/SearchBar.css";
 
 // import theme from "../config/theme";
@@ -6,32 +6,65 @@ import "../css/SearchBar.css";
 import { Search } from "react-bootstrap-icons";
 
 import { Button, Form, Dropdown } from "react-bootstrap";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-function SearchBar({ data }) {
+function SearchBar() {
+  const userapi = useAxiosPrivate();
+
+  const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+
+  const [channels, setChannels] = useState([]);
+  const [filteredChannels, setFilteredChannels] = useState([]);
+
   const [wordEntered, setWordEntered] = useState("");
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const endpoint = "/users?username=";
+      try {
+        const response = await userapi.get(endpoint + wordEntered);
+        console.log(response.data);
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getChannels = async () => {
+      const endpoint = "/channels?channel=";
+      try {
+        const response = await userapi.get(endpoint + wordEntered);
+        setChannels(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUsers();
+    getChannels();
+  }, [wordEntered]);
 
   function handleChange(event) {
     const word = event.target.value;
 
-    const newFilter = data.filter((value) => {
-      //toLowerCase() serve per rendere la ricerca case insensitive
-      // trasforma tutto in minuscolo
-      return value.title.toLowerCase().includes(word.toLowerCase());
+    const newFilterdata = data.filter((value) => {
+      return value.username.toLowerCase().includes(word.toLowerCase());
     });
-
-    /* 
-    se searchWord è vuoto allora setta filteredData 
-    a un array vuoto così non viene mostrato nulla
-    ad esempio se scriviamo qualcosa e poi cancelliamo 
-    altrimenti setta filteredData a newFilter 
-    */
+    const newFilterchannels = channels.filter((value) => {
+      return value.name.toLowerCase().includes(word.toLowerCase());
+    });
 
     if (word === "") {
       setFilteredData([]);
     } else {
-      setFilteredData(newFilter);
+      setFilteredData(newFilterdata);
+      setFilteredChannels(newFilterchannels);
     }
+
+    console.log("found users: " + JSON.stringify(filteredData));
+    // console.log("found channels: " + JSON.stringify(filteredChannels));
 
     setWordEntered(word);
   }
@@ -44,10 +77,11 @@ function SearchBar({ data }) {
 
   function handleDropdownClick(event) {
     // event.preventDefault();
-    console.log("Clicked");
-    console.log(event.target.innerText);
+
+    // console.log(event.target.innerText);
     setWordEntered(event.target.innerText);
     setFilteredData([]);
+    setFilteredChannels([]);
   }
 
   return (
@@ -74,7 +108,16 @@ function SearchBar({ data }) {
             {filteredData.slice(0, 15).map((value, key) => {
               return (
                 <Dropdown.Item key={key} onClick={handleDropdownClick}>
-                  {value.title}
+                  <b>@</b>
+                  {value.username}
+                </Dropdown.Item>
+              );
+            })}
+            {filteredChannels.slice(0, 15).map((value, key) => {
+              return (
+                <Dropdown.Item key={key} onClick={handleDropdownClick}>
+                  <b>§</b>
+                  {value.name}
                 </Dropdown.Item>
               );
             })}

@@ -11,9 +11,9 @@ const useRefreshToken = () => {
       // console.log(JSON.stringify(prev));
       // console.log(response.data.accessToken);
 
+      console.log("auth in useRefreshToken: " + JSON.stringify(auth));
       return response.data.accessToken;
     });
-    console.log(auth);
     return response.data.accessToken;
   };
 

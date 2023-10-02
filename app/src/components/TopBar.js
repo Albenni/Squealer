@@ -4,14 +4,12 @@ import { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Navbar, Container, Nav, Dropdown } from "react-bootstrap";
-import { Bell, Shop } from "react-bootstrap-icons";
+import { Bell } from "react-bootstrap-icons";
 
 import SearchBar from "./SearchBar";
 import PrivateMessages from "../pages/PrivateMessages";
 
 import squeallogo from "../assets/SLogo.png";
-
-import BooksData from "../assets/DataExample.json";
 
 import logapi from "../api/auth";
 
@@ -78,7 +76,7 @@ function TopBar(props) {
 
           {location.pathname === "/feed" && (
             <div className="justify-content-center">
-              <SearchBar data={BooksData} />
+              <SearchBar />
             </div>
           )}
 

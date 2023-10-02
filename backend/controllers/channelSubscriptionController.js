@@ -11,8 +11,8 @@ const followChannel = async (req, res) => {
 
   try {
     const result = await ChannelSubscription.create({
-      user: req.id,
-      channel: req.params.channelId,
+      userId: req.id,
+      channelId: req.params.channelId,
     });
     res.json(result);
   } catch (error) {
@@ -29,8 +29,8 @@ const unfollowChannel = async (req, res) => {
 
   try {
     const result = await ChannelSubscription.findOneAndDelete({
-      user: req.params.userId,
-      channel: req.params.channelId,
+      userId: req.params.userId,
+      channelId: req.params.channelId,
     });
     res.json(result);
   } catch (error) {
