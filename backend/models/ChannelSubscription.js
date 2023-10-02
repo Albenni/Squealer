@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const channelSubscriptionSchema = new Schema({
-  user: {
+  userId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
     required: true,
   },
-  channel: {
+  channelId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Channel",
     required: true,

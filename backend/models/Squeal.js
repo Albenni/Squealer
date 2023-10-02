@@ -15,6 +15,12 @@ const squealSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  //parametro che indica se lo squeal è stato inviato in un CANALE ufficiale
+  //utilizzato nel feed per utenti non registrati
+  officialChannel: {
+    type: Boolean,
+    default: false,
+  },
   content: {
     type: String,
     required: true,

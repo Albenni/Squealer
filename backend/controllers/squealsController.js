@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const constants = require("../constants");
+const constants = require("../config/constants");
 const Squeal = require("../models/Squeal");
 
 //solo quelli pubblici
@@ -70,6 +70,7 @@ const createSqueal = async (req, res) => {
         contentType: req.body.contentType,
         channelSqueal: isChannelSqueal,
         channel: req.body.channel,
+        officialChannel: req?.body?.officialChannel ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
       }
     : {
         author: req.params.userId,

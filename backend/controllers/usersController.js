@@ -92,7 +92,7 @@ const getUserSubscribedChannels = async (req, res) => {
 
   try {
     const channels = await ChannelSubscription.find({
-      user: req.params.userId,
+      userId: req.params.userId,
     }).select("channel -_id");
     if (!channels)
       return res.status(204).json({ message: "No channels found" });
