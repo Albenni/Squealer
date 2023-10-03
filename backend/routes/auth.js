@@ -6,4 +6,6 @@ router.route("/").post(authController.userLogin);
 
 router.route("/moderator").post(authController.modLogin);
 
+router.route("/smm").post(authController.smmLogin);
+
 module.exports = router;

@@ -104,4 +104,6 @@ const userLogin = async (req, res) => {
   }
 };
 
-module.exports = { userLogin, modLogin };
+const smmLogin = async (req, res) => {};
+
+module.exports = { userLogin, modLogin, smmLogin };

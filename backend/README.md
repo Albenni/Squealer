@@ -1,8 +1,6 @@
-api da fare:
+api da fare (poche):
 
-- Canali ufficiali da vedere se non sei loggato
-- Trend da visualizzare nella barra
-- Funzioni per cambiare immagine profilo, username e gli altri campi dell'account (password, nome e cognome, amministratore, email)
+- Funzioni per cambiare immagine profilo, username e gli altri campi dell'account (password, nome e cognome, email)
 - Shop per comprare i caratteri, canale personalizzato
 - Aggiungere/togliere amministratore a un canale
 
@@ -10,3 +8,5 @@ api da fare:
 
 - Keyword: canali senza admin in cui tutti hanno tutti i permessi, ci si può iscrivere alle keyword,
 - Modificare il modello Squeal aggiungendo le keyword
+
+- Login per smm, vip manda richiesta e smm accetta per accoppiarsi, upgrade account a pro
