@@ -16,7 +16,6 @@ import TopBar from "../components/TopBar";
 
 function Feed() {
   const [showbox, setShowBox] = useState(false);
-  const [showchat, setShowChat] = useState(false);
 
   return (
     <>
@@ -24,7 +23,7 @@ function Feed() {
       <div className="Feed" style={{ backgroundColor: theme.colors.bg1 }}>
         <div className="sticky-top">
           <div className="topbar">
-            <TopBar setShowChat={setShowChat} />
+            <TopBar />
           </div>
 
           <div className="trendBar">

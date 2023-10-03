@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
@@ -8,12 +8,15 @@ import PersistLogin from "./components/PersistLogin";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import SettingsPage from "./pages/SettingsPage";
+import AccountPage from "./pages/AccountPage";
 
 export default function App() {
   return (
     <>
       <Routes>
         <Route path="/" index element={<Login />} />
+
+        <Route path="/:username" element={<Account />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}
         <Route element={<PersistLogin />}>
@@ -42,4 +45,10 @@ export default function App() {
       </Routes>
     </>
   );
+}
+
+function Account() {
+  let { username } = useParams();
+
+  return <AccountPage username={username} />;
 }
