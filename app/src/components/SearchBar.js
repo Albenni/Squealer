@@ -41,13 +41,17 @@ function SearchBar() {
     };
     getUsers();
     getChannels();
-  }, [wordEntered]);
+  }, []);
 
   function handleChange(event) {
     const word = event.target.value;
 
-    console.log(data);
-    console.log(channels);
+    setWordEntered(word);
+
+    if (word === "") {
+      setFilteredData([]);
+      setFilteredChannels([]);
+    }
 
     const newFilterdata = data.filter((value) => {
       return value.username.toLowerCase().includes(word.toLowerCase());
@@ -56,15 +60,11 @@ function SearchBar() {
       return value.name.toLowerCase().includes(word.toLowerCase());
     });
 
-    if (word === "") {
-      setFilteredData([]);
-      setFilteredChannels([]);
-    } else {
-      setFilteredData(newFilterdata);
-      setFilteredChannels(newFilterchannels);
-    }
+    setFilteredData(newFilterdata);
+    setFilteredChannels(newFilterchannels);
 
-    setWordEntered(word);
+    console.log(filteredData);
+    console.log(filteredChannels);
 
     // console.log("found users: " + JSON.stringify(filteredData));
     // console.log("found channels: " + JSON.stringify(filteredChannels));
@@ -102,9 +102,9 @@ function SearchBar() {
         </Button>
       </Form>
 
-      {filteredData.length !== 0 && (
+      {(filteredData.length !== 0 || filteredChannels.length !== 0) && (
         <Dropdown>
-          <Dropdown.Menu show>
+          <Dropdown.Menu show={wordEntered !== ""}>
             {filteredData.slice(0, 15).map((value, key) => {
               return (
                 <Dropdown.Item key={key} onClick={handleDropdownClick}>
