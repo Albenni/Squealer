@@ -33,3 +33,7 @@ https://remixicon.com/icon/wheelchair-fill
 - Codificare il token che teniamo all'interno dell'app
 
 - Redirect dal post all'account utente
+
+AIUTO
+
+- Aggiungere sezione dove admin possono decidere chi legge e chi scrive nei canali di cui sono proprietari
