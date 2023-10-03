@@ -4,7 +4,12 @@ import PostReaction from "./PostReaction";
 
 function PostImage({ item }) {
   return (
-    <Card className="mt-3">
+    <Card
+      className="mt-3"
+      style={{
+        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+      }}
+    >
       <Card.Body>
         <PostHeader item={item} />
       </Card.Body>

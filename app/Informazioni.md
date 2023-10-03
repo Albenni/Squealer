@@ -31,3 +31,5 @@ https://remixicon.com/icon/wheelchair-fill
 - Fixare il pulsante di nuovo squeal
 
 - Codificare il token che teniamo all'interno dell'app
+
+- Redirect dal post all'account utente

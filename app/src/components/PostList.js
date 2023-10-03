@@ -1,6 +1,7 @@
-// import { Card } from "react-bootstrap";
+import theme from "../config/theme";
 import Post from "./Post";
 import PostImage from "./PostImage";
+// import { Card } from "react-bootstrap";
 // import { useEffect } from "react";
 
 // import apisqueals from "../api/posts";
@@ -17,7 +18,7 @@ function PostList({ posts }) {
   }
 
   return (
-    <div className="container pb-3">
+    <div className="container-fluid pb-3 px-0">
       {posts.map((item) => {
         if (item.type === "text") return <Post key={item.id} item={item} />;
 

@@ -5,6 +5,7 @@
     "users": "/users",
     "login": "/login",
     "register": "/register",
-    "logout": "/logout"
+    "logout": "/logout",
+    "channels": "/channels"
   }
 }

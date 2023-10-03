@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import "../css/SearchBar.css";
 
 // import theme from "../config/theme";
+import { useNavigate } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 
 import { Button, Form, Dropdown } from "react-bootstrap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-function SearchBar() {
+function SearchBar(props) {
   const userapi = useAxiosPrivate();
+  const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -71,9 +73,15 @@ function SearchBar() {
   }
 
   function handleSubmit(event) {
-    // event.preventDefault();
-    // console.log("Submitted");
-    // Da fare il set del valore in Feed tramite prop
+    event.preventDefault();
+    if (wordEntered === "") return;
+
+    if (wordEntered[0] === "@") {
+      navigate("/" + wordEntered.slice(1), { replace: true });
+    } else if (wordEntered[0] === "§") {
+      sessionStorage.setItem("searchedchannel", wordEntered.slice(1));
+      window.location.reload();
+    }
   }
 
   function handleDropdownClick(event) {
@@ -105,6 +113,7 @@ function SearchBar() {
       {(filteredData.length !== 0 || filteredChannels.length !== 0) && (
         <Dropdown>
           <Dropdown.Menu show={wordEntered !== ""}>
+            <Dropdown.Header>Utenti</Dropdown.Header>
             {filteredData.slice(0, 15).map((value, key) => {
               return (
                 <Dropdown.Item key={key} onClick={handleDropdownClick}>
@@ -113,6 +122,7 @@ function SearchBar() {
                 </Dropdown.Item>
               );
             })}
+            <Dropdown.Header>Canali</Dropdown.Header>
             {filteredChannels.slice(0, 15).map((value, key) => {
               return (
                 <Dropdown.Item key={key} onClick={handleDropdownClick}>
