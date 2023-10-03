@@ -21,7 +21,7 @@ import { PostComponent } from './post/post.component';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    PostComponent
+    PostComponent,
   ],
   imports: [
     BrowserModule,

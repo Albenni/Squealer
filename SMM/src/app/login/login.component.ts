@@ -3,6 +3,7 @@ import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,8 +26,8 @@ export class LoginComponent {
   changePassword(event: any) {  
     this.userData.pwd = event.target.value;
   }
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient, private router: Router) { }
+  
   onSubmit() {
     const url = 'http://localhost:3500/auth';
 
@@ -43,7 +44,9 @@ export class LoginComponent {
     loginRequest$.pipe(
       switchMap((response) => {
         console.log('Login successful:', response);
+        this.router.navigate(['/home']);
         return of(response); // You can return any data you need
+        
       })
     ).subscribe(
       (data) => {
