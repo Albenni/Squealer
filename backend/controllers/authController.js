@@ -34,7 +34,7 @@ const modLogin = async (req, res) => {
   );
 
   const refreshToken = jwt.sign(
-    { username: foundUser.username },
+    { username: foundUser.username, isMod: true, isSmm: false },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
   );
@@ -84,7 +84,7 @@ const userLogin = async (req, res) => {
   );
 
   const refreshToken = jwt.sign(
-    { username: foundUser.username },
+    { username: foundUser.username, isMod: false, isSmm: false },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
   );
@@ -141,7 +141,7 @@ const smmLogin = async (req, res) => {
   );
 
   const refreshToken = jwt.sign(
-    { username: foundUser.username },
+    { username: foundUser.username, isMod: false, isSmm: true },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
   );

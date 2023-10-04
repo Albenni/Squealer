@@ -19,10 +19,11 @@ const userRefreshToken = async (req, res) => {
           username: decoded.username,
           id: foundUser._id,
           isMod: false,
+          isSmm: decoded.isSmm,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "10m" }
     );
     res.json({ accessToken });
   });
@@ -45,10 +46,11 @@ const modRefreshToken = async (req, res) => {
           username: decoded.username,
           id: foundMod._id,
           isMod: true,
+          isSmm: false,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "10m" }
     );
     res.json({ accessToken });
   });
