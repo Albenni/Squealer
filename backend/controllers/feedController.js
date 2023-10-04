@@ -9,7 +9,8 @@ const generateUserFeed = async (req, res) => {
 
     const usersFollowed = await Follower.find({
       followingUserId: req.id,
-    }).select("followedUserId -_id");
+      followedType: "User",
+    }).select("followedId -_id");
     const channelsFollowed = await ChannelSubscription.find({
       userId: req.id,
     }).select("channel -_id");
@@ -26,7 +27,7 @@ const generateUserFeed = async (req, res) => {
     //feed per utente non loggato
     const squeals = await Squeal.find({
       officialChannel: true,
-      channelSqueal: true,
+      squealType: "Channel",
     });
     if (!squeals) return res.status(204);
 

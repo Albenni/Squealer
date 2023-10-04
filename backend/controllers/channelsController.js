@@ -72,8 +72,8 @@ const deleteChannel = async (req, res) => {
 
   Channel.deleteOne({ _id: req.params.channelId });
   Squeal.deleteMany({
-    channel: req.params.channelId,
-    channelSqueal: true,
+    group: req.params.channelId,
+    squealType: "Channel",
   });
   Admin.deleteMany({ channelId: req.params.channelId });
   return res.status(200);

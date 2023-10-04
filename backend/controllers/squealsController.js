@@ -10,7 +10,7 @@ const getAllUserSqueals = async (req, res) => {
 
   const squeals = await Squeal.find({
     author: req.params.userId,
-    channelSqueal: false,
+    squealType: "Public",
   }).exec();
 
   if (!squeals?.length)
@@ -25,7 +25,7 @@ const getAllSquealsInChannel = async (req, res) => {
 
   const squeals = await Squeal.find({
     channel: req.params.channelId,
-    channelSqueal: true,
+    squealType: "Channel",
   }).exec();
 
   if (!squeals?.length) {
@@ -44,10 +44,14 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Body message required" });
   if (!req?.body?.contentType)
     return res.status(400).json({ message: "Content type required" });
+  if (!req?.body?.squealType)
+    return res.status(400).json({ message: "Squeal type required" });
 
-  if (req?.body?.channelSqueal)
-    if (!mongoose.Types.ObjectId.isValid(req?.body?.channel))
-      return res.status(400).json({ message: "Conversation ID not valid" });
+  if (req.body.squealType === "Channel" || req.body.squealType === "Keyword")
+    if (!mongoose.Types.ObjectId.isValid(req?.body?.group))
+      return res
+        .status(400)
+        .json({ message: "Channel or Keyword ID not valid" });
 
   const author = await User.findById(req.params.userId).select("charAvailable");
   //controlliamo che l'autore del messaggio esista
@@ -63,27 +67,26 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Not enough character available" });
   // } else return res.status(400).json({ message: "Content type not accepted" });
 
-  const isChannelSqueal = req?.body?.channelSqueal === "true";
+  const isPublic = req.body.squealType === "Public";
 
-  const squeal = isChannelSqueal
+  const squeal = isPublic
     ? {
         author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        channelSqueal: isChannelSqueal,
-        channel: req.body.channel,
-        officialChannel: req?.body?.officialChannel ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
+        squealType: req.body.squealType,
       }
     : {
         author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        channelSqueal: isChannelSqueal,
+        group: req.body.group,
+        squealType: req.body.squealType,
+        officialChannel:
+          req?.body?.officialChannel && squealType === "Channel" ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
       };
   try {
     const result = await Squeal.create(squeal);
-    // author.update({ charAvailable: author.charAvailable - messLength });
-    // author.save();
     await User.findByIdAndUpdate(req.params.userId, {
       charAvailable: author.charAvailable - messLength,
     });
