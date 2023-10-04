@@ -4,7 +4,7 @@ const constants = require("../config/constants");
 const Squeal = require("../models/Squeal");
 
 //solo quelli pubblici
-const getAllUserSqueals = async (req, res) => {
+const getAllSquealsByUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "Invalid user ID" });
 
@@ -24,12 +24,28 @@ const getAllSquealsInChannel = async (req, res) => {
     return res.status(400).json({ message: "Invalid channel ID" });
 
   const squeals = await Squeal.find({
-    channel: req.params.channelId,
+    group: req.params.channelId,
     squealType: "Channel",
   }).exec();
 
   if (!squeals?.length) {
-    return res.status(204).json({ message: `No squeals found` });
+    return res.status(204).json({ message: "No squeals found" });
+  }
+
+  res.json(squeals);
+};
+
+const getAllSquealsInKeyword = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.keywordId))
+    return res.status(400).json({ message: "Invalid keyword ID" });
+
+  const squeals = await Squeal.find({
+    group: req.params.keywordId,
+    squealType: "Keyword",
+  }).exec();
+
+  if (!squeals?.length) {
+    return res.status(204).json({ message: "No squeals found" });
   }
 
   res.json(squeals);
@@ -126,8 +142,9 @@ const addSquealReactions = async (req, res) => {
 };
 
 module.exports = {
-  getAllUserSqueals,
+  getAllSquealsByUser,
   getAllSquealsInChannel,
+  getAllSquealsInKeyword,
   createSqueal,
   deleteSqueal,
   addSquealReactions,
