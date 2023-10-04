@@ -126,6 +126,24 @@ const updateProfilePic = async (req, res) => {
   }
 };
 
+const upgradeToProfessional = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  if (req.id !== req.params.userId) return res.status(403);
+
+  try {
+    const result = await User.findByIdAndUpdate(
+      { _id: req.id },
+      { professional: true },
+      { new: true }
+    );
+    res.json(result);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const deleteUser = async (req, res) => {
   if (!req.authorized) return res.status(403);
 
@@ -186,5 +204,6 @@ module.exports = {
   updatePassword,
   updateEmail,
   updateProfilePic,
+  upgradeToProfessional,
   getUserSubscribedChannels,
 };
