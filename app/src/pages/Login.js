@@ -87,10 +87,10 @@ function Login() {
         email: registerobj.email,
       })
       .then((response) => {
-        // console.log(response);
-        setAuth(response?.data?.accessToken);
+        alert("Registrazione avvenuta con successo");
+        // setAuth(response?.data?.accessToken);
 
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
       })
       .catch((err) => {
         setRegisterFailed(true);

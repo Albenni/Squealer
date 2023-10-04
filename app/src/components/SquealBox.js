@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SquealBox.css";
 import theme from "../config/theme";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, InputGroup, Button, Modal } from "react-bootstrap";
 
 import { defaultchars, imagecharsize } from "../config/constants.js";
@@ -10,7 +10,16 @@ import { defaultchars, imagecharsize } from "../config/constants.js";
 import AttachPreview from "./AttachPreview";
 import ChannelSelector from "./ChannelSelector";
 
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function SquealBox(props) {
+  const userapi = useAxiosPrivate();
+  const endpoint = config.endpoint.users + "/";
+
+  // User variables
+  const [user, setUser] = useState({});
+
   // Form variables
   const [postChannel, setPostChannel] = useState("Scrivi il tuo destinatario");
   const [postAttach, setPostAttach] = useState("Immagine");
@@ -30,6 +39,20 @@ function SquealBox(props) {
   const [disableinputtext, setDisableInputText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isAttachment, setIsAttachment] = useState(false);
+
+  useEffect(() => {
+    const userId = sessionStorage.getItem("userid");
+
+    userapi
+      .get(endpoint + userId)
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userapi]);
 
   function handleSqueal(event) {
     event.preventDefault();
@@ -169,16 +192,23 @@ function SquealBox(props) {
             </div>
             <div className="col">
               <div className="row">
-                <h5 className="col">Username</h5>
+                <h5 className="col">
+                  {user.firstname} {user.surname}
+                </h5>
               </div>
               <div className="row">
                 <h6 style={{ color: theme.colors.lightgrey }} className="col">
-                  @Username
+                  @{user.username}
                 </h6>
               </div>
             </div>
-            <div className="col d-flex align-items-center">
-              <p>Numero caratteri rimanenti</p>
+            <div
+              className="col d-flex align-items-center"
+              style={{
+                pointerEvents: "none",
+              }}
+            >
+              <p>Numero caratteri disponibili: {user.charAvailable}</p>
             </div>
           </div>
 

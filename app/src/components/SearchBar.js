@@ -131,6 +131,9 @@ function SearchBar(props) {
                 </Dropdown.Item>
               );
             })}
+            <Dropdown.Header>Keyword</Dropdown.Header>
+
+            <Dropdown.Item>Da implementare</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )}
