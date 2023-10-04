@@ -195,6 +195,9 @@ const getUserSubscribedChannels = async (req, res) => {
   }
 };
 
+const getSmmId = async (req, res) => {};
+const requestSmm = async (req, res) => {};
+
 module.exports = {
   searchUser,
   getCharsAvailable,
@@ -206,4 +209,6 @@ module.exports = {
   updateProfilePic,
   upgradeToProfessional,
   getUserSubscribedChannels,
+  getSmmId,
+  requestSmm,
 };

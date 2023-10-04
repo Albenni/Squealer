@@ -12,6 +12,10 @@ const smmSchema = new Schema({
     ref: "User",
     required: true,
   },
+  accepted: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("Smm", smmSchema);
