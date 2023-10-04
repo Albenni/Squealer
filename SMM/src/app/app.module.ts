@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PostComponent } from './post/post.component';
+import { UserItemComponent } from './user-item/user-item.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { PostComponent } from './post/post.component';
     LoginComponent,
     DashboardComponent,
     PostComponent,
+    UserItemComponent,
   ],
   imports: [
     BrowserModule,
