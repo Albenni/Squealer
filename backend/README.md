@@ -9,4 +9,4 @@ api da fare (poche):
 - Keyword: canali senza admin in cui tutti hanno tutti i permessi, ci si può iscrivere alle keyword,
 - Modificare il modello Squeal aggiungendo le keyword
 
-- Login per smm, vip manda richiesta e smm accetta per accoppiarsi, upgrade account a pro
+- vip manda richiesta e smm accetta per accoppiarsi, upgrade account a pro

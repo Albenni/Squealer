@@ -67,6 +67,54 @@ const getUser = async (req, res) => {
   }
 };
 
+//da implementare
+const updateUsername = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    //modifica username
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+//da implementare
+const updatePassword = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    //modifica password
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+//da implementare
+const updateEmail = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    //modifica email
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+//da implementare
+const updateProfilePic = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    //modifica immagine del profilo
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const deleteUser = async (req, res) => {
   if (!req.authorized) return res.status(403);
 
@@ -122,5 +170,9 @@ module.exports = {
   getCharsAvailable,
   deleteUser,
   getUser,
+  updateUsername,
+  updatePassword,
+  updateEmail,
+  updateProfilePic,
   getUserSubscribedChannels,
 };
