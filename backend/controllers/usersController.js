@@ -78,50 +78,141 @@ const getUser = async (req, res) => {
   }
 };
 
-//da implementare
+// Body: {oldusername: string, newusername: string}
 const updateUsername = async (req, res) => {
+  const { newusername } = req.body;
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
   try {
-    //modifica username
+    // Controllo che lo username non sia gia in uso
+    const duplicate = await User.findOne({ username: newusername }).exec();
+    if (duplicate) return res.sendStatus(409);
+
+    // Aggiorno e ritorno lo user aggiornato
+    const result = await User.findByIdAndUpdate(
+      req.params.userId,
+      { username: newusername },
+      { new: true }
+    ).exec();
+
+    if (!result)
+      return res
+        .status(404)
+        .json({ message: `User ID ${req.params.userId} not found` });
+
+    res.json(result);
   } catch (error) {
     res.json({ message: error });
   }
 };
 
-//da implementare
+// Body: {oldpassword: string, newpassword: string}
 const updatePassword = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
+  const { oldpassword, newpassword } = req.body;
+
+  if (!oldpassword || !newpassword)
+    return res.status(400).json({ message: "Missing password" });
+
+  if (oldpassword === newpassword)
+    return res
+      .status(400)
+      .json({ message: "New password must be different from the old one" });
+
   try {
-    //modifica password
+    const user = await User.findById(req?.params?.userId);
+
+    // Controllo che la vecchia password sia corretta
+    if (user.password !== oldpassword) {
+      return res.status(400).json({ message: "Old password is wrong" });
+    }
+
+    // Aggiorno la password con save (update dice che è deprecato)
+    user.password = newpassword;
+    await user.save();
+
+    // Ritorno lo user aggiornato
+    return res.json({ message: "Password aggiornata con successo", user });
   } catch (error) {
-    res.json({ message: error });
+    return res.status(500).json({
+      message:
+        "Si è verificato un errore durante l'aggiornamento della password",
+      error,
+    });
   }
 };
 
-//da implementare
+// Body {newemail: string}
 const updateEmail = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
+  const { newemail } = req.body;
+
+  if (!newemail) return res.status(400).json({ message: "Missing email" });
+
   try {
-    //modifica email
+    // Aggiorno e ritorno lo user aggiornato
+    const result = await User.findByIdAndUpdate(
+      req.params.userId,
+      { email: newemail },
+      { new: true }
+    ).exec();
+
+    if (!result)
+      return res
+        .status(404)
+        .json({ message: `User ID ${req.params.userId} not found` });
+
+    res.json(result);
   } catch (error) {
     res.json({ message: error });
   }
 };
 
-//da implementare
+// Body {newprofilepicture: string}
 const updateProfilePic = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
+  const { newprofilepicture } = req.body;
+
+  if (!newprofilepicture)
+    return res.status(400).json({ message: "Missing profile picture" });
+
+  // Controllo che l'immagine sia valida (il MIME type deve essere image)
+  let isValid = false;
+  await fetch(newprofilepicture).then((res) => {
+    const contentType = res.headers.get("content-type");
+    isValid = contentType?.startsWith("image");
+  });
+
+  if (!isValid) return res.status(400).json({ message: "Invalid image" });
+
+  console.log(newprofilepicture);
+
   try {
-    //modifica immagine del profilo
+    // Aggiorno e ritorno lo user aggiornato
+    const result = await User.findByIdAndUpdate(
+      req.params.userId,
+      { profilePic: newprofilepicture },
+      { new: true }
+    ).exec();
+
+    console.log(result);
+
+    if (!result)
+      return res
+        .status(404)
+        .json({ message: `User ID ${req.params.userId} not found` });
+
+    res.json(result);
   } catch (error) {
+    console.log(error);
     res.json({ message: error });
   }
 };

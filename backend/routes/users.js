@@ -15,10 +15,10 @@ router
   .delete(usersController.deleteUser);
 
 router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
-router.route("/:userId/username").patch(usersController.updateUsername); //da implementare
-router.route("/:userId/password").patch(usersController.updatePassword); //da implementare
-router.route("/:userId/email").patch(usersController.updateEmail); //da implementare
-router.route("/:userId/profilePicture").patch(usersController.updateProfilePic); //da implementare
+router.route("/:userId/username").patch(usersController.updateUsername);
+router.route("/:userId/password").patch(usersController.updatePassword);
+router.route("/:userId/email").patch(usersController.updateEmail);
+router.route("/:userId/profilePicture").patch(usersController.updateProfilePic);
 router
   .route("/:userId/professional")
   .patch(usersController.upgradeToProfessional); //da testare

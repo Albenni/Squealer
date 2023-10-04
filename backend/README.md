@@ -22,5 +22,9 @@ ANNALISA:
 -smmLogin
 
 ALBERTO:
+-updatePassword
+-updateUsername
+-updateProfilePic
+-updateEmail
 
 FILIPPO:
