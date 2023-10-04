@@ -3,7 +3,7 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 const squealsController = require("../controllers/squealsController");
 const conversationsController = require("../controllers/conversationsController");
-const channelSubscriptionController = require("../controllers/channelSubscriptionController");
+const followersController = require("../controllers/followersController");
 const messagesController = require("../controllers/messagesController");
 
 router.route("/").get(usersController.searchUser);
@@ -19,16 +19,16 @@ router.route("/:userId/password").patch(usersController.updatePassword); //da im
 router.route("/:userId/email").patch(usersController.updateEmail); //da implementare
 router.route("/:userId/profilePicture").patch(usersController.updateProfilePic); //da implementare
 
-router.route("/:userId/smm").patch(usersController.funzione); //da implementare
+// router.route("/:userId/smm").patch(usersController.funzione); //da implementare
 
 router
   .route("/:userId/channels")
-  .get(usersController.getUserSubscribedChannels);
+  .get(usersController.getUserSubscribedChannels)
+  .post(followersController.followChannel);
 
 router
   .route("/:userId/channels/:channelId")
-  .post(channelSubscriptionController.followChannel)
-  .delete(channelSubscriptionController.unfollowChannel);
+  .delete(followersController.unfollowChannel);
 
 router
   .route("/:userId/conversations")

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Moderator = require("../models/Moderator");
-const ChannelSubscription = require("../models/ChannelSubscription");
+const Follower = require("../models/Follower");
 
 const searchUser = async (req, res) => {
   try {
@@ -153,9 +153,10 @@ const getUserSubscribedChannels = async (req, res) => {
     return res.status(400).json({ message: "User ID invalid" });
 
   try {
-    const channels = await ChannelSubscription.find({
-      userId: req.params.userId,
-    }).select("channel -_id");
+    const channels = await Follower.find({
+      followingUserId: req.params.userId,
+      followedType: "Channel",
+    }).select("group -_id");
     if (!channels)
       return res.status(204).json({ message: "No channels found" });
 

@@ -1,6 +1,4 @@
-const jwt = require("jsonwebtoken");
 const Squeal = require("../models/Squeal");
-const ChannelSubscription = require("../models/ChannelSubscription");
 const Follower = require("../models/Follower");
 
 const generateUserFeed = async (req, res) => {
@@ -11,14 +9,23 @@ const generateUserFeed = async (req, res) => {
       followingUserId: req.id,
       followedType: "User",
     }).select("followedId -_id");
-    const channelsFollowed = await ChannelSubscription.find({
-      userId: req.id,
-    }).select("channel -_id");
+    const groupsFollowed = await Follower.find({
+      $or: [
+        {
+          followingUserId: req.id,
+          followedType: "Channel",
+        },
+        {
+          followingUserId: req.id,
+          followedType: "Keyword",
+        },
+      ],
+    }).select("group -_id");
 
     const squeals = await Squeal.find({
       $or: [
         { author: { $in: usersFollowed } },
-        { channel: { $in: channelsFollowed } },
+        { group: { $in: groupsFollowed } },
       ],
     });
 

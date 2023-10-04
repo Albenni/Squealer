@@ -7,9 +7,14 @@ const followerSchema = new Schema({
     ref: "User",
     required: true,
   },
-  followedUserId: {
+  followedId: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: "Channel",
+    refPath: "followedType",
+    required: true,
+  },
+  followedType: {
+    type: String,
+    enum: ["User", "Channel", "Keyword"],
     required: true,
   },
 });
