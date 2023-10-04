@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 const Moderator = require("../models/Moderator");
 const Follower = require("../models/Follower");
+const Smm = require("../models/Smm");
 
 const searchUser = async (req, res) => {
   try {
@@ -30,19 +31,29 @@ const getCharsAvailable = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  if (req.id !== req.params.id) {
-  } else {
-    const moderator = await Moderator.findById(req.id).exec();
-    if (!moderator) return res.status(403);
+  //verifica che l'utente abbia il permesso
+  if (req.id !== req.params.userId) {
+    if (req.isMod) {
+      const moderator = await Moderator.findById(req.id).exec();
+      if (!moderator) return res.status(403);
+    } else if (req.isSmm) {
+      const smm = await Smm.findOne({
+        vipId: req.params.userId,
+        smmId: req.id,
+      });
+      if (!smm)
+        return res
+          .status(403)
+          .json({ message: "You are not the SMM for this Vip" });
+    } else {
+      return res.status(403);
+    }
   }
 
   try {
     const user = await User.findById(req.params.userId).select("charAvailable");
     if (!user) {
-      console.log("CIAO");
-      return res
-        .status(204)
-        .json({ message: `User ID ${req.params.userId} not found` });
+      return res.status(204).json({ message: "User ID not found" });
     }
     res.json(user);
   } catch (error) {

@@ -5,6 +5,8 @@ const Channel = require("../models/Channel");
 const followChannel = async (req, res) => {
   if (!req.authorized) return res.status(403);
 
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
   if (!mongoose.Types.ObjectId.isValid(req?.body?.channelId))
     return res.status(400).json({ message: "Channel ID not valid" });
 
@@ -13,7 +15,7 @@ const followChannel = async (req, res) => {
 
   try {
     const result = await Follower.create({
-      followingUserId: req.id,
+      followingUserId: req.params.id,
       followedId: req.body.channelId,
       followedType: "Channel",
     });
