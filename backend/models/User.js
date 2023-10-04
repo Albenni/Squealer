@@ -37,12 +37,6 @@ const userSchema = new Schema({
   profilePic: {
     type: String,
   },
-  // userFollowed: [
-  //   {
-  //     type: mongoose.SchemaTypes.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
   refreshToken: { type: String },
 });
 
