@@ -21,6 +21,7 @@ const theme = {
     reallydislike: "#C20114",
     transparent: "rgba(0,0,0,0.1)",
     loginbg: "#93B3FF",
+    red: "#FF0000",
   },
 };
 
