@@ -16,11 +16,39 @@
             </button>
             <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
                 aria-labelledby="button-animated">
-                <li role="menuitem"><a class="dropdown-item" href="#">Account 1</a></li>
-                <li role="menuitem"><a class="dropdown-item" href="#">Account 2</a>
-                </li>
-                <li role="menuitem"><a class="dropdown-item" href="#">Account 3</a></li>
+                <!-- Utilizza *ngIf per verificare se users$ è definito prima di utilizzarlo -->
+                <!-- 
+                    users$ è un observable, che rappresenta una sequenza asincrona di dati. 
+                    Angular usa | async per sottoscriversi all'observable e 
+                    gestire automaticamente la sua sottoscrizione e il rilascio quando i dati arrivano o cambiano. 
+                    In sostanza, async si prende cura della gestione dell'observable in modo asincrono.
+
+                    as users assegna il risultato dell'observable sottoscritto a una variabile locale chiamata users. 
+                    In questo modo, la variabile users conterrà i dati effettivi quando l'observable restituirà un valore.
+
+                    *ngIf="users$ | async as users" è una tecnica comune per gestire dati asincroni in Angular.
+                     Utilizza l'observable users$, attende il suo completamento e assegna i dati a una variabile users, 
+                    consentendo quindi di utilizzare i dati in modo sincrono all'interno del blocco ng-container solo quando sono pronti.
+                -->
+                <ng-container *ngIf="users$ | async as users">
+                    <!-- Utilizza *ngFor per iterare sugli utenti -->
+                    <ng-container *ngFor="let user of users">
+                        <app-user-item [userProfileImage]="user.profileImage"
+                            [username]="user.username"></app-user-item>
+                    </ng-container>
+                </ng-container>
             </ul>
         </div>
     </div>
+
+    <!-- content puo essere sia il testo dello squeal che l'url dell'immagine -->
+
+    <div *ngIf="(posts$ | async) as posts">
+        <div *ngFor="let post of posts">
+            <app-post [postTitle]="post.title" [content]="post.image ? post.image : post.text"
+                [isImage]="post.image !== undefined"></app-post>
+        </div>
+    </div>
+
+
 </div>

@@ -12,6 +12,9 @@ api da fare (poche):
 
 - vip manda richiesta e smm accetta per accoppiarsi, upgrade account a pro
 
+- post da dentro smm che ricerca tutti i post dell'utente specifico associato all'smm che in quel momento sta gestendo
+  (credo sia post non get perchè smm puo avere piu vip e deve richiedere post di uno specifico)
+
 ---
 
 Chi ha implementato le API:
