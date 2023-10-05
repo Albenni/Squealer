@@ -29,17 +29,13 @@ function checkVideo(url) {
 
 function AttachPreview(props) {
   const [postLink, setPostLink] = useState("");
-  const [postlocation, setPostLocation] = useState(null);
+  // const [postlocation, setPostLocation] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
   const [filepreview, setFilePreview] = useState();
 
-  useEffect(() => {
-    if (props.type === "Geolocation") {
-      props.setSquealLocation(postlocation);
-    }
-  }, [props, postlocation]);
+  // useEffect(() => {}, [props]);
 
   useEffect(() => {
     // Controllo la validità del link dell'immagine e lo setto come link del post
@@ -138,7 +134,7 @@ function AttachPreview(props) {
   if (props.type === "Geolocation") {
     return (
       <div className="container p-3 d-flex justify-content-center">
-        <Geolocation setPostLocation={setPostLocation} />
+        <Geolocation />
       </div>
     );
   }

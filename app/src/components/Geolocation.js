@@ -1,18 +1,17 @@
 import "../css/Geolocation.css";
 
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import config from "../config/config";
+import { Map, Marker } from "pigeon-maps";
+// import config from "../config/config";
 
-function Geolocation({ setPostLocation }) {
-  // Script for maps loading
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: config.googleMapsApiKey,
-  });
+function Geolocation() {
+  const [zoom, setZoom] = useState(10);
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
 
-  const [center, setCenter] = useState({ lat: 18.52043, lng: 73.856743 });
-  const [userLocation, setUserLocation] = useState(null);
+  const [loadError, setLoadError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Trovo la posizione dell'utente
@@ -29,32 +28,33 @@ function Geolocation({ setPostLocation }) {
           });
         },
         (error) => {
+          setLoadError(true);
           console.error("Error getting user's location:", error);
         }
       );
     } else {
+      setLoadError(true);
       console.error("Geolocation is not supported by this browser.");
     }
-
-    setPostLocation(userLocation);
-  }, [setPostLocation, userLocation]);
+    setLoading(false);
+  }, []);
 
   if (loadError) return <div>Error loading map</div>;
 
   return (
     <div className="Geolocation">
-      {!isLoaded ? (
+      {loading ? (
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading Map...</span>
         </Spinner>
       ) : (
-        <GoogleMap
-          mapContainerClassName="map-container"
-          center={center}
-          zoom={10}
+        <Map
+          defaultCenter={[center.lat, center.lng]}
+          defaultZoom={zoom}
+          center={[center.lat, center.lng]}
         >
-          <Marker position={userLocation} title="Your Location" />
-        </GoogleMap>
+          <Marker anchor={[userLocation.lat, userLocation.lng]} />
+        </Map>
       )}
     </div>
   );

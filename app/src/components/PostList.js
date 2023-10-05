@@ -1,6 +1,7 @@
 import theme from "../config/theme";
 import Post from "./Post";
 import PostImage from "./PostImage";
+import PostLocation from "./PostLocation";
 // import { Card } from "react-bootstrap";
 // import { useEffect } from "react";
 
@@ -25,16 +26,10 @@ function PostList({ posts }) {
         if (item.type === "image") {
           return <PostImage key={item.id} item={item} />;
         }
+
+        return <PostLocation key={item.id} item={item} />;
       })}
     </div>
-
-    // <ListGroup>
-    //   {posts.map((item) => (
-    //     <ListGroupItem key={item.id}>
-    //       {/* <Post item={item} /> */}
-    //     </ListGroupItem>
-    //   ))}
-    // </ListGroup>
   );
 }
 
