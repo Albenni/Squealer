@@ -1,8 +1,6 @@
 api da fare (poche):
 
-- Funzioni per cambiare immagine profilo, username e gli altri campi dell'account (password, nome e cognome, email)
 - Shop per comprare i caratteri, canale personalizzato
-- Funzioni per ritornare i canali seguiti da un utente
 
 - Aggiungere/togliere amministratore a un canale
 

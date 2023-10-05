@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Moderator = require("../models/Moderator");
 const Follower = require("../models/Follower");
 const Smm = require("../models/Smm");
+const Channel = require("../models/Channel");
 
 const searchUser = async (req, res) => {
   try {
@@ -267,7 +268,7 @@ const deleteUser = async (req, res) => {
 };
 
 const getUserSubscribedChannels = async (req, res) => {
-  if (!req.authorized) return res.status(403);
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -276,11 +277,14 @@ const getUserSubscribedChannels = async (req, res) => {
     const channels = await Follower.find({
       followingUserId: req.params.userId,
       followedType: "Channel",
-    }).select("group -_id");
+    }).select("followedId -_id");
     if (!channels)
       return res.status(204).json({ message: "No channels found" });
 
-    res.json(channels);
+    const channelsId = channels.map((channel) => channel.followedId);
+    const channelsComplete = await Channel.find({ _id: { $in: channelsId } });
+
+    res.json(channelsComplete);
   } catch (error) {
     res.json({ message: error });
   }
