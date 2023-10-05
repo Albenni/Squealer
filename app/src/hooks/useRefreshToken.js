@@ -5,8 +5,6 @@ const useRefreshToken = () => {
   const { auth, setAuth } = useAuth();
 
   const refresh = async () => {
-    if (auth === "guest") return;
-
     const response = await axiosapi.apiPrivate.get("./refresh");
 
     await setAuth((prev) => {

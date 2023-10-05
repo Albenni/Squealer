@@ -8,24 +8,65 @@ import config from "../config/config";
 const ChannelsPage = () => {
   const userapi = useAxiosPrivate();
 
-  const [channelsId, setChannelsId] = useState([]);
+  const [channels, setChannels] = useState([]);
+  const [followedChannels, setFollowedChannels] = useState([]);
 
   useEffect(() => {
-    const userid = sessionStorage.getItem("userid");
+    getChannels();
+    getFollowedChannels();
+  }, [userapi]);
 
-    userapi
-      .get(config.endpoint.users + "/" + userid + "/channels")
+  async function getChannels() {
+    await userapi
+      .get(config.endpoint.channels)
       .then((res) => {
-        console.log(res.data);
         setChannels(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [userapi]);
+  }
 
-  function handleFollow(channel) {
-    console.log("Follow channel");
+  async function getFollowedChannels() {
+    const userid = sessionStorage.getItem("userid");
+
+    await userapi
+      .get(config.endpoint.users + "/" + userid + "/channels")
+      .then((res) => {
+        setFollowedChannels(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function handleFollow(channelid) {
+    const userid = sessionStorage.getItem("userid");
+
+    await userapi
+      .post(config.endpoint.users + "/" + userid + "/channels", {
+        channelId: channelid,
+      })
+      .then((res) => {
+        console.log(res);
+        getFollowedChannels();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function handleUnFollow(channelid) {
+    const userid = sessionStorage.getItem("userid");
+
+    await userapi
+      .delete(config.endpoint.users + "/" + userid + "/channels/" + channelid)
+      .then((res) => {
+        getFollowedChannels();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -46,24 +87,27 @@ const ChannelsPage = () => {
         </div>
         <div className="container">
           <ListGroup>
-            {channels.map((key, channel) => (
+            {channels.map((channel, key) => (
               <ListGroup.Item key={key}>
                 <div className="row">
                   <div className="col">
                     <h4>{channel.name}</h4>
                   </div>
                   <div className="col d-flex justify-content-end">
-                    {channel.followed ? (
+                    {!followedChannels.some(
+                      (obj) =>
+                        obj.id === channel.id && obj.name === channel.name
+                    ) ? (
                       <Button
                         variant="outline-success"
-                        onClick={() => handleFollow(channel.name)}
+                        onClick={() => handleFollow(channel._id)}
                       >
                         Segui
                       </Button>
                     ) : (
                       <Button
                         variant="outline-danger"
-                        onClick={() => handleFollow(channel.name)}
+                        onClick={() => handleUnFollow(channel._id)}
                       >
                         Non seguire
                       </Button>

@@ -8,8 +8,6 @@ const useAxiosPrivate = () => {
   const { auth } = useAuth();
 
   useEffect(() => {
-    if (auth === "guest") return;
-
     const requestIntercept = axiosapi.apiPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {

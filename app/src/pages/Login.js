@@ -139,14 +139,11 @@ function Login() {
   return (
     <>
       {/* <TopBar /> */}
-      <div
-        className="container-fluid"
-        style={{ backgroundColor: theme.colors.loginbg, height: "100vh" }}
-      >
+      <div className="container-fluid loginbackground">
         <div
           className="container-fluid row"
           style={{
-            height: "90vh",
+            height: "100%",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
