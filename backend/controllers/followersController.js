@@ -14,6 +14,14 @@ const followChannel = async (req, res) => {
   const channel = await Channel.findById(req.body.channelId);
   if (!channel) return res.status(400).json({ message: "Channel not found" });
 
+  const alreadyFollowed = await Follower.findOne({
+    followingUserId: req.params.userId,
+    followedId: req.body.channelId,
+    followedType: "Channel",
+  });
+  if (alreadyFollowed)
+    return res.status(400).json({ message: "Channel already followed" });
+
   try {
     const result = await Follower.create({
       followingUserId: req.params.userId,

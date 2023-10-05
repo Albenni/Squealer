@@ -5,6 +5,7 @@ const smmSchema = new Schema({
   vipId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
+    unique: true,
     required: true,
   },
   smmId: {

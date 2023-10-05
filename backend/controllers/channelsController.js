@@ -30,9 +30,16 @@ const createChannel = async (req, res) => {
 const searchChannels = async (req, res) => {
   try {
     const findChannels = req.query.channel ? req.query.channel : "";
-    const channels = await Channel.find({
-      name: { $regex: ".*" + findChannels + ".*" },
-    }).select("-__v");
+    const query = req.query.editorial
+      ? {
+          name: { $regex: ".*" + findChannels + ".*" },
+          editorialChannel: true,
+        }
+      : {
+          name: { $regex: ".*" + findChannels + ".*" },
+        };
+
+    const channels = await Channel.find(query).select("-__v");
     if (!channels) return res.status(204).json({ message: "No users found" });
     res.json(channels);
   } catch (error) {

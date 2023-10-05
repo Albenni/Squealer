@@ -25,7 +25,7 @@ router
 
 router
   .route("/:userId/smm")
-  .get(usersController.getSmmId) //da implementare
+  .get(usersController.getSmmId) //da testare
   .post(usersController.requestSmm); //da implementare
 router
   .route("/:userId/vips")
