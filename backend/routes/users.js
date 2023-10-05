@@ -29,7 +29,7 @@ router
   .post(usersController.requestSmm); //da implementare
 router
   .route("/:userId/vips")
-  .get(smmController.getVipsManaged) //da implementare
+  .get(smmController.getVipsManaged) //da testare
   .post(smmController.acceptVip) //da implementare
   .delete(smmController.removeVip); //da implementare
 router.route("/:userId/vips/requestsSmm").get(smmController.getRequestsForSmm); //da implementare
