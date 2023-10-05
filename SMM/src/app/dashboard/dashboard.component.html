@@ -14,7 +14,7 @@
                 aria-controls="dropdown-animated">
                 <mat-icon>group</mat-icon> <span class="caret"></span> <span class="caret"></span>
             </button>
-            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                 aria-labelledby="button-animated">
                 <!-- Utilizza *ngIf per verificare se users$ è definito prima di utilizzarlo -->
                 <!-- 
@@ -30,13 +30,11 @@
                      Utilizza l'observable users$, attende il suo completamento e assegna i dati a una variabile users, 
                     consentendo quindi di utilizzare i dati in modo sincrono all'interno del blocco ng-container solo quando sono pronti.
                 -->
-                <ng-container *ngIf="users$ | async as users">
-                    <!-- Utilizza *ngFor per iterare sugli utenti -->
-                    <ng-container *ngFor="let user of users">
-                        <app-user-item [userProfileImage]="user.profileImage"
-                            [username]="user.username"></app-user-item>
-                    </ng-container>
-                </ng-container>
+
+                <li *ngFor="let user of users" class="user-item">
+                    <app-user-item [userProfileImage]="user.propic" [username]="user.username"></app-user-item>
+                </li>
+
             </ul>
         </div>
     </div>

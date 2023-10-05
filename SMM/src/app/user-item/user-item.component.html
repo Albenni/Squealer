@@ -1,4 +1,6 @@
 <li class="user-item">
-    <img [src]="userProfileImage" alt="Immagine profilo">
-    <span class="username">{{ username }}</span>
+    <div> <c-avatar class="img-fluid" [src]="userProfileImage" alt="Immagine profilo" size="sm"
+            shape="rounded"></c-avatar>
+    </div>
+    <div class="username">{{ username }}</div>
 </li>

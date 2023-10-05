@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+import { AvatarComponent } from '@coreui/angular';
 @Component({
   selector: 'app-user-item',
   templateUrl: './user-item.component.html',
