@@ -296,12 +296,30 @@ const getSmmId = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  const smm = Smm.findOne({ vipId: req.params.userId });
+  const smm = Smm.findOne({ vipId: req.params.userId, accepted: true });
   if (!smm) return res.status(204).json({ message: "No SMM associated" });
 
   res.status(200).json(smm);
 };
-const requestSmm = async (req, res) => {};
+const requestSmm = async (req, res) => {
+  // if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.smmId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const smm = Smm.create({
+      vipId: req.params.userId,
+      smmId: req.body.smmId,
+      accepted: false,
+    });
+    res.json({ message: "richiesta inviata" });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
 
 module.exports = {
   searchUser,

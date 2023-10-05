@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Moderator = require("../models/Moderator");
+const Smm = require("../models/Smm");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -123,7 +124,7 @@ const smmLogin = async (req, res) => {
     return res.status(403).json({ message: "User not professional." });
 
   // da controllare
-  const foundSmm = await Smm.findOne({ smmId: foundUser.username }).exec();
+  const foundSmm = await Smm.findOne({ smmId: foundUser._id }).exec();
   if (!foundSmm) return res.status(403).json({ message: "No VIP associated." });
 
   // create JWTs
