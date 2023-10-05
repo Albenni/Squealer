@@ -8,13 +8,13 @@ import config from "../config/config";
 const ChannelsPage = () => {
   const userapi = useAxiosPrivate();
 
-  const [channels, setChannels] = useState([]);
+  const [channelsId, setChannelsId] = useState([]);
 
   useEffect(() => {
-    // DA CAMBIARE, BISOGNA CONTROLLARE QUALI CANALI SONO GIA SEGUITI DALL'UTENTE
+    const userid = sessionStorage.getItem("userid");
 
     userapi
-      .get(config.endpoint.channels)
+      .get(config.endpoint.users + "/" + userid + "/channels")
       .then((res) => {
         console.log(res.data);
         setChannels(res.data);
@@ -46,8 +46,8 @@ const ChannelsPage = () => {
         </div>
         <div className="container">
           <ListGroup>
-            {channels.map((channel) => (
-              <ListGroup.Item key={channel.id}>
+            {channels.map((key, channel) => (
+              <ListGroup.Item key={key}>
                 <div className="row">
                   <div className="col">
                     <h4>{channel.name}</h4>

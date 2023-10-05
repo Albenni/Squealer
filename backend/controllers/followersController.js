@@ -4,7 +4,7 @@ const Channel = require("../models/Channel");
 const Keyword = require("../models/Keyword");
 
 const followChannel = async (req, res) => {
-  if (!req.authorized) return res.status(403);
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -16,7 +16,7 @@ const followChannel = async (req, res) => {
 
   try {
     const result = await Follower.create({
-      followingUserId: req.params.id,
+      followingUserId: req.params.userId,
       followedId: req.body.channelId,
       followedType: "Channel",
     });
@@ -61,7 +61,7 @@ const followKeyword = async (req, res) => {
 
   try {
     const result = await Follower.create({
-      followingUserId: req.params.id,
+      followingUserId: req.params.userId,
       followedId: req.body.keywordId,
       followedType: "Keyword",
     });
