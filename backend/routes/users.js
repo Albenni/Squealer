@@ -26,12 +26,13 @@ router
 router
   .route("/:userId/smm")
   .get(usersController.getSmmId)
-  .post(usersController.requestSmm);
+  .post(usersController.requestSmm)
+  .delete(usersController.removeSmm);
 router.route("/:userId/vips").get(smmController.getVipsManaged); //query.onlyAccepted per distinguere tra vip accettati e richieste
 router
   .route("/:userId/vips/:vipId")
-  .post(smmController.acceptVip) //da testare
-  .delete(smmController.removeVip); //da testare
+  .post(smmController.acceptVip)
+  .delete(smmController.removeVip);
 
 router
   .route("/:userId/channels")

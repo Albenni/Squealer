@@ -302,7 +302,7 @@ const getSmmId = async (req, res) => {
   res.status(200).json(smm);
 };
 const requestSmm = async (req, res) => {
-  // if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -310,12 +310,28 @@ const requestSmm = async (req, res) => {
     return res.status(400).json({ message: "User ID invalid" });
 
   try {
-    const smm = Smm.create({
+    const smm = await Smm.create({
       vipId: req.params.userId,
       smmId: req.body.smmId,
       accepted: false,
     });
     res.json({ message: "richiesta inviata" });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+const removeSmm = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const smm = await Smm.findOneAndRemove({
+      vipId: req.params.userId,
+    });
+    res.json({ message: "smm rimosso" });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -334,4 +350,5 @@ module.exports = {
   getUserSubscribedChannels,
   getSmmId,
   requestSmm,
+  removeSmm,
 };
