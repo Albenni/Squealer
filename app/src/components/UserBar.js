@@ -1,6 +1,9 @@
 import { Image } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 
 function UserBar({ user }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+
   return (
     <div
       className="container-fluid d-flex justify-content-center"
@@ -28,7 +31,7 @@ function UserBar({ user }) {
             src={user.image}
             alt="profile"
             className="rounded-circle"
-            style={{ maxWidth: "10vw" }}
+            style={isMobile ? { maxWidth: "25vw" } : { maxWidth: "10vw" }}
           />
           {/* </div> */}
         </div>

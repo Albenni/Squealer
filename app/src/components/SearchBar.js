@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/SearchBar.css";
 
 // import theme from "../config/theme";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 
@@ -12,6 +12,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 function SearchBar(props) {
   const userapi = useAxiosPrivate();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -80,6 +81,10 @@ function SearchBar(props) {
       navigate("/" + wordEntered.slice(1), { replace: true });
     } else if (wordEntered[0] === "§") {
       sessionStorage.setItem("searchedchannel", wordEntered.slice(1));
+      if (location.pathname !== "/feed") {
+        navigate("/feed", { replace: true });
+        return;
+      }
       window.location.reload();
     }
   }

@@ -86,7 +86,7 @@ function TopBar(props) {
             </div>
           </Navbar.Brand>
 
-          {location.pathname === "/feed" && (
+          {location.pathname !== "/settings" && (
             <div className="justify-content-center">
               <SearchBar />
             </div>

@@ -15,12 +15,12 @@ function Channel() {
   const [channelposts, setChannelPosts] = useState([]);
 
   useEffect(() => {
-    const getChannelPosts = async () => {
-      //   ritornare i post di un canale
-      setChannelPosts(postdata);
-    };
+    // const getChannelPosts = async () => {
+    //   //   ritornare i post di un canale
+    // };
+    setChannelPosts(postdata);
 
-    getChannelPosts();
+    // getChannelPosts();
   }, []);
 
   function handleFollowChannel() {
