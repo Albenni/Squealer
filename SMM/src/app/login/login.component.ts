@@ -20,13 +20,6 @@ export class LoginComponent {
 
   logosrc: string = "./assets/SLogo.png"; // Dichiarazione della proprietà logo
 
-  changeUsername(event: any) {
-    this.userData.user = event.target.value;
-  } // Funzione che cambia il valore della proprietà username
-
-  changePassword(event: any) {  
-    this.userData.pwd = event.target.value;
-  }
   constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) { }
   
   onSubmit() {
@@ -36,10 +29,10 @@ export class LoginComponent {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      withCredentials: true // Add this option for 'include'
+      withCredentials: true 
     };
 
-    // Create an observable for the POST request
+  
     const loginRequest$: Observable<any> = this.http.post(url, this.userData, httpOptions);
 
     loginRequest$.pipe(
@@ -47,17 +40,17 @@ export class LoginComponent {
         console.log('Login successful:', response);
         this.sharedService.smmUsername = this.userData.user;
         this.router.navigate(['/vipSelection']);
-        return of(response); // You can return any data you need
+        return of(response);
         
       })
     ).subscribe(
       (data) => {
-        // This block will execute after the POST request has completed successfully
-        // You can access the data returned from the switchMap here
+        this.sharedService.accessToken= data.accessToken;
+        this.sharedService.smmId = data.userid;
       },
       (error) => {
         console.error('Error:', error);
-        // Handle any errors here
+
       }
     );
 

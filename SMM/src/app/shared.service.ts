@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
   public smmUsername: string = "";
+  public smmId: string = "";
+  public accessToken: string = "";
   constructor() { }
 }
