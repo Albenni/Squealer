@@ -1,16 +1,22 @@
 import { Component,  OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { SharedService } from '../shared.service';
 @Component({
   selector: 'app-vip-selection',
   templateUrl: './vip-selection.component.html',
   styleUrls: ['./vip-selection.component.css']
 })
 export class VipSelectionComponent {
-  smmUsername: string = "";
+  
   selectedAccount:string = "";
   accountList: string[] = [];
 
-  constructor(private http: HttpClient) { }
+  /*
+    per accedere a smm username
+    this.sharedService.smmUsername
+  */
+ 
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   ngOnInit(): void {
     // Effettua una richiesta GET all'API per ottenere la lista degli account

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent {
   changePassword(event: any) {  
     this.userData.pwd = event.target.value;
   }
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) { }
   
   onSubmit() {
     const url = 'http://localhost:3500/auth/smm';
@@ -44,6 +45,7 @@ export class LoginComponent {
     loginRequest$.pipe(
       switchMap((response) => {
         console.log('Login successful:', response);
+        this.sharedService.smmUsername = this.userData.user;
         this.router.navigate(['/vipSelection']);
         return of(response); // You can return any data you need
         
