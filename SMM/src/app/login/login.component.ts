@@ -29,7 +29,7 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) { }
   
   onSubmit() {
-    const url = 'http://localhost:3500/auth';
+    const url = 'http://localhost:3500/auth/smm';
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -44,7 +44,7 @@ export class LoginComponent {
     loginRequest$.pipe(
       switchMap((response) => {
         console.log('Login successful:', response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/vipSelection']);
         return of(response); // You can return any data you need
         
       })

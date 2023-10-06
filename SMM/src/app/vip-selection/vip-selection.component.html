@@ -1,1 +1,9 @@
-<p>vip-selection works!</p>
+<div class="welcome-container">
+    <h1>Benvenuto {{ smmUsername }}!</h1>
+    <div class="account-selection">
+        <label for="accountSelect">Seleziona un account:</label>
+        <select id="accountSelect" [(ngModel)]="selectedAccount">
+            <option *ngFor="let account of accountList" [value]="account">{{ account }}</option>
+        </select>
+    </div>
+</div>
