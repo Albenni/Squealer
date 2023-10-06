@@ -9,9 +9,11 @@ import { SharedService } from '../shared.service';
 export class VipSelectionComponent {
   
   selectedAccount:string = "";
-  accountList: string[] = [];
+  vipIdList: string[] = [];
   smmUsername: string = this.sharedService.smmUsername;
   smmId: string = this.sharedService.smmId;
+  token: string = this.sharedService.accessToken;
+  accountList: string[] = [];
   /*
     per accedere a smm username
     this.sharedService.smmUsername
@@ -23,13 +25,15 @@ export class VipSelectionComponent {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
       }),
       withCredentials: true 
     };
 
     // Effettua una richiesta GET all'API per ottenere la lista degli account
-    this.http.get<string[]>('http://localhost:3500/:'+ this.smmId +'/vips?onlyAccepted=true', httpOptions).subscribe(data => {
-      this.accountList = data;
+    this.http.get<string[]>('http://localhost:3500/users/'+ this.smmId +'/vips?onlyAccepted=true').subscribe(data => {
+      console.log(data);
+      this.vipIdList = data;
     });
   }
 }

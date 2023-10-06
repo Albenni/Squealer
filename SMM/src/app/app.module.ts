@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { PostComponent } from './post/post.component';
 import { UserItemComponent } from './user-item/user-item.component';
 import { VipSelectionComponent } from './vip-selection/vip-selection.component';
 
+import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,11 @@ import { VipSelectionComponent } from './vip-selection/vip-selection.component';
     HttpClientModule,
     AvatarModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: DefaultOptionsInterceptor,
+    multi: true,
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
