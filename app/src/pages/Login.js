@@ -1,22 +1,23 @@
-import "../css/Login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
+import "../css/Login.css";
+import theme from "../config/theme";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import TopBar from "../components/TopBar";
-
-import logo from "../assets/SLogo.png";
 
 import { Image, Tab, Tabs, Button } from "react-bootstrap";
 
-import ErrorMessage from "../components/ErrorMessage";
-import theme from "../config/theme";
+import logo from "../assets/SLogo.png";
 
+import ErrorMessage from "../components/ErrorMessage";
+
+import useAuth from "../hooks/useAuth";
 import authapi from "../api/auth";
+
+import { useMediaQuery } from "react-responsive";
 
 function Login() {
   const { auth, setAuth } = useAuth();
-
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/feed";
@@ -139,32 +140,75 @@ function Login() {
   return (
     <>
       {/* <TopBar /> */}
-      <div className="container-fluid loginbackground">
+      <div
+        className="container-fluid loginbackground"
+        style={{ overflow: "auto" }}
+      >
+        {isMobile ? (
+          <div
+            className="d-flex justify-content-center pt-1"
+            style={{
+              color: theme.colors.dark,
+              fontSize: "2rem",
+              fontWeight: "bold",
+            }}
+          >
+            Squealer
+          </div>
+        ) : null}
         <div
           className="container-fluid row"
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
+          style={
+            isMobile
+              ? {
+                  // height: "100%",
+                  paddingTop: "2rem",
+
+                  display: "flex",
+                  // alignItems: "center",
+                  // justifyContent: "space-around",
+                }
+              : {
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                }
+          }
         >
           <div className="col-md-4">
             <div className="row">
-              <Image src={logo} fluid />
+              <Image
+                src={logo}
+                fluid
+                style={
+                  isMobile
+                    ? {
+                        height: "50%",
+                        width: "50%",
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        paddingBottom: "2rem",
+                      }
+                    : {}
+                }
+              />
             </div>
           </div>
           <div className="col-md-3">
-            <div
-              className="row d-flex justify-content-center pb-2"
-              style={{
-                color: theme.colors.dark,
-                fontSize: "2rem",
-                fontWeight: "bold",
-              }}
-            >
-              Squealer
-            </div>
+            {!isMobile && (
+              <div
+                className="row d-flex justify-content-center pb-2"
+                style={{
+                  color: theme.colors.dark,
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Squealer
+              </div>
+            )}
             <div
               style={{
                 backgroundColor: theme.colors.white,

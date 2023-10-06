@@ -1,21 +1,39 @@
 import theme from "../config/theme";
+
 import Post from "./Post";
 import PostImage from "./PostImage";
 import PostLocation from "./PostLocation";
-// import { Card } from "react-bootstrap";
-// import { useEffect } from "react";
 
-// import apisqueals from "../api/posts";
+import { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 
-function PostList({ posts }) {
-  // useEffect(() => {
-  //   apisqueals.getSqueals().then((response) => {
-  //     console.log(response.data);
-  //   });
-  // }, []);
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+// import config from "../config/config";
 
-  if (posts === undefined || posts === null || posts.length === 0) {
-    return <p className="text-center">Nessun post trovato</p>;
+function PostList({ getposts }) {
+  const postsapi = useAxiosPrivate();
+
+  const [posts, setPosts] = useState(null);
+
+  useEffect(() => {
+    setPosts(getposts);
+
+    // const userid = sessionStorage.getItem("userid");
+
+    // async function getPosts() {
+    //   const response = await postsapi.get();
+    //   if (!response.ok) {
+    //     console.log(response);
+    //     return;
+    //   }
+    //   setPosts(response.data);
+    // }
+
+    // getPosts();
+  }, []);
+
+  if (posts === null || posts.length === 0) {
+    return <p className="text-center pt-5">Nessun post trovato</p>;
   }
 
   return (

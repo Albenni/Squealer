@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import theme from "../config/theme";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { PlusCircleFill } from "react-bootstrap-icons";
 
@@ -43,7 +43,7 @@ function Feed() {
           {sessionStorage.getItem("searchedchannel") ? (
             <Channel />
           ) : (
-            <PostList posts={postdatasample} />
+            <PostList getposts={postdatasample} />
           )}
         </div>
         <div className="container-fluid">

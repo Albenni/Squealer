@@ -13,9 +13,13 @@ import ChannelSelector from "./ChannelSelector";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
+import { useMediaQuery } from "react-responsive";
+
 function SquealBox(props) {
   const userapi = useAxiosPrivate();
   const endpoint = config.endpoint.users + "/";
+
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
   // User variables
   const [user, setUser] = useState({});
@@ -173,6 +177,7 @@ function SquealBox(props) {
       show={props.show}
       onHide={() => props.setShowBox(false)}
       size="lg"
+      fullscreen={isMobile}
       backdrop="static"
       centered
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -212,7 +217,7 @@ function SquealBox(props) {
             </div>
           </div>
 
-          <InputGroup className="mb-3 container-fluid">
+          <InputGroup className="container-fluid">
             <div className="container-fluid">
               <ChannelSelector
                 squealchannel={squealchannel}
@@ -291,7 +296,7 @@ function SquealBox(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <div className="container-fluid p-3 d-flex justify-content-end">
+        <div className="container-fluid d-flex justify-content-end">
           <div className="d-flex align-items-center px-3">
             {currentchars}/{defaultchars}
           </div>

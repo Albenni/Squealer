@@ -2,9 +2,3 @@
   background-color: #93b3ff;
   height: 100vh;
 }
-
-@media (max-width: 768px) {
-  .loginbackground {
-    height: 100%;
-  }
-}

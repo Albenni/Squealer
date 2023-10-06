@@ -8,8 +8,6 @@ import {
   EmojiAngryFill,
   EmojiFrown,
   EmojiFrownFill,
-  EmojiNeutral,
-  EmojiNeutralFill,
   EmojiSmile,
   EmojiSmileFill,
   EmojiHeartEyes,
@@ -42,8 +40,8 @@ function PostReaction({ postid }) {
         postid={postid}
       />
       <div className="container-fluid p-3">
-        <div className="row">
-          <div className="col">
+        <div className=" d-flex">
+          <div className="px-1">
             <Button
               style={{
                 backgroundColor: theme.colors.reallydislike,
@@ -54,7 +52,7 @@ function PostReaction({ postid }) {
               {reaction.reallydislike ? <EmojiAngryFill /> : <EmojiAngry />}
             </Button>
           </div>
-          <div className="col">
+          <div className="px-1">
             <Button
               style={{
                 backgroundColor: theme.colors.dislike,
@@ -65,18 +63,8 @@ function PostReaction({ postid }) {
               {reaction.dislike ? <EmojiFrownFill /> : <EmojiFrown />}
             </Button>
           </div>
-          <div className="col">
-            <Button
-              style={{
-                backgroundColor: theme.colors.neutral,
-                borderColor: theme.colors.neutral,
-              }}
-              onClick={() => handleReaction("neutral")}
-            >
-              {reaction.neutral ? <EmojiNeutralFill /> : <EmojiNeutral />}
-            </Button>
-          </div>
-          <div className="col">
+
+          <div className="px-1">
             <Button
               style={{
                 backgroundColor: theme.colors.like,
@@ -87,7 +75,7 @@ function PostReaction({ postid }) {
               {reaction.like ? <EmojiSmileFill /> : <EmojiSmile />}
             </Button>
           </div>
-          <div className="col">
+          <div className="px-1">
             <Button
               style={{
                 backgroundColor: theme.colors.reallylike,
@@ -102,12 +90,7 @@ function PostReaction({ postid }) {
               )}
             </Button>
           </div>
-          <div
-            className="col"
-            style={{
-              textAlign: "end",
-            }}
-          >
+          <div className="ms-auto">
             <Button variant="outline-secondary">
               <Chat onClick={() => setShowComments(true)} />
             </Button>
