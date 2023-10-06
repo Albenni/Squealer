@@ -4,9 +4,11 @@ import { ListGroup, Button } from "react-bootstrap";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
+import { useNavigate } from "react-router-dom";
 
 const ChannelsPage = () => {
   const userapi = useAxiosPrivate();
+  const navigate = useNavigate();
 
   const [channels, setChannels] = useState([]);
   const [followedChannels, setFollowedChannels] = useState([]);
@@ -91,7 +93,21 @@ const ChannelsPage = () => {
               <ListGroup.Item key={key}>
                 <div className="row">
                   <div className="col">
-                    <h4>{channel.name}</h4>
+                    <h4
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={(e) => {
+                        e.target.style.textDecoration = "underline";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.textDecoration = "none";
+                      }}
+                      onClick={() => {
+                        sessionStorage.setItem("searchedchannel", channel.name);
+                        navigate("/feed", { replace: true });
+                      }}
+                    >
+                      {channel.name}
+                    </h4>
                   </div>
                   <div className="col d-flex justify-content-end">
                     {!followedChannels.some(

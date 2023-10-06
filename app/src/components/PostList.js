@@ -32,7 +32,7 @@ function PostList({ getposts }) {
     // getPosts();
   }, []);
 
-  if (posts === null || posts === undefined) {
+  if (posts === null) {
     return <p className="text-center pt-5">Nessun post trovato</p>;
   }
 

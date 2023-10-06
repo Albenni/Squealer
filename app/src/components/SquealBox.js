@@ -183,12 +183,18 @@ function SquealBox(props) {
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Nuovo post</Modal.Title>
+        <Modal.Title>Nuovo squeal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="container">
           <div className="row container-fluid">
-            <div className="col-sm-auto pb-3">
+            <div
+              className={
+                isMobile
+                  ? "col-sm-auto pb-3 d-flex justify-content-center"
+                  : "col-sm-auto pb-3"
+              }
+            >
               <img
                 alt="Profile"
                 src={"https://picsum.photos/100"}
@@ -196,28 +202,49 @@ function SquealBox(props) {
               />
             </div>
             <div className="col">
-              <div className="row">
-                <h5 className="col">
+              <div className={isMobile ? "row d-flex" : "row"}>
+                <h5
+                  className={
+                    isMobile ? "col d-flex justify-content-center" : "col"
+                  }
+                >
                   {user.firstname} {user.surname}
                 </h5>
               </div>
-              <div className="row">
-                <h6 style={{ color: theme.colors.lightgrey }} className="col">
+              <div className={isMobile ? "row d-flex" : "row"}>
+                <h6
+                  style={{ color: theme.colors.lightgrey }}
+                  className={
+                    isMobile ? "col d-flex justify-content-center" : "col"
+                  }
+                >
                   @{user.username}
                 </h6>
               </div>
             </div>
-            <div
-              className="col d-flex align-items-center"
-              style={{
-                pointerEvents: "none",
-              }}
-            >
-              <p>Numero caratteri disponibili: {user.charAvailable}</p>
-            </div>
+            {!isMobile && (
+              <div
+                className="col d-flex align-items-start justify-content-end"
+                style={{
+                  pointerEvents: "none",
+                }}
+              >
+                <p>Numero caratteri disponibili: {user.charAvailable}</p>
+              </div>
+            )}
           </div>
 
-          <InputGroup className="container-fluid">
+          <div
+            className="pt-3 d-flex justify-content-center align-items-center"
+            style={{
+              pointerEvents: "none",
+            }}
+          >
+            <p>Numero caratteri disponibili: {user.charAvailable}</p>
+          </div>
+          <InputGroup
+            className={isMobile ? "container-fluid pt-5" : "container-fluid"}
+          >
             <div className="container-fluid">
               <ChannelSelector
                 squealchannel={squealchannel}

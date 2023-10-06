@@ -16,11 +16,12 @@ function Channel() {
 
   useEffect(() => {
     // const getChannelPosts = async () => {
-    //   //   ritornare i post di un canale
     // };
+    // getChannelPosts();
+
     setChannelPosts(postdata);
 
-    // getChannelPosts();
+    console.log(channelposts);
   }, []);
 
   function handleFollowChannel() {
@@ -71,7 +72,7 @@ function Channel() {
       </div>
 
       <div className="d-flex">
-        <PostList posts={channelposts} />
+        <PostList getposts={postdata} />
       </div>
     </>
   );
