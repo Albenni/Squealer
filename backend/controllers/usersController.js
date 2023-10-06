@@ -67,7 +67,7 @@ const getUser = async (req, res) => {
     return res.status(400).json({ message: "User ID invalid" });
 
   try {
-    const user = await User.findOne({ _id: req.params.userId }).exec();
+    const user = await User.findById(req.params.userId).exec();
     if (!user) {
       return res
         .status(204)
