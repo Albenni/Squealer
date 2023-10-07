@@ -234,14 +234,16 @@ function SquealBox(props) {
             )}
           </div>
 
-          <div
-            className="pt-3 d-flex justify-content-center align-items-center"
-            style={{
-              pointerEvents: "none",
-            }}
-          >
-            <p>Numero caratteri disponibili: {user.charAvailable}</p>
-          </div>
+          {isMobile && (
+            <div
+              className="pt-3 d-flex justify-content-center align-items-center"
+              style={{
+                pointerEvents: "none",
+              }}
+            >
+              <p>Numero caratteri disponibili: {user.charAvailable}</p>
+            </div>
+          )}
           <InputGroup
             className={isMobile ? "container-fluid pt-5" : "container-fluid"}
           >

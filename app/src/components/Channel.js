@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-import PostList from "./PostList";
+import PostList from "./posts/PostList";
 
 import postdata from "../assets/postdatasample.json";
 // import config from "../config/config";

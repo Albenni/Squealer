@@ -48,6 +48,7 @@ function ChannelSelector(props) {
             placeholder="Seleziona il canale"
             id="SBoxControlSelectChannel"
             aria-label="SelectChannel"
+            aria-describedby="SelectChannel"
             onChange={(e) => setPostChannel(e.target.value)}
             style={{
               backgroundColor: "#e9ecef",

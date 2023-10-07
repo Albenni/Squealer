@@ -1,17 +1,11 @@
 import { Card } from "react-bootstrap";
 import PostHeader from "./PostHeader";
-import PostReaction from "./PostReaction";
 
-function PostImage({ item }) {
+function PostImage({ item, user }) {
   return (
-    <Card
-      className="mt-3"
-      style={{
-        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-      }}
-    >
+    <>
       <Card.Body>
-        <PostHeader item={item} />
+        <PostHeader item={user} />
       </Card.Body>
       <Card.Img
         // variant="bottom"
@@ -24,10 +18,7 @@ function PostImage({ item }) {
           borderRadius: "10%",
         }}
       />
-      <Card.Footer>
-        <PostReaction postid={item.id} />
-      </Card.Footer>
-    </Card>
+    </>
   );
 }
 

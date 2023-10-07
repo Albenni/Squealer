@@ -22,6 +22,7 @@ const theme = {
     transparent: "rgba(0,0,0,0.1)",
     loginbg: "#93B3FF",
     red: "#FF0000",
+    bgdark: "#0D0D0D",
   },
 };
 

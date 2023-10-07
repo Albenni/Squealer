@@ -1,3 +1,5 @@
+import theme from "../config/theme";
+
 import { useState, useEffect } from "react";
 import TopBar from "../components/TopBar";
 import { ListGroup, Button } from "react-bootstrap";
@@ -74,7 +76,13 @@ const ChannelsPage = () => {
   return (
     <>
       <TopBar />
-      <div className="container-fluid">
+      <div
+        className="container-fluid"
+        style={{
+          backgroundColor: theme.colors.bgdark,
+          minHeight: "100vh",
+        }}
+      >
         <div
           className="container"
           style={{
@@ -83,6 +91,7 @@ const ChannelsPage = () => {
             alignItems: "center",
             marginTop: "2em",
             marginBottom: "2em",
+            color: theme.colors.white,
           }}
         >
           <h1>Scopri nuovi canali</h1>

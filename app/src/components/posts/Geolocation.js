@@ -1,4 +1,4 @@
-import "../css/Geolocation.css";
+import "../../css/Geolocation.css";
 
 import { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";

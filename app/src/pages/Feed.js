@@ -7,7 +7,7 @@ import { PlusCircleFill } from "react-bootstrap-icons";
 
 import SquealBox from "../components/SquealBox";
 
-import PostList from "../components/PostList";
+import PostList from "../components/posts/PostList";
 import TrendBar from "../components/TrendBar";
 
 import postdatasample from "../assets/postdatasample.json";
@@ -24,7 +24,7 @@ function Feed() {
       <div
         className="Feed"
         style={{
-          backgroundColor: theme.colors.bg1,
+          backgroundColor: theme.colors.bgdark,
           minHeight: "100vh",
         }}
       >

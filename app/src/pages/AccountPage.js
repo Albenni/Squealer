@@ -5,7 +5,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 import TopBar from "../components/TopBar";
 import UserBar from "../components/UserBar";
-import PostList from "../components/PostList";
+import PostList from "../components/posts/PostList";
 
 function AccountPage(props) {
   const userapi = useAxiosPrivate();

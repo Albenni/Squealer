@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Image, Spinner } from "react-bootstrap";
-import Geolocation from "./Geolocation";
+import Geolocation from "./posts/Geolocation";
 
 import ReactPlayer from "react-player";
 

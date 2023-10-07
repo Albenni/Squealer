@@ -6,8 +6,6 @@ https://fontawesome.com/search?m=free&o=r
 
 https://remixicon.com/icon/wheelchair-fill
 
-- Fare trend bar con i trending hashtag e fare un altra pagina dove mettiamo tutti i canali quando non ci stanno nella bar
-
 - Mettere in ogni post se il post è pubblico o appartiene a un canale. forse mettere anche gli hashtag che sono associati a ogni post
 
 - Mettere nelle reazioni una barra che indica il gradimento di ogni post

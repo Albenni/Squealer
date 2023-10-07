@@ -1,4 +1,4 @@
-import theme from "../config/theme";
+import theme from "../../config/theme";
 import { useEffect, useState } from "react";
 import { Modal, Button, ListGroup, Form } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";

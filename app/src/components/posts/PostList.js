@@ -1,4 +1,4 @@
-import theme from "../config/theme";
+import theme from "../../config/theme";
 
 import Post from "./Post";
 import PostImage from "./PostImage";
@@ -7,10 +7,12 @@ import PostLocation from "./PostLocation";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 // import config from "../config/config";
 
 function PostList({ getposts }) {
+  const allowedContentTypes = ["text", "image", "video", "geolocalization"];
+
   const postsapi = useAxiosPrivate();
 
   const [posts, setPosts] = useState(null);
@@ -38,14 +40,29 @@ function PostList({ getposts }) {
 
   return (
     <div className="container-fluid pb-3 px-0">
-      {posts.map((item) => {
-        if (item.type === "text") return <Post key={item.id} item={item} />;
-
-        if (item.type === "image") {
-          return <PostImage key={item.id} item={item} />;
+      {posts.map((item, key) => {
+        // if (item.contentType === "text") return <Post key={key} item={item} />;
+        if (!allowedContentTypes.includes(item.contentType)) {
+          return (
+            <p
+              key={item.id}
+              style={{
+                color: theme.colors.white,
+              }}
+            >
+              Post non riconosciuto
+            </p>
+          );
         }
 
-        return <PostLocation key={item.id} item={item} />;
+        return <Post key={key} item={item} />;
+
+        // if (item.contentType === "image" || item.contentType === "video") {
+        //   return <PostImage key={key} item={item} />;
+        // }
+
+        // if (item.contentType === "location")
+        //   return <PostLocation key={key} item={item} />;
       })}
     </div>
   );

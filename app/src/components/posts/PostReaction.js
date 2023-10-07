@@ -1,4 +1,4 @@
-import theme from "../config/theme";
+import theme from "../../config/theme";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 

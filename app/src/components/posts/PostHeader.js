@@ -1,25 +1,29 @@
-import "../css/PostHeader.css";
-import theme from "../config/theme";
+import "../../css/PostHeader.css";
+import theme from "../../config/theme";
 import { Avatar } from "@mui/material";
 import { PatchCheckFill } from "react-bootstrap-icons";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
+import guesticon from "../../assets/guesticon.png";
+
+import { useNavigate } from "react-router-dom";
 
 function PostHeader({ item }) {
+  const navigate = useNavigate();
   function handleUserClick() {
-    console.log("Da fare redirect alla pagina con i post utente");
+    navigate("/" + item?.username);
   }
 
   return (
     <div className="row">
       <div className="d-flex">
         <div className="m-1">
-          <Avatar src={item.propic} />
+          <Avatar src={item?.profilePic ? item.profilePic : guesticon} />
         </div>
         <div className="p-1 usernametext" onClick={handleUserClick}>
-          {item.name}
+          {item?.firstname} {item?.surname}
         </div>
 
-        {item.verified && (
+        {item?.verified && (
           <div className="p-1">
             <PatchCheckFill color={theme.colors.lightblue} />
           </div>
@@ -31,7 +35,7 @@ function PostHeader({ item }) {
             color: theme.colors.lightgrey,
           }}
         >
-          @{item.username}
+          @{item?.username}
         </div>
       </div>
     </div>
