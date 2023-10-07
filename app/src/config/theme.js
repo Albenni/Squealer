@@ -11,7 +11,7 @@ const theme = {
     button: "#2667FF",
     dark: "#18020C",
     white: "#FFFFFF",
-    lightdanger: "#F9B4B4",
+    lightdanger: "#FF4D4D",
     lightgrey: "#A9A9A9",
     lightblue: "#4b9db7",
     reallylike: "#4DAA57",

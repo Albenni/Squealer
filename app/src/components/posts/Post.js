@@ -31,27 +31,51 @@ function Post({ item }) {
   }, []);
 
   return (
-    <Card
-      className="mt-3"
-      style={{
-        width: "100%",
-        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-      }}
-    >
-      {item.contentType === "text" && <PostText item={item} user={user} />}
+    <>
+      <div
+        className="container-fluid d-flex justify-content-end"
+        style={{
+          position: "relative",
+          marginTop: "-3vh",
+          bottom: "-5vh",
+          color: theme.colors.lightgrey,
+        }}
+      >
+        <p
+          style={{
+            fontWeight: "bold",
+            color: theme.colors.lightgrey,
+            backgroundColor: theme.colors.bg2New,
+            borderRadius: "10px",
+            border: "1px solid " + theme.colors.lightgrey,
+            padding: "5px",
+            zIndex: "1",
+          }}
+        >
+          {item.squealType}
 
-      {item.contentType === "image" && <PostImage item={item} user={user} />}
-
-      {item.contentType === "video" && <PostVideo item={item} user={user} />}
-
-      {item.contentType === "geolocalization" && (
-        <PostLocation item={item} user={user} />
-      )}
-
-      <Card.Footer>
-        <PostReaction postid={item.squealId} />
-      </Card.Footer>
-    </Card>
+          <br />
+          {item.officialChannel ? "Canale ufficiale squealer" : ""}
+        </p>
+      </div>
+      <Card
+        className="mt-3"
+        style={{
+          width: "100%",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+        }}
+      >
+        {item.contentType === "text" && <PostText item={item} user={user} />}
+        {item.contentType === "image" && <PostImage item={item} user={user} />}
+        {item.contentType === "video" && <PostVideo item={item} user={user} />}
+        {item.contentType === "geolocalization" && (
+          <PostLocation item={item} user={user} />
+        )}
+        <Card.Footer>
+          <PostReaction postid={item.squealId} />
+        </Card.Footer>
+      </Card>
+    </>
   );
 }
 

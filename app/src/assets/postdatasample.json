@@ -11,23 +11,12 @@
     "createdAt": "2020-12-12 12:12:12"
   },
   {
-    "squealId": 2,
-    "author": "65157c864a7b4c8e99f62a0b",
-    "group": "canaleid",
-    "squealType": "Public",
-    "officialChannel": false,
-    "content": "https://www.youtube.com/watch?v=TQhk2K-vaWk",
-    "contentType": "video",
-    "impression": 0,
-    "createdAt": "2020-12-12 12:12:12"
-  },
-  {
     "squealId": 3,
     "author": "65157c864a7b4c8e99f62a0b",
     "group": "canaleid",
     "squealType": "Keyword",
     "officialChannel": false,
-    "content": "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet",
+    "content": "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet",
     "contentType": "text",
     "impression": 0,
     "createdAt": "2020-12-12 12:12:12"
@@ -37,7 +26,7 @@
     "author": "65157c864a7b4c8e99f62a0b",
     "group": "canaleid",
     "squealType": "Channel",
-    "officialChannel": false,
+    "officialChannel": true,
     "content": "https://picsum.photos/2460/1400",
     "contentType": "image",
     "impression": 0,
@@ -51,6 +40,17 @@
     "officialChannel": false,
     "content": "",
     "contentType": "geolocalization",
+    "impression": 0,
+    "createdAt": "2020-12-12 12:12:12"
+  },
+  {
+    "squealId": 2,
+    "author": "65157c864a7b4c8e99f62a0b",
+    "group": "canaleid",
+    "squealType": "Public",
+    "officialChannel": false,
+    "content": "https://www.youtube.com/watch?v=TQhk2K-vaWk",
+    "contentType": "video",
     "impression": 0,
     "createdAt": "2020-12-12 12:12:12"
   }

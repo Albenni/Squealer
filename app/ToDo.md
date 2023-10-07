@@ -24,8 +24,6 @@ https://remixicon.com/icon/wheelchair-fill
 
 - Aggiustare grafica reazioni per mobile
 
-- Collegare search al backend
-
 - Fixare il pulsante di nuovo squeal
 
 - Codificare il token che teniamo all'interno dell'app
