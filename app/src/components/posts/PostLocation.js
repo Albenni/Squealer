@@ -2,33 +2,17 @@ import { Card } from "react-bootstrap";
 import PostHeader from "./PostHeader";
 import Geolocation from "./Geolocation";
 
-import PostReaction from "./PostReaction";
-
-function PostLocation({ item }) {
+function PostLocation({ item, user }) {
   return (
-    <Card
-      className="mt-3"
-      style={{
-        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-      }}
-    >
+    <div className="p-3">
       <Card.Body>
-        <PostHeader item={item} />
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <Geolocation item={item} />
-        </div>
+        <PostHeader item={user} />
       </Card.Body>
 
-      <Card.Footer>
-        <PostReaction postid={item.id} />
-      </Card.Footer>
-    </Card>
+      {/* <Geolocation item={item} /> */}
+
+      <Geolocation />
+    </div>
   );
 }
 

@@ -42,10 +42,11 @@ function Post({ item }) {
 
       {item.contentType === "image" && <PostImage item={item} user={user} />}
 
-      {/* {item.contentType === "video" && <PostVideo item={item} user={user} />} */}
-      {/* {item.contentType === "geolocalization" && (
+      {item.contentType === "video" && <PostVideo item={item} user={user} />}
+
+      {item.contentType === "geolocalization" && (
         <PostLocation item={item} user={user} />
-      )} */}
+      )}
 
       <Card.Footer>
         <PostReaction postid={item.squealId} />
