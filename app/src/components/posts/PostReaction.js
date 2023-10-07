@@ -1,6 +1,7 @@
 import theme from "../../config/theme";
-import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, ProgressBar } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 
 import {
   Chat,
@@ -13,9 +14,12 @@ import {
   EmojiHeartEyes,
   EmojiHeartEyesFill,
 } from "react-bootstrap-icons";
+
 import CommentsModal from "./CommentsModal";
 
 function PostReaction({ postid }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   const [showComments, setShowComments] = useState(false);
   const [reaction, setReaction] = useState({
     reallydislike: false,
@@ -24,6 +28,8 @@ function PostReaction({ postid }) {
     like: false,
     reallylike: false,
   });
+  const [cm, setCm] = useState(50);
+  const [barcolor, setBarColor] = useState("");
 
   function handleReaction(type) {
     // if there are no reactions, set the reaction to true
@@ -32,6 +38,19 @@ function PostReaction({ postid }) {
       return;
     }
   }
+
+  useEffect(() => {
+    const num = Math.floor(Math.random() * 100);
+    setCm(num);
+    if (num < 33) {
+      setBarColor("danger");
+    } else if (num < 66) {
+      setBarColor("warning");
+    } else {
+      setBarColor("success");
+    }
+  }, []);
+
   return (
     <>
       <CommentsModal
@@ -39,9 +58,19 @@ function PostReaction({ postid }) {
         setShowComments={setShowComments}
         postid={postid}
       />
+      <ProgressBar
+        now={cm}
+        label={`${cm}%`}
+        className="mb-2"
+        variant={barcolor}
+        style={{
+          height: isMobile ? "15px" : "25px",
+          borderRadius: "20px",
+        }}
+      />
       <div className="container-fluid p-3">
-        <div className=" d-flex">
-          <div className="px-1">
+        <div className="d-flex">
+          <div className="px-2">
             <Button
               style={{
                 backgroundColor: theme.colors.reallydislike,
@@ -52,7 +81,7 @@ function PostReaction({ postid }) {
               {reaction.reallydislike ? <EmojiAngryFill /> : <EmojiAngry />}
             </Button>
           </div>
-          <div className="px-1">
+          <div className="px-2">
             <Button
               style={{
                 backgroundColor: theme.colors.dislike,
@@ -64,7 +93,7 @@ function PostReaction({ postid }) {
             </Button>
           </div>
 
-          <div className="px-1">
+          <div className="px-2">
             <Button
               style={{
                 backgroundColor: theme.colors.like,
@@ -75,7 +104,7 @@ function PostReaction({ postid }) {
               {reaction.like ? <EmojiSmileFill /> : <EmojiSmile />}
             </Button>
           </div>
-          <div className="px-1">
+          <div className="px-2">
             <Button
               style={{
                 backgroundColor: theme.colors.reallylike,
