@@ -14,7 +14,10 @@ router
   .get(usersController.getUser)
   .delete(usersController.deleteUser);
 
-router.route("/:userId/charAvailable").get(usersController.getCharsAvailable);
+router
+  .route("/:userId/charAvailable")
+  .get(usersController.getCharsAvailable)
+  .post(usersController.addChars); //da testare
 router.route("/:userId/username").patch(usersController.updateUsername);
 router.route("/:userId/password").patch(usersController.updatePassword);
 router.route("/:userId/email").patch(usersController.updateEmail);
@@ -33,6 +36,14 @@ router
   .route("/:userId/vips/:vipId")
   .post(smmController.acceptVip)
   .delete(smmController.removeVip);
+
+router.route("/:userId/followers").get(usersController.getFollowers); //da implementare
+
+router
+  .route("/:userId/followed")
+  .get(usersController.getFollowed) //da implementare
+  .post(usersController.followUser) //da implementare
+  .delete(usersController.unfollowUser); //da implementare
 
 router
   .route("/:userId/channels")

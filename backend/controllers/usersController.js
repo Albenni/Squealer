@@ -62,6 +62,50 @@ const getCharsAvailable = async (req, res) => {
   }
 };
 
+const addChars = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.char))
+    return res
+      .status(400)
+      .json({ message: "Specify char in body for characters" });
+
+  //verifica che l'utente abbia il permesso
+  if (req.id !== req.params.userId) {
+    if (req.isSmm) {
+      const smm = await Smm.findOne({
+        vipId: req.params.userId,
+        smmId: req.id,
+      });
+      if (!smm)
+        return res
+          .status(403)
+          .json({ message: "You are not the SMM for this Vip" });
+    } else {
+      return res.status(403).json({ message: "Permission denied" });
+    }
+  }
+
+  try {
+    const user = await User.findById(req.params.userId).select(
+      "charAvailable -_id"
+    );
+    const updatedChars = parseInt(req.body.char) + parseInt(user.charAvailable);
+    const result = await User.findByIdAndUpdate(req.params.userId, {
+      charAvailable: updatedChars,
+    }).select("charAvailable");
+    if (!result) {
+      return res.status(204).json({ message: "User ID not found" });
+    }
+    res.json(result);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const getUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -337,9 +381,23 @@ const removeSmm = async (req, res) => {
   }
 };
 
+const getFollowers = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+};
+
+const getFollowed = async (req, res) => {};
+
+const followUser = async (req, res) => {};
+
+const unfollowUser = async (req, res) => {};
+
 module.exports = {
   searchUser,
   getCharsAvailable,
+  addChars,
   deleteUser,
   getUser,
   updateUsername,
@@ -351,4 +409,8 @@ module.exports = {
   getSmmId,
   requestSmm,
   removeSmm,
+  getFollowers,
+  getFollowed,
+  followUser,
+  unfollowUser,
 };
