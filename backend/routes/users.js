@@ -37,13 +37,15 @@ router
   .post(smmController.acceptVip)
   .delete(smmController.removeVip);
 
-router.route("/:userId/followers").get(usersController.getFollowers); //da implementare
+router.route("/:userId/followers").get(usersController.getFollowers); //da testare
 
 router
   .route("/:userId/followed")
-  .get(usersController.getFollowed) //da implementare
-  .post(usersController.followUser) //da implementare
-  .delete(usersController.unfollowUser); //da implementare
+  .get(usersController.getFollowed) //da testare
+  .post(followersController.followUser); //da testare
+router
+  .route("/:userId/followed/:followedId")
+  .delete(followersController.unfollowUser); //da testare
 
 router
   .route("/:userId/channels")

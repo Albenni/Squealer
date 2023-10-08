@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Follower = require("../models/Follower");
 const Channel = require("../models/Channel");
 const Keyword = require("../models/Keyword");
+const User = require("../models/User");
 
 const followChannel = async (req, res) => {
   if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
@@ -101,9 +102,56 @@ const unfollowKeyword = async (req, res) => {
   }
 };
 
+const followUser = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.followedId))
+    return res.status(400).json({ message: "Keyword ID not valid" });
+
+  const user = await User.findById(req.body.followedId);
+  if (!user) return res.status(400).json({ message: "User not found" });
+
+  try {
+    const result = await Follower.create({
+      followingUserId: req.params.userId,
+      followedId: req.body.followedId,
+      followedType: "User",
+    });
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+};
+
+const unfollowUser = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.followedId))
+    return res.status(400).json({ message: "Keyword ID not valid" });
+
+  try {
+    const result = await Follower.findOneAndDelete({
+      followingUserId: req.params.userId,
+      followedId: req.params.followedId,
+      followedType: "User",
+    });
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+};
+
 module.exports = {
   followChannel,
   unfollowChannel,
   followKeyword,
   unfollowKeyword,
+  followUser,
+  unfollowUser,
 };

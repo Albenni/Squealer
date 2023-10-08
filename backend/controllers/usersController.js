@@ -386,13 +386,44 @@ const getFollowers = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const users = await Follower.find({
+      followedId: req.params.userId,
+      followedType: "User",
+    }).select("followingUserId -_id");
+    if (!users) return res.status(204).json({ message: "No users found" });
+
+    const usersId = users.map((user) => user.followingUserId);
+    const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    res.json(usersComplete);
+  } catch (error) {
+    res.json({ message: error });
+  }
 };
 
-const getFollowed = async (req, res) => {};
+const getFollowed = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
-const followUser = async (req, res) => {};
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
 
-const unfollowUser = async (req, res) => {};
+  try {
+    const users = await Follower.find({
+      followingUserId: req.params.userId,
+      followedType: "User",
+    }).select("followedId -_id");
+    if (!users) return res.status(204).json({ message: "No users found" });
+
+    const usersId = users.map((user) => user.followedId);
+    const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    res.json(usersComplete);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
 
 module.exports = {
   searchUser,
@@ -411,6 +442,4 @@ module.exports = {
   removeSmm,
   getFollowers,
   getFollowed,
-  followUser,
-  unfollowUser,
 };
