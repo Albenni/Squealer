@@ -8,10 +8,6 @@ https://remixicon.com/icon/wheelchair-fill
 
 - Mettere in ogni post se il post è pubblico o appartiene a un canale. forse mettere anche gli hashtag che sono associati a ogni post
 
-- Mettere nelle reazioni una barra che indica il gradimento di ogni post
-
-- Spostare lo shop nella sezione account per comprare i caratteri
-
 - Aggiungere le funzioni e bottoni per cambiare: username, nome, cognome, password, reset password, email e immagine profilo
 
 - Finire la sezione messaggi privati

@@ -2,11 +2,12 @@ import "../css/SettingsPage.css";
 import theme from "../config/theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Tab, Nav, Modal } from "react-bootstrap";
+import { Card, Button, Tab, Nav, Form, Accordion } from "react-bootstrap";
 
 import TopBar from "../components/TopBar";
 import DeleteModal from "../components/DeleteModal";
 import AccountPane from "../components/AccountPane";
+import SecurityPane from "../components/SecurityPane";
 
 import ShopPage from "./ShopPage";
 
@@ -31,6 +32,7 @@ function SettingsPage() {
       .get(endpoint + userId)
       .then((res) => {
         console.log(res.data);
+        sessionStorage.setItem("useremail", res.data.email);
         setUser(res.data);
       })
       .catch((err) => {
@@ -96,9 +98,9 @@ function SettingsPage() {
                 <Nav.Item>
                   <Nav.Link
                     eventKey="third"
-                    onClick={() => setActivetab("Acquista nuovi caratteri")}
+                    onClick={() => setActivetab("Negozio squeal")}
                   >
-                    Acquista nuovi caratteri
+                    Negozio squeal
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -120,7 +122,7 @@ function SettingsPage() {
             <div className="col">
               <Tab.Content
                 style={{
-                  borderRadius: "5vh",
+                  borderRadius: "20px",
                   backgroundColor: theme.colors.transparent,
                   height: "100%",
                 }}
@@ -131,13 +133,7 @@ function SettingsPage() {
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <div className="container">
-                    <p>Cambia nome</p>
-                    <p>Cambia email</p>
-                    <p>Cambia password</p>
-                    <p>Reset password</p>
-                    <p>Cambia foto</p>
-                  </div>
+                  <SecurityPane />
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
                   <ShopPage />
