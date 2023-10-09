@@ -449,10 +449,12 @@ const getFollowers = async (req, res) => {
       followedId: req.params.userId,
       followedType: "User",
     }).select("followingUserId -_id");
-    if (!users) return res.status(204).json({ message: "No users found" });
 
     const usersId = users.map((user) => user.followingUserId);
     const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    if (!usersComplete?.length)
+      return res.status(204).json({ message: "No users found" });
 
     res.json(usersComplete);
   } catch (error) {
@@ -471,10 +473,12 @@ const getFollowed = async (req, res) => {
       followingUserId: req.params.userId,
       followedType: "User",
     }).select("followedId -_id");
-    if (!users) return res.status(204).json({ message: "No users found" });
 
     const usersId = users.map((user) => user.followedId);
     const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    if (!usersComplete?.length)
+      return res.status(204).json({ message: "No users found" });
 
     res.json(usersComplete);
   } catch (error) {
