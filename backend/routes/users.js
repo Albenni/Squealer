@@ -41,12 +41,12 @@ router
   .post(smmController.acceptVip)
   .delete(smmController.removeVip);
 
-router.route("/:userId/followers").get(usersController.getFollowers); //da testare
+router.route("/:userId/followers").get(usersController.getFollowers);
 
 router
   .route("/:userId/followed")
-  .get(usersController.getFollowed) //da testare
-  .post(followersController.followUser); //da testare
+  .get(usersController.getFollowed)
+  .post(followersController.followUser);
 router
   .route("/:userId/followed/:followedId")
   .delete(followersController.unfollowUser); //da testare
