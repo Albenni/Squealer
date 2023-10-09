@@ -6,7 +6,7 @@ const squealsController = require("../controllers/squealsController");
 router
   .route("/")
   .get(channelsController.searchChannels)
-  .post(channelsController.createChannel); //da finire e poi da ritestare dopo modifiche
+  .post(channelsController.createChannel);
 
 router
   .route("/:channelId")
@@ -15,10 +15,10 @@ router
 
 router.route("/:channelId/profilePic").get(channelsController.updateProfilePic); // da testare
 
-router.route("/:channelId/admin").post(channelsController.addAdmin); // da testare
+router.route("/:channelId/admins").post(channelsController.addAdmin);
 router
-  .route("/:channelId/admin/:adminId")
-  .delete(channelsController.removeAdmin); // da testare
+  .route("/:channelId/admins/:adminId")
+  .delete(channelsController.removeAdmin);
 
 router
   .route("/:channelId/squeals")
