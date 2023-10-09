@@ -13,6 +13,13 @@ router
   .get(channelsController.getChannelById)
   .delete(channelsController.deleteChannel); //da ritestare dopo modifiche
 
+router.route("/:channelId/profilePic").get(channelsController.updateProfilePic); // da testare
+
+router.route("/:channelId/admin").post(channelsController.addAdmin); // da testare
+router
+  .route("/:channelId/admin/:adminId")
+  .delete(channelsController.removeAdmin); // da testare
+
 router
   .route("/:channelId/squeals")
   .get(squealsController.getAllSquealsInChannel);

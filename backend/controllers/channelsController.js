@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 const Admin = require("../models/Admin");
 const Squeal = require("../models/Squeal");
+const User = require("../models/User");
 
 const createChannel = async (req, res) => {
   if (!req.authorized) return res.status(403);
@@ -17,12 +18,50 @@ const createChannel = async (req, res) => {
     private: req?.body?.channelPrivate === "true",
   };
 
-  //bisogna creare il documento Admin, che rappresenta il fatto che questo utente è admin del canale creato
-
   try {
     const result = await Channel.create(newChannel);
+    //creo l'admin del canale
+    await Admin.create({
+      userId: req.id,
+      channelId: result._id,
+    });
     res.json(result);
   } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+const updateProfilePic = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "Channel ID invalid" });
+
+  const { newprofilepicture } = req.body;
+
+  if (!newprofilepicture)
+    return res.status(400).json({ message: "Missing profile picture" });
+
+  // Controllo che l'immagine sia valida (il MIME type deve essere image)
+  let isValid = false;
+  await fetch(newprofilepicture).then((res) => {
+    const contentType = res.headers.get("content-type");
+    isValid = contentType?.startsWith("image");
+  });
+
+  if (!isValid) return res.status(400).json({ message: "Invalid image" });
+
+  try {
+    // Aggiorno e ritorno il canale aggiornato
+    const result = await Channel.findByIdAndUpdate(
+      req.params.userId,
+      { profilePic: newprofilepicture },
+      { new: true }
+    ).exec();
+
+    if (!result) return res.status(404).json({ message: "Channel not found" });
+
+    res.json(result);
+  } catch (error) {
+    console.log(error);
     res.json({ message: error });
   }
 };
@@ -86,9 +125,59 @@ const deleteChannel = async (req, res) => {
   return res.status(200);
 };
 
+const addAdmin = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "Channel ID required" });
+  if (!mongoose.Types.ObjectId.isValid(req?.body?.adminId))
+    return res.status(400).json({ message: "Channel ID required" });
+
+  const channel = await Channel.findById(req.params.channelId).exec();
+  if (!channel) {
+    return res.status(404).json({ message: "Channel ID not found" });
+  }
+  const user = await User.findById(req.body.adminId).exec();
+  if (!user) {
+    return res.status(404).json({ message: "Admin ID not found" });
+  }
+
+  try {
+    const admin = await Admin.create({
+      userId: req.body.adminId,
+      channelId: req.params.channelId,
+    });
+    res.json(admin);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const removeAdmin = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "Channel ID required" });
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.adminId))
+    return res.status(400).json({ message: "Channel ID required" });
+
+  try {
+    const admin = await Admin.findOneAndDelete({
+      userId: req.params.adminId,
+      channelId: req.params.channelId,
+    });
+    res.json(admin);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 module.exports = {
   createChannel,
+  updateProfilePic,
   searchChannels,
   getChannelById,
   deleteChannel,
+  addAdmin,
+  removeAdmin,
 };
