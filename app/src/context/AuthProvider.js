@@ -4,12 +4,11 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState();
-  const [otp, setOtp] = useState();
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, otp, setOtp }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {console.log("AuthProvider: " + auth)}
-      {console.log("OTPProvider: " + otp)}
+
       {children}
     </AuthContext.Provider>
   );

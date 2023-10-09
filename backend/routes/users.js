@@ -23,9 +23,6 @@ router.route("/:userId/password").patch(usersController.updatePassword);
 router.route("/:userId/email").patch(usersController.updateEmail);
 router.route("/:userId/profilePicture").patch(usersController.updateProfilePic);
 
-router.route("/:userId/OTP").post(usersController.sendResetOTP);
-router.route("/:userId/resetPassword").patch(usersController.resetPassword);
-
 router
   .route("/:userId/professional")
   .patch(usersController.upgradeToProfessional); //da testare

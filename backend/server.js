@@ -41,6 +41,7 @@ app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
+app.use("/newpassword", require("./routes/newpassword"));
 
 //in questo middleware vengono settati req.authorized, req.username, req.id e req.isMod tramite i dati contenuti nel token
 //per accedere a tutte le routes sotto bisogna essere loggati

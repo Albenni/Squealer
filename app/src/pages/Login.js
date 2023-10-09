@@ -45,12 +45,12 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [missingFields, setMissingFields] = useState(false);
 
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      navigate(from, { replace: true });
-    }
-  }, []);
+  // Da vedere perchè non funziona
+  // useEffect(() => {
+  //   if (auth) {
+  //     navigate(from, { replace: true });
+  //   }
+  // }, [auth]);
 
   // function handleGuestUser() {
   //   // sessionStorage.setItem("token", "guest");
@@ -259,7 +259,8 @@ function Login() {
                       visible={missingFields}
                     />
                     <div className="pb-2">
-                      <Link to="NewPassword">Hai dimenticato la password</Link>?
+                      <Link to="/newpassword">Hai dimenticato la password</Link>
+                      ?
                     </div>
                     <button type="submit" className="text btn btn-dark">
                       Accedi

@@ -1,24 +1,13 @@
 import theme from "../config/theme";
 import { useState } from "react";
-import {
-  useAccordionButton,
-  Accordion,
-  Button,
-  Card,
-  Alert,
-} from "react-bootstrap";
+import { useAccordionButton, Accordion, Button, Card } from "react-bootstrap";
 import ErrorMessage from "./ErrorMessage";
 import { useMediaQuery } from "react-responsive";
-import useAuth from "../hooks/useAuth";
 
 function SecurityPane() {
-  const { otp, setOtp } = useAuth();
-
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [isImageError, setIsImageError] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
-  const [emailAlert, setEmailAlert] = useState(false);
 
   function handleChangeUsername(newusername) {
     console.log(newusername);
@@ -40,19 +29,6 @@ function SecurityPane() {
 
   function handleChangePassword(oldpassword, newpassword) {
     console.log(oldpassword, newpassword);
-  }
-
-  function handleResetPassword() {
-    console.log("Send email to " + sessionStorage.getItem("useremail"));
-
-    // send email to user from backend, get otp and set it in context
-
-    setEmailSent(true);
-    setEmailAlert(true);
-  }
-
-  function handleCheckResetPwd(otp, newpassword) {
-    // controllare che otp sia corrett, se si cambiare password
   }
 
   function CustomToggle({ children, eventKey }) {
@@ -218,106 +194,6 @@ function SecurityPane() {
                   Cambia
                 </Button>
               </div>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-        <Card
-          className="my-3"
-          style={{
-            backgroundColor: "lightblue",
-          }}
-        >
-          <Card.Header>
-            <CustomToggle eventKey="4">Reset della password</CustomToggle>
-          </Card.Header>
-          <Accordion.Collapse eventKey="4">
-            <Card.Body>
-              {emailSent ? (
-                <div className="d-flex justify-content-start align-items-center">
-                  <input
-                    type="text"
-                    id="otpcheck"
-                    className="form-control"
-                    placeholder="Inserisci il codice OTP"
-                    style={isMobile ? { width: "80%" } : { width: "50%" }}
-                  />
-                  <input
-                    type="password"
-                    id="newpasswordreset"
-                    className="form-control"
-                    placeholder="Nuova password"
-                    style={isMobile ? { width: "80%" } : { width: "50%" }}
-                  />
-                  <Button
-                    variant="outline-secondary"
-                    className="mx-3"
-                    onClick={() =>
-                      handleCheckResetPwd(
-                        document.getElementById("otpchec")?.value,
-                        document.getElementById("newpasswordreset")?.value
-                      )
-                    }
-                  >
-                    Cambia
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <p
-                      style={{
-                        pointerEvents: "none",
-                      }}
-                    >
-                      Per il reset della password ti verrà mandata una mail a{" "}
-                      {sessionStorage.getItem("useremail")}
-                    </p>
-                  </div>
-                  <Button
-                    variant="outline-secondary"
-                    className="mx-3"
-                    onClick={handleResetPassword}
-                  >
-                    Continua
-                  </Button>
-                </>
-              )}
-              <Alert
-                variant="success"
-                className="mt-3"
-                transition
-                style={
-                  emailAlert
-                    ? {
-                        position: "fixed",
-                        width: "95%",
-                        top: "0",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        zIndex: "1000",
-                      }
-                    : { display: "none" }
-                }
-              >
-                <Alert.Heading>Reset della password</Alert.Heading>
-                <p
-                  style={{
-                    pointerEvents: "none",
-                  }}
-                >
-                  Ti abbiamo mandato una mail a{" "}
-                  {sessionStorage.getItem("useremail")} per il reset della
-                  password
-                </p>
-                <div className="d-flex justify-content-end">
-                  <Button
-                    onClick={() => setEmailAlert(false)}
-                    variant="outline-success"
-                  >
-                    Chiudi
-                  </Button>
-                </div>
-              </Alert>
             </Card.Body>
           </Accordion.Collapse>
         </Card>

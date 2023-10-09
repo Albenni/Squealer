@@ -2,7 +2,7 @@ import "../css/SettingsPage.css";
 import theme from "../config/theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Tab, Nav, Form, Accordion } from "react-bootstrap";
+import { Card, Button, Tab, Nav } from "react-bootstrap";
 
 import TopBar from "../components/TopBar";
 import DeleteModal from "../components/DeleteModal";
@@ -32,13 +32,13 @@ function SettingsPage() {
       .get(endpoint + userId)
       .then((res) => {
         console.log(res.data);
-        sessionStorage.setItem("useremail", res.data.email);
+
         setUser(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [userapi]);
+  }, [userapi, endpoint]);
 
   function handleCheckDelete() {
     setShowDelete(true);

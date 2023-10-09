@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import SettingsPage from "./pages/SettingsPage";
 import AccountPage from "./pages/AccountPage";
 import ChannelsPage from "./pages/ChannelsPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Routes>
         <Route path="/" index element={<Login />} />
 
+        <Route path="/newpassword" element={<ResetPasswordPage />} />
         <Route path="/:username" element={<Account />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}

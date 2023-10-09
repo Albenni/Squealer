@@ -288,55 +288,6 @@ const upgradeToProfessional = async (req, res) => {
   }
 };
 
-// Body {email: string}
-const sendResetOTP = async (req, res) => {
-  if (!req.authorized) return res.status(403);
-
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
-    return res.status(400).json({ message: "User ID invalid" });
-
-  if (!req.body.email)
-    return res.status(400).json({ message: "Missing email" });
-
-  //Creo un OTP e lo salvo nel db criptato
-  const OTP = Math.floor(100000 + Math.random() * 900000);
-  // const hashedOTP = await bcrypt.hash(OTP.toString(), 10);
-
-  console.log(OTP);
-
-  try {
-    const result = await User.findByIdAndUpdate(
-      req.params.userId,
-      { resetOTP: OTP },
-      { new: true }
-    ).exec();
-
-    if (!result)
-      return res
-        .status(404)
-        .json({ message: `User ID ${req.params.userId} not found` });
-
-    res.json(result);
-  } catch (error) {
-    res.json({ message: error });
-  }
-  // Invio l'OTP all'utente per mail
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    secure: true,
-    auth: {
-      user: process.env.APP_EMAIL,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  // Ritorno un messaggio di successo
-};
-
-// Body {OTP: string, newpassword: string}
-const resetPassword = async (req, res) => {};
-
 const deleteUser = async (req, res) => {
   if (!req.authorized) return res.status(403);
 
@@ -496,8 +447,6 @@ module.exports = {
   updatePassword,
   updateEmail,
   updateProfilePic,
-  sendResetOTP,
-  resetPassword,
   upgradeToProfessional,
   getUserSubscribedChannels,
   getSmmId,
