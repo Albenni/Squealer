@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const constants = require("../config/constants");
 const Squeal = require("../models/Squeal");
+const Reaction = require("../models/Reaction");
+const constants = require("../config/constants");
 
 //solo quelli pubblici
 const getAllSquealsByUser = async (req, res) => {
@@ -128,17 +129,78 @@ const deleteSqueal = async (req, res) => {
   }
 };
 
-const addSquealReactions = async (req, res) => {
+//yourReact == true se la reaction è +, false se è -, null se non hai messo una reaction
+const getReactions = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
 
-  // const result = await Squeal.findById(req.params.squealId).select(
-  //   "positiveReaction negativeReaction"
-  // );
+  const posReac = await Reaction.find({
+    squealId: req.params.squealId,
+    positiveReaction: true,
+  }).count();
 
-  // if (!reactions) return res.status(204).json({ message: `Squeal not found` });
+  const negReac = await Reaction.find({
+    squealId: req.params.squealId,
+    positiveReaction: true,
+  }).count();
 
-  // res.status(200).json(reactions);
+  if (req?.authorized) {
+    const yourReac = await Reaction.findOne({
+      squealId: req.params.squealId,
+      userId: req.id,
+    });
+
+    const response = yourReac?.positiveReaction
+      ? {
+          posReac,
+          negReac,
+          yourReac: yourReac.positiveReaction,
+        }
+      : {
+          posReac,
+          negReac,
+        };
+    res.status(200).json(response);
+  } else {
+    const response = {
+      posReac,
+      negReac,
+    };
+    res.status(200).json(response);
+  }
+};
+
+const addReaction = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
+    return res.status(400).json({ message: "Squeal ID not valid" });
+  if (!req?.body?.reaction)
+    return res.status(400).json({ message: "Reaction required valid" });
+
+  const squeal = await Squeal.findById(req.params.squealId);
+  if (!squeal) return res.status(204).json({ message: `Squeal not found` });
+
+  if (req?.authorized) {
+    const result = await Reaction.findOneAndReplace(
+      {
+        squealId: req.params.squealId,
+        userId: req.id,
+      },
+      {
+        squealId: req.params.squealId,
+        userId: req.id,
+        positiveReaction: req.body.reaction === "positive",
+      }
+    );
+
+    res.status(200).json({ message: "OK" });
+  } else {
+    const result = await Reaction.create({
+      squealId: req.params.squealId,
+      positiveReaction: req.body.reaction === "positive",
+    });
+
+    res.status(200).json({ message: "OK" });
+  }
 };
 
 module.exports = {
@@ -147,5 +209,6 @@ module.exports = {
   getAllSquealsInKeyword,
   createSqueal,
   deleteSqueal,
-  addSquealReactions,
+  getReactions,
+  addReaction,
 };
