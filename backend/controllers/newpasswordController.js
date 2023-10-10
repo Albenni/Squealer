@@ -15,7 +15,8 @@ const sendResetOTP = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
 
   //Trovo l'utente tramite l'email
-  const user = User.findOne({ email: req.body.email });
+  const foundUser = await User.findOne({ email: req.body.email }).exec();
+  if (!foundUser) return res.status(404).json({ message: "User not found." });
 
   //Creo un OTP
   const OTP = Math.floor(100000 + Math.random() * 900000);
@@ -28,45 +29,119 @@ const sendResetOTP = async (req, res) => {
     OTPCreationTime: OTPCreationTime,
   };
 
+  console.log(OTPCreationTime);
+
   const ncryptObject = new ncrypt(process.env.EN_KEY);
 
   //Cripto insieme OTP e momento di creazione e salvo il risultato nel db
   const OTPCrypted = ncryptObject.encrypt(JSON.stringify(otpobj));
 
-  // try {
-  //   const result = await User.findByIdAndUpdate(
-  //     user._id,
-  //     { resetOTP: OTPCrypted },
-  //     { new: true }
-  //   ).exec();
+  try {
+    const result = await User.findByIdAndUpdate(
+      foundUser._id,
+      { resetOTP: OTPCrypted },
+      { new: true }
+    ).exec();
 
-  //   if (!result) return res.status(404).json({ message: `User not found` });
-
-  //   res.json(result);
-  // } catch (error) {
-  //   res.json({ message: error });
-  // }
+    if (!result) return res.status(404).json({ message: `User not found 2` });
+  } catch (error) {
+    res.json({ message: error });
+  }
   // // Invio l'OTP all'utente per mail
 
-  // const transporter = nodemailer.createTransport({
-  //   service: "gmail",
-  //   secure: true,
-  //   auth: {
-  //     user: process.env.APP_EMAIL,
-  //     pass: process.env.APP_PASSWORD,
-  //   },
-  // });
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    secure: true,
+    auth: {
+      user: process.env.APP_EMAIL,
+      pass: process.env.APP_PASSWORD,
+    },
+  });
 
-  // Ritorno un messaggio di successo
+  const recipient_email = req.body.email;
+
+  const mailOptions = {
+    from: process.env.APP_EMAIL,
+    to: recipient_email,
+    subject: "Squealer Password Reset OTP",
+    html: `<html>
+               <body>
+                 <h2>Password Recovery</h2>
+                 <p>Use this OTP to reset your password. OTP is valid for 5 minutes</p>
+                 <h3>${OTP}</h3>
+               </body>
+             </html>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res
+        .status(500)
+        .send({ message: "An error occurred while sending the email" });
+    } else {
+      console.log("Email sent: " + info.response);
+      res
+        .status(200)
+        .send({ message: "Email sent successfully", userId: foundUser._id });
+    }
+  });
 };
 
-// Body {OTP: string, newpassword: string}
+// Body {userId: string, OTP: string, newpassword: string}
 const resetPassword = async (req, res) => {
+  if (!req.body.OTP || !req.body.newpassword || !req.body.userId)
+    return res
+      .status(400)
+      .json({ message: "OTP, new password or userId not provided" });
+
+  //Controllo se l'utente è presente nel db
+
+  if (!(await User.exists({ email: req.body.email })))
+    return res.status(404).json({ message: "User doesn't exist" });
+
+  const foundUser = await User.findOne({ userId: req.body.userId }).exec();
+
+  if (!foundUser) return res.status(404).json({ message: "User not found." });
+
   // Descripto il token e controllo che l'OTP sia valido
+  const ncryptObject = new ncrypt(process.env.EN_KEY);
+
+  const OTPDecrypted = ncryptObject.decrypt(foundUser.resetOTP);
+
+  const OTPDecryptedObj = JSON.parse(OTPDecrypted);
+
   // Controllo che l'operazione sia stata fatta nei limiti di tempo
-  // Controllo che l'OTP sia valido
-  // Controllo che la nuova password sia valida
+  const timenow = Date.now();
+
+  if (OTPDecryptedObj.OTPCreationTime + 300000 < timenow)
+    return res.status(400).json({ message: "Time elapsed" });
+
+  if (OTPDecryptedObj.OTP !== req.body.OTP)
+    return res.status(400).json({ message: "Invalid OTP" });
+
   // Aggiorno la password nel db
+  try {
+    // Controllo che la vecchia password sia corretta
+    if (foundUser.password === req.body.newpassword) {
+      return res
+        .status(400)
+        .json({ message: "Password is the same as the old one" });
+    }
+
+    // Aggiorno la password con save (update dice che è deprecato)
+    foundUser.password = req.body.newpassword;
+    await foundUser.save();
+
+    // Ritorno lo user aggiornato
+    res.status(200).send({ message: "Password updated successfully" });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        "Si è verificato un errore durante l'aggiornamento della password",
+      error,
+    });
+  }
 };
 
 module.exports = { sendResetOTP, resetPassword };
