@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 
 import ErrorMessage from "../components/ErrorMessage";
 import OTPInput from "../components/OTPInput";
+import logo from "../assets/SLogo.png";
 
 function ResetPasswordPage() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -58,6 +59,19 @@ function ResetPasswordPage() {
           height: "100vh",
         }}
       >
+        {/* <img
+          src={logo}
+          alt="Logo"
+          className="row"
+          style={{
+            width: isMobile ? "20%" : "10%",
+            height: "auto",
+            position: "absolute",
+            top: "20%",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        /> */}
         <Card
           className="py-3"
           style={{
