@@ -23,14 +23,6 @@ const messageSchema = new Schema({
       message: "{VALUE} is not supported",
     },
   },
-  // positiveReaction: {
-  //   type: Number,
-  //   default: 0,
-  // },
-  // negativeReaction: {
-  //   type: Number,
-  //   default: 0,
-  // },
   createdAt: {
     type: Date,
     immutable: true,

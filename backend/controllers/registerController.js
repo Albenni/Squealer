@@ -9,9 +9,11 @@ const registerNewUser = async (req, res) => {
     });
   }
 
-  // check for duplicate usernames in the db
-  const duplicate = await User.findOne({ username: user }).exec();
-  if (duplicate) return res.sendStatus(409); //Conflict
+  // check for duplicate usernames or email in the db
+  const duplicateUser = await User.findOne({
+    $or: [{ username: user }, { email: email }],
+  }).exec();
+  if (duplicateUser) return res.sendStatus(409); //Conflict
 
   try {
     //encrypt the password
