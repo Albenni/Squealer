@@ -42,6 +42,10 @@ const userSchema = new Schema({
   profilePic: {
     type: String,
   },
+  blocked: {
+    type: Boolean,
+    default: false,
+  },
   refreshToken: { type: String },
   resetOTP: { type: String },
 });

@@ -70,6 +70,9 @@ const userLogin = async (req, res) => {
   if (!match)
     return res.sendStatus(401).json({ message: "Incorrect password" });
 
+  if (foundUser.blocked)
+    return res.status(403).json({ message: "Account Blocked" });
+
   // create JWTs
   const accessToken = jwt.sign(
     {
@@ -119,6 +122,9 @@ const smmLogin = async (req, res) => {
   const match = pwd === foundUser.password; // controllo se password coincidono
   if (!match)
     return res.sendStatus(401).json({ message: "Incorrect password" });
+
+  if (foundUser.blocked)
+    return res.status(403).json({ message: "Account Blocked" });
 
   if (!foundUser.professional)
     return res.status(403).json({ message: "User not professional." });
