@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple HTML Page with jQuery</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Simple HTML Page with jQuery</h1>
+
+    <p>Click the button to change the text color.</p>
+
+    <button id="changeColorButton">Change Color</button>
+
+    <!-- Add a div to change the text color -->
+    <div id="textToChangeColor">This text can be changed.</div>
+
+    <script>
+      // Wait for the document to be ready
+      $(document).ready(function () {
+        // Click event for the button
+        $("#changeColorButton").click(function () {
+          // Change the text color to red
+          $("#textToChangeColor").css("color", "red");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+[
+  {
+    "username": "john_doe",
+    "firstname": "John",
+    "lastname": "lastname123",
+    "email": "john@example.com",
+    "professional": false,
+    "verified": true,
+    "charAvailable": 500,
+    "profilePic": "john.jpg",
+    "blocked": false
+  },
+  {
+    "username": "alice_smith",
+    "firstname": "Alice",
+    "lastname": "pass456",
+    "email": "alice@example.com",
+    "professional": true,
+    "verified": true,
+    "charAvailable": 300,
+    "profilePic": "alice.jpg",
+    "blocked": false
+  },
+  {
+    "username": "bob_johnson",
+    "firstname": "Bob",
+    "lastname": "bobpass",
+    "email": "bob@example.com",
+    "professional": false,
+    "verified": false,
+    "charAvailable": 100,
+    "profilePic": "bobby.jpg",
+    "blocked": true
+  },
+  {
+    "username": "susan_miller",
+    "firstname": "Susan",
+    "lastname": "susie123",
+    "email": "susan@example.com",
+    "professional": true,
+    "verified": true,
+    "charAvailable": 750,
+    "profilePic": "susan.jpg",
+    "blocked": false
+  },
+  {
+    "username": "david_lee",
+    "firstname": "David",
+    "lastname": "dave456",
+    "email": "david@example.com",
+    "professional": false,
+    "verified": true,
+    "charAvailable": 400,
+    "profilePic": "david.jpg",
+    "blocked": false
+  },
+  {
+    "username": "linda_white",
+    "firstname": "Linda",
+    "lastname": "lindapass",
+    "email": "linda@example.com",
+    "professional": true,
+    "verified": true,
+    "charAvailable": 600,
+    "profilePic": "linda.jpg",
+    "blocked": false
+  }
+]

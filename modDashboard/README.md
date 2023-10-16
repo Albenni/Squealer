@@ -1,6 +1,8 @@
 ## MODERATOR DASHBOARD:
 
-Moderatori e Redattori che verificano trend e reazioni, attribuiscono punteggi, risolvono grane, gestiscono blocchi e sblocchi
+Moderatori e Redattori che verificano trend e reazioni, attribuiscono punteggi, risolvono grane
+
+- Squeals filter by date non funzia
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.

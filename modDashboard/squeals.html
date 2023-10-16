@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Messages</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .form-control {
+        margin-bottom: 10px;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      .table {
+        width: 100%;
+      }
+
+      .table th,
+      .table td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .list-group-item {
+        background-color: #fff;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-4">
+      <h1 class="mt-4 mb-4">Messages</h1>
+
+      <div class="row">
+        <div class="col-md-4">
+          <input
+            type="text"
+            class="form-control"
+            id="authorFilter"
+            placeholder="Filter by Author"
+          />
+        </div>
+        <div class="col-md-4">
+          <select class="form-select" id="contentTypeFilter">
+            <option value="">Filter by Content Type</option>
+            <option value="text">Text</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+            <option value="geolocalization">Geolocalization</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="date" class="form-control" id="dateFilter" />
+        </div>
+        <div class="col-md-2">
+          <input
+            type="text"
+            class="form-control"
+            id="groupFilter"
+            placeholder="Filter by Group"
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary mb-4" id="fetchMessagesButton">
+        Fetch Messages
+      </button>
+
+      <div class="table-container">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Author</th>
+              <th>Group</th>
+              <th>Content</th>
+              <th>Content Type</th>
+              <th>Impression</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="messageList">
+            <!-- Messages will be listed here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      let messagesData = []; // To store the message data
+
+      // Function to fetch message data
+      function fetchMessageData() {
+        $.get("squeals.json", function (data) {
+          // Store message data and populate the message list
+          messagesData = data;
+          populateMessageList(messagesData);
+        });
+      }
+
+      // Function to populate the message list
+      function populateMessageList(messages) {
+        const authorFilter = $("#authorFilter").val().toLowerCase();
+        const contentTypeFilter = $("#contentTypeFilter").val();
+        const dateFilter = new Date($("#dateFilter").val()).toLocaleString();
+        const groupFilter = $("#groupFilter").val().toLowerCase();
+
+        const messageList = $("#messageList");
+        messageList.empty();
+
+        messages.forEach(function (message) {
+          if (
+            (authorFilter === "" ||
+              message.author.toLowerCase().includes(authorFilter)) &&
+            (contentTypeFilter === "" ||
+              message.contentType === contentTypeFilter) &&
+            ($("#dateFilter").val() === "" ||
+              new Date(message.data).getTime() === dateFilter) &&
+            (groupFilter === "" ||
+              message.group.toLowerCase().includes(groupFilter))
+          ) {
+            messageList.append(
+              "<tr><td>" +
+                message.author +
+                "</td><td>" +
+                message.group +
+                "</td><td>" +
+                message.content +
+                "</td><td>" +
+                message.contentType +
+                "</td><td>" +
+                message.impression +
+                "</td><td>" +
+                new Date(message.data).toLocaleString() +
+                "</td></tr>"
+            );
+          }
+        });
+      }
+
+      // Add event listeners to the filters
+      $("#authorFilter, #contentTypeFilter, #dateFilter, #groupFilter").on(
+        "input",
+        function () {
+          populateMessageList(messagesData);
+        }
+      );
+
+      // Add an event listener to the "Fetch Messages" button
+      $("#fetchMessagesButton").click(function () {
+        fetchMessageData();
+      });
+    </script>
+  </body>
+</html>
