@@ -437,6 +437,26 @@ const getFollowed = async (req, res) => {
   }
 };
 
+const blockSblock = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!req?.isMod)
+    return res.status(403).json({ message: "You are not moderator" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const user = await User.findById(req.params.userId);
+    user.blocked = !user?.blocked;
+    user.save();
+
+    res.status(200).json({ message: "User updated" });
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 module.exports = {
   searchUser,
   getCharsAvailable,
@@ -454,4 +474,5 @@ module.exports = {
   removeSmm,
   getFollowers,
   getFollowed,
+  blockSblock,
 };

@@ -6,8 +6,8 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
-- Bloccare e sbloccare un utente/canale, api solo per moderatori
 - Destinatari multipli per uno squeal
+- come stabilire la "popolarità" di un utente? serve nel modDashboard
 
 ---
 

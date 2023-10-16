@@ -25,6 +25,10 @@ const channelSchema = new Schema({
     immutable: true,
     default: () => Date.now(),
   },
+  blocked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Channel", channelSchema);

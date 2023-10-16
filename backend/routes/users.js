@@ -22,6 +22,7 @@ router.route("/:userId/username").patch(usersController.updateUsername);
 router.route("/:userId/password").patch(usersController.updatePassword);
 router.route("/:userId/email").patch(usersController.updateEmail);
 router.route("/:userId/profilePicture").patch(usersController.updateProfilePic);
+router.route("/:userId/blocked").patch(usersController.blockSblock); // da testare
 
 router
   .route("/:userId/professional")

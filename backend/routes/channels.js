@@ -11,9 +11,10 @@ router
 router
   .route("/:channelId")
   .get(channelsController.getChannelById)
-  .delete(channelsController.deleteChannel); //da ritestare dopo modifiche
+  .delete(channelsController.deleteChannel); //da testare
 
 router.route("/:channelId/profilePic").get(channelsController.updateProfilePic); // da testare
+router.route("/:channelId/blocked").get(channelsController.blockSblock); // da testare
 
 router.route("/:channelId/admins").post(channelsController.addAdmin);
 router
