@@ -4,7 +4,11 @@
 
 https://fontawesome.com/search?m=free&o=r
 
-https://remixicon.com/icon/wheelchair-fill
+https://pigeon-maps.js.org/docs/marker/
+
+https://chatscope.io/storybook/react/?path=/docs/components-messagelist--long-list-with-scrollbar
+
+https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
 - Mettere in ogni post se il post è pubblico o appartiene a un canale. forse mettere anche gli hashtag che sono associati a ogni post
 
