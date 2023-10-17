@@ -13,7 +13,6 @@ import TrendBar from "../components/TrendBar";
 import postdatasample from "../assets/postdatasample.json";
 
 import TopBar from "../components/TopBar";
-import Channel from "../components/Channel";
 
 function Feed() {
   const [showbox, setShowBox] = useState(false);
@@ -22,7 +21,7 @@ function Feed() {
     <>
       <SquealBox show={showbox} setShowBox={setShowBox} />
       <div
-        className="Feed"
+        // className="Feed"
         style={{
           backgroundColor: theme.colors.bgdark,
           minHeight: "100vh",
@@ -32,19 +31,12 @@ function Feed() {
           <div className="topbar">
             <TopBar />
           </div>
-
-          {!sessionStorage.getItem("searchedchannel") && (
-            <div className="trendBar">
-              <TrendBar />
-            </div>
-          )}
+          <div className="trendbar">
+            <TrendBar />
+          </div>
         </div>
         <div className="container mt-sm-3">
-          {sessionStorage.getItem("searchedchannel") ? (
-            <Channel />
-          ) : (
-            <PostList getposts={postdatasample} />
-          )}
+          <PostList getposts={postdatasample} />
         </div>
         <div className="container-fluid">
           <div className="fixed-bottom m-3" style={{ width: "5vw" }}>

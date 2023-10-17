@@ -1,21 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/TrendBar.css";
-import theme from "../config/theme";
+// import "../css/TrendBar.css";
+// import theme from "../config/theme";
 
-import { Button } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import config from "../config/config";
 
 import useAuth from "../hooks/useAuth";
 
 function TrendBar() {
   const userapi = useAxiosPrivate();
-  const navigate = useNavigate();
+
+  const location = useLocation();
   const { auth } = useAuth();
   const [tags, setTags] = useState([]);
-  const [channelcount, setChannelCount] = useState(0);
+  const [channelCount, setChannelCount] = useState(0);
+  const [activeKey, setActiveKey] = useState("feed");
 
   useEffect(() => {
     if (!auth) {
@@ -24,54 +26,73 @@ function TrendBar() {
       return;
     }
 
-    // Chiamata da implementare nel backend
-    userapi
-      .get(config.endpoint.channels + "?editorialChannel=true")
-      .then((res) => {
-        console.log(res.data);
-        setTags(res.data.map((channel) => "#" + channel.name));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (location.pathname === "/channels") {
+      setActiveKey("channels");
+    } else {
+      setActiveKey("feed");
+    }
 
-    setChannelCount(tags.length);
+    // Chiamata da implementare nel backend
+    // userapi
+    //   .get(config.endpoint.channels + "?editorialChannel=true")
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     setTags(res.data.map((channel) => "#" + channel.name));
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    // setChannelCount(tags.length);
   }, []);
 
-  function handleShowChannels() {
-    navigate("/channels", { replace: true });
-  }
-
   return (
-    <div className="d-flex" style={{ backgroundColor: theme.colors.white }}>
-      <h3 className="p-3 d-none d-sm-block">Trending:</h3>
-
-      <div
-        className="container-fluid d-flex align-items-center"
-        style={{ overflowY: "hidden", overflowX: "auto" }}
+    <div className="container-fluid d-flex justify-content-center align-items-center">
+      <Nav
+        variant="pills"
+        activeKey={activeKey}
+        onSelect={(selectedKey) => setActiveKey(selectedKey)}
+        className="d-flex justify-content-center align-items-center py-3 "
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "black",
+          borderRadius: "10px",
+        }}
       >
-        {tags.slice(0, 6).map((trend, key) => (
-          <div className="col" key={key}>
-            <Button
-              key={key}
-              variant="outline-secondary"
-              className="mx-2"
-              style={{ verticalAlign: "middle" }}
-            >
-              {trend}
-            </Button>
-          </div>
-        ))}
-        <div className="p-3 d-flex justify-content-end">
-          <Button
-            variant="outline-danger"
-            className="mx-2"
-            onClick={handleShowChannels}
+        <Nav.Item className="mx-1">
+          <Nav.Link
+            eventKey="feed"
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              width: "100%",
+              height: "100%",
+              color: "white",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+            }}
+            href="/feed"
           >
-            + {channelcount} altri
-          </Button>
-        </div>
-      </div>
+            Il tuo feed
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item className="mx-1">
+          <Nav.Link
+            eventKey="channels"
+            className="d-flex justify-content-center align-items-center"
+            style={{
+              width: "100%",
+              height: "100%",
+              color: "white",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+            }}
+            href="/channels"
+          >
+            Scopri nuovi canali
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
     </div>
   );
 }

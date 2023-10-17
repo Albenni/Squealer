@@ -7,33 +7,61 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PostList from "./posts/PostList";
 
 import postdata from "../assets/postdatasample.json";
-// import config from "../config/config";
+import config from "../config/config";
 
 function Channel() {
   const userapi = useAxiosPrivate();
 
   const [channelposts, setChannelPosts] = useState([]);
+  const [channelid, setChannelId] = useState("");
 
   useEffect(() => {
+    // Devo avere l'id del canale per poter fare la chiamata al follow
+    // const getChannelId = async () => {
+    //   await userapi
+    //     .get(
+    //       config.endpoint.channels +
+    //         "/" +
+    //         sessionStorage.getItem("searchedchannel")
+    //     )
+    //     .then((res) => {
+    //       setChannelId(res.data.id);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // };
+
     // const getChannelPosts = async () => {
     // };
     // getChannelPosts();
+
+    // getChannelId();
 
     setChannelPosts(postdata);
 
     console.log(channelposts);
   }, []);
 
-  function handleFollowChannel() {
-    console.log(
-      "Segui questo canale: " + sessionStorage.getItem("searchedchannel")
-    );
+  async function handleFollowChannel() {
+    const userid = sessionStorage.getItem("userid");
+
+    await userapi
+      .post(config.endpoint.users + "/" + userid + "/channels", {
+        channelId: channelid,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
-    <>
+    <div className="pt-2">
       <div
-        className="container-fluid"
+        className="container"
         style={{
           backgroundColor: theme.colors.bg2,
           borderRadius: "10px",
@@ -58,7 +86,7 @@ function Channel() {
                 window.location.reload();
               }}
             >
-              Torna alla home
+              Torna ai canali
             </Button>
           </div>
         </div>
@@ -71,10 +99,10 @@ function Channel() {
         </div>
       </div>
 
-      <div className="d-flex">
+      <div className="container mt-sm-3">
         <PostList getposts={postdata} />
       </div>
-    </>
+    </div>
   );
 }
 

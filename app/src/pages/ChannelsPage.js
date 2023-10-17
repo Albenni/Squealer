@@ -7,6 +7,8 @@ import { ListGroup, Button } from "react-bootstrap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 import { useNavigate } from "react-router-dom";
+import TrendBar from "../components/TrendBar";
+import Channel from "../components/Channel";
 
 const ChannelsPage = () => {
   const userapi = useAxiosPrivate();
@@ -83,7 +85,14 @@ const ChannelsPage = () => {
           minHeight: "100vh",
         }}
       >
-        <div
+        {sessionStorage.getItem("searchedchannel") ? (
+          <Channel />
+        ) : (
+          <>
+            <div className="pb-4">
+              <TrendBar />
+            </div>
+            {/* <div
           className="container"
           style={{
             display: "flex",
@@ -95,54 +104,60 @@ const ChannelsPage = () => {
           }}
         >
           <h1>Scopri nuovi canali</h1>
-        </div>
-        <div className="container">
-          <ListGroup>
-            {channels.map((channel, key) => (
-              <ListGroup.Item key={key}>
-                <div className="row">
-                  <div className="col">
-                    <h4
-                      style={{ cursor: "pointer" }}
-                      onMouseEnter={(e) => {
-                        e.target.style.textDecoration = "underline";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.textDecoration = "none";
-                      }}
-                      onClick={() => {
-                        sessionStorage.setItem("searchedchannel", channel.name);
-                        navigate("/feed", { replace: true });
-                      }}
-                    >
-                      {channel.name}
-                    </h4>
-                  </div>
-                  <div className="col d-flex justify-content-end">
-                    {!followedChannels.some(
-                      (obj) =>
-                        obj.id === channel.id && obj.name === channel.name
-                    ) ? (
-                      <Button
-                        variant="outline-success"
-                        onClick={() => handleFollow(channel._id)}
-                      >
-                        Segui
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => handleUnFollow(channel._id)}
-                      >
-                        Non seguire
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </div>
+        </div> */}
+            <div className="container">
+              <ListGroup>
+                {channels.map((channel, key) => (
+                  <ListGroup.Item key={key}>
+                    <div className="row">
+                      <div className="col">
+                        <h4
+                          style={{ cursor: "pointer" }}
+                          onMouseEnter={(e) => {
+                            e.target.style.textDecoration = "underline";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.textDecoration = "none";
+                          }}
+                          onClick={() => {
+                            sessionStorage.setItem(
+                              "searchedchannel",
+                              channel.name
+                            );
+
+                            navigate("/channels", { replace: true });
+                          }}
+                        >
+                          {channel.name}
+                        </h4>
+                      </div>
+                      <div className="col d-flex justify-content-end">
+                        {!followedChannels.some(
+                          (obj) =>
+                            obj.id === channel.id && obj.name === channel.name
+                        ) ? (
+                          <Button
+                            variant="outline-success"
+                            onClick={() => handleFollow(channel._id)}
+                          >
+                            Segui
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => handleUnFollow(channel._id)}
+                          >
+                            Non seguire
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

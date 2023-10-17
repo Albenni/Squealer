@@ -10,6 +10,8 @@ https://chatscope.io/storybook/react/?path=/docs/components-messagelist--long-li
 
 https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
+https://mui.com/material-ui/react-menu/
+
 - Mettere in ogni post se il post è pubblico o appartiene a un canale. forse mettere anche gli hashtag che sono associati a ogni post
 
 - Aggiungere le funzioni e bottoni per cambiare: username, nome, cognome, password, reset password, email e immagine profilo
