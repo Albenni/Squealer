@@ -48,9 +48,8 @@ function SecurityPane() {
 
   return (
     <div className="container pt-4">
-      <Accordion>
+      <Accordion className="py-1">
         <Card
-          className="my-3"
           style={{
             backgroundColor: "lightblue",
           }}

@@ -1,10 +1,18 @@
 import { Card } from "react-bootstrap";
-import { ChatDots, PersonFillGear } from "react-bootstrap-icons";
+import {
+  ChatDots,
+  PersonFillGear,
+  PatchCheckFill,
+} from "react-bootstrap-icons";
+
+import { useMediaQuery } from "react-responsive";
 
 function AccountPane({ user }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   return (
-    <div className="row px-5 pb-5">
-      <div className="col pt-5">
+    <div className={isMobile ? "p-3" : "row px-5 pb-5"}>
+      <div className={isMobile ? "" : "col pt-5"}>
         <Card style={{ borderRadius: "2vh" }}>
           <Card.Body>
             <Card.Img
@@ -19,32 +27,32 @@ function AccountPane({ user }) {
                 border: "1px solid #000",
               }}
             />
-            <Card.Title className="pt-4">
+            <Card.Title className="pt-4 d-flex">
               Benvenuto, {user.firstname}!
+              <div className="px-2">
+                {user.verified ? (
+                  <PatchCheckFill size={"2vh"} className="ml-2" color="green" />
+                ) : (
+                  ""
+                )}
+              </div>
             </Card.Title>
-            <Card.Subtitle className="pt-1 text-muted">
+            <Card.Text className="pt-3 pe-none">
               La tua mail: {user.email}
-            </Card.Subtitle>
-            <Card.Text className="pt-3">
-              Il tuo tipo di account: {user.professional ? "VIP" : "normale"}
+            </Card.Text>
+            <Card.Text className="pt-3 pe-none">
+              Il tuo tipo di account:{" "}
+              {user.professional ? "Professional" : "Regular"}
             </Card.Text>
 
-            <Card.Text>
-              Tipo di account: normale, verificato, professional, moderatore
-              squealer.
+            <Card.Text className="pt-3 pe-none">
+              Il tuo §canale: {user.channel ? user.channel : "Nessuno"}
             </Card.Text>
 
-            <Card.Text>
-              Acquisto caratteri aggiuntivi giornalieri, settimanali, mensili
-              (solo verificati e pro).
-            </Card.Text>
-            <Card.Text>
-              Acquisto di un §canale personalizzato (caratteri minuscoli)
+            <Card.Text className="pt-3 pe-none">
+              Acquista un §canale personalizzato (caratteri minuscoli)
             </Card.Text>
 
-            <Card.Text>
-              https://agentestudio.com/uploads/ckeditor/pictures/1568/content_user-profile-design-15.jpg
-            </Card.Text>
             <Card.Text>Change your account settings</Card.Text>
           </Card.Body>
         </Card>

@@ -9,6 +9,10 @@ function ShopPage() {
 
   return (
     <div className="container-fluid p-4">
+      <Row>
+        Acquisto caratteri aggiuntivi giornalieri, settimanali, mensili (solo
+        verificati e pro).
+      </Row>
       <Row xs={1} md={2} className="mt-4">
         {Array.from({ length: 4 }).map((_, idx) => (
           <Col

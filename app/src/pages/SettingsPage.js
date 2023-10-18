@@ -2,6 +2,7 @@ import "../css/SettingsPage.css";
 import theme from "../config/theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { Card, Button, Tab, Nav } from "react-bootstrap";
 
 import TopBar from "../components/TopBar";
@@ -18,6 +19,7 @@ function SettingsPage() {
   const userapi = useAxiosPrivate();
   const endpoint = config.endpoint.users + "/";
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [user, setUser] = useState({});
 
@@ -73,9 +75,9 @@ function SettingsPage() {
         handleDelete={handleDelete}
       />
 
-      <div className="row">
+      <div className={isMobile ? "" : "row"}>
         <Tab.Container defaultActiveKey="first">
-          <div className="row container-fluid">
+          <div className={isMobile ? "" : "row container-fluid"}>
             <div className="col-md-3">
               <h1 className="text-center pt-5 px-3"> {activetab}</h1>
               <Nav variant="pills" className="flex-column p-5">
