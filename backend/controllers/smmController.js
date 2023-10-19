@@ -3,7 +3,7 @@ const Smm = require("../models/Smm");
 
 //onlyAccepted nella query per ritornare i vip già accettati o quelli che hanno fatto richiesta
 const getVipsManaged = async (req, res) => {
-  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+  // if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
@@ -14,7 +14,8 @@ const getVipsManaged = async (req, res) => {
   };
 
   const vips = await Smm.find(query);
-  if (!vips) return res.status(204).json({ message: "No vips associated" });
+  if (!vips?.length)
+    return res.status(204).json({ message: "No vips associated" });
 
   res.status(200).json(vips);
 };

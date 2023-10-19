@@ -7,7 +7,7 @@ api da fare (poche):
 - delete reaction ad uno squeal
 
 - Destinatari multipli per uno squeal
-- come stabilire la "popolarità" di un utente? serve nel modDashboard
+- come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
 
 ---
 
