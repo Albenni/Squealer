@@ -3,7 +3,8 @@ import theme from "../config/theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { Card, Button, Tab, Nav } from "react-bootstrap";
+import { Card, Button, Tab, Nav, Accordion } from "react-bootstrap";
+import { ChevronDown } from "react-bootstrap-icons";
 
 import TopBar from "../components/TopBar";
 import DeleteModal from "../components/DeleteModal";
@@ -24,6 +25,7 @@ function SettingsPage() {
   const [user, setUser] = useState({});
 
   const [activetab, setActivetab] = useState("Il mio account");
+  const [clickedToggle, setClickedToggle] = useState(false);
 
   const [showdelete, setShowDelete] = useState(false);
 
@@ -67,60 +69,149 @@ function SettingsPage() {
 
   return (
     <>
-      <TopBar />
+      <div className="sticky-top">
+        <TopBar />
 
-      <DeleteModal
-        show={showdelete}
-        onHide={() => setShowDelete(false)}
-        handleDelete={handleDelete}
-      />
+        <DeleteModal
+          show={showdelete}
+          onHide={() => setShowDelete(false)}
+          handleDelete={handleDelete}
+        />
+        {isMobile && (
+          <div
+            className="d-flex justify-content-center align-items-center py-2"
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <Button
+              variant="outline-danger"
+              onClick={() => setClickedToggle(!clickedToggle)}
+              style={{
+                borderRadius: "20px",
+                backgroundColor: theme.colors.transparent,
+                color: theme.colors.dark,
+                border: "none",
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+              }}
+            >
+              {activetab} <ChevronDown size={"2vh"} />
+            </Button>
+          </div>
+        )}
+      </div>
 
       <div className={isMobile ? "" : "row"}>
         <Tab.Container defaultActiveKey="first">
           <div className={isMobile ? "" : "row container-fluid"}>
-            <div className="col-md-3">
-              <h1 className="text-center pt-5 px-3"> {activetab}</h1>
-              <Nav variant="pills" className="flex-column p-5">
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="first"
-                    onClick={() => setActivetab("Il mio profilo")}
+            {isMobile ? (
+              <>
+                <Accordion activeKey={clickedToggle && "0"}>
+                  <Accordion.Item
+                    eventKey="0"
+                    style={{
+                      border: "none",
+                    }}
                   >
-                    Il mio profilo
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="second"
-                    onClick={() => setActivetab("Sicurezza")}
-                  >
-                    Sicurezza
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="third"
-                    onClick={() => setActivetab("Negozio squeal")}
-                  >
-                    Negozio squeal
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="fourth"
-                    onClick={() => setActivetab("Squealer Professional")}
-                    className="passaprofessional"
-                  >
-                    Passa a Squealer Professional
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="d-flex justify-content-center align-items-end pt-5">
-                  <Button variant="outline-danger" onClick={handleCheckDelete}>
-                    Elimina account
-                  </Button>
-                </Nav.Item>
-              </Nav>
-            </div>
+                    <Accordion.Body>
+                      <Nav variant="pills" className="flex-column p-5">
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="first"
+                            onClick={() => setActivetab("Il mio profilo")}
+                          >
+                            Il mio profilo
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="second"
+                            onClick={() => setActivetab("Sicurezza")}
+                          >
+                            Sicurezza
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="third"
+                            onClick={() => setActivetab("Negozio squeal")}
+                          >
+                            Negozio squeal
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="fourth"
+                            onClick={() =>
+                              setActivetab("Squealer Professional")
+                            }
+                            className="passaprofessional"
+                          >
+                            Passa a Squealer Professional
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item className="d-flex justify-content-center align-items-end pt-5">
+                          <Button
+                            variant="outline-danger"
+                            onClick={handleCheckDelete}
+                          >
+                            Elimina account
+                          </Button>
+                        </Nav.Item>
+                      </Nav>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </>
+            ) : (
+              <div className="col-md-3">
+                <h1 className="text-center pt-5 px-3"> {activetab}</h1>
+                <Nav variant="pills" className="flex-column p-5">
+                  <Nav.Item>
+                    <Nav.Link
+                      eventKey="first"
+                      onClick={() => setActivetab("Il mio profilo")}
+                    >
+                      Il mio profilo
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link
+                      eventKey="second"
+                      onClick={() => setActivetab("Sicurezza")}
+                    >
+                      Sicurezza
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link
+                      eventKey="third"
+                      onClick={() => setActivetab("Negozio squeal")}
+                    >
+                      Negozio squeal
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link
+                      eventKey="fourth"
+                      onClick={() => setActivetab("Squealer Professional")}
+                      className="passaprofessional"
+                    >
+                      Passa a Squealer Professional
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="d-flex justify-content-center align-items-end pt-5">
+                    <Button
+                      variant="outline-danger"
+                      onClick={handleCheckDelete}
+                    >
+                      Elimina account
+                    </Button>
+                  </Nav.Item>
+                </Nav>
+              </div>
+            )}
             <div className="col">
               <Tab.Content
                 style={{
@@ -141,7 +232,13 @@ function SettingsPage() {
                   <ShopPage />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fourth">
-                  <div className="d-flex justify-content-center align-items-center p-5">
+                  <div
+                    className={
+                      isMobile
+                        ? "p-4"
+                        : "d-flex justify-content-center align-items-center p-5"
+                    }
+                  >
                     <Card style={{ borderRadius: "2vh" }}>
                       <Card.Body>
                         <Card.Title className="p-3 text-center">
@@ -156,18 +253,7 @@ function SettingsPage() {
                         </Card.Text>
 
                         <Card.Text>
-                          L'abbonamento costa 9,99€ al mese e può essere
-                          disattivato in qualsiasi momento.
-                        </Card.Text>
-
-                        <Card.Text>
-                          L'abbonamento verrà rinnovato automaticamente ogni
-                          mese.
-                        </Card.Text>
-
-                        <Card.Text>
-                          Per disattivare l'abbonamento, vai su Impostazioni -
-                          Sicurezza - Disattiva Squealer Professional.
+                          L'abbonamento costa 9,99€ al mese.
                         </Card.Text>
 
                         <Button
