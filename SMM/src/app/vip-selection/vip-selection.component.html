@@ -3,7 +3,7 @@
     <div class="account-selection">
         <label for="accountSelect">Seleziona l'account su cui lavorare:</label>
         <select id="accountSelect" [(ngModel)]="selectedAccount">
-            <option *ngFor="let account of accountList" [value]="account">{{ account }}</option>
+            <option *ngFor="let account of vipIdList" [value]="account">{{ account }}</option>
         </select>
     </div>
 </div>
