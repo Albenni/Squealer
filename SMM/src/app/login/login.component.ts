@@ -47,6 +47,7 @@ export class LoginComponent {
       (data) => {
         this.sharedService.accessToken= data.accessToken;
         this.sharedService.smmId = data.userid;
+        console.log('smm id: ', this.sharedService.smmId);
       },
       (error) => {
         console.error('Error:', error);

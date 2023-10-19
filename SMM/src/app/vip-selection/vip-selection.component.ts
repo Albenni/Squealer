@@ -1,6 +1,7 @@
 import { Component,  OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { SharedService } from '../shared.service';
+import { DefaultOptionsInterceptor } from '../default-options.interceptor';
 @Component({
   selector: 'app-vip-selection',
   templateUrl: './vip-selection.component.html',
@@ -25,7 +26,7 @@ export class VipSelectionComponent {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
+        'Authorization': `Bearer aaa`
       }),
       withCredentials: true 
     };
@@ -34,7 +35,8 @@ export class VipSelectionComponent {
     this.http.get<string[]>('http://localhost:3500/users/'+ this.smmId +'/vips?onlyAccepted=true').subscribe(data => {
       console.log(data);
       this.vipIdList = data;
-    });
+      
+    })
   }
 }
 

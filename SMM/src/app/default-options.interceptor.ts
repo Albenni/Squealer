@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DefaultOptionsInterceptor implements HttpInterceptor {
-    token: string = this.sharedService.accessToken; // Recupera il token di accesso
+     // Recupera il token di accesso
     constructor(private sharedService: SharedService) {}
     intercept(
       request: HttpRequest<any>,
@@ -20,7 +20,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
       const httpOptions = {
         headers: request.headers
           .set('Content-Type', 'application/json')
-          .set('Authorization', `Bearer ${this.token}`),
+          .set('Authorization', `Bearer ${this.sharedService.accessToken}`),
         withCredentials: true,
       };
   
