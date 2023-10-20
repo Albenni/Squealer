@@ -16,23 +16,11 @@
             </button>
             <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                 aria-labelledby="button-animated">
-                <!-- Utilizza *ngIf per verificare se users$ è definito prima di utilizzarlo -->
-                <!-- 
-                    users$ è un observable, che rappresenta una sequenza asincrona di dati. 
-                    Angular usa | async per sottoscriversi all'observable e 
-                    gestire automaticamente la sua sottoscrizione e il rilascio quando i dati arrivano o cambiano. 
-                    In sostanza, async si prende cura della gestione dell'observable in modo asincrono.
+                <li class="user-item" *ngFor="let username of vipsUsernames; let i = index">
+                    <div> <img id="selectionImg" src={{vipsProfilePics[i]}}> </div>
+                    <div>{{username}}</div>
 
-                    as users assegna il risultato dell'observable sottoscritto a una variabile locale chiamata users. 
-                    In questo modo, la variabile users conterrà i dati effettivi quando l'observable restituirà un valore.
 
-                    *ngIf="users$ | async as users" è una tecnica comune per gestire dati asincroni in Angular.
-                     Utilizza l'observable users$, attende il suo completamento e assegna i dati a una variabile users, 
-                    consentendo quindi di utilizzare i dati in modo sincrono all'interno del blocco ng-container solo quando sono pronti.
-                -->
-
-                <li *ngFor="let user of users" class="user-item">
-                    <app-user-item [userProfileImage]="user.propic" [username]="user.username"></app-user-item>
                 </li>
 
             </ul>
@@ -41,12 +29,20 @@
 
     <!-- content puo essere sia il testo dello squeal che l'url dell'immagine -->
 
-    <div *ngIf="(posts$ | async) as posts">
-        <div *ngFor="let post of posts">
-            <app-post [postTitle]="post.title" [content]="post.image ? post.image : post.text"
-                [isImage]="post.image !== undefined"></app-post>
-        </div>
+
+
+
+</div>
+<div class="vipSelected row">
+    <div class="col-5"></div>
+    <div class="vipProfilePic col-1"><img class="imgVipProfilePic" src={{vipProfilePic}}></div>
+    <div class="vipUsername col-1">{{vipUsername}}</div>
+    <div class="col-5"></div>
+
+</div>
+<div *ngIf="(posts$ | async) as posts">
+    <div *ngFor="let post of posts">
+        <app-post [postTitle]="post.title" [content]="post.image ? post.image : post.text"
+            [isImage]="post.image !== undefined"></app-post>
     </div>
-
-
 </div>
