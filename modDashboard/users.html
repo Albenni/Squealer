@@ -53,6 +53,9 @@
     </style>
   </head>
   <body>
+    <!-- Navigation bar -->
+    <div id="nav-placeholder"></div>
+
     <div class="container my-4">
       <h1 class="mt-4 mb-4">Users</h1>
 
@@ -117,8 +120,17 @@
     </div>
 
     <script>
-      let usersData = []; // To store the user data
+      function isUserLoggedIn() {
+        // Check if the user is logged in (e.g., by checking a cookie).
+        // Return true if logged in, false if not.
+        // Example: return document.cookie.includes("loggedIn=true");
+        return true;
+      }
+      $(function () {
+        $("#nav-placeholder").load("navBar.html");
+      });
 
+      let usersData = []; // To store the user data
       // Function to fetch user data
       function fetchUserData() {
         $.get("users.json", function (data) {
@@ -175,16 +187,22 @@
         });
       }
 
-      // Add event listeners to the filters
-      $(
-        "#nameFilter, #verifiedFilter, #professionalFilter, #popularityFilter"
-      ).on("input", function () {
-        populateUserList(usersData);
-      });
+      $(document).ready(function () {
+        if (!isUserLoggedIn()) {
+          // User is not logged in, redirect to the login page
+          window.location.href = "login.html";
+        }
+        // Add event listeners to the filters
+        $(
+          "#nameFilter, #verifiedFilter, #professionalFilter, #popularityFilter"
+        ).on("input", function () {
+          populateUserList(usersData);
+        });
 
-      // Add an event listener to the "Fetch Users" button
-      $("#fetchUsersButton").click(function () {
-        fetchUserData();
+        // Add an event listener to the "Fetch Users" button
+        $("#fetchUsersButton").click(function () {
+          fetchUserData();
+        });
       });
     </script>
   </body>

@@ -6,6 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
+    <div id="nav-placeholder"></div>
     <h1>Simple HTML Page with jQuery</h1>
 
     <p>Click the button to change the text color.</p>
@@ -16,7 +17,11 @@
     <div id="textToChangeColor">This text can be changed.</div>
 
     <script>
+      $(function () {
+        $("#nav-placeholder").load("navBar.html");
+      });
       // Wait for the document to be ready
+
       $(document).ready(function () {
         // Click event for the button
         $("#changeColorButton").click(function () {

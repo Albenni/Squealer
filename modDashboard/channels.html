@@ -53,6 +53,9 @@
     </style>
   </head>
   <body>
+    <!-- Navigation bar -->
+    <div id="nav-placeholder"></div>
+
     <div class="container my-4">
       <h1 class="mt-4 mb-4">Channels</h1>
 
@@ -112,8 +115,17 @@
     </div>
 
     <script>
-      let channelsData = []; // To store the channel data
+      function isUserLoggedIn() {
+        // Check if the user is logged in (e.g., by checking a cookie).
+        // Return true if logged in, false if not.
+        // Example: return document.cookie.includes("loggedIn=true");
+        return true;
+      }
+      $(function () {
+        $("#nav-placeholder").load("navBar.html");
+      });
 
+      let channelsData = []; // To store the channel data
       // Function to fetch channel data
       function fetchChannelData() {
         $.get("channels.json", function (data) {
@@ -162,18 +174,23 @@
           }
         });
       }
-
-      // Add event listeners to the filters
-      $("#nameFilter, #privateFilter, #editorialFilter, #blockedFilter").on(
-        "input",
-        function () {
-          populateChannelList(channelsData);
+      $(document).ready(function () {
+        if (!isUserLoggedIn()) {
+          // User is not logged in, redirect to the login page
+          window.location.href = "login.html";
         }
-      );
+        // Add event listeners to the filters
+        $("#nameFilter, #privateFilter, #editorialFilter, #blockedFilter").on(
+          "input",
+          function () {
+            populateChannelList(channelsData);
+          }
+        );
 
-      // Add an event listener to the "Fetch Channels" button
-      $("#fetchChannelsButton").click(function () {
-        fetchChannelData();
+        // Add an event listener to the "Fetch Channels" button
+        $("#fetchChannelsButton").click(function () {
+          fetchChannelData();
+        });
       });
     </script>
   </body>
