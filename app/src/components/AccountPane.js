@@ -79,8 +79,6 @@ function AccountPane({ user }) {
               >
                 Acquista un §canale personalizzato (caratteri minuscoli)
               </Card.Text>
-
-              <Card.Text>Change your account settings</Card.Text>
             </Card.Body>
           </Card>
         </div>
@@ -110,10 +108,6 @@ function AccountPane({ user }) {
 
                 <Card.Title className="pt-3">I tuoi amministratori.</Card.Title>
 
-                <Card.Text>
-                  Aggiunta di altri amministratori al §canale di proprietà
-                </Card.Text>
-
                 {user.professional && (
                   <div className="d-flex justify-content-between align-items-center">
                     <Card.Text
@@ -132,6 +126,14 @@ function AccountPane({ user }) {
                     </Button>
                   </div>
                 )}
+                <Card.Text className="pe-none">
+                  Gli amministratori del tuo canale: Se hai un canale, puoi
+                  aggiungere un amministratore che gestirà il tuo canale per te.
+                  <br />
+                  Senno "Non sei proprietario di nessun canale."
+                  <br />
+                  Oppure "Non hai nessun amministratore."
+                </Card.Text>
               </Card.Body>
             </Card>
           </div>

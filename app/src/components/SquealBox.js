@@ -69,6 +69,8 @@ function SquealBox(props) {
     console.log(squeallocation);
     console.log(squealtext);
 
+    props.setSuccessfullSqueal(true);
+
     //post request to send squeal to db and show on the feed
   }
 

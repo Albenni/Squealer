@@ -16,10 +16,16 @@ import TopBar from "../components/TopBar";
 
 function Feed() {
   const [showbox, setShowBox] = useState(false);
+  const [successfullSqueal, setSuccessfullSqueal] = useState(false);
 
   return (
     <>
-      <SquealBox show={showbox} setShowBox={setShowBox} />
+      <SquealBox
+        show={showbox}
+        setShowBox={setShowBox}
+        setSuccessfullSqueal={setSuccessfullSqueal}
+      />
+
       <div
         // className="Feed"
         style={{
@@ -33,6 +39,23 @@ function Feed() {
           </div>
           <div className="trendbar">
             <TrendBar />
+            {successfullSqueal && (
+              <div
+                className="container"
+                onClick={() => setSuccessfullSqueal(false)}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: theme.colors.white,
+                  borderRadius: "20px",
+                  border: "3px solid green",
+                  padding: "10px",
+                  textAlign: "center",
+                  color: "green",
+                }}
+              >
+                Squeal pubblicato con successo
+              </div>
+            )}
           </div>
         </div>
         <div className="container mt-sm-3">
