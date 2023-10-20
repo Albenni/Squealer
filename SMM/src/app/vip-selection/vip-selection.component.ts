@@ -12,8 +12,8 @@ import {throwError} from 'rxjs';
 export class VipSelectionComponent {
   
   selectedAccount:string = "";
-  vipList: string[] = [];
-  usernamesId: string[] = [];
+  vipUsernames: string[] = [];
+  vipIds: string[] = [];
   smmUsername: string = this.sharedService.smmUsername;
   smmId: string = this.sharedService.smmId;
   token: string = this.sharedService.accessToken;
@@ -26,14 +26,7 @@ export class VipSelectionComponent {
   constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   ngOnInit(): void {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer aaa`
-      }),
-      withCredentials: true 
-    };
-    
+
 
     // Effettua una richiesta GET all'API per ottenere la lista degli account
     this.http.get<string[]>('http://localhost:3500/users/'+ this.smmId +'/vips?onlyAccepted=true').pipe(
@@ -44,27 +37,40 @@ export class VipSelectionComponent {
       })
     )
     .subscribe(data => {
-      const dataJson = JSON.stringify(data);
-  
-      this.vipList = dataJson.split(',');
-      console.log('Data:' + this.vipList);
-      
-      const vipIdList = this.dataJson.map(item => item._id);
+      console.log(data);
+      data.map((item)=> console.log(item))
+      this.vipIds = data.map((item: any) => item.vipId);
+
+      this.vipIds.forEach((id)=>{
+        console.log(id);
+        this.getUsername(id);
+      })
     });
 
-    
-
-    this.vipList.forEach((id) => {
-      
-    });
-  }
-
-  getUserName(id: number): void {
-    this.http.get('http://localhost:3500/users/'+id).subscribe((data: any) => {
-      this.usernamesId[id] = data.username;
-    });
   
   }
+
+  getUsername(id: string){
+    this.http.get<string>('http://localhost:3500/users/'+id).pipe(
+      catchError((error: any) => {
+        // Gestisci l'errore qui
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe(data => {
+      console.log(data);
+      console.log((data as any)["username"]);
+
+
+
+      this.vipUsernames.push((data as any)["username"]);
+
+    });
+
+
+
+  }
+
 
 }
 

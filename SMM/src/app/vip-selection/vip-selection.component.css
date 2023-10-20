@@ -1,9 +1,67 @@
+/* Stili per il contenitore principale */
 .welcome-container {
-    text-align: center;
-    margin-top: 50px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Stili per l'intestazione */
+.welcome-container h1 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+  padding: 10px 0;
+}
+
+/* Stili per la selezione dell'account */
+.account-selection {
+  margin-top: 20px;
+}
+
+.account-selection label {
+  font-size: 16px;
+  color: #666;
+  display: block;
+}
+
+#accountSelect {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Stili per le opzioni del menu a discesa */
+#accountSelect option {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Stili per rendere il contenitore responsive */
+@media (max-width: 768px) {
+  .welcome-container {
+      max-width: 100%;
   }
+  #accountSelect {
+      font-size: 14px; /* Riduci la dimensione del testo per dispositivi mobili */
+  }
+}
+
+/* Stili aggiuntivi per opzioni del menu a discesa su dispositivi mobili */
+@media (max-width: 768px) {
+  #accountSelect option {
+      font-size: 14px; 
+  }}
+
   
-  .account-selection {
-    margin-top: 20px;
+  #submitButton{
+    width: 80px;
   }
   
