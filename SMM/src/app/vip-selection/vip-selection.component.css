@@ -1,7 +1,22 @@
+#welcome-container{
+
+    background-color: #93B3FF;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex; 
+    align-items: center ; 
+    justify-content: space-around; 
+    user-select: none;
+    
+    
+}
+
+
 /* Stili per il contenitore principale */
-.welcome-container {
+.account-selection-container {
   background-color: #f5f5f5;
-  padding: 20px;
+
   border-radius: 10px;
   text-align: center;
   max-width: 600px;
@@ -10,7 +25,7 @@
 }
 
 /* Stili per l'intestazione */
-.welcome-container h1 {
+.account-selection-container h1 {
   font-size: 24px;
   color: #333;
   margin: 0;
@@ -18,18 +33,18 @@
 }
 
 /* Stili per la selezione dell'account */
-.account-selection {
+.account-selection-form {
   margin-top: 20px;
 }
 
-.account-selection label {
+.account-selection-form label {
   font-size: 16px;
   color: #666;
   display: block;
 }
 
 #accountSelect {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -40,6 +55,7 @@
 
 /* Stili per le opzioni del menu a discesa */
 #accountSelect option {
+  
   font-size: 16px;
   color: #333;
 }
@@ -61,7 +77,8 @@
   }}
 
   
-  #submitButton{
-    width: 80px;
-  }
+#submitButton{
+  margin-top: 20px;
+  width: 100px;
+}
   

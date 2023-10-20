@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { SharedService } from '../shared.service';
 import  {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vip-selection',
@@ -23,7 +24,7 @@ export class VipSelectionComponent {
     this.sharedService.smmUsername
   */
 
-  constructor(private http: HttpClient, private sharedService: SharedService) { }
+  constructor(private http: HttpClient, private sharedService: SharedService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -37,12 +38,10 @@ export class VipSelectionComponent {
       })
     )
     .subscribe(data => {
-      console.log(data);
       data.map((item)=> console.log(item))
       this.vipIds = data.map((item: any) => item.vipId);
 
       this.vipIds.forEach((id)=>{
-        console.log(id);
         this.getUsername(id);
       })
     });
@@ -58,16 +57,21 @@ export class VipSelectionComponent {
         return throwError('Errore gestito');
       })
     ).subscribe(data => {
-      console.log(data);
-      console.log((data as any)["username"]);
-
-
-
       this.vipUsernames.push((data as any)["username"]);
-
     });
 
 
+
+  }
+
+  onSubmit(){
+    if(this.selectedAccount == ""){
+      alert("Devi selezionare un account");
+      return;
+    } else {
+      console.log(this.selectedAccount);
+      this.router.navigate(['/home']);
+    }
 
   }
 

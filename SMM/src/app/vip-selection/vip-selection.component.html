@@ -1,11 +1,13 @@
-<div class="welcome-container">
-    <h1>Benvenuto {{ smmUsername }}!</h1>
-    <div class="account-selection">
-        <label for="accountSelect">Seleziona l'account su cui lavorare:</label>
-        <select id="accountSelect" [(ngModel)]="selectedAccount">
-            <option *ngFor="let account of vipUsernames" [value]="account">{{ account }}</option>
-        </select>
-    </div>
-    <button id="submitButton" type="submit" class="text btn btn-dark">Seleziona</button>
+<div id="welcome-container">
+    <div class="account-selection-container py-3 px-5">
+        <h1>Benvenuto {{ smmUsername }}!</h1>
+        <div class="account-selection-form">
+            <label for="accountSelect">Seleziona l'account su cui lavorare:</label>
+            <select id="accountSelect" [(ngModel)]="selectedAccount">
+                <option *ngFor="let username of vipUsernames" [value]="username">{{ username }}</option>
+            </select>
+        </div>
+        <button id="submitButton" type="submit" class="text btn btn-dark" (click)="onSubmit()">Seleziona</button>
 
+    </div>
 </div>
