@@ -9,7 +9,7 @@ import { ChevronDown } from "react-bootstrap-icons";
 import TopBar from "../components/TopBar";
 import DeleteModal from "../components/DeleteModal";
 import AccountPane from "../components/AccountPane";
-import SecurityPane from "../components/SecurityPane";
+import EditAccountPane from "../components/EditAccount";
 
 import ShopPage from "./ShopPage";
 
@@ -127,9 +127,9 @@ function SettingsPage() {
                         <Nav.Item>
                           <Nav.Link
                             eventKey="second"
-                            onClick={() => setActivetab("Sicurezza")}
+                            onClick={() => setActivetab("Modifica account")}
                           >
-                            Sicurezza
+                            Modifica account
                           </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
@@ -179,9 +179,9 @@ function SettingsPage() {
                   <Nav.Item>
                     <Nav.Link
                       eventKey="second"
-                      onClick={() => setActivetab("Sicurezza")}
+                      onClick={() => setActivetab("Modifica account")}
                     >
-                      Sicurezza
+                      Modifica account
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
@@ -226,7 +226,7 @@ function SettingsPage() {
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <SecurityPane />
+                  <EditAccountPane />
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
                   <ShopPage />

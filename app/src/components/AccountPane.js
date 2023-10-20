@@ -71,7 +71,12 @@ function AccountPane({ user }) {
                 Il tuo §canale: {user.channel ? user.channel : "Nessuno"}
               </Card.Text>
 
-              <Card.Text className="pt-3 pe-none">
+              <Card.Text
+                className="pt-3 pe-none"
+                style={{
+                  color: "red",
+                }}
+              >
                 Acquista un §canale personalizzato (caratteri minuscoli)
               </Card.Text>
 

@@ -11,44 +11,28 @@ function CommentsModal(props) {
     postid: 0,
     commentlist: [
       {
-        commentid: 0,
-        commenttext: "commento",
-        commentdate: "2021-05-05",
-        commenttime: "12:00",
-        commentuser: "user",
-        commentuserpropic: "https://picsum.photos/200",
+        squealId: 0,
+        author: "user",
+        content: "commento",
+        createdAt: "2021-05-05 12:00:00",
       },
       {
-        commentid: 1,
-        commenttext: "commento",
-        commentdate: "2021-05-05",
-        commenttime: "12:00",
-        commentuser: "user",
-        commentuserpropic: "https://picsum.photos/200",
+        squealId: 0,
+        author: "user",
+        content: "commento",
+        createdAt: "2021-05-05 12:00:00",
       },
       {
-        commentid: 2,
-        commenttext: "commento",
-        commentdate: "2021-05-05",
-        commenttime: "12:00",
-        commentuser: "user",
-        commentuserpropic: "https://picsum.photos/200",
+        squealId: 0,
+        author: "user",
+        content: "commento",
+        createdAt: "2021-05-05 12:00:00",
       },
       {
-        commentid: 3,
-        commenttext: "commento",
-        commentdate: "2021-05-05",
-        commenttime: "12:00",
-        commentuser: "user",
-        commentuserpropic: "https://picsum.photos/200",
-      },
-      {
-        commentid: 4,
-        commenttext: "commento",
-        commentdate: "2021-05-05",
-        commenttime: "12:00",
-        commentuser: "user",
-        commentuserpropic: "https://picsum.photos/200",
+        squealId: 0,
+        author: "user",
+        content: "commento",
+        createdAt: "2021-05-05 12:00:00",
       },
     ],
   };
@@ -57,6 +41,24 @@ function CommentsModal(props) {
     // Get dei commenti dal db
     setComments(commentexample.commentlist);
   }, []);
+
+  function handlePostComment(event) {
+    event.preventDefault();
+
+    console.log(event.target[0].value);
+    // Aggiungi commento al db
+    // Aggiorna i commenti
+    const date = new Date();
+    setComments([
+      ...comments,
+      {
+        content: event.target[0].value,
+        createdAt:
+          date.toISOString().split("T")[0] + " " + date.toLocaleTimeString(),
+        author: "user",
+      },
+    ]);
+  }
 
   return (
     <Modal
@@ -74,8 +76,8 @@ function CommentsModal(props) {
       </Modal.Header>
       <Modal.Body>
         <ListGroup variant="flush">
-          {comments.map((comment) => (
-            <ListGroup.Item key={comment.commentid}>
+          {comments.map((comment, key) => (
+            <ListGroup.Item key={key}>
               <div
                 className="d-flex"
                 style={{
@@ -83,24 +85,24 @@ function CommentsModal(props) {
                 }}
               >
                 <img
-                  src={comment.commentuserpropic}
+                  src={"https://picsum.photos/200/300"}
                   alt="profile"
                   className="rounded-circle"
                   style={{ width: "30px", height: "30px" }}
                 />
                 <div className="mx-2">
                   <div className="mb-0 d-flex">
-                    <h5>@{comment.commentuser}</h5>
+                    <h5>@{comment.author}</h5>
                     <p
                       className="mx-2"
                       style={{
-                        color: theme.colors.lightgre,
+                        color: theme.colors.lightgrey,
                       }}
                     >
-                      {comment.commentdate}
+                      {comment.createdAt}
                     </p>
                   </div>
-                  <p className="mb-0">{comment.commenttext}</p>
+                  <p className="mb-0">{comment.content}</p>
                 </div>
               </div>
             </ListGroup.Item>
@@ -114,10 +116,7 @@ function CommentsModal(props) {
             width: "100%",
           }}
           onSubmit={(e) => {
-            e.preventDefault();
-            console.log(e.target[0].value);
-            // Aggiungi commento al db
-            // Aggiorna i commenti
+            handlePostComment(e);
           }}
         >
           <Form.Control

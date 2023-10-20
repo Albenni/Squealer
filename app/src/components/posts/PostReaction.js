@@ -120,8 +120,11 @@ function PostReaction({ postid }) {
             </Button>
           </div>
           <div className="ms-auto">
-            <Button variant="outline-secondary">
-              <Chat onClick={() => setShowComments(true)} />
+            <Button
+              variant="outline-secondary"
+              onClick={() => setShowComments(true)}
+            >
+              <Chat />
             </Button>
           </div>
         </div>

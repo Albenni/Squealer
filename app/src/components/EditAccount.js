@@ -4,7 +4,7 @@ import { useAccordionButton, Accordion, Button, Card } from "react-bootstrap";
 import ErrorMessage from "./ErrorMessage";
 import { useMediaQuery } from "react-responsive";
 
-function SecurityPane() {
+function EditAccountPane() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [isImageError, setIsImageError] = useState(false);
@@ -201,4 +201,4 @@ function SecurityPane() {
   );
 }
 
-export default SecurityPane;
+export default EditAccountPane;
