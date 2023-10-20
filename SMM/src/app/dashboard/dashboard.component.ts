@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PostComponent } from '../post/post.component';
 import { UserItemComponent } from '../user-item/user-item.component';
-
+import { SharedService } from '../shared.service';
 
 import { jsonData } from 'src/assets/examples/postdatasample';
 
@@ -16,9 +16,12 @@ import { jsonData } from 'src/assets/examples/postdatasample';
 })
 export class DashboardComponent implements OnInit {
 
-  users = jsonData;
 
-
+  vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
+  vipsUsernames: string[] = this.sharedService.vipUsernames;
+  vipProfilePic: string = 'https://www.w3schools.com/howto/img_avatar.png';
+  vipUsername: string = 'Aldo'
+ // vipUsername: string = this.sharedService.selectedVipUsername;
 
 
   /*
@@ -33,11 +36,11 @@ export class DashboardComponent implements OnInit {
   
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private  sharedService: SharedService) {}
 
   ngOnInit() {
     
-    console.log(this.users);
+  
     /*
     // mi serve ancora lo userid
     const url = 'http://localhost:3500/:userId/vips';

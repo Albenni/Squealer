@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent {
+  
+  username: string = '';
   @Input() postTitle: string='';
   @Input() content: string = '';
   @Input() isImage: boolean = false;

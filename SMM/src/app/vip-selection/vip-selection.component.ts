@@ -14,6 +14,7 @@ export class VipSelectionComponent {
   
   selectedAccount:string = "";
   vipUsernames: string[] = [];
+  vipProfilePics: string[] = [];
   vipIds: string[] = [];
   smmUsername: string = this.sharedService.smmUsername;
   smmId: string = this.sharedService.smmId;
@@ -44,10 +45,16 @@ export class VipSelectionComponent {
       this.vipIds.forEach((id)=>{
         this.getUsername(id);
       })
+      
+      this.sharedService.vipIds = this.vipIds;  
+      this.sharedService.vipUsernames = this.vipUsernames;
+      this.sharedService.vipsProfilePics = this.vipProfilePics;
     });
 
   
   }
+
+  
 
   getUsername(id: string){
     this.http.get<string>('http://localhost:3500/users/'+id).pipe(
@@ -58,6 +65,7 @@ export class VipSelectionComponent {
       })
     ).subscribe(data => {
       this.vipUsernames.push((data as any)["username"]);
+      this.vipProfilePics.push((data as any)["profilePic"]);
     });
 
 
@@ -69,7 +77,9 @@ export class VipSelectionComponent {
       alert("Devi selezionare un account");
       return;
     } else {
+      this.sharedService.selectedVipUsername = this.selectedAccount;
       console.log(this.selectedAccount);
+      console.log(this.sharedService.selectedVipUsername);
       this.router.navigate(['/home']);
     }
 
