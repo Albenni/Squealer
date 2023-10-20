@@ -1,7 +1,10 @@
 import { Component,  OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { SharedService } from '../shared.service';
-import { DefaultOptionsInterceptor } from '../default-options.interceptor';
+import  {catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-vip-selection',
   templateUrl: './vip-selection.component.html',
@@ -10,34 +13,69 @@ import { DefaultOptionsInterceptor } from '../default-options.interceptor';
 export class VipSelectionComponent {
   
   selectedAccount:string = "";
-  vipIdList: string[] = [];
+  vipUsernames: string[] = [];
+  vipIds: string[] = [];
   smmUsername: string = this.sharedService.smmUsername;
   smmId: string = this.sharedService.smmId;
   token: string = this.sharedService.accessToken;
-  accountList: string[] = [];
+
   /*
     per accedere a smm username
     this.sharedService.smmUsername
   */
 
-  constructor(private http: HttpClient, private sharedService: SharedService) { }
+  constructor(private http: HttpClient, private sharedService: SharedService, private router: Router) { }
 
   ngOnInit(): void {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer aaa`
-      }),
-      withCredentials: true 
-    };
+
 
     // Effettua una richiesta GET all'API per ottenere la lista degli account
-    this.http.get<string[]>('http://localhost:3500/users/'+ this.smmId +'/vips?onlyAccepted=true').subscribe(data => {
-      console.log(data);
-      this.vipIdList = data;
-      
-    })
+    this.http.get<string[]>('http://localhost:3500/users/'+ this.smmId +'/vips?onlyAccepted=true').pipe(
+      catchError((error: any) => {
+        // Gestisci l'errore qui
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    )
+    .subscribe(data => {
+      data.map((item)=> console.log(item))
+      this.vipIds = data.map((item: any) => item.vipId);
+
+      this.vipIds.forEach((id)=>{
+        this.getUsername(id);
+      })
+    });
+
+  
   }
+
+  getUsername(id: string){
+    this.http.get<string>('http://localhost:3500/users/'+id).pipe(
+      catchError((error: any) => {
+        // Gestisci l'errore qui
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe(data => {
+      this.vipUsernames.push((data as any)["username"]);
+    });
+
+
+
+  }
+
+  onSubmit(){
+    if(this.selectedAccount == ""){
+      alert("Devi selezionare un account");
+      return;
+    } else {
+      console.log(this.selectedAccount);
+      this.router.navigate(['/home']);
+    }
+
+  }
+
+
 }
 
 
