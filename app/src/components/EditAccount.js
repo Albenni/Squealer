@@ -1,34 +1,124 @@
 import theme from "../config/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccordionButton, Accordion, Button, Card } from "react-bootstrap";
 import ErrorMessage from "./ErrorMessage";
 import { useMediaQuery } from "react-responsive";
 
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function EditAccountPane() {
+  const axiosInstance = useAxiosPrivate();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
+  const [user, setUser] = useState({});
 
   const [isImageError, setIsImageError] = useState(false);
 
+  useEffect(() => {
+    axiosInstance
+      .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   function handleChangeUsername(newusername) {
-    console.log(newusername);
+    // console.log(newusername);
+
+    axiosInstance
+      .patch(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/username",
+        {
+          oldusername: user.username,
+          newusername: newusername,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function handleChangeProfilePic(newprofilepic) {
     if (newprofilepic === undefined) {
+      setIsImageError(true);
       return;
     } else if (!newprofilepic.type.includes("image")) {
       setIsImageError(true);
       return;
     }
+
+    axiosInstance
+      .patch(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/profilePicture",
+        {
+          newprofilepic: newprofilepic,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     setIsImageError(false);
   }
 
   function handleChangeEmail(newemail) {
-    console.log(newemail);
+    // console.log(newemail);
+
+    axiosInstance
+      .patch(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/email",
+        {
+          newemail: newemail,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function handleChangePassword(oldpassword, newpassword) {
-    console.log(oldpassword, newpassword);
+    // console.log(oldpassword, newpassword);
+
+    axiosInstance
+      .patch(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/password",
+        {
+          oldpassword: oldpassword,
+          newpassword: newpassword,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function CustomToggle({ children, eventKey }) {

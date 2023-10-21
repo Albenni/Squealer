@@ -9,6 +9,10 @@ api da fare (poche):
 - Destinatari multipli per uno squeal
 - come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
 
+Da cambiare:
+
+- Cambiare nel refresh token lo username (nel caso io cambi lo username e faccio refresh token, l'auth viene rifiutata e devo rifare il login)
+
 ---
 
 ## Chi ha implementato le API:
@@ -25,6 +29,7 @@ api da fare (poche):
 -updateUsername
 -updateProfilePic
 -updateEmail
+-OTP e new password
 
 ## FILIPPO:
 

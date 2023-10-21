@@ -12,10 +12,6 @@ https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
 https://mui.com/material-ui/react-menu/
 
-- Mettere in ogni post se il post è pubblico o appartiene a un canale. forse mettere anche gli hashtag che sono associati a ogni post
-
-- Aggiungere le funzioni e bottoni per cambiare: username, nome, cognome, password, reset password, email e immagine profilo
-
 - Finire la sezione messaggi privati
 
 - Fare il redirect alla sezione messaggi privati quando un utente prova a pubblicare uno squeal con destinatario un utente privato
@@ -29,8 +25,6 @@ https://mui.com/material-ui/react-menu/
 - Fixare il pulsante di nuovo squeal
 
 - Codificare il token che teniamo all'interno dell'app
-
-- Redirect dal post all'account utente
 
 AIUTO
 
