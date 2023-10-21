@@ -5,9 +5,14 @@ import { useMediaQuery } from "react-responsive";
 
 import ErrorMessage from "../components/ErrorMessage";
 import OTPInput from "../components/OTPInput";
-import logo from "../assets/SLogo.png";
+
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
+// import logo from "../assets/SLogo.png";
 
 function ResetPasswordPage() {
+  const axiosInstance = useAxiosPrivate();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [useremail, setUserEmail] = useState("");
@@ -15,6 +20,7 @@ function ResetPasswordPage() {
   const [emailAlert, setEmailAlert] = useState(false);
   const [emailerror, setEmailError] = useState(false);
   const [passworderror, setPasswordError] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
 
   function handleResetPassword(useremail) {
     if (useremail === undefined || useremail === "") {
@@ -27,14 +33,19 @@ function ResetPasswordPage() {
       return;
     }
 
-    setEmailError(false);
+    axiosInstance
+      .post(config.endpoint.newpassword, { email: useremail })
+      .then((res) => {
+        setEmailSent(true);
+        setEmailAlert(true);
+        setUserEmail(useremail);
 
-    setUserEmail(useremail);
-
-    // Chiamata api post per mandare la mail e creare codice OTP
-
-    setEmailSent(true);
-    setEmailAlert(true);
+        console.log(res);
+      })
+      .catch((err) => {
+        setEmailError(true);
+        console.log(err);
+      });
   }
   function handleCheckResetPwd(newpwd) {
     const otp = sessionStorage.getItem("OTP");
@@ -48,6 +59,19 @@ function ResetPasswordPage() {
     }
 
     // Chiamata api per verificare il codice OTP e cambiare la password
+    axiosInstance
+      .patch(config.endpoint.resetpassword, {
+        userEmail: useremail,
+        OTP: otp,
+        newpassword: newpwd,
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.href = "/login";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -96,7 +120,7 @@ function ResetPasswordPage() {
                     Inserisci il codice OTP che ti abbiamo mandato alla tua
                     email
                   </p>
-                  <OTPInput />
+                  <OTPInput otpCode={otpCode} />
                 </div>
                 <div className="p-3">
                   <p

@@ -88,7 +88,7 @@ const sendResetOTP = async (req, res) => {
   });
 };
 
-// Body {userId: string, OTP: string, newpassword: string}
+// Body {userEmail: string, OTP: string, newpassword: string}
 const resetPassword = async (req, res) => {
   if (!req.body.OTP || !req.body.newpassword || !req.body.userId)
     return res

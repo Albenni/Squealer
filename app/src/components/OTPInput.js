@@ -1,11 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const OtpInput = () => {
+import { useMediaQuery } from "react-responsive";
+
+const OtpInput = ({ otpCode }) => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
   const numBoxes = 6;
 
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   useEffect(() => {
+    sessionStorage.removeItem("OTP");
     if (inputRefs.current[0]) {
       inputRefs.current[0].focus();
     }
@@ -45,6 +50,12 @@ const OtpInput = () => {
     }
 
     setOtp(newOtp);
+
+    if (pasteValues.length === numBoxes) {
+      const otpValue = newOtp.join("");
+      sessionStorage.setItem("OTP", otpValue);
+      console.log(otpValue);
+    }
   };
 
   return (
@@ -53,14 +64,25 @@ const OtpInput = () => {
         .fill()
         .map((_, index) => (
           <input
-            style={{
-              width: "2em",
-              height: "2em",
-              marginRight: "0.5em",
-              textAlign: "center",
-              fontSize: "1.5em",
-              borderRadius: "0.5em",
-            }}
+            style={
+              isMobile
+                ? {
+                    width: "9vw",
+                    height: "9vw",
+                    marginRight: "0.5em",
+                    textAlign: "center",
+                    fontSize: "1.5em",
+                    borderRadius: "0.5em",
+                  }
+                : {
+                    width: "4vh",
+                    height: "4vh",
+                    marginRight: "0.5em",
+                    textAlign: "center",
+                    fontSize: "1.5em",
+                    borderRadius: "0.5em",
+                  }
+            }
             key={index}
             type="text"
             maxLength={1}
