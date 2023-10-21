@@ -63,11 +63,11 @@ const sendResetOTP = async (req, res) => {
   const mailOptions = {
     from: process.env.APP_EMAIL,
     to: recipient_email,
-    subject: "Squealer Password Reset OTP",
+    subject: "Codice per il reset della password",
     html: `<html>
                <body>
-                 <h2>Password Recovery</h2>
-                 <p>Use this OTP to reset your password. OTP is valid for 5 minutes</p>
+                 <h2>Recupero della password</h2>
+                 <p>Usa questo OTP per recuperare la tua password. L'OTP sarà valido per i prossimi 5 minuti.</p>
                  <h3>${OTP}</h3>
                </body>
              </html>`,
@@ -90,17 +90,19 @@ const sendResetOTP = async (req, res) => {
 
 // Body {userEmail: string, OTP: string, newpassword: string}
 const resetPassword = async (req, res) => {
-  if (!req.body.OTP || !req.body.newpassword || !req.body.userId)
+  if (!req.body.OTP || !req.body.newpassword || !req.body.userEmail)
     return res
       .status(400)
-      .json({ message: "OTP, new password or userId not provided" });
+      .json({ message: "OTP, new password or userEmail not provided" });
 
   //Controllo se l'utente è presente nel db
 
-  if (!(await User.exists({ email: req.body.email })))
+  if (!(await User.exists({ email: req.body.userEmail })))
     return res.status(404).json({ message: "User doesn't exist" });
 
-  const foundUser = await User.findOne({ userId: req.body.userId }).exec();
+  const foundUser = await User.findOne({
+    email: req.body.userEmail,
+  }).exec();
 
   if (!foundUser) return res.status(404).json({ message: "User not found." });
 
@@ -117,12 +119,12 @@ const resetPassword = async (req, res) => {
   if (OTPDecryptedObj.OTPCreationTime + 300000 < timenow)
     return res.status(400).json({ message: "Time elapsed" });
 
-  if (OTPDecryptedObj.OTP !== req.body.OTP)
+  if (OTPDecryptedObj.OTP.toString() !== req.body.OTP)
     return res.status(400).json({ message: "Invalid OTP" });
 
   // Aggiorno la password nel db
   try {
-    // Controllo che la vecchia password sia corretta
+    // Controllo che la vecchia password sia diversa dalla nuova
     if (foundUser.password === req.body.newpassword) {
       return res
         .status(400)

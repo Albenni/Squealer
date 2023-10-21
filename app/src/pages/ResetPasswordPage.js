@@ -60,7 +60,7 @@ function ResetPasswordPage() {
 
     // Chiamata api per verificare il codice OTP e cambiare la password
     axiosInstance
-      .patch(config.endpoint.resetpassword, {
+      .patch(config.endpoint.newpassword, {
         userEmail: useremail,
         OTP: otp,
         newpassword: newpwd,
