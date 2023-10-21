@@ -1,20 +1,22 @@
-.imgVipProfilePic {
+#imgVipProfilePic {
     max-width: 100%;
     height: auto;
 }
-.vipProfilePic {
+#vipProfilePic {
     height: 100%;
     width: 5rem;
 }
-.vipSelected{
- padding-top: 10px;
-}
 
-.vipUsername {
+
+#vipUsername {
     margin-top: 10px;
 }
 
 #selectionImg{
     height: 10rem;
     width: 10rem;
+}
+
+#tabProfile{
+    width: 50vw;
 }

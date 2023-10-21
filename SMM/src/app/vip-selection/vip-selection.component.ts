@@ -5,6 +5,11 @@ import  {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import { Router } from '@angular/router';
 
+interface UserData {
+  _id: string;
+  username: string;
+}
+
 @Component({
   selector: 'app-vip-selection',
   templateUrl: './vip-selection.component.html',
@@ -49,6 +54,8 @@ export class VipSelectionComponent {
       this.sharedService.vipIds = this.vipIds;  
       this.sharedService.vipUsernames = this.vipUsernames;
       this.sharedService.vipsProfilePics = this.vipProfilePics;
+      console.log(this.sharedService.vipIds);
+      console.log(this.sharedService.vipUsernames);
     });
 
   
@@ -67,9 +74,6 @@ export class VipSelectionComponent {
       this.vipUsernames.push((data as any)["username"]);
       this.vipProfilePics.push((data as any)["profilePic"]);
     });
-
-
-
   }
 
   onSubmit(){
@@ -78,8 +82,21 @@ export class VipSelectionComponent {
       return;
     } else {
       this.sharedService.selectedVipUsername = this.selectedAccount;
-      console.log(this.selectedAccount);
-      console.log(this.sharedService.selectedVipUsername);
+      console.log(this.sharedService.selectedVipUsername);  
+      
+      //devo riassociare l'id corrispondente a quello username
+
+      this.http.get<UserData[]>('http://localhost:3500/users/?username='+this.selectedAccount).pipe(
+        catchError((error: any) => {
+          // Gestisci l'errore qui
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      ).subscribe(data => {
+        const vip = data[0];
+        this.sharedService.selectedVipId = vip._id;
+      });
+
       this.router.navigate(['/home']);
     }
 

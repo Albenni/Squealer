@@ -16,30 +16,39 @@
             </button>
             <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                 aria-labelledby="button-animated">
-                <li class="user-item" *ngFor="let username of vipsUsernames; let i = index">
-                    <div> <img id="selectionImg" src={{vipsProfilePics[i]}}> </div>
-                    <div>{{username}}</div>
-
-
+                <li class="user-item" *ngFor="let username of vipsUsernames; let i = index" (click)="selectVip(i)">
+                    <div class="dropdown-item " style="padding: 10px; border-color: black; ">
+                        <div class="row">
+                            <div class="col-6"> <img class="img-fluid" style="height: auto;" id="selectionImg"
+                                    src={{vipsProfilePics[i]}}> </div>
+                            <div class="col-6" style="margin-top: 12%;">{{username}}</div>
+                        </div>
+                    </div>
                 </li>
-
             </ul>
         </div>
     </div>
 
-    <!-- content puo essere sia il testo dello squeal che l'url dell'immagine -->
-
-
-
-
 </div>
-<div class="vipSelected row">
-    <div class="col-5"></div>
-    <div class="vipProfilePic col-1"><img class="imgVipProfilePic" src={{vipProfilePic}}></div>
-    <div class="vipUsername col-1">{{vipUsername}}</div>
-    <div class="col-5"></div>
+<div class="row px-2" id="profileTabDashboard">
+    <div class="col-6" id="tabProfile">
+        <div class="row" style="height: 10vh;">
+            <div class="col-6" id="vipProfilePic"><img class="img-fluid" id="imgVipProfilePic" src={{vipProfilePic}}>
+            </div>
+            <div class="col-6" id="vipUsername ">{{vipUsername}}</div>
+        </div>
 
+    </div>
+    <tabset class="col-6">
+        <div class="row">
+            <tab class="col-6">Username</tab>
+            <tab class="col-6">Caratteri</tab>
+        </div>
+    </tabset>
 </div>
+
+
+
 <div *ngIf="(posts$ | async) as posts">
     <div *ngFor="let post of posts">
         <app-post [postTitle]="post.title" [content]="post.image ? post.image : post.text"

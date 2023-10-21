@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { PostComponent } from '../post/post.component';
 import { UserItemComponent } from '../user-item/user-item.component';
 import { SharedService } from '../shared.service';
+import { Router } from '@angular/router';
 
-import { jsonData } from 'src/assets/examples/postdatasample';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,11 +17,18 @@ import { jsonData } from 'src/assets/examples/postdatasample';
 export class DashboardComponent implements OnInit {
 
 
-  vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
+ 
+  
+ vipProfilePic: string = 'https://www.w3schools.com/howto/img_avatar.png';
+/*
+ vipUsername: string = this.sharedService.selectedVipUsername;
+  vipsUsernames: string[] = ['Aldo', 'Giovanni', 'Giacomo'];
+  vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
+ */
+  vipUsername: string = this.sharedService.selectedVipUsername;
   vipsUsernames: string[] = this.sharedService.vipUsernames;
-  vipProfilePic: string = 'https://www.w3schools.com/howto/img_avatar.png';
-  vipUsername: string = 'Aldo'
- // vipUsername: string = this.sharedService.selectedVipUsername;
+   
+  vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
 
 
   /*
@@ -36,7 +43,7 @@ export class DashboardComponent implements OnInit {
   
 
 
-  constructor(private http: HttpClient, private  sharedService: SharedService) {}
+  constructor(private http: HttpClient, private  sharedService: SharedService, private router: Router) {}
 
   ngOnInit() {
     
@@ -50,6 +57,18 @@ export class DashboardComponent implements OnInit {
     // manca ancora api
 
     //this.posts$ = this.http.get<any[]>('URL_DEL_TUO_API/posts');
+  }
+
+  selectVip(index: number) {
+
+    this.vipUsername = this.vipsUsernames[index];
+    this.sharedService.selectedVipUsername = this.vipUsername;
+
+    this.vipProfilePic = this.vipsProfilePics[index];
+    this.sharedService.selectedVipProfilePic = this.vipProfilePic;
+
+    //qui devono cambiare anche tutti i post etc..
+
   }
 
 }
