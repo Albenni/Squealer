@@ -140,6 +140,7 @@ function EditAccountPane() {
     <div className="container pt-4">
       <Accordion className="py-1">
         <Card
+          className="my-4"
           style={{
             backgroundColor: "lightblue",
           }}
@@ -173,7 +174,7 @@ function EditAccountPane() {
           </Accordion.Collapse>
         </Card>
         <Card
-          className="my-3"
+          className="mb-4"
           style={{
             backgroundColor: "lightblue",
           }}
@@ -211,7 +212,7 @@ function EditAccountPane() {
           </Accordion.Collapse>
         </Card>
         <Card
-          className="my-3"
+          className="mb-4"
           style={{
             backgroundColor: "lightblue",
           }}
@@ -245,7 +246,7 @@ function EditAccountPane() {
           </Accordion.Collapse>
         </Card>
         <Card
-          className="my-3"
+          className="mb-4"
           style={{
             backgroundColor: "lightblue",
           }}

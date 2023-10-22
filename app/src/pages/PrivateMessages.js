@@ -10,8 +10,17 @@ function PrivateMessages({ showchat, setShowChat, ...props }) {
   return (
     <>
       <Offcanvas show={showchat} onHide={handleClose} {...props}>
-        <Offcanvas.Header closeButton />
-        <Offcanvas.Body className="container-fluid">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Mesasggi privati </Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body
+          style={{
+            width: "100%",
+            height: "100%",
+            padding: "0",
+            margin: "0",
+          }}
+        >
           <ChatUI />
         </Offcanvas.Body>
       </Offcanvas>

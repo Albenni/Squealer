@@ -13,18 +13,27 @@ import {
   Conversation,
   ConversationList,
   ConversationHeader,
-  InfoButton,
 } from "@chatscope/chat-ui-kit-react";
+
+import { ChevronLeft } from "react-bootstrap-icons";
 
 import sample from "../assets/conversationsample";
 
+import { useMediaQuery } from "react-responsive";
+import theme from "../config/theme";
+
 function ChatUI() {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const fileInputRef = useRef(null);
 
+  // Conversations variables
   const [activeconversation, setActiveConversation] = useState({});
   const [conversationslist, setConversationslist] = useState([]);
   const [searchedconversations, setSearchedConversations] = useState([]);
   const [messages, setMessages] = useState([]);
+
+  // UI variables
+  const [showsidebar, setShowSidebar] = useState(true);
 
   useEffect(() => {
     setConversationslist(sample.conversations);
@@ -89,17 +98,31 @@ function ChatUI() {
   };
 
   return (
-    <div className="container-fluid" style={{ height: "100%" }}>
-      <MainContainer>
-        <Sidebar position="left" scrollable={true}>
-          <Search
-            placeholder="Search..."
-            onChange={handleSearch}
-            onClearClick={() => {
-              setSearchedConversations(sample.conversations);
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: theme.colors.white,
+      }}
+    >
+      {showsidebar ? (
+        <div className={isMobile ? "p-1" : "p-3"}>
+          <div
+            className="sticky-top"
+            style={{
+              backgroundColor: theme.colors.white,
             }}
-          />
-          <ConversationList>
+          >
+            <Search
+              placeholder="Search..."
+              onChange={handleSearch}
+              onClearClick={() => {
+                setSearchedConversations(sample.conversations);
+              }}
+              className="mb-3 "
+            />
+          </div>
+          <ConversationList scrollable>
             {searchedconversations.map((convo, key) => {
               return (
                 <Conversation
@@ -110,6 +133,7 @@ function ChatUI() {
                   unreadCnt={convo.nuoviMessaggi}
                   active={activeconversation.name === convo.sender}
                   onClick={() => {
+                    setShowSidebar(!showsidebar);
                     handleCovoChange({
                       name: convo.sender,
                       lastSenderName: convo.lastSenderName,
@@ -118,65 +142,89 @@ function ChatUI() {
                       active: true,
                     });
                   }}
+                  style={{
+                    border: "1px solid darkgray",
+                    borderRadius: "20px",
+                    marginBottom: "10px",
+                  }}
                 >
                   <Avatar src={convo.senderAvatar} name={convo.sender} />
                 </Conversation>
               );
             })}
           </ConversationList>
-        </Sidebar>
-        <ChatContainer>
-          <ConversationHeader>
-            <Avatar
-              src="https://picsum.photos/300/300"
-              name={activeconversation.name}
-            />
-            <ConversationHeader.Content userName={activeconversation.name} />
-          </ConversationHeader>
-
-          <MessageList>
-            {messages.map((message, index) => (
-              <Message
-                key={index}
-                model={{
-                  message: message.message,
-                  sentTime: message.sentTime,
-                  sender: message.sender,
-                  direction: message.outgoing ? "outgoing" : "incoming",
-                }}
-              />
-            ))}
-            <Message
-              type="custom"
-              model={{
-                sentTime: "adesso",
-                sender: "Test 1",
-                direction: "incoming",
+        </div>
+      ) : (
+        <div>
+          <ChatContainer>
+            <ConversationHeader
+              style={{
+                position: "sticky",
+                top: "0",
+                zIndex: "1",
               }}
             >
-              <Message.CustomContent>
-                <img
-                  src="https://picsum.photos/300/300"
-                  alt="test"
-                  style={{ width: "100%" }}
-                />
-              </Message.CustomContent>
-            </Message>
-          </MessageList>
+              <ConversationHeader.Back
+                onClick={() => setShowSidebar(!showsidebar)}
+              />
 
-          <MessageInput
-            placeholder="Scrivi qui il tuo messaggio"
-            onSend={handleSendMessage}
-            onAttachClick={handleAttachmentButtonClick}
+              <Avatar
+                src="https://picsum.photos/300/300"
+                name={activeconversation.name}
+              />
+              <ConversationHeader.Content userName={activeconversation.name} />
+            </ConversationHeader>
+
+            <MessageList>
+              <Message
+                type="custom"
+                model={{
+                  sentTime: "adesso",
+                  sender: "Test 1",
+                  direction: "incoming",
+                }}
+              >
+                <Message.CustomContent>
+                  <img
+                    src="https://picsum.photos/300/300"
+                    alt="test"
+                    style={{ width: "100%" }}
+                  />
+                </Message.CustomContent>
+              </Message>
+              {messages.map((message, index) => (
+                <Message
+                  key={index}
+                  model={{
+                    message: message.message,
+                    sentTime: message.sentTime,
+                    sender: message.sender,
+                    direction: message.outgoing ? "outgoing" : "incoming",
+                  }}
+                />
+              ))}
+            </MessageList>
+
+            <MessageInput
+              placeholder="Scrivi qui il tuo messaggio"
+              onSend={handleSendMessage}
+              onAttachClick={handleAttachmentButtonClick}
+              style={{
+                position: "absolute",
+                bottom: "0",
+                width: "100%",
+                backgroundColor: theme.colors.white,
+              }}
+            />
+          </ChatContainer>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileSelect}
           />
-        </ChatContainer>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={handleFileSelect}
-        />
-      </MainContainer>
+        </div>
+      )}
     </div>
   );
 }
