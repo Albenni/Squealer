@@ -12,8 +12,8 @@ router
 
 router
   .route("/:squealId/comments")
-  .get(commentsController.getComments) // da implementare
-  .post(commentsController.addComment); // da implementare
+  .get(commentsController.getComments) // da testare
+  .post(commentsController.addComment); // da testare
 
 // router
 //   .route("/:squealId/comments/:commentId")
