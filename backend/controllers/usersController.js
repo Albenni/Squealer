@@ -137,7 +137,7 @@ const updateUsername = async (req, res) => {
   try {
     // Controllo che lo username non sia gia in uso
     const duplicate = await User.findOne({ username: newusername }).exec();
-    if (duplicate) return res.status(409);
+    if (duplicate) return res.sendStatus(409);
 
     // Aggiorno e ritorno lo user aggiornato
     const result = await User.findByIdAndUpdate(
