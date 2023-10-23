@@ -12,7 +12,7 @@ const userLogout = async (req, res) => {
   const foundUser = await User.findOne({ refreshToken }).exec();
   if (!foundUser) {
     res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-    return res.sendStatus(204);
+    return res.sendStatus(404);
   }
 
   // Delete refreshToken in db
@@ -35,7 +35,7 @@ const modLogout = async (req, res) => {
   const foundMod = await Moderator.findOne({ refreshToken }).exec();
   if (!foundMod) {
     res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-    return res.sendStatus(204);
+    return res.sendStatus(404);
   }
 
   // Delete refreshToken in db
