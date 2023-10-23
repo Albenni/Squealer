@@ -131,7 +131,7 @@ function Login() {
   }
 
   function handleGuestUser() {
-    setAuth("guest");
+    // setAuth("guest");
     sessionStorage.setItem("userid", "guest");
 
     navigate(from, { replace: true });

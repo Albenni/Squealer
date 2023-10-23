@@ -7,6 +7,7 @@
     "register": "/register",
     "logout": "/logout",
     "channels": "/channels",
-    "newpassword": "/newpassword"
+    "newpassword": "/newpassword",
+    "feed": "/feed"
   }
 }

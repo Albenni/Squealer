@@ -10,8 +10,6 @@ import SquealBox from "../components/SquealBox";
 import PostList from "../components/posts/PostList";
 import TrendBar from "../components/TrendBar";
 
-import postdatasample from "../assets/postdatasample.json";
-
 import TopBar from "../components/TopBar";
 
 function Feed() {
@@ -59,7 +57,7 @@ function Feed() {
           </div>
         </div>
         <div className="container mt-sm-3">
-          <PostList getposts={postdatasample} />
+          <PostList />
         </div>
         <div className="container-fluid">
           <div className="fixed-bottom m-3" style={{ width: "5vw" }}>

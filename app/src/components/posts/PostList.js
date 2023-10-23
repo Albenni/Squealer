@@ -1,41 +1,61 @@
 import theme from "../../config/theme";
 
 import Post from "./Post";
-import PostImage from "./PostImage";
-import PostLocation from "./PostLocation";
 
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-// import config from "../config/config";
+import config from "../../config/config";
 
-function PostList({ getposts }) {
+import getposts from "../../assets/postdatasample.json";
+
+function PostList() {
   const allowedContentTypes = ["text", "image", "video", "geolocalization"];
 
-  const postsapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
 
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
+    const userid = sessionStorage.getItem("userid");
+
     setPosts(getposts);
 
-    // const userid = sessionStorage.getItem("userid");
-
-    // async function getPosts() {
-    //   const response = await postsapi.get();
-    //   if (!response.ok) {
-    //     console.log(response);
-    //     return;
-    //   }
-    //   setPosts(response.data);
+    // if (userid) {
+    //   axiosInstance
+    //     .get(config.endpoint.feed + "/" + userid)
+    //     .then((response) => {
+    //       setPosts(getposts);
+    //       // setPosts(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // } else {
+    //   alert("SEI UN GUEST");
     // }
-
-    // getPosts();
   }, []);
 
   if (posts === null) {
-    return <p className="text-center pt-5">Nessun post trovato</p>;
+    return (
+      <p
+        className="text-center mt-5"
+        style={{
+          color: theme.colors.white,
+          backgroundColor: theme.colors.bg2New,
+          borderRadius: "10px",
+          border: "1px solid " + theme.colors.lightgrey,
+          padding: "5px",
+          zIndex: "1",
+          textAlign: "center",
+          fontWeight: "bold",
+          pointerEvents: "none",
+        }}
+      >
+        Nessun post trovato
+      </p>
+    );
   }
 
   return (
@@ -48,6 +68,14 @@ function PostList({ getposts }) {
               key={item.id}
               style={{
                 color: theme.colors.white,
+                backgroundColor: theme.colors.bg2New,
+                borderRadius: "10px",
+                border: "1px solid " + theme.colors.lightgrey,
+                padding: "5px",
+                zIndex: "1",
+                textAlign: "center",
+                fontWeight: "bold",
+                pointerEvents: "none",
               }}
             >
               Post non riconosciuto
@@ -56,13 +84,6 @@ function PostList({ getposts }) {
         }
 
         return <Post key={key} item={item} />;
-
-        // if (item.contentType === "image" || item.contentType === "video") {
-        //   return <PostImage key={key} item={item} />;
-        // }
-
-        // if (item.contentType === "location")
-        //   return <PostLocation key={key} item={item} />;
       })}
     </div>
   );

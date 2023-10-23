@@ -13,6 +13,12 @@ Da cambiare:
 
 - Cambiare nel refresh token lo username (nel caso io cambi lo username e faccio refresh token, l'auth viene rifiutata e devo rifare il login)
 
+- Negli squeal bisogna mettere anche una api non autenticata per il guest, in modo che possa vedere gli squeal dei canali verificati
+
+Bugs:
+
+- Se sbagli la password nel login crasha il server
+
 ---
 
 ## Chi ha implementato le API:
