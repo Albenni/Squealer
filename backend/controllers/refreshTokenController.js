@@ -15,7 +15,7 @@ const userRefreshToken = async (req, res) => {
     const accessToken = jwt.sign(
       {
         UserInfo: {
-          username: decoded.username,
+          username: foundUser.username,
           id: foundUser._id,
           isMod: false,
           isSmm: decoded.isSmm,
