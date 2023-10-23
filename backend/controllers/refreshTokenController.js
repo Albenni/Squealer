@@ -4,15 +4,14 @@ const jwt = require("jsonwebtoken");
 
 const userRefreshToken = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
+  if (!cookies?.jwt) return res.status(401);
   const refreshToken = cookies.jwt;
 
   const foundUser = await User.findOne({ refreshToken }).exec();
-  if (!foundUser) return res.sendStatus(403); //Forbidden
+  if (!foundUser) return res.status(403); //Forbidden
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundUser.username !== decoded.username)
-      return res.sendStatus(403);
+    if (err || foundUser.username !== decoded.username) return res.status(403);
     const accessToken = jwt.sign(
       {
         UserInfo: {
@@ -31,15 +30,14 @@ const userRefreshToken = async (req, res) => {
 
 const modRefreshToken = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
+  if (!cookies?.jwt) return res.status(401);
   const refreshToken = cookies.jwt;
 
   const foundMod = await Moderator.findOne({ refreshToken }).exec();
-  if (!foundMod) return res.sendStatus(403); //Forbidden
+  if (!foundMod) return res.status(403); //Forbidden
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundMod.username !== decoded.username)
-      return res.sendStatus(403);
+    if (err || foundMod.username !== decoded.username) return res.status(403);
     const accessToken = jwt.sign(
       {
         UserInfo: {

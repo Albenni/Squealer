@@ -13,12 +13,11 @@ const modLogin = async (req, res) => {
       .json({ message: "Username and password are required." });
 
   const foundUser = await Moderator.findOne({ username: user }).exec();
-  if (!foundUser) return res.sendStatus(401); //Unauthorized
+  if (!foundUser) return res.status(401); //Unauthorized
   // evaluate password
   // const match = await bcrypt.compare(pwd, foundUser.password);
   const match = pwd === foundUser.password; // controllo se password coincidono
-  if (!match)
-    return res.sendStatus(401).json({ message: "Incorrect password" });
+  if (!match) return res.status(401).json({ message: "Incorrect password" });
 
   // create JWTs
   const accessToken = jwt.sign(
@@ -67,8 +66,7 @@ const userLogin = async (req, res) => {
   // confronti le password nel caso in cui sia salvata come hash
   // const match = await bcrypt.compare(pwd, foundUser.password);
   const match = pwd === foundUser.password; // controllo se password coincidono
-  if (!match)
-    return res.sendStatus(401).json({ message: "Incorrect password" });
+  if (!match) return res.status(401).json({ message: "Incorrect password" });
 
   if (foundUser.blocked)
     return res.status(403).json({ message: "Account Blocked" });
@@ -120,8 +118,7 @@ const smmLogin = async (req, res) => {
   // confronti le password nel caso in cui sia salvata come hash
   // const match = await bcrypt.compare(pwd, foundUser.password);
   const match = pwd === foundUser.password; // controllo se password coincidono
-  if (!match)
-    return res.sendStatus(401).json({ message: "Incorrect password" });
+  if (!match) return res.status(401).json({ message: "Incorrect password" });
 
   if (foundUser.blocked)
     return res.status(403).json({ message: "Account Blocked" });

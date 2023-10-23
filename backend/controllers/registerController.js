@@ -13,7 +13,7 @@ const registerNewUser = async (req, res) => {
   const duplicateUser = await User.findOne({
     $or: [{ username: user }, { email: email }],
   }).exec();
-  if (duplicateUser) return res.sendStatus(409); //Conflict
+  if (duplicateUser) return res.status(409); //Conflict
 
   try {
     //encrypt the password

@@ -17,8 +17,6 @@ Da cambiare:
 
 Bugs:
 
-- Se sbagli la password nel login crasha il server
-
 ---
 
 ## Chi ha implementato le API:
