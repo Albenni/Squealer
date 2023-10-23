@@ -12,6 +12,14 @@ const getAllUserConversations = async (req, res) => {
     $or: [{ user1: req.params.userId }, { user2: req.params.userId }],
   });
 
+  // Get the user object of the users involved in the conversation and return it in the response
+  for (let i = 0; i < convers.length; i++) {
+    const user1 = await User.findById(convers[i].user1);
+    const user2 = await User.findById(convers[i].user2);
+    convers[i].user1 = user1;
+    convers[i].user2 = user2;
+  }
+
   return res.json(convers);
 };
 

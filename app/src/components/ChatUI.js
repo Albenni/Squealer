@@ -1,3 +1,4 @@
+import theme from "../config/theme";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { useState, useEffect, useRef } from "react";
 
@@ -15,18 +16,20 @@ import {
   ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 
-import { ChevronLeft } from "react-bootstrap-icons";
-
 import sample from "../assets/conversationsample";
 
 import { useMediaQuery } from "react-responsive";
-import theme from "../config/theme";
+
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
 
 function ChatUI() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const fileInputRef = useRef(null);
+  const axiosInstance = useAxiosPrivate();
 
   // Conversations variables
+  const [sender, setSender] = useState({});
   const [activeconversation, setActiveConversation] = useState({});
   const [conversationslist, setConversationslist] = useState([]);
   const [searchedconversations, setSearchedConversations] = useState([]);
@@ -36,10 +39,44 @@ function ChatUI() {
   const [showsidebar, setShowSidebar] = useState(true);
 
   useEffect(() => {
-    setConversationslist(sample.conversations);
-    setSearchedConversations(sample.conversations);
+    const fetchSender = async () => {
+      axiosInstance
+        .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
+        .then((res) => {
+          const name = res.data.firstname;
+          const lastname = res.data.surname;
+          setSender({ name, lastname });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const fetchConversations = async () => {
+      axiosInstance
+        .get(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/conversations"
+        )
+        .then((res) => {
+          setConversationslist(res.data);
+          setSearchedConversations(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    fetchSender();
+    fetchConversations();
+
+    // setConversationslist(sample.conversations);
+    // setSearchedConversations(sample.conversations);
     setMessages([...messages, sample.model]);
-    setActiveConversation(sample.convomodel);
+    // setActiveConversation(sample.convomodel);
   }, []);
 
   function handleSendMessage(event) {
@@ -48,7 +85,7 @@ function ChatUI() {
       {
         message: event,
         sentTime: "adesso",
-        sender: "TEST MESSAGGIO",
+        sender: "Test 1",
         outgoing: true,
       },
     ]);
@@ -127,17 +164,17 @@ function ChatUI() {
               return (
                 <Conversation
                   key={key}
-                  name={convo.sender}
-                  lastSenderName={convo.lastSenderName}
-                  info={convo.lastMessage}
-                  unreadCnt={convo.nuoviMessaggi}
-                  active={activeconversation.name === convo.sender}
+                  name={convo.user1.firstname}
+                  // lastSenderName={convo.user1.firstname}
+                  // info={convo.lastMessage}
+                  // unreadCnt={convo.nuoviMessaggi}
+                  active={activeconversation.name === convo.user1.firstname}
                   onClick={() => {
                     setShowSidebar(!showsidebar);
                     handleCovoChange({
-                      name: convo.sender,
-                      lastSenderName: convo.lastSenderName,
-                      info: convo.lastMessage,
+                      name: convo.user1.firstname,
+                      // lastSenderName: convo.lastSenderName,
+                      // info: convo.lastMessage,
                       unreadCnt: 0,
                       active: true,
                     });
@@ -148,7 +185,14 @@ function ChatUI() {
                     marginBottom: "10px",
                   }}
                 >
-                  <Avatar src={convo.senderAvatar} name={convo.sender} />
+                  <Avatar
+                    src={
+                      convo.user1.profilePicture
+                        ? convo.user1.profilePicture
+                        : "https://picsum.photos/300/300"
+                    }
+                    name={convo.sender}
+                  />
                 </Conversation>
               );
             })}
