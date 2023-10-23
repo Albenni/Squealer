@@ -1,14 +1,14 @@
 <div class="row px-2" id="topTabDashboard"
     style="background-color: rgb(244, 244, 244); text-align: center; height: 12vh; padding-top: 1vh;">
-    <div class="col-1" style="padding-top: 0.5rem;"> <img style="max-height: 3rem;" class="img-fluid"
+    <div class="col-sm-1" style="padding-top: 0.5rem;"> <img style="max-height: 3rem;" class="img-fluid"
             src="./assets/SLogo.png" alt="Logo"></div>
     <div class="col" style="padding-top: 0.3rem; ">
         <h1 class=" " style="color: rgb(0, 0, 0); font-family: 'MontserratItalic';">Squealer SMM
         </h1>
 
     </div>
-    <div class="col-1" style="padding-top: 1.2rem; color: rgb(0, 0, 0);"><mat-icon>shopping_cart</mat-icon></div>
-    <div class="col-1" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+    <div class="col-sm-1" style="padding-top: 1.2rem; color: rgb(0, 0, 0);"><mat-icon>shopping_cart</mat-icon></div>
+    <div class="col-sm-1" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
         <div class="btn-group" dropdown>
             <button id="button-animated" dropdownToggle type="button" class="btn btn-outline-dark dropdown-toggle"
                 aria-controls="dropdown-animated">
@@ -30,28 +30,48 @@
     </div>
 
 </div>
-<div class="row px-2" id="profileTabDashboard">
+
+<div class="row px-2" id="profileTabDashboard" style="background-color: black;">
     <div class="col-6" id="tabProfile">
-        <div class="row" style="height: 10vh;">
-            <div class="col-6" id="vipProfilePic"><img class="img-fluid" id="imgVipProfilePic" src={{vipProfilePic}}>
+        <div class="row" style="">
+            <div class="col-6" style="padding: 3%;" id="vipProfilePic">
+                <img class="" id="imgVipProfilePic" src={{vipProfilePic}}>
             </div>
-            <div class="col-6" id="vipUsername ">{{vipUsername}}</div>
+            <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;">{{vipUsername}}</div>
         </div>
 
     </div>
-    <tabset class="col-6">
+    <tabset type="pills" class="col-6" style="margin-top: 0.5rem;">
         <div class="row">
-            <tab class="col-6">Username</tab>
-            <tab class="col-6">Caratteri</tab>
+            <!-- funzione caricamento feed-->
+            <tab class="col-6"><ng-template tabHeading>
+                    <button id="showFeedButton" class="text btn" (click)="activeTab = 'feed' "><span class=""
+                            style="font-size: 1.2rem; font-weight: bold;">Feed</span></button>
+
+                </ng-template></tab>
+            <!-- funzione caricamento caratteri rimanenti-->
+            <tab class="col-6"><ng-template tabHeading>
+                    <button id="showCharsButton" class="text btn " (click)="activeTab = 'chars' "><span class=""
+                            style="font-size: 1.2rem; font-weight: bold;">Caratteri</span></button>
+
+                </ng-template></tab>
         </div>
     </tabset>
 </div>
-
-
 
 <div *ngIf="(posts$ | async) as posts">
     <div *ngFor="let post of posts">
         <app-post [postTitle]="post.title" [content]="post.image ? post.image : post.text"
             [isImage]="post.image !== undefined"></app-post>
     </div>
+</div>
+
+<div *ngIf="activeTab == 'feed'">
+    Feed
+</div>
+
+<div *ngIf="activeTab == 'chars'">
+    <app-character-displayer [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+        [monthlyChars]="characters.monthly">
+    </app-character-displayer>
 </div>

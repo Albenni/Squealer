@@ -54,8 +54,6 @@ export class VipSelectionComponent {
       this.sharedService.vipIds = this.vipIds;  
       this.sharedService.vipUsernames = this.vipUsernames;
       this.sharedService.vipsProfilePics = this.vipProfilePics;
-      console.log(this.sharedService.vipIds);
-      console.log(this.sharedService.vipUsernames);
     });
 
   
@@ -95,9 +93,10 @@ export class VipSelectionComponent {
       ).subscribe(data => {
         const vip = data[0];
         this.sharedService.selectedVipId = vip._id;
+        this.router.navigate(['/home']);
       });
 
-      this.router.navigate(['/home']);
+      
     }
 
   }

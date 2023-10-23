@@ -22,5 +22,10 @@ export class SharedService {
   public vipsProfilePics: string[] = [];
 
   public accessToken: string = "";
+
+  public dailyChar: string = "";
+  public weeklyChar: string = "";
+  public monthlyChar: string = "";
+
   constructor() { }
 }
