@@ -11,6 +11,7 @@ import SettingsPage from "./pages/SettingsPage";
 import AccountPage from "./pages/AccountPage";
 import ChannelsPage from "./pages/ChannelsPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import loading from "./assets/Loading.gif";
 
 export default function App() {
   return (
@@ -37,15 +38,29 @@ export default function App() {
         <Route
           path="*"
           element={
-            <h1
+            <div
+              className="d-flex justify-content-center align-items-center"
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                height: "100vh",
+                width: "100vw",
+                backgroundColor: "#f1f1f1",
+                position: "fixed",
+                top: "0",
+                left: "0",
+                zIndex: "1000",
               }}
             >
-              404 not found
-            </h1>
+              <img
+                src={loading}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "cover",
+                }}
+                alt="Page not found"
+              />
+              <h1>Page not found</h1>
+            </div>
           }
         />
       </Routes>

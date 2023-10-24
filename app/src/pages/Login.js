@@ -14,6 +14,7 @@ import useAuth from "../hooks/useAuth";
 import authapi from "../api/auth";
 
 import { useMediaQuery } from "react-responsive";
+import GeneralAlert from "../components/GeneralAlert";
 
 function Login() {
   const { auth, setAuth } = useAuth();
@@ -21,6 +22,8 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/feed";
+
+  const [showAlert, setShowAlert] = useState(false);
 
   // Register fields
   const [registerobj, setRegisterobj] = useState({
@@ -46,11 +49,11 @@ function Login() {
   const [missingFields, setMissingFields] = useState(false);
 
   // Da vedere perchè non funziona
-  // useEffect(() => {
-  //   if (auth) {
-  //     navigate(from, { replace: true });
-  //   }
-  // }, [auth]);
+  useEffect(() => {
+    if (auth) {
+      navigate(from, { replace: true });
+    }
+  }, [auth]);
 
   // function handleGuestUser() {
   //   // sessionStorage.setItem("token", "guest");
@@ -88,7 +91,7 @@ function Login() {
         email: registerobj.email,
       })
       .then((response) => {
-        alert("Registrazione avvenuta con successo");
+        setShowAlert(true);
         // setAuth(response?.data?.accessToken);
 
         // navigate(from, { replace: true });
@@ -140,6 +143,12 @@ function Login() {
   return (
     <>
       {/* <TopBar /> */}
+      <GeneralAlert
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        alertMessage="Registrazione avvenuta con successo"
+        GorR={true}
+      />
       <div
         className="container-fluid loginbackground"
         style={{ overflow: "auto" }}

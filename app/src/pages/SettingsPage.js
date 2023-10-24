@@ -11,7 +11,7 @@ import DeleteModal from "../components/DeleteModal";
 import AccountPane from "../components/AccountPane";
 import EditAccountPane from "../components/EditAccount";
 
-import ShopPage from "./ShopPage";
+import ShopPane from "../components/ShopPane";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
@@ -229,7 +229,7 @@ function SettingsPage() {
                   <EditAccountPane />
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
-                  <ShopPage />
+                  <ShopPane />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fourth">
                   <div

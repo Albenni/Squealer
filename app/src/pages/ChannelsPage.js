@@ -108,7 +108,14 @@ const ChannelsPage = () => {
             <div className="container">
               <ListGroup>
                 {channels.map((channel, key) => (
-                  <ListGroup.Item key={key}>
+                  <ListGroup.Item
+                    key={key}
+                    style={{
+                      backgroundColor: theme.colors.transparent,
+                      color: theme.colors.white,
+                      border: "none",
+                    }}
+                  >
                     <div className="row">
                       <div className="col">
                         <h4
@@ -137,15 +144,21 @@ const ChannelsPage = () => {
                             obj.id === channel.id && obj.name === channel.name
                         ) ? (
                           <Button
-                            variant="outline-success"
+                            variant="success"
                             onClick={() => handleFollow(channel._id)}
+                            style={{
+                              maxHeight: "2.5em",
+                            }}
                           >
                             Segui
                           </Button>
                         ) : (
                           <Button
-                            variant="outline-danger"
+                            variant="danger"
                             onClick={() => handleUnFollow(channel._id)}
+                            style={{
+                              maxHeight: "2.5em",
+                            }}
                           >
                             Non seguire
                           </Button>

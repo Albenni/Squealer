@@ -15,8 +15,10 @@ import guesticon from "../assets/guesticon.png";
 import logapi from "../api/auth";
 import config from "../config/config";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../hooks/useAuth";
 
-function TopBar(props) {
+function TopBar() {
+  const { setAuth } = useAuth();
   const apiprivate = useAxiosPrivate();
 
   const location = useLocation();
@@ -53,6 +55,7 @@ function TopBar(props) {
       .then((res) => {
         if (res.status === 204) {
           sessionStorage.clear();
+          setAuth("");
           navigate("/", { replace: true });
         }
       })

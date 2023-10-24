@@ -1,10 +1,11 @@
-import { Button, Card, Alert } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import ErrorMessage from "../components/ErrorMessage";
 import OTPInput from "../components/OTPInput";
+import GeneralAlert from "../components/GeneralAlert";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
@@ -76,6 +77,16 @@ function ResetPasswordPage() {
 
   return (
     <>
+      <GeneralAlert
+        showAlert={emailAlert}
+        setShowAlert={setEmailAlert}
+        alertMessage={
+          "Ti abbiamo mandato una mail a " +
+          useremail +
+          " per il reset della password"
+        }
+        GorR={true}
+      />
       <div
         className="container-fluid d-flex justify-content-center align-items-center"
         style={{
@@ -195,40 +206,6 @@ function ResetPasswordPage() {
           </Card.Body>
         </Card>
       </div>
-      <Alert
-        variant="success"
-        className="mt-3"
-        transition
-        style={
-          emailAlert
-            ? {
-                position: "fixed",
-                width: "95%",
-                top: "0",
-                left: "50%",
-                transform: "translateX(-50%)",
-                zIndex: "1000",
-              }
-            : { display: "none" }
-        }
-      >
-        <Alert.Heading>Reset della password</Alert.Heading>
-        <p
-          style={{
-            pointerEvents: "none",
-          }}
-        >
-          Ti abbiamo mandato una mail a {useremail} per il reset della password
-        </p>
-        <div className="d-flex justify-content-end">
-          <Button
-            onClick={() => setEmailAlert(false)}
-            variant="outline-success"
-          >
-            Chiudi
-          </Button>
-        </div>
-      </Alert>
     </>
   );
 }
