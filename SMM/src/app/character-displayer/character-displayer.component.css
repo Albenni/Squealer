@@ -1,0 +1,17 @@
+#charDisplayer{
+    font-size: 20px; 
+    font-weight: 600; 
+    font-family: 'CenturyGothic';
+
+    text-align: center;
+    border-top: 1rem;
+}
+
+.charContainer{
+    padding: 10px;
+}
+
+.coloredDaily, .coloredWeekly,  .coloredMonthly{
+    color: red;
+}
+

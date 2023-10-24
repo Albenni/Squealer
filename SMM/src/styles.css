@@ -8,6 +8,11 @@
     font-family: 'MontserratItalic';
     src: url('assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
   }  
+
+@font-face {
+  font-family: 'CenturyGothic';
+  src: url('assets/fonts/CenturyGothic/CenturyGothic.ttf');
+}
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 

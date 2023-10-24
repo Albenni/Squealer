@@ -11,4 +11,8 @@ export class CharacterDisplayerComponent {
   @Input() weeklyChars: number = 0;
   @Input() monthlyChars: number = 0;
 
+  dailyAlert: number = 100;
+  weeklyAlert: number = 700;
+  monthlyAlert: number = 3000;
+
 }
