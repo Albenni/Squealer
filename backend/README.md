@@ -11,30 +11,8 @@ api da fare (poche):
 
 - gestire la quota di caratteri settimanalmente/mensilmente
 
+- Aggiungere gruppi nei messaggi privati
+
 Da cambiare:
 
 - Negli squeal bisogna mettere anche una api non autenticata per il guest, in modo che possa vedere gli squeal dei canali verificati
-
-Bugs:
-
----
-
-## Chi ha implementato le API:
-
----
-
-## ANNALISA:
-
--smmLogin
-
-## ALBERTO:
-
--updatePassword
--updateUsername
--updateProfilePic
--updateEmail
--OTP e new password
-
-## FILIPPO:
-
----
