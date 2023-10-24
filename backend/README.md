@@ -9,6 +9,8 @@ api da fare (poche):
 - Destinatari multipli per uno squeal
 - come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
 
+- gestire la quota di caratteri settimanalmente/mensilmente
+
 Da cambiare:
 
 - Negli squeal bisogna mettere anche una api non autenticata per il guest, in modo che possa vedere gli squeal dei canali verificati
