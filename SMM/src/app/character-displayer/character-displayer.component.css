@@ -1,5 +1,5 @@
 #charDisplayer{
-    font-size: 20px; 
+    font-size: 2rem; 
     font-weight: 600; 
     font-family: 'CenturyGothic';
 
@@ -8,10 +8,21 @@
 }
 
 .charContainer{
-    padding: 10px;
+    padding: 1rem;
 }
 
 .coloredDaily, .coloredWeekly,  .coloredMonthly{
     color: red;
 }
 
+@media screen and (max-width: 800px) {
+    #charDisplayer {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #charDisplayer {
+        font-size: 1rem;
+    }
+}
