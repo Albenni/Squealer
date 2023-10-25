@@ -21,3 +21,23 @@
 #tabProfile{
     width: 50vw;
 }
+
+@media (min-width: 768px) {
+    .responsive-addons {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .shop-chat-buttons {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .shop-chat-buttons {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+  

@@ -25,6 +25,7 @@ export class VipSelectionComponent {
   smmId: string = this.sharedService.smmId;
   token: string = this.sharedService.accessToken;
 
+  logosrc: string = "./assets/SLogo.png";
   /*
     per accedere a smm username
     this.sharedService.smmUsername
