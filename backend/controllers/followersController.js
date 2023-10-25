@@ -107,16 +107,16 @@ const followUser = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.followedId))
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.followedId))
     return res.status(400).json({ message: "Keyword ID not valid" });
 
-  const user = await User.findById(req.body.followedId);
+  const user = await User.findById(req.params.followedId);
   if (!user) return res.status(400).json({ message: "User not found" });
 
   try {
     const result = await Follower.create({
       followingUserId: req.params.userId,
-      followedId: req.body.followedId,
+      followedId: req.params.followedId,
       followedType: "User",
     });
     res.json(result);

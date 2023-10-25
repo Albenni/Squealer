@@ -12,7 +12,7 @@ const searchUser = async (req, res) => {
     if (req?.query?.exactMatch) {
       const user = await User.findOne({
         username: req?.query?.username,
-      }).select("username profilePic");
+      }).select("username profilePic firstname surname verified");
       if (!user) return res.status(204).json({ message: "No users found" });
       res.json(user);
     } else {

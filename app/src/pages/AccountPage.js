@@ -1,14 +1,17 @@
 import theme from "../config/theme";
-import config from "../config/config";
 import { useEffect, useState } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useLocation } from "react-router-dom";
 
 import TopBar from "../components/TopBar";
 import UserBar from "../components/UserBar";
 import PostList from "../components/posts/PostList";
 
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function AccountPage(props) {
-  const userapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
+  const location = useLocation();
 
   const [user, setUser] = useState({});
   const [userposts, setUserposts] = useState([]);
@@ -16,16 +19,23 @@ function AccountPage(props) {
   useEffect(() => {
     const getUserPosts = async () => {};
 
-    const getUserId = async () => {};
+    const getUserInfo = async () => {
+      const username = location.pathname.split("/")[1];
 
-    getUserId();
-    getUserPosts();
-
-    const userobj = {
-      username: "test",
-      image: "https://picsum.photos/200",
+      axiosInstance
+        .get(
+          config.endpoint.users + "?username=" + username + "&exactMatch=true"
+        )
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
-    setUser(userobj);
+
+    getUserInfo();
+    // getUserPosts();
   }, []);
 
   return (
@@ -36,7 +46,7 @@ function AccountPage(props) {
 
       <div className="container">
         {userposts.length === 0 ? (
-          <p className="text-center py-3">
+          <p className="text-center py-3 pe-none">
             L'utente non ha ancora pubblicato nessun post
           </p>
         ) : (

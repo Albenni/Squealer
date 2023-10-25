@@ -41,12 +41,11 @@ router
 
 router.route("/:userId/followers").get(usersController.getFollowers);
 
-router
-  .route("/:userId/followed")
-  .get(usersController.getFollowed)
-  .post(followersController.followUser);
+router.route("/:userId/followed").get(usersController.getFollowed);
+
 router
   .route("/:userId/followed/:followedId")
+  .post(followersController.followUser)
   .delete(followersController.unfollowUser); //da testare
 
 router

@@ -85,8 +85,8 @@ function SearchBar(props) {
         navigate("/feed", { replace: true });
         return;
       }
-      window.location.reload();
     }
+    window.location.reload();
   }
 
   function handleDropdownClick(event) {
