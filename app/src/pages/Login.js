@@ -117,7 +117,6 @@ function Login() {
       .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
         setAuth(response?.data?.accessToken);
-        console.log("auth del login: " + auth);
 
         // sessionStorage.setItem("token", response?.data?.accessToken);
         sessionStorage.setItem("userid", response?.data?.userid);

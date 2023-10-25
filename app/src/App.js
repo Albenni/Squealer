@@ -2,8 +2,8 @@ import React from "react";
 
 import { Routes, Route, useParams } from "react-router-dom";
 
-import RequireAuth from "./components/RequireAuth";
-import PersistLogin from "./components/PersistLogin";
+import RequireAuth from "./components/auth/RequireAuth";
+import PersistLogin from "./components/auth/PersistLogin";
 
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
@@ -20,11 +20,11 @@ export default function App() {
         <Route path="/" index element={<Login />} />
 
         <Route path="/newpassword" element={<ResetPasswordPage />} />
-        <Route path="/:username" element={<Account />} />
 
         {/* Questo components serve per richiedere il login nelle pagine figlie */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
+            <Route path="/:username" element={<Account />} />
             <Route path="feed" element={<Feed />} />
             {sessionStorage.getItem("userid") !== "guest" && (
               <Route path="settings" element={<SettingsPage />} />
