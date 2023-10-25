@@ -1,16 +1,16 @@
 <nav class="navbar bg-light">
-    <div class="container-fluid row px-2" id="topTabDashboard">
-        <div class="col-sm-2">
+    <div class="container-fluid row no-gutters" id="topTabDashboard">
+        <div class="col-2" id="logoContainer">
             <img id="logo" [src]="logosrc" alt="Logo">
         </div>
-        <div class="col d-none d-sm-block">
-            <h1 class="px-2 align-middle" id="title">Squealer SMM</h1>
+        <div id="titleContainer" class="col-7">
+            <h1 class=" align-middle" id="title">Squealer SMM</h1>
         </div>
-        <div id="shoppingContainer" class="col-sm-1 ">
+        <div id="shoppingContainer" class="col-1 ">
             <button id="buttonShop" type="button" class="btn btn-outline-dark "><mat-icon>shopping_cart</mat-icon>
             </button>
         </div>
-        <div class="col-sm-1" id="vipSelContainer">
+        <div class="col-1" id="vipSelContainer">
             <div class="btn-group" dropdown>
                 <button id="buttonVipSel" dropdownToggle type="button" class="btn btn-outline-dark dropdown-toggle"
                     aria-controls="dropdown-animated">
