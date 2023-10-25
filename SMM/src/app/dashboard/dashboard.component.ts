@@ -1,5 +1,5 @@
  import { Component, OnInit } from '@angular/core';
-import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PostComponent } from '../post/post.component';
@@ -25,11 +25,11 @@ interface CharResponse {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  providers: [{ provide: BsDropdownConfig, useValue: { isAnimated: true, autoClose: true } }]
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
 
+  logosrc: string = "./assets/SLogo.png"; // Dichiarazione della proprietà logo
   activeTab: string = 'feed';
 
   characters: Characters = {
@@ -48,15 +48,9 @@ export class DashboardComponent implements OnInit {
   vipId = this.sharedService.selectedVipId; 
 
   vipsUsernames: string[] = this.sharedService.vipUsernames;
-  
   vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
 
-
-
   posts$: Observable<any[]> | undefined;
-
-  
-
 
   constructor(private http: HttpClient, private  sharedService: SharedService, private router: Router) {}
 

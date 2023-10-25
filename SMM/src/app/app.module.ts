@@ -20,6 +20,7 @@ import { VipSelectionComponent } from './vip-selection/vip-selection.component';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 import { CharacterDisplayerComponent } from './character-displayer/character-displayer.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CharacterDisplayerComponent } from './character-displayer/character-dis
     UserItemComponent,
     VipSelectionComponent,
     CharacterDisplayerComponent,
+    TopBarComponent,
   ],
   imports: [
     BrowserModule,
