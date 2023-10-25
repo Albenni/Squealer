@@ -17,26 +17,27 @@ function AccountPage(props) {
   const [userposts, setUserposts] = useState([]);
 
   useEffect(() => {
-    const getUserPosts = async () => {};
+    const username = location.pathname.split("/")[1];
 
     const getUserInfo = async () => {
-      const username = location.pathname.split("/")[1];
-
-      axiosInstance
-        .get(
+      try {
+        const userInfoResponse = await axiosInstance.get(
           config.endpoint.users + "?username=" + username + "&exactMatch=true"
-        )
-        .then((res) => {
-          setUser(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        );
+        setUser(userInfoResponse.data);
+
+        const userPostsResponse = await axiosInstance.get(
+          config.endpoint.users + "/" + userInfoResponse.data._id + "/squeals"
+        );
+        setUserposts(userPostsResponse.data);
+        console.log(userPostsResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getUserInfo();
-    // getUserPosts();
-  }, []);
+  }, [axiosInstance, location.pathname]);
 
   return (
     <>
