@@ -34,10 +34,20 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  charAvailable: {
+  dailyChar: {
     type: Number,
     min: [0, "Not enough character available"],
     default: () => constants.DAILY_CHAR,
+  },
+  weeklyChar: {
+    type: Number,
+    min: [0, "Not enough character available"],
+    default: () => constants.WEEKLY_CHAR,
+  },
+  monthlyChar: {
+    type: Number,
+    min: [0, "Not enough character available"],
+    default: () => constants.MONTHLY_CHAR,
   },
   profilePic: {
     type: String,

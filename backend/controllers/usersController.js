@@ -54,7 +54,9 @@ const getCharsAvailable = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.params.userId).select("charAvailable");
+    const user = await User.findById(req.params.userId).select(
+      "dailyChar weeklyChar monthlyChar"
+    );
     if (!user) {
       return res.status(204).json({ message: "User ID not found" });
     }
@@ -93,12 +95,17 @@ const addChars = async (req, res) => {
 
   try {
     const user = await User.findById(req.params.userId).select(
-      "charAvailable -_id"
+      "dailyChar weeklyChar monthlyChar -_id"
     );
-    const updatedChars = parseInt(req.body.char) + parseInt(user.charAvailable);
-    const result = await User.findByIdAndUpdate(req.params.userId, {
-      charAvailable: updatedChars,
-    }).select("charAvailable");
+    const updatedChars = {
+      dailyChar: parseInt(req.body.dailyChar) + parseInt(user.dailyChar),
+      weeklyChar: parseInt(req.body.weeklyChar) + parseInt(user.weeklyChar),
+      monthlyChar: parseInt(req.body.monthlyChar) + parseInt(user.monthlyChar),
+    };
+    const result = await User.findByIdAndUpdate(
+      req.params.userId,
+      updatedChars
+    ).select("dailyChar weeklyChar monthlyChar");
     if (!result) {
       return res.status(204).json({ message: "User ID not found" });
     }

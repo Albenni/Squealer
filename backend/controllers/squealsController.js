@@ -70,7 +70,9 @@ const createSqueal = async (req, res) => {
         .status(400)
         .json({ message: "Channel or Keyword ID not valid" });
 
-  const author = await User.findById(req.params.userId).select("charAvailable");
+  const author = await User.findById(req.params.userId).select(
+    "dailyChar weeklyChar monthlyChar -_id"
+  );
   //controlliamo che l'autore del messaggio esista
   if (!author) return res.status(400).json({ message: "Author not found" });
 
@@ -80,7 +82,11 @@ const createSqueal = async (req, res) => {
       : constants.MEDIA_CHAR_DIMENSION;
 
   //controllo che ci siano abbastanza caratteri disponibili
-  if (author.charAvailable < messLength)
+  if (
+    author.dailyChar < messLength ||
+    author.weeklyChar < messLength ||
+    author.monthlyChar < messLength
+  )
     return res.status(400).json({ message: "Not enough character available" });
   // } else return res.status(400).json({ message: "Content type not accepted" });
 
@@ -105,7 +111,9 @@ const createSqueal = async (req, res) => {
   try {
     const result = await Squeal.create(squeal);
     await User.findByIdAndUpdate(req.params.userId, {
-      charAvailable: author.charAvailable - messLength,
+      dailyChar: author.dailyChar - messLength,
+      weeklyChar: author.weeklyChar - messLength,
+      monthlyChar: author.monthlyChar - messLength,
     });
     res.json(result);
   } catch (e) {
