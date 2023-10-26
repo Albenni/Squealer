@@ -1,7 +1,7 @@
 const Squeal = require("../models/Squeal");
 const Follower = require("../models/Follower");
 
-const generateUserFeed = async (req, res) => {
+const generateFeed = async (req, res) => {
   if (req.authorized) {
     //feed per utente loggato
 
@@ -36,12 +36,12 @@ const generateUserFeed = async (req, res) => {
       officialChannel: true,
       squealType: "Channel",
     });
-    if (!squeals) return res.status(204);
+    if (!squeals?.length) return res.status(204);
 
     res.status(200).json(squeals);
   }
 };
 
 module.exports = {
-  generateUserFeed,
+  generateFeed,
 };
