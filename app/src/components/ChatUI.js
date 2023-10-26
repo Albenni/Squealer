@@ -110,8 +110,13 @@ function ChatUI() {
   function handleSearch(event) {
     // fetch dei messaggi della conversazione cambiata
 
+    if (event === "") {
+      setSearchedConversations(conversationslist);
+      return;
+    }
+
     const filteredconvos = conversationslist.filter((convo) => {
-      return convo.sender.toLowerCase().includes(event.toLowerCase());
+      return convo.user2.firstname.toLowerCase().includes(event.toLowerCase());
     });
 
     setSearchedConversations(filteredconvos);
@@ -154,9 +159,9 @@ function ChatUI() {
               placeholder="Search..."
               onChange={handleSearch}
               onClearClick={() => {
-                setSearchedConversations(sample.conversations);
+                setSearchedConversations(conversationslist);
               }}
-              className="mb-3 "
+              className="mb-3"
             />
           </div>
           <ConversationList scrollable>

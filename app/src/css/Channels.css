@@ -1,4 +1,12 @@
-.channels{
-    padding: 1rem;
+.listitem {
+  background-color: black;
+  color: #fff;
+  border: none;
+  transition: border-left 0.1s ease-in-out;
+}
 
+.listitem:hover {
+  border-left: 5px solid #fff;
+
+  transition: border-left 0.1s ease-in-out 0.1s;
 }

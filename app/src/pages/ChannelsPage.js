@@ -1,5 +1,5 @@
 import theme from "../config/theme";
-
+import "../css/Channels.css";
 import { useState, useEffect } from "react";
 import TopBar from "../components/TopBar";
 import { ListGroup, Button } from "react-bootstrap";
@@ -108,15 +108,15 @@ const ChannelsPage = () => {
             <div className="container">
               <ListGroup>
                 {channels.map((channel, key) => (
-                  <ListGroup.Item
-                    key={key}
-                    style={{
-                      backgroundColor: theme.colors.transparent,
-                      color: theme.colors.white,
-                      border: "none",
-                    }}
-                  >
-                    <div className="row">
+                  <ListGroup.Item key={key} className="listitem">
+                    <div
+                      className="row"
+                      style={{
+                        backgroundColor: theme.colors.transparent,
+                        color: theme.colors.white,
+                        border: "none",
+                      }}
+                    >
                       <div className="col">
                         <h4
                           style={{ cursor: "pointer" }}
