@@ -27,10 +27,10 @@ export default function App() {
             <Route path="/:username" element={<Account />} />
             <Route path="feed" element={<Feed />} />
             {sessionStorage.getItem("userid") !== "guest" && (
-              <Route path="settings" element={<SettingsPage />} />
-            )}
-            {sessionStorage.getItem("userid") !== "guest" && (
-              <Route path="channels" element={<ChannelsPage />} />
+              <>
+                <Route path="settings" element={<SettingsPage />} />
+                <Route path="channels" element={<ChannelsPage />} />
+              </>
             )}
           </Route>
         </Route>

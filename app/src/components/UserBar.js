@@ -156,7 +156,6 @@ function UserBar({ user }) {
               </Button>
             )}
           </div>
-          <div></div>
         </div>
       </div>
     </div>

@@ -1,55 +1,103 @@
+// Styles
 import theme from "../config/theme";
 
+//Imports
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
+//Components
 import PostList from "./posts/PostList";
 
-import postdata from "../assets/postdatasample.json";
+//API
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
 function Channel() {
-  const userapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
+  const userid = sessionStorage.getItem("userid");
 
+  const [channelinfo, setChannelInfo] = useState({});
   const [channelposts, setChannelPosts] = useState([]);
-  const [channelid, setChannelId] = useState("");
+
+  const [isFollowedChannel, setIsFollowedChannel] = useState(false);
 
   useEffect(() => {
-    // Devo avere l'id del canale per poter fare la chiamata al follow
-    // const getChannelId = async () => {
-    //   await userapi
-    //     .get(
-    //       config.endpoint.channels +
-    //         "/" +
-    //         sessionStorage.getItem("searchedchannel")
-    //     )
-    //     .then((res) => {
-    //       setChannelId(res.data.id);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
+    const channelname = sessionStorage.getItem("searchedchannel");
 
-    // const getChannelPosts = async () => {
-    // };
-    // getChannelPosts();
+    const getAllChannelInfo = async () => {
+      try {
+        const channelInfoResponse = await axiosInstance.get(
+          config.endpoint.channels +
+            "?channel=" +
+            channelname +
+            "&exactMatch=true"
+        );
+        // console.log("INFO");
+        // console.log(channelInfoResponse.data);
+        setChannelInfo(channelInfoResponse.data);
 
-    // getChannelId();
+        const channelPostsResponse = await axiosInstance.get(
+          config.endpoint.channels +
+            "/" +
+            channelInfoResponse.data._id +
+            "/squeals"
+        );
 
-    setChannelPosts(postdata);
+        // console.log("POSTS");
+        // console.log(channelPostsResponse.data);
+        setChannelPosts(channelPostsResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    console.log(channelposts);
+    const checkFollow = async () => {
+      await axiosInstance
+        .get(config.endpoint.users + "/" + userid + "/channels")
+        .then((res) => {
+          res.data.forEach((channel) => {
+            if (channel.name === channelname) {
+              setIsFollowedChannel(true);
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    getAllChannelInfo();
+    checkFollow();
   }, []);
 
   async function handleFollowChannel() {
-    const userid = sessionStorage.getItem("userid");
-
-    await userapi
-      .post(config.endpoint.users + "/" + userid + "/channels", {
-        channelId: channelid,
+    await axiosInstance
+      .post(
+        config.endpoint.users +
+          "/" +
+          userid +
+          "/channels" +
+          "/" +
+          channelinfo._id
+      )
+      .then((res) => {
+        console.log(res);
       })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function handleUnfollowChannel() {
+    await axiosInstance
+      .delete(
+        config.endpoint.users +
+          "/" +
+          userid +
+          "/channels" +
+          "/" +
+          channelinfo._id
+      )
       .then((res) => {
         console.log(res);
       })
@@ -92,15 +140,21 @@ function Channel() {
         </div>
         <div className="row">
           <div className="pt-3">
-            <Button variant="outline-light" onClick={handleFollowChannel}>
-              Segui questo canale
-            </Button>
+            {isFollowedChannel ? (
+              <Button variant="danger" onClick={handleUnfollowChannel}>
+                Non seguire questo canale
+              </Button>
+            ) : (
+              <Button variant="success" onClick={handleFollowChannel}>
+                Segui questo canale
+              </Button>
+            )}
           </div>
         </div>
       </div>
 
       <div className="container mt-sm-3">
-        <PostList getposts={postdata} />
+        <PostList getposts={channelposts} />
       </div>
     </div>
   );

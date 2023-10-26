@@ -50,11 +50,11 @@ router
 
 router
   .route("/:userId/channels")
-  .get(usersController.getUserSubscribedChannels)
-  .post(followersController.followChannel);
+  .get(usersController.getUserSubscribedChannels);
 
 router
   .route("/:userId/channels/:channelId")
+  .post(followersController.followChannel)
   .delete(followersController.unfollowChannel);
 
 router

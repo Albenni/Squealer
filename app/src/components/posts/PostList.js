@@ -2,42 +2,40 @@ import theme from "../../config/theme";
 
 import Post from "./Post";
 
-import { useEffect, useState } from "react";
-import { Spinner } from "react-bootstrap";
+// import { useEffect, useState } from "react";
+// import { Spinner } from "react-bootstrap";
 
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import config from "../../config/config";
+// import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+// import config from "../../config/config";
 
-import getposts from "../../assets/postdatasample.json";
-
-function PostList() {
+function PostList({ getposts }) {
   const allowedContentTypes = ["text", "image", "video", "geolocalization"];
 
-  const axiosInstance = useAxiosPrivate();
+  // const axiosInstance = useAxiosPrivate();
 
-  const [posts, setPosts] = useState(null);
+  // const [posts, setPosts] = useState(null);
 
-  useEffect(() => {
-    const userid = sessionStorage.getItem("userid");
+  // useEffect(() => {
+  //   const userid = sessionStorage.getItem("userid");
 
-    setPosts(getposts);
+  //   setPosts(getposts);
 
-    // if (userid) {
-    //   axiosInstance
-    //     .get(config.endpoint.feed + "/" + userid)
-    //     .then((response) => {
-    //       setPosts(getposts);
-    //       // setPosts(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // } else {
-    //   alert("SEI UN GUEST");
-    // }
-  }, []);
+  //   // if (userid) {
+  //   //   axiosInstance
+  //   //     .get(config.endpoint.feed + "/" + userid)
+  //   //     .then((response) => {
+  //   //       setPosts(getposts);
+  //   //       // setPosts(response.data);
+  //   //     })
+  //   //     .catch((error) => {
+  //   //       console.log(error);
+  //   //     });
+  //   // } else {
+  //   //   alert("SEI UN GUEST");
+  //   // }
+  // }, []);
 
-  if (posts === null) {
+  if (!getposts || getposts.length === 0) {
     return (
       <p
         className="text-center mt-5"
@@ -60,7 +58,7 @@ function PostList() {
 
   return (
     <div className="container-fluid pb-3 px-0">
-      {posts.map((item, key) => {
+      {getposts.map((item, key) => {
         // if (item.contentType === "text") return <Post key={key} item={item} />;
         if (!allowedContentTypes.includes(item.contentType)) {
           return (

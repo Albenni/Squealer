@@ -9,15 +9,15 @@ const followChannel = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.channelId))
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Channel ID not valid" });
 
-  const channel = await Channel.findById(req.body.channelId);
+  const channel = await Channel.findById(req.params.channelId);
   if (!channel) return res.status(400).json({ message: "Channel not found" });
 
   const alreadyFollowed = await Follower.findOne({
     followingUserId: req.params.userId,
-    followedId: req.body.channelId,
+    followedId: req.params.channelId,
     followedType: "Channel",
   });
   if (alreadyFollowed)
@@ -26,7 +26,7 @@ const followChannel = async (req, res) => {
   try {
     const result = await Follower.create({
       followingUserId: req.params.userId,
-      followedId: req.body.channelId,
+      followedId: req.params.channelId,
       followedType: "Channel",
     });
     res.json(result);

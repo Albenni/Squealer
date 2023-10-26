@@ -69,18 +69,30 @@ const updateProfilePic = async (req, res) => {
 const searchChannels = async (req, res) => {
   try {
     const findChannels = req.query.channel ? req.query.channel : "";
-    const query = req.query.editorial
-      ? {
-          name: { $regex: ".*" + findChannels + ".*" },
-          editorialChannel: true,
-        }
-      : {
-          name: { $regex: ".*" + findChannels + ".*" },
-        };
+    if (req?.query?.exactMatch) {
+      if (!findChannels)
+        return res
+          .status(400)
+          .json({ message: "Channel name required for exact match" });
+      const channel = await Channel.findOne({ name: findChannels });
+      if (!channel)
+        return res.status(204).json({ message: "No channels found" });
+      return res.json(channel);
+    } else {
+      const query = req.query.editorial
+        ? {
+            name: { $regex: ".*" + findChannels + ".*" },
+            editorialChannel: true,
+          }
+        : {
+            name: { $regex: ".*" + findChannels + ".*" },
+          };
 
-    const channels = await Channel.find(query).select("-__v");
-    if (!channels) return res.status(204).json({ message: "No users found" });
-    res.json(channels);
+      const channels = await Channel.find(query).select("-__v");
+      if (!channels)
+        return res.status(204).json({ message: "No channels found" });
+      res.json(channels);
+    }
   } catch (error) {
     res.json({ message: error });
   }

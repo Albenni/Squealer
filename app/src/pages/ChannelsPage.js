@@ -92,19 +92,6 @@ const ChannelsPage = () => {
             <div className="pb-4">
               <TrendBar />
             </div>
-            {/* <div
-          className="container"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "2em",
-            marginBottom: "2em",
-            color: theme.colors.white,
-          }}
-        >
-          <h1>Scopri nuovi canali</h1>
-        </div> */}
             <div className="container">
               <ListGroup>
                 {channels.map((channel, key) => (
