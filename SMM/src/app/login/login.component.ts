@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SharedService } from '../shared.service';
+import { catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+
+interface LoginResponse {
+  accessToken: string;
+  userid: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -19,40 +23,33 @@ export class LoginComponent {
   };
 
   logosrc: string = "./assets/SLogo.png"; // Dichiarazione della proprietà logo
+  wrongResponse: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) { }
   
   onSubmit() {
     const url = 'http://localhost:3500/auth/smm';
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      withCredentials: true 
-    };
-
-  
-    const loginRequest$: Observable<any> = this.http.post(url, this.userData, httpOptions);
-
-    loginRequest$.pipe(
-      switchMap((response) => {
-        console.log('Login successful:', response);
-        this.sharedService.smmUsername = this.userData.user;
-        this.router.navigate(['/vipSelection']);
-        return of(response);
-        
+    this.http.post<LoginResponse>(url, this.userData).pipe(
+      catchError((error: any) => {
+        // Gestisci l'errore qui
+        this.wrongResponse = true;
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
       })
-    ).subscribe(
-      (data) => {
+    )
+    .subscribe(data => {
+        console.log('Login successful:', data);
+
+        this.sharedService.smmUsername = this.userData.user;
         this.sharedService.accessToken= data.accessToken;
         this.sharedService.smmId = data.userid;
-      },
-      (error) => {
-        console.error('Error:', error);
 
-      }
-    );
+        console.log(this.sharedService.accessToken);
+
+        this.router.navigate(['/vipSelection']);
+    });
+
 
   }
 }

@@ -13,23 +13,30 @@
             <tabset>
                 <tab heading="Accedi">
 
-                    <form (submit)="onSubmit()" class="text-align-center container">
-                        <div class="form-group py-2">
-                            <label for="user">Username</label>
-                            <input type="username" class="form-control" placeholder="Inserisci username" id="user"
-                                name="user" [(ngModel)]="userData.user" required>
+                    <div class="pt-2">
+
+                        <div *ngIf="wrongResponse">
+                            <p id="responseErr"> Username o password errata </p>
                         </div>
-                        <div class="form-group py-2">
-                            <!-- se cambi for "password" si sminchia css-->
-                            <label for="pwd">Password</label>
-                            <input type="password" class="form-control" id="pwd" name="pwd"
-                                placeholder="Inserisci password" [(ngModel)]="userData.pwd" required>
-                        </div>
-                        <p class="mt-3"><a href="#">Hai
-                                dimenticato la
-                                password?</a></p>
-                        <button id="submitButton" type="submit" class="text btn btn-dark">Accedi</button>
-                    </form>
+
+                        <form (submit)="onSubmit()" class="text-align-center container">
+                            <div class="form-group pb-2">
+                                <label for="user">Username</label>
+                                <input type="username" class="form-control" placeholder="Inserisci username" id="user"
+                                    name="user" [(ngModel)]="userData.user" required>
+                            </div>
+                            <div class="form-group py-2">
+                                <!-- se cambi for "password" si sminchia css-->
+                                <label for="pwd">Password</label>
+                                <input type="password" class="form-control" id="pwd" name="pwd"
+                                    placeholder="Inserisci password" [(ngModel)]="userData.pwd" required>
+                            </div>
+                            <p class="mt-3"><a href="#">Hai
+                                    dimenticato la
+                                    password?</a></p>
+                            <button id="submitButton" type="submit" class="text btn btn-dark">Accedi</button>
+                        </form>
+                    </div>
                 </tab>
             </tabset>
         </div>

@@ -5,7 +5,7 @@
   background-color: #93B3FF;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+
   display: flex; 
   align-items: center ; 
   justify-content: space-around; 
@@ -21,6 +21,7 @@
 
   }
 
+
 #login-form {
     
 
@@ -34,6 +35,9 @@
     text-align: center;
   }
   
+  #responseErr{
+    color: rgb(189, 0, 0); text-decoration: underline; padding-left: 0.8rem;
+  }
   
   
   form {
