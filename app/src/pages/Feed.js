@@ -59,16 +59,18 @@ function Feed() {
         <div className="container mt-sm-3">
           <PostList />
         </div>
-        <div className="container-fluid">
-          <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
-            <PlusCircleFill
-              size={"4em"}
-              color={theme.colors.button}
-              onClick={() => setShowBox(true)}
-              style={{ cursor: "pointer" }}
-            />
+        {sessionStorage.getItem("userid") !== "guest" && (
+          <div className="container-fluid">
+            <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
+              <PlusCircleFill
+                size={"4em"}
+                color={theme.colors.button}
+                onClick={() => setShowBox(true)}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

@@ -21,11 +21,11 @@ export default function App() {
 
         <Route path="/newpassword" element={<ResetPasswordPage />} />
 
-        {/* Questo components serve per richiedere il login nelle pagine figlie */}
         <Route element={<PersistLogin />}>
+          <Route path="feed" element={<Feed />} />
+          {/* Questo componente serve per richiedere il login nelle pagine figlie */}
           <Route element={<RequireAuth />}>
             <Route path="/:username" element={<Account />} />
-            <Route path="feed" element={<Feed />} />
             {sessionStorage.getItem("userid") !== "guest" && (
               <>
                 <Route path="settings" element={<SettingsPage />} />

@@ -48,20 +48,6 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [missingFields, setMissingFields] = useState(false);
 
-  // Da vedere perchè non funziona
-  useEffect(() => {
-    if (auth) {
-      navigate(from, { replace: true });
-    }
-  }, [auth]);
-
-  // function handleGuestUser() {
-  //   // sessionStorage.setItem("token", "guest");
-  //   sessionStorage.setItem("username", "guest");
-  //   setAuth("guest");
-  //   navigate(from, { replace: true });
-  // }
-
   async function submitFormRegister(event) {
     event.preventDefault();
 
@@ -136,7 +122,7 @@ function Login() {
     // setAuth("guest");
     sessionStorage.setItem("userid", "guest");
 
-    navigate(from, { replace: true });
+    navigate("/feed");
   }
 
   return (
@@ -397,6 +383,12 @@ function Login() {
                 <Button variant="outline-dark" onClick={handleGuestUser}>
                   Entra come ospite
                 </Button>
+                {sessionStorage.getItem("userid") === "guest" && (
+                  <div className="text-danger">
+                    Effettua il login per accedere a tutte le funzionalità di
+                    Squealer!
+                  </div>
+                )}
               </div>
             </div>
           </div>

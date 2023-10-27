@@ -31,3 +31,7 @@ AIUTO
 - Aggiungere sezione dove admin possono decidere chi legge e chi scrive nei canali di cui sono proprietari
 
 - Per qualche motivo posts nei canali è undefined, cercare soluzione
+
+- Rendere sito accessibile
+
+- Aggiungere la possibilità di creare canali
