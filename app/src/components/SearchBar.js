@@ -9,7 +9,7 @@ import { Search } from "react-bootstrap-icons";
 import { Button, Form, Dropdown } from "react-bootstrap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-function SearchBar(props) {
+function SearchBar() {
   const axiosInstance = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +59,7 @@ function SearchBar(props) {
     getUsers();
     getChannels();
     getKeywords();
-  }, [axiosInstance, wordEntered]);
+  }, [axiosInstance]);
 
   function handleChange(event) {
     const word = event.target.value;
@@ -69,6 +69,7 @@ function SearchBar(props) {
     if (word === "") {
       setFilteredData([]);
       setFilteredChannels([]);
+      setFilteredKeywords([]);
     }
 
     const newFilterdata = data.filter((value) => {
@@ -77,12 +78,17 @@ function SearchBar(props) {
     const newFilterchannels = channels.filter((value) => {
       return value.name.toLowerCase().includes(word.toLowerCase());
     });
+    const newFilterkeywords = keywords.filter((value) => {
+      return value.name.toLowerCase().includes(word.toLowerCase());
+    });
 
     setFilteredData(newFilterdata);
     setFilteredChannels(newFilterchannels);
+    setFilteredKeywords(newFilterkeywords);
 
     console.log(filteredData);
     console.log(filteredChannels);
+    console.log(filteredKeywords);
 
     // console.log("found users: " + JSON.stringify(filteredData));
     // console.log("found channels: " + JSON.stringify(filteredChannels));
@@ -137,7 +143,7 @@ function SearchBar(props) {
       </Form>
 
       <Dropdown>
-        <Dropdown.Menu show={wordEntered.length !== 0}>
+        <Dropdown.Menu show={wordEntered !== ""}>
           {filteredChannels.length === 0 &&
           filteredData.length === 0 &&
           filteredKeywords.length === 0 &&
