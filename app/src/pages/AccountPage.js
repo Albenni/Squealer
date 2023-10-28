@@ -41,19 +41,31 @@ function AccountPage(props) {
 
   return (
     <>
-      <TopBar />
-
-      <UserBar user={user} />
-
-      <div className="container">
-        {userposts.length === 0 ? (
-          <p className="text-center py-3 pe-none">
-            L'utente non ha ancora pubblicato nessun post
-          </p>
-        ) : (
-          <PostList posts={userposts} />
-        )}
+      <div className="sticky-top">
+        <TopBar />
       </div>
+
+      {!user ? (
+        <div className="container">
+          <p className="text-center py-3 pe-none">
+            L'utente ricercato non esiste
+          </p>
+        </div>
+      ) : (
+        <>
+          <UserBar user={user} />
+
+          <div className="container">
+            {userposts.length === 0 ? (
+              <p className="text-center py-3 pe-none">
+                L'utente non ha pubblicato nessun post
+              </p>
+            ) : (
+              <PostList posts={userposts} />
+            )}
+          </div>
+        </>
+      )}
     </>
   );
 }

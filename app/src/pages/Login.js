@@ -127,7 +127,6 @@ function Login() {
 
   return (
     <>
-      {/* <TopBar /> */}
       <GeneralAlert
         showAlert={showAlert}
         setShowAlert={setShowAlert}

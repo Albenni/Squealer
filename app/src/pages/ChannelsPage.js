@@ -11,7 +11,7 @@ import TrendBar from "../components/TrendBar";
 import Channel from "../components/Channel";
 
 const ChannelsPage = () => {
-  const userapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
   const navigate = useNavigate();
 
   const [channels, setChannels] = useState([]);
@@ -20,10 +20,10 @@ const ChannelsPage = () => {
   useEffect(() => {
     getChannels();
     getFollowedChannels();
-  }, [userapi]);
+  }, [axiosInstance]);
 
   async function getChannels() {
-    await userapi
+    await axiosInstance
       .get(config.endpoint.channels)
       .then((res) => {
         setChannels(res.data);
@@ -36,7 +36,7 @@ const ChannelsPage = () => {
   async function getFollowedChannels() {
     const userid = sessionStorage.getItem("userid");
 
-    await userapi
+    await axiosInstance
       .get(config.endpoint.users + "/" + userid + "/channels")
       .then((res) => {
         setFollowedChannels(res.data);
@@ -49,7 +49,7 @@ const ChannelsPage = () => {
   async function handleFollow(channelid) {
     const userid = sessionStorage.getItem("userid");
 
-    await userapi
+    await axiosInstance
       .post(config.endpoint.users + "/" + userid + "/channels", {
         channelId: channelid,
       })
@@ -65,7 +65,7 @@ const ChannelsPage = () => {
   async function handleUnFollow(channelid) {
     const userid = sessionStorage.getItem("userid");
 
-    await userapi
+    await axiosInstance
       .delete(config.endpoint.users + "/" + userid + "/channels/" + channelid)
       .then((res) => {
         getFollowedChannels();
@@ -77,7 +77,9 @@ const ChannelsPage = () => {
 
   return (
     <>
-      <TopBar />
+      <div className="sticky-top">
+        <TopBar />
+      </div>
       <div
         className="container-fluid"
         style={{

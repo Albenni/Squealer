@@ -8,7 +8,7 @@ const searchKeywords = async (req, res) => {
     const keywords = await Keyword.find({
       name: { $regex: ".*" + findKeywords + ".*" },
     }).select("-__v");
-    if (!keywords) return res.status(204).json({ message: "No users found" });
+    if (!keywords) return res.status(204).json({ message: "No keyword found" });
     res.json(keywords);
   } catch (error) {
     res.json({ message: error });

@@ -6,7 +6,7 @@ const squealsController = require("../controllers/squealsController");
 router.route("/").get(keywordsController.searchKeywords);
 
 router
-  .route("/:channelId/squeals")
+  .route("/:keywordId/squeals")
   .get(squealsController.getAllSquealsInKeyword);
 
 module.exports = router;

@@ -12,6 +12,7 @@ import AccountPage from "./pages/AccountPage";
 import ChannelsPage from "./pages/ChannelsPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import loading from "./assets/Loading.gif";
+import KeywordsPage from "./pages/KeywordsPage";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               <>
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="channels" element={<ChannelsPage />} />
+                <Route path="keywords" element={<KeywordsPage />} />
               </>
             )}
           </Route>

@@ -10,7 +10,7 @@ import { Button, Form, Dropdown } from "react-bootstrap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function SearchBar(props) {
-  const userapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,13 +20,16 @@ function SearchBar(props) {
   const [channels, setChannels] = useState([]);
   const [filteredChannels, setFilteredChannels] = useState([]);
 
+  const [keywords, setKeywords] = useState([]);
+  const [filteredKeywords, setFilteredKeywords] = useState([]);
+
   const [wordEntered, setWordEntered] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
       const endpoint = "/users?username=";
       try {
-        const response = await userapi.get(endpoint + wordEntered);
+        const response = await axiosInstance.get(endpoint + wordEntered);
         setData(response?.data);
       } catch (error) {
         console.error(error);
@@ -36,15 +39,27 @@ function SearchBar(props) {
     const getChannels = async () => {
       const endpoint = "/channels?channel=";
       try {
-        const response = await userapi.get(endpoint + wordEntered);
+        const response = await axiosInstance.get(endpoint + wordEntered);
         setChannels(response?.data);
       } catch (error) {
         console.error(error);
       }
     };
+
+    const getKeywords = async () => {
+      const endpoint = "/keywords?keyword=";
+      try {
+        const response = await axiosInstance.get(endpoint + wordEntered);
+        setKeywords(response?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     getUsers();
     getChannels();
-  }, []);
+    getKeywords();
+  }, [axiosInstance, wordEntered]);
 
   function handleChange(event) {
     const word = event.target.value;
@@ -81,8 +96,14 @@ function SearchBar(props) {
       navigate("/" + wordEntered.slice(1), { replace: true });
     } else if (wordEntered[0] === "§") {
       sessionStorage.setItem("searchedchannel", wordEntered.slice(1));
-      if (location.pathname !== "/feed") {
-        navigate("/feed", { replace: true });
+      if (location.pathname !== "/channels") {
+        navigate("/channels", { replace: true });
+        return;
+      }
+    } else {
+      sessionStorage.setItem("searchedkeyword", wordEntered.slice(1));
+      if (location.pathname !== "/keywords") {
+        navigate("/keywords", { replace: true });
         return;
       }
     }
@@ -115,33 +136,48 @@ function SearchBar(props) {
         </Button>
       </Form>
 
-      {(filteredData.length !== 0 || filteredChannels.length !== 0) && (
-        <Dropdown>
-          <Dropdown.Menu show={wordEntered !== ""}>
-            <Dropdown.Header>Utenti</Dropdown.Header>
-            {filteredData.slice(0, 15).map((value, key) => {
-              return (
-                <Dropdown.Item key={key} onClick={handleDropdownClick}>
-                  <b>@</b>
-                  {value.username}
-                </Dropdown.Item>
-              );
-            })}
-            <Dropdown.Header>Canali</Dropdown.Header>
-            {filteredChannels.slice(0, 15).map((value, key) => {
-              return (
-                <Dropdown.Item key={key} onClick={handleDropdownClick}>
-                  <b>§</b>
-                  {value.name}
-                </Dropdown.Item>
-              );
-            })}
-            <Dropdown.Header>Keyword</Dropdown.Header>
+      <Dropdown>
+        <Dropdown.Menu show={wordEntered.length !== 0}>
+          {filteredChannels.length === 0 &&
+          filteredData.length === 0 &&
+          filteredKeywords.length === 0 &&
+          wordEntered !== "" ? (
+            <Dropdown.Header>Nessun risultato</Dropdown.Header>
+          ) : (
+            <>
+              <Dropdown.Header>Utenti</Dropdown.Header>
 
-            <Dropdown.Item>Da implementare</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      )}
+              {filteredData.slice(0, 15).map((value, key) => {
+                return (
+                  <Dropdown.Item key={key} onClick={handleDropdownClick}>
+                    <b>@</b>
+                    {value.username}
+                  </Dropdown.Item>
+                );
+              })}
+              <Dropdown.Header>Canali</Dropdown.Header>
+              {filteredChannels.slice(0, 15).map((value, key) => {
+                return (
+                  <Dropdown.Item key={key} onClick={handleDropdownClick}>
+                    <b>§</b>
+                    {value.name}
+                  </Dropdown.Item>
+                );
+              })}
+              <Dropdown.Header>Keyword</Dropdown.Header>
+
+              {filteredKeywords.slice(0, 15).map((value, key) => {
+                return (
+                  <Dropdown.Item key={key} onClick={handleDropdownClick}>
+                    <b>#</b>
+                    {value.name}
+                  </Dropdown.Item>
+                );
+              })}
+            </>
+          )}
+        </Dropdown.Menu>
+      </Dropdown>
     </>
   );
 }

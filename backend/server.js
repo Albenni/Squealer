@@ -51,6 +51,7 @@ app.use("/feed", require("./routes/feed"));
 app.use("/users", require("./routes/users"));
 app.use("/squeals", require("./routes/squeals"));
 app.use("/channels", require("./routes/channels"));
+app.use("/keywords", require("./routes/keywords"));
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -140,7 +140,7 @@ function TopBar() {
                     <img
                       alt="Profile"
                       src="https://picsum.photos/200"
-                      style={{ maxHeight: "4.5vh" }}
+                      style={{ maxHeight: "3rem" }}
                       className="rounded-circle"
                     />
                   </Dropdown.Toggle>
