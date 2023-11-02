@@ -150,9 +150,6 @@ function TopBar() {
                     </Dropdown.ItemText>
                     <Dropdown.Item href="/settings">Impostazioni</Dropdown.Item>
                     <div className="responsive-addons">
-                      <Dropdown.Item href="/shop">
-                        Compra caratteri
-                      </Dropdown.Item>
                       <Dropdown.Item onClick={() => setShowChat(true)}>
                         Notifiche
                       </Dropdown.Item>

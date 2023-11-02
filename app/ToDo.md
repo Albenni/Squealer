@@ -18,8 +18,6 @@ https://mui.com/material-ui/react-menu/
 
 - Fare una pagina pubblica dove posso vedere tutti i post pubblici di un utente, anche privati nel caso tu lo segua
 
-- Aggiungere la funzione di follow di un utente
-
 - Aggiustare grafica reazioni per mobile
 
 - Fixare il pulsante di nuovo squeal

@@ -2,38 +2,8 @@ import theme from "../../config/theme";
 
 import Post from "./Post";
 
-// import { useEffect, useState } from "react";
-// import { Spinner } from "react-bootstrap";
-
-// import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-// import config from "../../config/config";
-
 function PostList({ getposts }) {
   const allowedContentTypes = ["text", "image", "video", "geolocalization"];
-
-  // const axiosInstance = useAxiosPrivate();
-
-  // const [posts, setPosts] = useState(null);
-
-  // useEffect(() => {
-  //   const userid = sessionStorage.getItem("userid");
-
-  //   setPosts(getposts);
-
-  //   // if (userid) {
-  //   //   axiosInstance
-  //   //     .get(config.endpoint.feed + "/" + userid)
-  //   //     .then((response) => {
-  //   //       setPosts(getposts);
-  //   //       // setPosts(response.data);
-  //   //     })
-  //   //     .catch((error) => {
-  //   //       console.log(error);
-  //   //     });
-  //   // } else {
-  //   //   alert("SEI UN GUEST");
-  //   // }
-  // }, []);
 
   if (!getposts || getposts.length === 0) {
     return (

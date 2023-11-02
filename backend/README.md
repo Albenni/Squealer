@@ -10,6 +10,10 @@ api da fare (poche):
 
 - aggiungere un metodo che resetta i contatori dei caratteri giornalmente/settimanalmente e mensilmente
 
+Da finire/testare:
+
+- generateFeed
+
 Da confermare:
 
 - commenti non sono consumano caratteri e sono formati da solo testo, va bene ????

@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import theme from "../config/theme";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { PlusCircleFill } from "react-bootstrap-icons";
 
@@ -12,9 +12,32 @@ import TrendBar from "../components/TrendBar";
 
 import TopBar from "../components/TopBar";
 
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function Feed() {
   const [showbox, setShowBox] = useState(false);
   const [successfullSqueal, setSuccessfullSqueal] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  const axiosInstance = useAxiosPrivate();
+
+  useEffect(() => {
+    const userid = sessionStorage.getItem("userid");
+
+    if (userid) {
+      axiosInstance
+        .get(config.endpoint.feed + "/" + userid)
+        .then((response) => {
+          setPosts(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("SEI UN GUEST");
+    }
+  }, []);
 
   return (
     <>

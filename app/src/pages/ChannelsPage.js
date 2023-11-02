@@ -50,9 +50,7 @@ const ChannelsPage = () => {
     const userid = sessionStorage.getItem("userid");
 
     await axiosInstance
-      .post(config.endpoint.users + "/" + userid + "/channels", {
-        channelId: channelid,
-      })
+      .post(config.endpoint.users + "/" + userid + "/channels/" + channelid)
       .then((res) => {
         console.log(res);
         getFollowedChannels();

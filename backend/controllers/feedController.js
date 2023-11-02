@@ -6,17 +6,17 @@ const generateFeed = async (req, res) => {
     //feed per utente loggato
 
     const usersFollowed = await Follower.find({
-      followingUserId: req.id,
+      followingUserId: req.params.userId,
       followedType: "User",
     }).select("followedId -_id");
     const groupsFollowed = await Follower.find({
       $or: [
         {
-          followingUserId: req.id,
+          followingUserId: req.params.userId,
           followedType: "Channel",
         },
         {
-          followingUserId: req.id,
+          followingUserId: req.params.userId,
           followedType: "Keyword",
         },
       ],
