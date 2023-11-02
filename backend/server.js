@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const constants = require("./config/constants");
 const app = express();
 const path = require("path");
 const cors = require("cors");
@@ -9,7 +10,9 @@ const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
+const cron = require("node-cron");
 const PORT = process.env.PORT || 3500;
+const User = require("./models/User");
 
 mongoose.set("strictQuery", false);
 
@@ -66,6 +69,31 @@ app.all("*", (req, res) => {
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
+
+  cron.schedule("0 0 * * *", async () => {
+    const users = User.find({});
+    for (const user of users) {
+      user.dailyChar = constants.DAILY_CHAR;
+      await user.save({});
+    }
+    console.log("Reset quota giornaliera");
+  });
+  cron.schedule("0 0 * * 0", async () => {
+    const users = User.find({});
+    for (const user of users) {
+      user.weeklyChar = constants.WEEKLY_CHAR;
+      await user.save({});
+    }
+    console.log("Reset quota settimanale");
+  });
+  cron.schedule("0 0 1 * *", async () => {
+    const users = User.find({});
+    for (const user of users) {
+      user.weeklyChar = constants.MONTHLY_CHAR;
+      await user.save({});
+    }
+    console.log("Reset quota mensile");
+  });
 
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });

@@ -8,8 +8,6 @@ api da fare (poche):
 
 - come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
 
-- aggiungere un metodo che resetta i contatori dei caratteri giornalmente/settimanalmente e mensilmente
-
 Da finire/testare:
 
 -
