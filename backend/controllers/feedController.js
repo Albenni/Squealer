@@ -4,41 +4,46 @@ const Follower = require("../models/Follower");
 const generateFeed = async (req, res) => {
   if (req.authorized) {
     //feed per utente loggato
+    console.log("feed per utente loggato");
 
     const usersFollowed = await Follower.find({
-      followingUserId: req.params.userId,
+      followingUserId: req.id,
       followedType: "User",
     }).select("followedId -_id");
+    const usersFollowedFilter = usersFollowed.map((item) => item.followedId);
     const groupsFollowed = await Follower.find({
       $or: [
         {
-          followingUserId: req.params.userId,
+          followingUserId: req.id,
           followedType: "Channel",
         },
         {
-          followingUserId: req.params.userId,
+          followingUserId: req.id,
           followedType: "Keyword",
         },
       ],
-    }).select("group -_id");
+    }).select("followedId -_id");
+    const groupsFollowedFilter = groupsFollowed.map((item) => item.followedId);
 
     const squeals = await Squeal.find({
       $or: [
-        { author: { $in: usersFollowed } },
-        { group: { $in: groupsFollowed } },
+        { author: { $in: usersFollowedFilter } },
+        { group: { $in: groupsFollowedFilter } },
       ],
     });
 
     res.status(200).json(squeals);
   } else {
+    console.log("feed per guest");
     //feed per utente non loggato
     const squeals = await Squeal.find({
       officialChannel: true,
       squealType: "Channel",
     });
-    if (!squeals?.length) return res.status(204);
+    if (!squeals?.length)
+      return res.status(204).json({ message: "No content" });
 
-    res.status(200).json(squeals);
+    return res.status(200).json(squeals);
   }
 };
 

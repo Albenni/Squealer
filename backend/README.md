@@ -12,7 +12,7 @@ api da fare (poche):
 
 Da finire/testare:
 
-- generateFeed
+-
 
 Da confermare:
 
