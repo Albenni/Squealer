@@ -27,8 +27,9 @@ function Feed() {
 
     if (userid) {
       axiosInstance
-        .get(config.endpoint.feed + "/" + userid)
+        .get(config.endpoint.feed)
         .then((response) => {
+          console.log(response.data);
           setPosts(response.data);
         })
         .catch((error) => {
@@ -80,7 +81,7 @@ function Feed() {
           </div>
         </div>
         <div className="container mt-sm-3">
-          <PostList />
+          <PostList getposts={posts} />
         </div>
         {sessionStorage.getItem("userid") !== "guest" && (
           <div className="container-fluid">

@@ -50,12 +50,20 @@ function Post({ item }) {
             border: "1px solid " + theme.colors.lightgrey,
             padding: "5px",
             zIndex: "1",
+            display: "flex", // To stack the div elements
+            flexDirection: "column", // Stacking elements vertically
           }}
         >
-          {item.squealType}
-
-          <br />
-          {item.officialChannel ? "Canale ufficiale squealer" : ""}
+          {item.officialChannel ? (
+            <div
+              style={{
+                color: theme.colors.danger,
+              }}
+            >
+              Canale ufficiale squealer
+            </div>
+          ) : null}
+          <div>{item.channelSqueal ? "Canale" : "Squeal pubblico"}</div>
         </p>
       </div>
       <Card
