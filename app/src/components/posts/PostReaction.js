@@ -13,12 +13,18 @@ import {
   EmojiSmileFill,
   EmojiHeartEyes,
   EmojiHeartEyesFill,
+  EyeFill,
 } from "react-bootstrap-icons";
 
 import CommentsModal from "./CommentsModal";
 
-function PostReaction({ postid }) {
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import config from "../../config/config";
+
+function PostReaction({ postid, postimpression }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
+  const axiosInstance = useAxiosPrivate();
 
   const [showComments, setShowComments] = useState(false);
   const [reaction, setReaction] = useState({
@@ -32,23 +38,51 @@ function PostReaction({ postid }) {
   const [barcolor, setBarColor] = useState("");
 
   function handleReaction(type) {
-    // if there are no reactions, set the reaction to true
-    if (!reaction[type]) {
-      setReaction({ [type]: true });
+    if (reaction[type]) {
       return;
     }
+    setReaction({ [type]: true });
+
+    axiosInstance
+      .post(config.endpoint.squeals + "/" + postid + "/reactions", {
+        reaction: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {
-    const num = Math.floor(Math.random() * 100);
-    setCm(num);
-    if (num < 33) {
+    axiosInstance
+      .get(config.endpoint.squeals + "/" + postid + "/reactions")
+      .then((res) => {
+        // setReaction(
+        //   res.data.map((acc, cur) => {
+        //     acc[cur.type] = true;
+        //     return acc;
+        //   })
+        // );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    if (postimpression < 33) {
       setBarColor("danger");
-    } else if (num < 66) {
+    } else if (postimpression < 66) {
       setBarColor("warning");
     } else {
       setBarColor("success");
     }
+    if (postimpression <= 0) {
+      setCm(1);
+      return;
+    }
+
+    setCm(postimpression);
   }, []);
 
   return (
@@ -58,64 +92,143 @@ function PostReaction({ postid }) {
         setShowComments={setShowComments}
         postid={postid}
       />
-      <ProgressBar
-        now={cm}
-        label={`${cm}%`}
-        className="mb-2"
-        variant={barcolor}
-        style={{
-          height: isMobile ? "15px" : "25px",
-          borderRadius: "20px",
-        }}
-      />
+      <div className="container d-flex align-items-center justify-content-center">
+        <div className="container">
+          <ProgressBar
+            now={cm}
+            label={`${cm}%`}
+            variant={barcolor}
+            style={{
+              height: isMobile ? "15px" : "25px",
+              borderRadius: "20px",
+              backgroundColor: theme.colors.transparent,
+            }}
+          />
+        </div>
+        <div className="ms-auto d-flex align-items-center">
+          <EyeFill
+            style={{
+              color: theme.colors.lightgrey,
+              height: isMobile ? "20px" : "25px",
+              width: isMobile ? "20px" : "25px",
+              paddingRight: "5px",
+            }}
+          />
+          {postimpression}
+        </div>
+      </div>
       <div className="container-fluid p-3">
         <div className="d-flex">
-          <div className="px-2">
+          <div>
             <Button
               style={{
-                backgroundColor: theme.colors.reallydislike,
-                borderColor: theme.colors.reallydislike,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
               }}
+              disabled={reaction.reallydislike}
               onClick={() => handleReaction("reallydislike")}
             >
-              {reaction.reallydislike ? <EmojiAngryFill /> : <EmojiAngry />}
+              {reaction.reallydislike ? (
+                <EmojiAngryFill
+                  style={{
+                    color: theme.colors.reallydislike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              ) : (
+                <EmojiAngry
+                  style={{
+                    color: theme.colors.reallydislike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              )}
             </Button>
           </div>
-          <div className="px-2">
+          <div className="pl-2">
             <Button
               style={{
-                backgroundColor: theme.colors.dislike,
-                borderColor: theme.colors.dislike,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
               }}
+              disabled={reaction.dislike}
               onClick={() => handleReaction("dislike")}
             >
-              {reaction.dislike ? <EmojiFrownFill /> : <EmojiFrown />}
+              {reaction.dislike ? (
+                <EmojiFrownFill
+                  style={{
+                    color: theme.colors.dislike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              ) : (
+                <EmojiFrown
+                  style={{
+                    color: theme.colors.dislike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              )}
             </Button>
           </div>
 
-          <div className="px-2">
+          <div className="pl-2">
             <Button
               style={{
-                backgroundColor: theme.colors.like,
-                borderColor: theme.colors.like,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
               }}
+              disabled={reaction.like}
               onClick={() => handleReaction("like")}
             >
-              {reaction.like ? <EmojiSmileFill /> : <EmojiSmile />}
+              {reaction.like ? (
+                <EmojiSmileFill
+                  style={{
+                    color: theme.colors.like,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              ) : (
+                <EmojiSmile
+                  style={{
+                    color: theme.colors.like,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
+              )}
             </Button>
           </div>
-          <div className="px-2">
+          <div className="pl-2">
             <Button
               style={{
-                backgroundColor: theme.colors.reallylike,
-                borderColor: theme.colors.reallylike,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
               }}
+              disabled={reaction.reallylike}
               onClick={() => handleReaction("reallylike")}
             >
               {reaction.reallylike ? (
-                <EmojiHeartEyesFill />
+                <EmojiHeartEyesFill
+                  style={{
+                    color: theme.colors.reallylike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
               ) : (
-                <EmojiHeartEyes />
+                <EmojiHeartEyes
+                  style={{
+                    color: theme.colors.reallylike,
+                    height: isMobile ? "28px" : "25px",
+                    width: isMobile ? "28px" : "25px",
+                  }}
+                />
               )}
             </Button>
           </div>

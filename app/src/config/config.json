@@ -9,6 +9,7 @@
     "channels": "/channels",
     "keywords": "/keywords",
     "newpassword": "/newpassword",
-    "feed": "/feed"
+    "feed": "/feed",
+    "squeals": "/squeals"
   }
 }

@@ -37,11 +37,11 @@ function Post({ item }) {
         style={{
           position: "relative",
           marginTop: "-3vh",
-          bottom: "-5vh",
+          bottom: "-4vh",
           color: theme.colors.lightgrey,
         }}
       >
-        <p
+        <div
           style={{
             fontWeight: "bold",
             color: theme.colors.lightgrey,
@@ -64,7 +64,7 @@ function Post({ item }) {
             </div>
           ) : null}
           <div>{item.channelSqueal ? "Canale" : "Squeal pubblico"}</div>
-        </p>
+        </div>
       </div>
       <Card
         className="mt-3"
@@ -80,7 +80,7 @@ function Post({ item }) {
           <PostLocation item={item} user={user} />
         )}
         <Card.Footer>
-          <PostReaction postid={item.squealId} />
+          <PostReaction postid={item._id} postimpression={item.impression} />
         </Card.Footer>
       </Card>
     </>
