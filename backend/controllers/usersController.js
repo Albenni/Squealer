@@ -12,14 +12,14 @@ const searchUser = async (req, res) => {
     if (req?.query?.exactMatch) {
       const user = await User.findOne({
         username: req?.query?.username,
-      }).select("username profilePic firstname surname verified");
+      }).select("-password");
       if (!user) return res.status(204).json({ message: "No users found" });
       res.json(user);
     } else {
       const findUser = req.query.username ? req.query.username : "";
       const users = await User.find({
         username: { $regex: ".*" + findUser + ".*" },
-      }).select("username profilePic");
+      }).select("-password");
       if (!users) return res.status(204).json({ message: "No users found" });
       res.json(users);
     }

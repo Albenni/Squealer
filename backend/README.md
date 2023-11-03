@@ -6,10 +6,6 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
-- Add/remove destinatari per gli squeal
-
-- come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
-
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword

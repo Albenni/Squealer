@@ -60,7 +60,7 @@
       <h1 class="mt-4 mb-4">Users</h1>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <input
             type="text"
             class="form-control"
@@ -68,26 +68,18 @@
             placeholder="Filter by Username"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <select class="form-select" id="professionalFilter">
             <option value="">Filter by Professional</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <select class="form-select" id="verifiedFilter">
             <option value="">Filter by Verified</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <select class="form-select" id="popularityFilter">
-            <option value="">Filter by Popularity</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
           </select>
         </div>
       </div>
@@ -109,7 +101,6 @@
               <th>Verified</th>
               <th>Char Available</th>
               <th>Blocked</th>
-              <th>Popularity????</th>
             </tr>
           </thead>
           <tbody id="userList">
@@ -133,8 +124,9 @@
       let usersData = []; // To store the user data
       // Function to fetch user data
       function fetchUserData() {
-        $.get("users.json", function (data) {
+        $.get("http://localhost:3500/users", function (data) {
           // Store user data and populate the user list
+
           usersData = data;
           populateUserList(usersData);
         });
@@ -145,7 +137,6 @@
         const nameFilter = $("#nameFilter").val().toLowerCase();
         const professionalFilter = $("#professionalFilter").val();
         const verifiedFilter = $("#verifiedFilter").val();
-        const popularityFilter = $("#popularityFilter").val();
 
         const userList = $("#userList");
         userList.empty();
@@ -157,8 +148,7 @@
             (professionalFilter === "" ||
               user.professional?.toString() === professionalFilter) &&
             (verifiedFilter === "" ||
-              user.verified?.toString() === verifiedFilter) &&
-            (popularityFilter === "" || user.popularity === popularityFilter)
+              user.verified?.toString() === verifiedFilter)
           ) {
             userList.append(
               "<tr><td>" +
@@ -168,7 +158,7 @@
                 "</td><td>" +
                 user.firstname +
                 "</td><td>" +
-                user.lastname +
+                user.surname +
                 "</td><td>" +
                 user.email +
                 "</td><td>" +
@@ -179,8 +169,6 @@
                 user.charAvailable +
                 "</td><td>" +
                 user.blocked +
-                "</td><td>" +
-                user.popularity +
                 "</td></tr>"
             );
           }
@@ -193,11 +181,12 @@
           window.location.href = "login.html";
         }
         // Add event listeners to the filters
-        $(
-          "#nameFilter, #verifiedFilter, #professionalFilter, #popularityFilter"
-        ).on("input", function () {
-          populateUserList(usersData);
-        });
+        $("#nameFilter, #verifiedFilter, #professionalFilter").on(
+          "input",
+          function () {
+            populateUserList(usersData);
+          }
+        );
 
         // Add an event listener to the "Fetch Users" button
         $("#fetchUsersButton").click(function () {
