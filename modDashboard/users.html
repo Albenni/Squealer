@@ -24,7 +24,7 @@
       }
 
       .form-control {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
 
       .btn-primary {
@@ -48,7 +48,14 @@
 
       .list-group-item {
         background-color: #fff;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .label-small {
+        font-size: 0.7em;
+        color: #888;
+        margin-bottom: 1px;
+        visibility: hidden;
       }
     </style>
   </head>
@@ -60,7 +67,8 @@
       <h1 class="mt-4 mb-4">Users</h1>
 
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="nameFilter" class="label-small">Username</label>
           <input
             type="text"
             class="form-control"
@@ -68,16 +76,28 @@
             placeholder="Filter by Username"
           />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="professionalFilter" class="label-small"
+            >Professional</label
+          >
           <select class="form-select" id="professionalFilter">
-            <option value="">Filter by Professional</option>
+            <option value="" selected>Filter by Professional</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="verifiedFilter" class="label-small">Verified</label>
           <select class="form-select" id="verifiedFilter">
-            <option value="">Filter by Verified</option>
+            <option value="" selected>Filter by Verified</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="blockedFilter" class="label-small">Blocked</label>
+          <select class="form-select" id="blockedFilter">
+            <option value="" selected>Filter by Blocked</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
@@ -137,6 +157,7 @@
         const nameFilter = $("#nameFilter").val().toLowerCase();
         const professionalFilter = $("#professionalFilter").val();
         const verifiedFilter = $("#verifiedFilter").val();
+        const blockedFilter = $("#blockedFilter").val();
 
         const userList = $("#userList");
         userList.empty();
@@ -148,7 +169,8 @@
             (professionalFilter === "" ||
               user.professional?.toString() === professionalFilter) &&
             (verifiedFilter === "" ||
-              user.verified?.toString() === verifiedFilter)
+              user.verified?.toString() === verifiedFilter) &&
+            (blockedFilter === "" || user.blocked?.toString() === blockedFilter)
           ) {
             userList.append(
               "<tr><td>" +
@@ -181,16 +203,39 @@
           window.location.href = "login.html";
         }
         // Add event listeners to the filters
-        $("#nameFilter, #verifiedFilter, #professionalFilter").on(
-          "input",
-          function () {
-            populateUserList(usersData);
-          }
-        );
+        $(
+          "#nameFilter, #verifiedFilter, #professionalFilter, #blockedFilter"
+        ).on("input", function () {
+          populateUserList(usersData);
+        });
 
         // Add an event listener to the "Fetch Users" button
         $("#fetchUsersButton").click(function () {
           fetchUserData();
+        });
+
+        // Listener for labels visibility
+        $("#professionalFilter").change(function () {
+          const label = $('label[for="professionalFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#verifiedFilter").change(function () {
+          const label = $('label[for="verifiedFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#blockedFilter").change(function () {
+          const label = $('label[for="blockedFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#nameFilter").on("input", function () {
+          const label = $('label[for="nameFilter"]');
+          label.css(
+            "visibility",
+            this.value.trim() !== "" ? "visible" : "hidden"
+          );
         });
       });
     </script>

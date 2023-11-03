@@ -24,7 +24,7 @@
       }
 
       .form-control {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
 
       .btn-primary {
@@ -50,6 +50,13 @@
         background-color: #fff;
         margin-bottom: 10px;
       }
+
+      .label-small {
+        font-size: 0.7em;
+        color: #888;
+        margin-bottom: 1px;
+        visibility: hidden;
+      }
     </style>
   </head>
   <body>
@@ -61,6 +68,7 @@
 
       <div class="row">
         <div class="col-md-3">
+          <label for="nameFilter" class="label-small">Channel name</label>
           <input
             type="text"
             class="form-control"
@@ -69,6 +77,7 @@
           />
         </div>
         <div class="col-md-3">
+          <label for="privateFilter" class="label-small">Private</label>
           <select class="form-select" id="privateFilter">
             <option value="">Filter by Private</option>
             <option value="true">Yes</option>
@@ -76,6 +85,7 @@
           </select>
         </div>
         <div class="col-md-3">
+          <label for="editorialFilter" class="label-small">Editorial</label>
           <select class="form-select" id="editorialFilter">
             <option value="">Filter by Editorial Channel</option>
             <option value="true">Yes</option>
@@ -83,6 +93,7 @@
           </select>
         </div>
         <div class="col-md-3">
+          <label for="blockedFilter" class="label-small">Blocked</label>
           <select class="form-select" id="blockedFilter">
             <option value="">Filter by Blocked</option>
             <option value="true">Yes</option>
@@ -190,6 +201,30 @@
         // Add an event listener to the "Fetch Channels" button
         $("#fetchChannelsButton").click(function () {
           fetchChannelData();
+        });
+
+        // Listener for labels visibility
+        $("#blockedFilter").change(function () {
+          const label = $('label[for="blockedFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#privateFilter").change(function () {
+          const label = $('label[for="privateFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#editorialFilter").change(function () {
+          const label = $('label[for="editorialFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#nameFilter").on("input", function () {
+          const label = $('label[for="nameFilter"]');
+          label.css(
+            "visibility",
+            this.value.trim() !== "" ? "visible" : "hidden"
+          );
         });
       });
     </script>

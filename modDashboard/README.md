@@ -1,8 +1,7 @@
 ## MODERATOR DASHBOARD:
 
-Moderatori e Redattori che verificano trend e reazioni, attribuiscono punteggi, risolvono grane
-
 - Squeals filter by date non funzia
+- Squeals label, group deve essere scelta multipla: public, keyword, channel
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.
