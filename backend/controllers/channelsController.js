@@ -129,10 +129,10 @@ const deleteChannel = async (req, res) => {
   if (!admin) return res.status(403).json({ message: "Permission denied" });
 
   Channel.deleteOne({ _id: req.params.channelId });
-  Squeal.deleteMany({
-    group: req.params.channelId,
-    squealType: "Channel",
-  });
+  // Squeal.deleteMany({
+  //   group: req.params.channelId,
+  //   squealType: "Channel",
+  // });
   Admin.deleteMany({ channelId: req.params.channelId });
   return res.status(200);
 };

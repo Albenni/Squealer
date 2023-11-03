@@ -24,15 +24,19 @@ const generateFeed = async (req, res) => {
       ],
     }).select("followedId -_id");
     const groupsFollowedFilter = groupsFollowed.map((item) => item.followedId);
+    try {
+      const squeals = await Squeal.find({
+        $or: [
+          { author: { $in: usersFollowedFilter } },
+          { group: { $in: groupsFollowedFilter } },
+        ],
+      }).populate("group", "name private editorialChannel profilePic");
 
-    const squeals = await Squeal.find({
-      $or: [
-        { author: { $in: usersFollowedFilter } },
-        { group: { $in: groupsFollowedFilter } },
-      ],
-    }).populate("group", "name private editorialChannel profilePic");
-
-    res.status(200).json(squeals);
+      res.status(200).json(squeals);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+    }
   } else {
     console.log("feed per guest");
     //feed per utente non loggato

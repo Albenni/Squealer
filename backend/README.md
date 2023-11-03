@@ -6,13 +6,14 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
-- Destinatari multipli per uno squeal (canali e keyword) e mandare uno squeal in più chat private e non solo una (non creerei gruppi)
+- Add/remove destinatari per gli squeal
 
 - come stabilire la "popolarità" di un utente? serve nel modDashboard (numero di follower)
 
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
+- reactions e comments
 
 Da confermare:
 

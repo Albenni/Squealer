@@ -8,8 +8,8 @@ const commentSchema = new Schema({
     required: true,
   },
   squealId: {
-    type: String,
-    enum: ["Public", "Channel", "Keyword"],
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Squeal",
     required: true,
   },
   content: {

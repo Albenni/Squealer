@@ -11,7 +11,7 @@ const getAllSquealsByUser = async (req, res) => {
 
   const squeals = await Squeal.find({
     author: req.params.userId,
-    squealType: "Public",
+    publicSqueal: true,
   }).exec();
 
   if (!squeals?.length)
@@ -53,19 +53,19 @@ const getAllSquealsInKeyword = async (req, res) => {
 };
 
 const createSqueal = async (req, res) => {
-  if (!req.authorized) return res.status(403);
+  if (!req.authorized) return res.sendStatus(403);
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "Author ID not valid" });
   if (!req?.body?.content)
     return res.status(400).json({ message: "Body message required" });
-  if (!req?.body?.contentType)
+  if (!req.body?.contentType)
     return res.status(400).json({ message: "Content type required" });
-  if (!req?.body?.squealType)
+  if (!req.body?.squealType)
     return res.status(400).json({ message: "Squeal type required" });
 
   if (req.body.squealType === "Channel" || req.body.squealType === "Keyword")
-    if (!mongoose.Types.ObjectId.isValid(req?.body?.group))
+    if (!req.body?.group?.map((item) => mongoose.Types.ObjectId.isValid(item)))
       return res
         .status(400)
         .json({ message: "Channel or Keyword ID not valid" });
@@ -97,14 +97,14 @@ const createSqueal = async (req, res) => {
         author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        squealType: req.body.squealType,
+        publicSqueal: isPublic,
       }
     : {
         author: req.params.userId,
         content: req.body.content,
         contentType: req.body.contentType,
-        group: req.body.group,
         squealType: req.body.squealType,
+        group: req.body.group,
         officialChannel:
           req?.body?.officialChannel && squealType === "Channel" ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
       };

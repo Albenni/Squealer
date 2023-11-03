@@ -7,16 +7,21 @@ const squealSchema = new Schema({
     ref: "User",
     required: true,
   },
-  //contiene l'id del canale o della keyword
-  group: {
-    type: mongoose.SchemaTypes.ObjectId,
-    refPath: "squealType",
+  publicSqueal: {
+    type: Boolean,
+    default: false,
   },
   squealType: {
     type: String,
-    enum: ["Public", "Channel", "Keyword"],
-    required: true,
+    enum: ["Channel", "Keyword"],
   },
+  //contiene l'id dei canali o delle keyword
+  group: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      refPath: "squealType",
+    },
+  ],
   //parametro che indica se lo squeal è stato inviato in un CANALE ufficiale
   //utilizzato nel feed per utenti non registrati
   officialChannel: {
