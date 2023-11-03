@@ -6,6 +6,11 @@ const commentsController = require("../controllers/commentsController");
 router.route("/:squealId").delete(squealsController.deleteSqueal);
 
 router
+  .route("/:squealId/receivers/:receiverId")
+  .post(squealsController.addReceiver) //da testare
+  .post(squealsController.removeReceiver); //da testare
+
+router
   .route("/:squealId/reactions")
   .get(squealsController.getReactions) // da testare
   .post(squealsController.addReaction); // da testare

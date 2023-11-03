@@ -211,6 +211,64 @@ const addReaction = async (req, res) => {
   }
 };
 
+const addReceiver = async (req, res) => {
+  if (!req.authorized || !req.isMod) return res.sendStatus(403);
+
+  try {
+    const squealId = req.params.squealId;
+    const destinatarioId = req.params.receiverId;
+
+    const squeal = await Squeal.findById(squealId);
+    if (!squeal) {
+      return res.status(404).json({ error: "Squeal non trovato" });
+    }
+
+    squeal.group.push(destinatarioId);
+    await squeal.save();
+
+    return res
+      .status(200)
+      .json({ message: "Destinatario aggiunto con successo" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Errore durante l'aggiunta del destinatario" });
+  }
+};
+const removeReceiver = async (req, res) => {
+  if (!req.authorized || !req.isMod) return res.sendStatus(403);
+
+  try {
+    const squealId = req.params.squealId;
+    const destinatarioId = req.params.receiverId;
+
+    const squeal = await Squeal.findById(squealId);
+    if (!squeal) {
+      return res.status(404).json({ error: "Squeal non trovato" });
+    }
+
+    const index = squeal.group.indexOf(destinatarioId);
+    if (index === -1) {
+      return res
+        .status(404)
+        .json({ error: "Destinatario non trovato nell'array" });
+    }
+
+    squeal.group.splice(index, 1);
+    await squeal.save();
+
+    return res
+      .status(200)
+      .json({ message: "Destinatario rimosso con successo" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Errore durante la rimozione del destinatario" });
+  }
+};
+
 module.exports = {
   getAllSquealsByUser,
   getAllSquealsInChannel,
@@ -219,4 +277,6 @@ module.exports = {
   deleteSqueal,
   getReactions,
   addReaction,
+  addReceiver,
+  removeReceiver,
 };

@@ -14,6 +14,7 @@ Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
 - reactions e comments
+- aggiunta/rimozione destinatari dagli squeal
 
 Da confermare:
 
