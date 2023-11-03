@@ -3,7 +3,10 @@ const router = express.Router();
 const keywordsController = require("../controllers/keywordsController");
 const squealsController = require("../controllers/squealsController");
 
-router.route("/").get(keywordsController.searchKeywords);
+router
+  .route("/")
+  .get(keywordsController.searchKeywords)
+  .post(keywordsController.createKeyword); //da implementare
 
 router
   .route("/:keywordId/squeals")

@@ -30,7 +30,7 @@ const generateFeed = async (req, res) => {
         { author: { $in: usersFollowedFilter } },
         { group: { $in: groupsFollowedFilter } },
       ],
-    });
+    }).populate("group", "name private editorialChannel profilePic");
 
     res.status(200).json(squeals);
   } else {
@@ -39,7 +39,7 @@ const generateFeed = async (req, res) => {
     const squeals = await Squeal.find({
       officialChannel: true,
       squealType: "Channel",
-    });
+    }).populate("group", "name private editorialChannel profilePic");
     if (!squeals?.length)
       return res.status(204).json({ message: "No content" });
 

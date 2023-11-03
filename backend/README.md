@@ -1,5 +1,7 @@
 api da fare (poche):
 
+- Creare keyword
+
 - Differenziare tra canali pubblici e canali privati -> un utente fa richiesta per un canale privato, se l'admin lo accetta dopo può leggere e scrivere
 
 - delete reaction ad uno squeal
@@ -10,7 +12,7 @@ api da fare (poche):
 
 Da finire/testare:
 
--
+- generateFeed: bisogna testare populate quando c'è una keyword
 
 Da confermare:
 

@@ -15,4 +15,12 @@ const searchKeywords = async (req, res) => {
   }
 };
 
-module.exports = { searchKeywords };
+const createKeyword = async (req, res) => {
+  try {
+    res.json();
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+module.exports = { searchKeywords, createKeyword };
