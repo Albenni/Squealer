@@ -26,5 +26,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-Pagina login fatta, al momento usa stessa api dell'app, da creare api specifica smm
-Iniziate componenti post dashboard etc, mancano api per caricarle quindi al momento non si puo visualizzare nulla.
+controlla come creare interfacce generali e importarle ( UserData in login e vip sel)
