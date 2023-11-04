@@ -50,6 +50,12 @@
         background-color: #fff;
         margin-bottom: 10px;
       }
+      .label-small {
+        font-size: 0.7em;
+        color: #888;
+        margin-bottom: 1px;
+        visibility: hidden;
+      }
     </style>
   </head>
   <body>
@@ -60,7 +66,8 @@
       <h1 class="mt-4 mb-4">Messages</h1>
 
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="authorFilter" class="label-small">Author</label>
           <input
             type="text"
             class="form-control"
@@ -68,7 +75,10 @@
             placeholder="Filter by Author"
           />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="contentTypeFilter" class="label-small"
+            >Content Type</label
+          >
           <select class="form-select" id="contentTypeFilter">
             <option value="">Filter by Content Type</option>
             <option value="text">Text</option>
@@ -77,16 +87,18 @@
             <option value="geolocalization">Geolocalization</option>
           </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
+          <label for="dateFilter" class="label-small">Date</label>
           <input type="date" class="form-control" id="dateFilter" />
         </div>
-        <div class="col-md-2">
-          <input
-            type="text"
-            class="form-control"
-            id="groupFilter"
-            placeholder="Filter by Group"
-          />
+        <div class="col-md-3">
+          <label for="squealType" class="label-small">Squeal type</label>
+          <select class="form-select" id="squealType">
+            <option value="">Filter by Squeal Type</option>
+            <option value="Public">Public</option>
+            <option value="Channel">Channel</option>
+            <option value="Keyword">Keyword</option>
+          </select>
         </div>
       </div>
       <button class="btn btn-primary mb-4" id="fetchMessagesButton">
@@ -114,10 +126,10 @@
 
     <script>
       function isUserLoggedIn() {
-        // Check if the user is logged in (e.g., by checking a cookie).
         // Return true if logged in, false if not.
-        // Example: return document.cookie.includes("loggedIn=true");
-        return true;
+        var token = localStorage.getItem("token");
+
+        return !(token === null);
       }
 
       $(function () {
@@ -139,7 +151,7 @@
         const authorFilter = $("#authorFilter").val().toLowerCase();
         const contentTypeFilter = $("#contentTypeFilter").val();
         const dateFilter = new Date($("#dateFilter").val()).toLocaleString();
-        const groupFilter = $("#groupFilter").val().toLowerCase();
+        const squealType = $("#squealType").val().toLowerCase();
 
         const messageList = $("#messageList");
         messageList.empty();
@@ -152,8 +164,8 @@
               message.contentType === contentTypeFilter) &&
             ($("#dateFilter").val() === "" ||
               new Date(message.data).getTime() === dateFilter) &&
-            (groupFilter === "" ||
-              message.group.toLowerCase().includes(groupFilter))
+            (squealType === "" ||
+              message.group.toLowerCase().includes(squealType))
           ) {
             messageList.append(
               "<tr><td>" +
@@ -175,11 +187,11 @@
       }
       $(document).ready(function () {
         if (!isUserLoggedIn()) {
-          // User is not logged in, redirect to the login page
-          window.location.href = "login.html";
+          // Il token non è presente nel localStorage, redirect alla pagina di login
+          window.location.href = "./";
         }
         // Add event listeners to the filters
-        $("#authorFilter, #contentTypeFilter, #dateFilter, #groupFilter").on(
+        $("#authorFilter, #contentTypeFilter, #dateFilter, #squealType").on(
           "input",
           function () {
             populateMessageList(messagesData);
@@ -189,6 +201,29 @@
         // Add an event listener to the "Fetch Messages" button
         $("#fetchMessagesButton").click(function () {
           fetchMessageData();
+        });
+        // Listener for labels visibility
+        $("#authorFilter").change(function () {
+          const label = $('label[for="authorFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#contentTypeFilter").change(function () {
+          const label = $('label[for="contentTypeFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#dateFilter").change(function () {
+          const label = $('label[for="dateFilter"]');
+          label.css("visibility", this.value !== "" ? "visible" : "hidden");
+        });
+
+        $("#squealType").on("input", function () {
+          const label = $('label[for="squealType"]');
+          label.css(
+            "visibility",
+            this.value.trim() !== "" ? "visible" : "hidden"
+          );
         });
       });
     </script>

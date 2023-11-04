@@ -1,7 +1,9 @@
 ## MODERATOR DASHBOARD:
 
 - Squeals filter by date non funzia
-- Squeals label, group deve essere scelta multipla: public, keyword, channel
+- Squeals filter by squeal type da implementare
+- possibilità di logout
+- persistent login se vogliamo farlo
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.

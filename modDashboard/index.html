@@ -1,32 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Simple HTML Page with jQuery</title>
-    <!-- Include jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Moderator Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+      body {
+        background-color: #121212; /* Colore di sfondo scuro */
+      }
+
+      .card {
+        background-color: #1e1e1e; /* Sfondo della card scuro */
+      }
+
+      .card-header {
+        background-color: #343a40; /* Testata scura */
+        color: #fff; /* Testo bianco */
+      }
+
+      .btn-primary {
+        background-color: #007bff; /* Colore pulsante di login */
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3; /* Colore pulsante di login al passaggio del mouse */
+      }
+    </style>
   </head>
   <body>
-    <div id="nav-placeholder"></div>
-    <h1>Simple HTML Page with jQuery</h1>
-
-    <p>Click the button to change the text color.</p>
-
-    <button id="changeColorButton">Change Color</button>
-
-    <!-- Add a div to change the text color -->
-    <div id="textToChangeColor">This text can be changed.</div>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-center">
+                <img src="Logo.png" alt="Logo" width="60" height="60" />
+                <h4 class="ml-2 mb-2 align-self-center">Moderator Dashboard</h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
-      $(function () {
-        $("#nav-placeholder").load("navBar.html");
-      });
-      // Wait for the document to be ready
-
       $(document).ready(function () {
-        // Click event for the button
-        $("#changeColorButton").click(function () {
-          // Change the text color to red
-          $("#textToChangeColor").css("color", "red");
+        $("#loginForm").submit(function (event) {
+          event.preventDefault();
+          const username = $("#username").val();
+          const password = $("#password").val();
+
+          $.ajax({
+            url: "http://localhost:3500/auth/moderator",
+            method: "POST",
+            data: { user: username, pwd: password },
+            success: function (data) {
+              // Salva il token nella localStorage
+
+              localStorage.setItem("token", data.accessToken);
+              console.log(localStorage.getItem("token"));
+              // Reindirizza alla dashboard o alla pagina successiva
+              window.location.href = "users.html";
+            },
+            error: function (xhr, status, error) {
+              alert(
+                "Errore durante il login. Controlla le credenziali e riprova."
+              );
+            },
+          });
         });
       });
     </script>
