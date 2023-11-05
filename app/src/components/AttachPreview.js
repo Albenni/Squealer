@@ -43,6 +43,7 @@ function AttachPreview(props) {
       setLoading(true);
       try {
         const imageCheck = await checkImage(props.image);
+        console.log(imageCheck);
         if (!imageCheck) throw new Error("Invalid image link");
         setPostLink(props.image);
       } catch (error) {
@@ -71,7 +72,7 @@ function AttachPreview(props) {
 
       setLoading(true);
       // Creo la preview del file immagine o video
-      if (props.type === "Image") {
+      if (props.type === "Immagine") {
         const objectUrl = URL.createObjectURL(props.file);
         setFilePreview(objectUrl);
 
@@ -92,7 +93,7 @@ function AttachPreview(props) {
       loadFile();
     }
 
-    if (props.type === "Image") {
+    if (props.type === "Immagine" && props.image) {
       loadImage();
     } else if (props.type === "Video") {
       loadVideo();
@@ -103,17 +104,10 @@ function AttachPreview(props) {
         URL.revokeObjectURL(filepreview);
       }
     };
-  }, [
-    props.image,
-    props.video,
-    props.file,
-    props.iscustom,
-    props.type,
-    filepreview,
-  ]);
+  }, [props.image, props.video, props.file, props.iscustom, props.type]);
 
   if (props.iscustom) {
-    return props.type === "Image" ? (
+    return props.type === "Immagine" ? (
       <div className="container-fluid p-3 d-flex justify-content-center">
         <Image src={filepreview} fluid thumbnail />
       </div>
@@ -149,7 +143,7 @@ function AttachPreview(props) {
         <ReactPlayer url={postLink} controls={true} fluid muted />
       </div>
     )
-  ) : props.type === "Image" ? (
+  ) : props.type === "Immagine" ? (
     props.image && (
       <div className="container-fluid p-3 d-flex justify-content-center">
         <Image

@@ -176,7 +176,19 @@ function SquealBox(props) {
   return (
     <Modal
       show={props.show}
-      onHide={() => props.setShowBox(false)}
+      onHide={() => {
+        props.setShowBox(false);
+        props.setSuccessfullSqueal(false);
+        setIsAttachment(false);
+        setDisableInputText(false);
+        setIsLink(false);
+        setPostAttach("Immagine");
+        setSquealText("");
+        setSquealImage("");
+        setSquealVideo("");
+        setSquealFile(null);
+        setSquealLocation(null);
+      }}
       size="lg"
       fullscreen={isMobile}
       backdrop="static"

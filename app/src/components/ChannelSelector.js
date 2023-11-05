@@ -3,10 +3,20 @@ import { useState } from "react";
 
 import { Trash3, Plus } from "react-bootstrap-icons";
 
+import ErrorMessage from "./ErrorMessage";
+
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function ChannelSelector(props) {
+  const axiosInstance = useAxiosPrivate();
+
   const [postChannel, setPostChannel] = useState("Username");
+  const [channelnotfound, setChannelNotFound] = useState(false);
 
   function AddSquealChannel() {
+    setChannelNotFound(false);
+
     const channel = document.getElementById("SBoxControlInputChannel").value;
 
     const channeltype = document.getElementById("SBoxControlSelectChannel")
@@ -29,9 +39,59 @@ function ChannelSelector(props) {
     // Check if the input exists in the database
     // If it exists, add it to the squealchannel array
     // else, show an error message
-    // ATM every input is valid
 
-    props.setSquealChannel([...props.squealchannel, toadd]);
+    if (channeltype === "@") {
+      axiosInstance
+        .get(
+          config.endpoint.users + "?username=" + channel + "&exactMatch=true"
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            props.setSquealChannel([...props.squealchannel, toadd]);
+          } else if (res.status === 204) {
+            setChannelNotFound(true);
+          }
+        })
+        .catch((err) => {
+          setChannelNotFound(true);
+          console.log(err);
+        });
+    } else if (channeltype === "§") {
+      axiosInstance
+        .get(
+          config.endpoint.channels + "?channel=" + channel + "&exactMatch=true"
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            props.setSquealChannel([...props.squealchannel, toadd]);
+          } else if (res.status === 204) {
+            setChannelNotFound(true);
+          }
+        })
+        .catch((err) => {
+          setChannelNotFound(true);
+          console.log(err);
+        });
+    } else if (channeltype === "#") {
+      axiosInstance
+        .get(
+          config.endpoint.keyword + "?keyword=" + channel + "&exactMatch=true"
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            props.setSquealChannel([...props.squealchannel, toadd]);
+          } else if (res.status === 204) {
+            setChannelNotFound(true);
+          }
+        })
+        .catch((err) => {
+          setChannelNotFound(true);
+          console.log(err);
+        });
+    }
   }
 
   function RemoveSquealChannel(toremove) {
@@ -42,6 +102,10 @@ function ChannelSelector(props) {
 
   return (
     <>
+      <ErrorMessage
+        visible={channelnotfound}
+        error={"Il destinatario cercato non esiste!"}
+      />
       <InputGroup className="mb-3">
         <div className="col-m-2">
           <Form.Select
@@ -74,9 +138,11 @@ function ChannelSelector(props) {
           <Plus />
         </Button>
       </InputGroup>
-      {props.squealchannel.map((channel) => {
+
+      {props.squealchannel.map((channel, key) => {
         return (
           <ButtonGroup
+            key={key}
             aria-label={"Button for " + channel}
             className="pb-3 px-2"
           >
