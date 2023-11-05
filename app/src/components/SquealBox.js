@@ -5,8 +5,6 @@ import theme from "../config/theme";
 import { useEffect, useState } from "react";
 import { Form, InputGroup, Button, Modal } from "react-bootstrap";
 
-import { defaultchars, imagecharsize } from "../config/constants.js";
-
 import AttachPreview from "./AttachPreview";
 import ChannelSelector from "./ChannelSelector";
 
@@ -16,8 +14,7 @@ import config from "../config/config";
 import { useMediaQuery } from "react-responsive";
 
 function SquealBox(props) {
-  const userapi = useAxiosPrivate();
-  const endpoint = config.endpoint.users + "/";
+  const axiosInstance = useAxiosPrivate();
 
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
@@ -45,18 +42,20 @@ function SquealBox(props) {
   const [isAttachment, setIsAttachment] = useState(false);
 
   useEffect(() => {
-    const userId = sessionStorage.getItem("userid");
+    async function getUser() {
+      try {
+        const res = await axiosInstance.get(
+          config.endpoint.users + "/" + sessionStorage.getItem("userid")
+        );
 
-    userapi
-      .get(endpoint + userId)
-      .then((res) => {
-        console.log(res.data);
         setUser(res.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
-  }, [userapi]);
+      }
+    }
+
+    getUser();
+  }, [axiosInstance]);
 
   function handleSqueal(event) {
     event.preventDefault();
@@ -159,14 +158,14 @@ function SquealBox(props) {
   function handleCharacterLimit(event) {
     event.preventDefault();
 
-    if (currentchars > defaultchars) {
-      event.target.value = event.target.value.substring(0, defaultchars);
+    if (currentchars > user.dailyChar) {
+      event.target.value = event.target.value.substring(0, user.dailyChar);
     }
 
     setSquealText(event.target.value);
 
     if (squealimage.length > 0) {
-      setCurrentChars(event.target.value.length + imagecharsize);
+      // setCurrentChars(event.target.value.length + imagecharsize);
     } else {
       setCurrentChars(event.target.value.length);
     }
@@ -231,7 +230,7 @@ function SquealBox(props) {
                   pointerEvents: "none",
                 }}
               >
-                <p>Numero caratteri disponibili: {user.charAvailable}</p>
+                <p>Numero caratteri giornalieri: {user.dailyChar}</p>
               </div>
             )}
           </div>
@@ -243,7 +242,7 @@ function SquealBox(props) {
                 pointerEvents: "none",
               }}
             >
-              <p>Numero caratteri disponibili: {user.charAvailable}</p>
+              <p>Numero caratteri giornalieri: {user.dailyChar}</p>
             </div>
           )}
           <InputGroup
@@ -329,7 +328,7 @@ function SquealBox(props) {
       <Modal.Footer>
         <div className="container-fluid d-flex justify-content-end">
           <div className="d-flex align-items-center px-3">
-            {currentchars}/{defaultchars}
+            {currentchars}/{user.dailyChar}
           </div>
           <Button
             variant="success"

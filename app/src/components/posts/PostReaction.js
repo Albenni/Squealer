@@ -87,11 +87,13 @@ function PostReaction({ postid, postimpression }) {
 
   return (
     <>
-      <CommentsModal
-        show={showComments}
-        setShowComments={setShowComments}
-        postid={postid}
-      />
+      {showComments && (
+        <CommentsModal
+          show={showComments}
+          setShowComments={setShowComments}
+          postid={postid}
+        />
+      )}
       <div className="container d-flex align-items-center justify-content-center">
         <div className="container">
           <ProgressBar

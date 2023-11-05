@@ -3,61 +3,70 @@ import { useEffect, useState } from "react";
 import { Modal, Button, ListGroup, Form } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import config from "../../config/config";
+
 function CommentsModal(props) {
   const [comments, setComments] = useState([]);
 
-  const commentexample = {
-    // Farei qualcosa del genere per ogni post?
-    postid: 0,
-    commentlist: [
-      {
-        squealId: 0,
-        author: "user",
-        content: "commento",
-        createdAt: "2021-05-05 12:00:00",
-      },
-      {
-        squealId: 0,
-        author: "user",
-        content: "commento",
-        createdAt: "2021-05-05 12:00:00",
-      },
-      {
-        squealId: 0,
-        author: "user",
-        content: "commento",
-        createdAt: "2021-05-05 12:00:00",
-      },
-      {
-        squealId: 0,
-        author: "user",
-        content: "commento",
-        createdAt: "2021-05-05 12:00:00",
-      },
-    ],
-  };
+  const axiosInstance = useAxiosPrivate();
 
   useEffect(() => {
-    // Get dei commenti dal db
-    setComments(commentexample.commentlist);
-  }, []);
+    async function getComments() {
+      try {
+        const res = await axiosInstance.get(
+          config.endpoint.squeals + "/" + props.postid + "/comments"
+        );
+
+        const userinfo = await axiosInstance.get(
+          config.endpoint.users + "/" + res.data[0].author
+        );
+
+        res.data.forEach((comment) => {
+          comment.author = userinfo.data.username;
+          comment.createdAt =
+            comment.createdAt.split("T")[0] +
+            " " +
+            comment.createdAt.split("T")[1].split(".")[0];
+        });
+
+        setComments(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (props.postid) getComments();
+  }, [axiosInstance, props.postid]);
 
   function handlePostComment(event) {
     event.preventDefault();
-
-    console.log(event.target[0].value);
-    // Aggiungi commento al db
-    // Aggiorna i commenti
     const date = new Date();
-    setComments([
-      ...comments,
-      {
+
+    const commentobj = {
+      content: event.target[0].value,
+      createdAt:
+        date.toISOString().split("T")[0] + " " + date.toLocaleTimeString(),
+      author: sessionStorage.getItem("username"),
+    };
+
+    // console.log(event.target[0].value);
+    // Aggiungi commento al db
+    axiosInstance
+      .post(config.endpoint.squeals + "/" + props.postid + "/comments", {
+        userId: sessionStorage.getItem("userid"),
         content: event.target[0].value,
-        createdAt:
-          date.toISOString().split("T")[0] + " " + date.toLocaleTimeString(),
-        author: "user",
-      },
-    ]);
+      })
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    event.target[0].value = "";
+
+    setComments([...comments, commentobj]);
   }
 
   return (
@@ -76,6 +85,18 @@ function CommentsModal(props) {
       </Modal.Header>
       <Modal.Body>
         <ListGroup variant="flush">
+          {comments.length === 0 && (
+            <ListGroup.Item>
+              <p
+                className="text-center mb-0"
+                style={{
+                  color: theme.colors.lightgrey,
+                }}
+              >
+                Nessun commento
+              </p>
+            </ListGroup.Item>
+          )}
           {comments.map((comment, key) => (
             <ListGroup.Item key={key}>
               <div

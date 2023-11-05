@@ -6,6 +6,8 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
+- aggiunta api per le impression
+
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword

@@ -18,13 +18,11 @@ https://mui.com/material-ui/react-menu/
 
 - Fare una pagina pubblica dove posso vedere tutti i post pubblici di un utente, anche privati nel caso tu lo segua
 
-- Aggiustare grafica reazioni per mobile
+- Aggiustare grafica reazioni per mobile, finire di collegare le reazioni al backend
 
-- Fixare il pulsante di nuovo squeal
+- Fixare grafica del pulsante di nuovo squeal e tutti i bug della squeal box
 
 - Codificare il token che teniamo all'interno dell'app
-
-AIUTO
 
 - Aggiungere sezione dove admin possono decidere chi legge e chi scrive nei canali di cui sono proprietari
 

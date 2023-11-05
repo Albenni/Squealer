@@ -106,6 +106,7 @@ function Login() {
 
         // sessionStorage.setItem("token", response?.data?.accessToken);
         sessionStorage.setItem("userid", response?.data?.userid);
+        sessionStorage.setItem("username", loginobj.username);
 
         navigate(from, { replace: true });
       })
