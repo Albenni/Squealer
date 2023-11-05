@@ -2,7 +2,6 @@
 
 - Squeals filter by date non funzia
 - Squeals filter by squeal type da implementare
-- possibilità di logout
 - persistent login se vogliamo farlo
 
 Utenti:

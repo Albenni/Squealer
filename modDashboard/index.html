@@ -12,6 +12,7 @@
     <style>
       body {
         background-color: #121212; /* Colore di sfondo scuro */
+        color: white;
       }
 
       .card {
@@ -86,10 +87,10 @@
             method: "POST",
             data: { user: username, pwd: password },
             success: function (data) {
-              // Salva il token nella localStorage
+              // Salva il token nella sessionStorage
 
-              localStorage.setItem("token", data.accessToken);
-              console.log(localStorage.getItem("token"));
+              sessionStorage.setItem("token", data.accessToken);
+              console.log(sessionStorage.getItem("token"));
               // Reindirizza alla dashboard o alla pagina successiva
               window.location.href = "users.html";
             },

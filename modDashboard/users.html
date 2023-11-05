@@ -133,7 +133,7 @@
     <script>
       function isUserLoggedIn() {
         // Return true if logged in, false if not.
-        var token = localStorage.getItem("token");
+        var token = sessionStorage.getItem("token");
 
         return !(token === null);
       }
@@ -199,7 +199,7 @@
 
       $(document).ready(function () {
         if (!isUserLoggedIn()) {
-          // Il token non è presente nel localStorage, redirect alla pagina di login
+          // Il token non è presente nel sessionStorage, redirect alla pagina di login
           window.location.href = "./";
         }
         // Add event listeners to the filters
