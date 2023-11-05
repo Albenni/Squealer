@@ -31,3 +31,7 @@ https://mui.com/material-ui/react-menu/
 - Rendere sito accessibile
 
 - Aggiungere la possibilità di creare canali
+
+- Aggiungere nei post a quale canale/keyword appartengono o se sono semplicemente pubblici
+
+- Finire il passaggio al pro degli utenti
