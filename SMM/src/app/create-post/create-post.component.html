@@ -1,0 +1,17 @@
+<button type="button" class="btn btn-success" (click)="openPostModal(template)">Squeal</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Post a Squeal.</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        This is a modal.
+        {{characters.daily}}
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</ng-template>

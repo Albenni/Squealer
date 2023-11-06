@@ -21,6 +21,7 @@ import { VipSelectionComponent } from './vip-selection/vip-selection.component';
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 import { CharacterDisplayerComponent } from './character-displayer/character-displayer.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     VipSelectionComponent,
     CharacterDisplayerComponent,
     TopBarComponent,
+    CreatePostComponent,
   ],
   imports: [
     BrowserModule,
