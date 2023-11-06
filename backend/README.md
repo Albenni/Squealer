@@ -6,6 +6,8 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
+- Salva immagini nel database e crea il path
+
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword

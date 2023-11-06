@@ -94,8 +94,9 @@ function AccountPane({ user }) {
                 <Card.Text>
                   Caratteri disponibili: {user.charAvailable}
                 </Card.Text>
-                <Card.Text>Caratteri settimanali: ?</Card.Text>
-                <Card.Text>Caratteri giornalieri: ?</Card.Text>
+                <Card.Text>Caratteri giornalieri: {user.dailyChar}</Card.Text>
+                <Card.Text>Caratteri settimanali: {user.weeklyChar}</Card.Text>
+                <Card.Text>Caratteri mensili: {user.monthlyChar}</Card.Text>
               </Card.Body>
             </Card>
           </div>

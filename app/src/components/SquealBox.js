@@ -13,6 +13,8 @@ import config from "../config/config";
 
 import { useMediaQuery } from "react-responsive";
 
+import ErrorMessage from "./ErrorMessage";
+
 function SquealBox(props) {
   const axiosInstance = useAxiosPrivate();
 
@@ -40,6 +42,7 @@ function SquealBox(props) {
   const [disableinputtext, setDisableInputText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isAttachment, setIsAttachment] = useState(false);
+  const [wrongfiletype, setWrongFileType] = useState(false);
 
   useEffect(() => {
     async function getUser() {
@@ -119,6 +122,7 @@ function SquealBox(props) {
     //   alert("File too big!");
     //   return;
     // }
+    setWrongFileType(false);
 
     // if the event is not given (e.g. when the user cancels the file selection), return
     if (!event.target.files[0]) {
@@ -132,7 +136,7 @@ function SquealBox(props) {
       !event.target.files[0].type.includes("image") &&
       !event.target.files[0].type.includes("video")
     ) {
-      alert("Wrong file type, only images or video are allowed!");
+      setWrongFileType(true);
       return (event.target.value = null);
     }
 
@@ -140,13 +144,13 @@ function SquealBox(props) {
       event.target.files[0].type.includes("image") &&
       postAttach !== "Immagine"
     ) {
-      alert("Wrong file type, not an image!");
+      setWrongFileType(true);
       return (event.target.value = null);
     } else if (
       event.target.files[0].type.includes("video") &&
       postAttach !== "Video"
     ) {
-      alert("Wrong file type, not a video!");
+      setWrongFileType(true);
       return (event.target.value = null);
     }
 
@@ -267,6 +271,12 @@ function SquealBox(props) {
               />
             </div>
             <div className="container-fluid">
+              <ErrorMessage
+                visible={wrongfiletype}
+                error={
+                  "Tipo di file non consentito, puoi selezionare solo video e immagini!"
+                }
+              />
               <InputGroup className="mb-3">
                 <Form.Control
                   placeholder={"Inserisci URL " + postAttach}
