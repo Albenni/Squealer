@@ -7,13 +7,12 @@ import { Form, InputGroup, Button, Modal } from "react-bootstrap";
 
 import AttachPreview from "./AttachPreview";
 import ChannelSelector from "./ChannelSelector";
+import ErrorMessage from "./ErrorMessage";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
 import { useMediaQuery } from "react-responsive";
-
-import ErrorMessage from "./ErrorMessage";
 
 function SquealBox(props) {
   const axiosInstance = useAxiosPrivate();
@@ -24,16 +23,15 @@ function SquealBox(props) {
   const [user, setUser] = useState({});
 
   // Form variables
-  const [postChannel, setPostChannel] = useState("Scrivi il tuo destinatario");
+  const [isPublic, setIsPublic] = useState(true);
+  const [squealchannel, setSquealChannel] = useState([]);
   const [postAttach, setPostAttach] = useState("Immagine");
 
   // Squeal variables
-  const [squealchannel, setSquealChannel] = useState([]);
   const [squealtext, setSquealText] = useState("");
   const [squealimage, setSquealImage] = useState("");
   const [squealvideo, setSquealVideo] = useState("");
   const [squealfile, setSquealFile] = useState(null);
-
   const [squeallocation, setSquealLocation] = useState(null);
 
   // Control variables
@@ -65,7 +63,13 @@ function SquealBox(props) {
 
     props.setShowBox(false);
 
-    console.log(squealchannel);
+    if (isPublic) {
+      console.log("Squeal pubblico");
+    } else {
+      console.log("Squeal privato");
+      console.log(squealchannel);
+    }
+
     console.log(squealimage);
     console.log(squealvideo);
     console.log(squeallocation);
@@ -265,18 +269,20 @@ function SquealBox(props) {
             className={isMobile ? "container-fluid pt-5" : "container-fluid"}
           >
             <div className="container-fluid">
-              <ChannelSelector
-                squealchannel={squealchannel}
-                setSquealChannel={setSquealChannel}
-              />
-            </div>
-            <div className="container-fluid">
               <ErrorMessage
                 visible={wrongfiletype}
                 error={
                   "Tipo di file non consentito, puoi selezionare solo video e immagini!"
                 }
               />
+              <ChannelSelector
+                isPublic={isPublic}
+                setIsPublic={setIsPublic}
+                squealchannel={squealchannel}
+                setSquealChannel={setSquealChannel}
+              />
+            </div>
+            <div className="container-fluid">
               <InputGroup className="mb-3">
                 <Form.Control
                   placeholder={"Inserisci URL " + postAttach}

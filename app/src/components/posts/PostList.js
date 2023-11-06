@@ -33,7 +33,7 @@ function PostList({ getposts }) {
         if (!allowedContentTypes.includes(item.contentType)) {
           return (
             <p
-              key={item.id}
+              key={key}
               style={{
                 color: theme.colors.white,
                 backgroundColor: theme.colors.bg2New,

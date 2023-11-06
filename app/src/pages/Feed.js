@@ -3,6 +3,8 @@ import theme from "../config/theme";
 
 import { useState, useEffect } from "react";
 
+import { Spinner } from "react-bootstrap";
+
 import { PlusCircleFill } from "react-bootstrap-icons";
 
 import SquealBox from "../components/SquealBox";
@@ -19,29 +21,56 @@ function Feed() {
   const [showbox, setShowBox] = useState(false);
   const [successfullSqueal, setSuccessfullSqueal] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [pageBottom, setPageBottom] = useState(false);
+  const [postindex, setPostIndex] = useState(0);
+  const [postend, setPostEnd] = useState(false);
 
   const axiosInstance = useAxiosPrivate();
+
+  window.onscroll = function () {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (postend) return;
+      setPageBottom(true);
+
+      setTimeout(() => {
+        setPageBottom(false);
+      }, 2000);
+    }
+  };
 
   useEffect(() => {
     const userid = sessionStorage.getItem("userid");
 
-    if (userid) {
+    if (userid && pageBottom === false) {
+      console.log("GETTING POSTS");
       axiosInstance
-        .get(config.endpoint.feed)
+        .get(config.endpoint.feed + "?index=" + postindex)
         .then((response) => {
+          if (response.status === 204) {
+            setPostEnd(true);
+            return;
+          }
+          setPostEnd(false);
+          setPosts([...posts, ...response.data]);
+          setPostIndex(postindex + 1);
+          console.log(postindex);
           console.log(response.data);
-          setPosts(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
-    } else {
+    } else if (userid === "guest" && pageBottom === false) {
       alert("SEI UN GUEST");
     }
-  }, []);
+  }, [pageBottom]);
 
   return (
-    <>
+    <div
+      style={{
+        backgroundColor: theme.colors.bgdark,
+        minHeight: "100vh",
+      }}
+    >
       <SquealBox
         show={showbox}
         setShowBox={setShowBox}
@@ -95,8 +124,14 @@ function Feed() {
             </div>
           </div>
         )}
+
+        {pageBottom && (
+          <div className="d-flex mx-auto justify-content-center">
+            <Spinner animation="border" variant="light" />
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
