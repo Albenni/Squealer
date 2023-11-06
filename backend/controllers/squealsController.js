@@ -6,14 +6,26 @@ const constants = require("../config/constants");
 
 //solo quelli pubblici
 const getAllSquealsByUser = async (req, res) => {
+  const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
+  let index = 0;
+  if (!isNaN(req?.query?.index)) {
+    index = parseInt(req.query.index);
+  }
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "Invalid user ID" });
 
   const squeals = await Squeal.find({
     author: req.params.userId,
     publicSqueal: true,
-  }).exec();
+  })
+    .skip(squealLengthBlock * index)
+    .limit(squealLengthBlock * (index + 1))
+    .exec();
 
+  squeals.map((squeal) => {
+    squeal.impression += 1;
+    squeal.save();
+  });
   if (!squeals?.length)
     return res.status(204).json({ message: "No squeals found" });
 
@@ -21,14 +33,27 @@ const getAllSquealsByUser = async (req, res) => {
 };
 
 const getAllSquealsInChannel = async (req, res) => {
+  const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
+  let index = 0;
+  if (!isNaN(req?.query?.index)) {
+    index = parseInt(req.query.index);
+  }
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Invalid channel ID" });
 
   const squeals = await Squeal.find({
     group: req.params.channelId,
     squealType: "Channel",
-  }).exec();
+    publicSqueal: false,
+  })
+    .skip(squealLengthBlock * index)
+    .limit(squealLengthBlock * (index + 1))
+    .exec();
 
+  squeals.map((squeal) => {
+    squeal.impression += 1;
+    squeal.save();
+  });
   if (!squeals?.length) {
     return res.status(204).json({ message: "No squeals found" });
   }
@@ -37,14 +62,27 @@ const getAllSquealsInChannel = async (req, res) => {
 };
 
 const getAllSquealsInKeyword = async (req, res) => {
+  const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
+  let index = 0;
+  if (!isNaN(req?.query?.index)) {
+    index = parseInt(req.query.index);
+  }
   if (!mongoose.Types.ObjectId.isValid(req?.params?.keywordId))
     return res.status(400).json({ message: "Invalid keyword ID" });
 
   const squeals = await Squeal.find({
     group: req.params.keywordId,
     squealType: "Keyword",
-  }).exec();
+    publicSqueal: false,
+  })
+    .skip(squealLengthBlock * index)
+    .limit(squealLengthBlock * (index + 1))
+    .exec();
 
+  squeals.map((squeal) => {
+    squeal.impression += 1;
+    squeal.save();
+  });
   if (!squeals?.length) {
     return res.status(204).json({ message: "No squeals found" });
   }
