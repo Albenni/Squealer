@@ -139,10 +139,24 @@
 
       // Function to fetch message data
       function fetchMessageData() {
-        $.get("squeals.json", function (data) {
-          // Store message data and populate the message list
-          messagesData = data;
-          populateMessageList(messagesData);
+        $.ajax({
+          url: "http://localhost:3500/squeals",
+          method: "GET",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+              "Authorization",
+              "Bearer " + sessionStorage.getItem("token")
+            );
+          },
+          success: function (data) {
+            messagesData = data;
+            populateMessageList(messagesData);
+          },
+          error: function (xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            alert("Impossibile caricare i messaggi.");
+          },
         });
       }
 
@@ -165,13 +179,14 @@
             ($("#dateFilter").val() === "" ||
               new Date(message.data).getTime() === dateFilter) &&
             (squealType === "" ||
-              message.group.toLowerCase().includes(squealType))
+              message.squealType?.toLowerCase().includes(squealType) ||
+              (squealType === "public" && message.publicSqueal))
           ) {
             messageList.append(
               "<tr><td>" +
                 message.author +
                 "</td><td>" +
-                message.group +
+                (message.publicSqueal ? "Public" : message.squealType) +
                 "</td><td>" +
                 message.content +
                 "</td><td>" +

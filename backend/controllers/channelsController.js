@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 const Admin = require("../models/Admin");
-const Squeal = require("../models/Squeal");
 const User = require("../models/User");
 
 const createChannel = async (req, res) => {

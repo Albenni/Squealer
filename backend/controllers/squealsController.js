@@ -4,6 +4,17 @@ const Squeal = require("../models/Squeal");
 const Reaction = require("../models/Reaction");
 const constants = require("../config/constants");
 
+const searchSqueal = async (req, res) => {
+  if (!req.authorized) return res.sendStatus(403);
+  if (!req.isMod) return res.sendStatus(403);
+
+  const squeals = await Squeal.find({});
+
+  if (!squeals?.length)
+    return res.status(204).json({ message: "No squeals found" });
+  res.status(200).json(squeals);
+};
+
 //solo quelli pubblici
 const getAllSquealsByUser = async (req, res) => {
   const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
@@ -308,6 +319,7 @@ const removeReceiver = async (req, res) => {
 };
 
 module.exports = {
+  searchSqueal,
   getAllSquealsByUser,
   getAllSquealsInChannel,
   getAllSquealsInKeyword,

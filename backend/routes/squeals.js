@@ -3,6 +3,8 @@ const router = express.Router();
 const squealsController = require("../controllers/squealsController");
 const commentsController = require("../controllers/commentsController");
 
+router.route("/").get(squealsController.searchSqueal);
+
 router.route("/:squealId").delete(squealsController.deleteSqueal);
 
 router

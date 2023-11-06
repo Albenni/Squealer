@@ -139,10 +139,29 @@
       let channelsData = []; // To store the channel data
       // Function to fetch channel data
       function fetchChannelData() {
-        $.get("channels.json", function (data) {
-          // Store channel data and populate the channel list
-          channelsData = data;
-          populateChannelList(channelsData);
+        // $.get("channels.json", function (data) {
+        //   // Store channel data and populate the channel list
+        //   channelsData = data;
+        //   populateChannelList(channelsData);
+        // });
+        $.ajax({
+          url: "http://localhost:3500/channels",
+          method: "GET",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+              "Authorization",
+              "Bearer " + sessionStorage.getItem("token")
+            );
+          },
+          success: function (data) {
+            channelsData = data;
+            populateChannelList(channelsData);
+          },
+          error: function (xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            alert("Impossibile caricare i messaggi.");
+          },
         });
       }
 
