@@ -285,7 +285,7 @@ const upgradeToProfessional = async (req, res) => {
 
   try {
     const result = await User.findByIdAndUpdate(
-      { _id: req.id },
+      req.id,
       { professional: true },
       { new: true }
     );
