@@ -241,12 +241,12 @@ const updateProfilePic = async (req, res) => {
   if (!req.files) return res.status(400).json({ message: "no file uploaded" });
 
   try {
-    const avatar = req.files?.profilePic;
-    const extension = avatar?.name.slice(
-      ((avatar?.name.lastIndexOf(".") - 1) >>> 0) + 2
-    );
+    const file = req.files?.profilePic;
+    const extension =
+      "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
+
     //Crea il file con ObjectId dell'utente come nome
-    avatar.mv("./public/profilePic/" + req.params.userId + "." + extension);
+    file.mv("./public/profilePic/" + req.params.userId + extension);
     await User.findByIdAndUpdate(req.params.userId, { profilePic: extension });
     res.status(200).json({ message: "file uploaded" });
   } catch (error) {
