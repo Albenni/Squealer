@@ -13,6 +13,7 @@ const connectDB = require("./config/dbConn");
 const cron = require("node-cron");
 const PORT = process.env.PORT || 3500;
 const User = require("./models/User");
+const fileupload = require("express-fileupload");
 
 mongoose.set("strictQuery", false);
 
@@ -35,8 +36,12 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 
+//middleware for file upload
+app.use(fileupload());
+
 //serve static files
 app.use("/", express.static(path.join(__dirname, "/public")));
+// app.use(express.static('uploads'));
 
 // routes
 app.use("/", require("./routes/root"));

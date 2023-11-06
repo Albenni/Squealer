@@ -232,44 +232,23 @@ const updateEmail = async (req, res) => {
   }
 };
 
-// Body {newprofilepicture: string}
+// profilePic -> nome file da caricare
 const updateProfilePic = async (req, res) => {
   if (!req.authorized) return res.status(403);
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
 
-  const { newprofilepicture } = req.body;
-
-  if (!newprofilepicture)
-    return res.status(400).json({ message: "Missing profile picture" });
-
-  // Controllo che l'immagine sia valida (il MIME type deve essere image)
-  let isValid = false;
-  await fetch(newprofilepicture).then((res) => {
-    const contentType = res.headers.get("content-type");
-    isValid = contentType?.startsWith("image");
-  });
-
-  if (!isValid) return res.status(400).json({ message: "Invalid image" });
-
-  console.log(newprofilepicture);
+  if (!req.files) return res.status(400).json({ message: "no file uploaded" });
 
   try {
-    // Aggiorno e ritorno lo user aggiornato
-    const result = await User.findByIdAndUpdate(
-      req.params.userId,
-      { profilePic: newprofilepicture },
-      { new: true }
-    ).exec();
-
-    console.log(result);
-
-    if (!result)
-      return res
-        .status(404)
-        .json({ message: `User ID ${req.params.userId} not found` });
-
-    res.json(result);
+    const avatar = req.files?.profilePic;
+    const extension = avatar?.name.slice(
+      ((avatar?.name.lastIndexOf(".") - 1) >>> 0) + 2
+    );
+    //Crea il file con ObjectId dell'utente come nome
+    avatar.mv("./public/profilePic/" + req.params.userId + "." + extension);
+    await User.findByIdAndUpdate(req.params.userId, { profilePic: extension });
+    res.status(200).json({ message: "file uploaded" });
   } catch (error) {
     console.log(error);
     res.json({ message: error });
