@@ -8,10 +8,16 @@
         </button>
     </div>
     <div class="modal-body">
-        This is a modal.
-        {{characters.daily}}
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">@</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                aria-describedby="basic-addon1" />
+        </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer pull-right">
+        <p>Caratteri giornalieri rimanenti: {{characters.daily}} / 1000</p>
+        <p>Caratteri settimanali rimanenti: {{characters.weekly}} / 6000 </p>
+        <p>Caratteri mensili rimanenti: {{characters.monthly}} / 22000</p>
 
     </div>
 </ng-template>

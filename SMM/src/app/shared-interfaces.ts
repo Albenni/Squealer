@@ -9,9 +9,9 @@ export interface UserData {
 
 export interface GetCharsResponse {
   _id: string;
-  dailyChars: number;
-  monthlyChars: number;
-  weeklyChars: number;
+  dailyChar: number;
+  monthlyChar: number;
+  weeklyChar: number;
 }
 export interface Characters {
   daily: number;

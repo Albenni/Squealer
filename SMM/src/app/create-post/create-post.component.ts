@@ -48,9 +48,12 @@ export class CreatePostComponent {
         })
       )
       .subscribe((data) => {
-        this.characters.daily = data.dailyChars;
-        this.characters.weekly = data.weeklyChars;
-        this.characters.monthly = data.monthlyChars;
+        console.log(data);
+        this.characters.daily = data.dailyChar;
+        this.characters.weekly = data.weeklyChar;
+        this.characters.monthly = data.monthlyChar;
+
+        console.log(this.characters);
       });
   }
 }

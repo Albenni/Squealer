@@ -61,9 +61,9 @@ export class DashboardComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        this.characters.daily = data.dailyChars;
-        this.characters.weekly = data.weeklyChars;
-        this.characters.monthly = data.monthlyChars;
+        this.characters.daily = data.dailyChar;
+        this.characters.weekly = data.weeklyChar;
+        this.characters.monthly = data.monthlyChar;
       });
   }
 

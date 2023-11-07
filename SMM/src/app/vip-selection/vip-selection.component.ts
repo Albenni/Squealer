@@ -46,7 +46,6 @@ export class VipSelectionComponent {
         })
       )
       .subscribe((data) => {
-        data.map((item) => console.log(item));
         this.vipIds = data.map((item: any) => item.vipId);
 
         this.vipIds.forEach((id) => {
@@ -81,7 +80,6 @@ export class VipSelectionComponent {
       return;
     } else {
       this.sharedService.selectedVipUsername = this.selectedAccount;
-      console.log(this.sharedService.selectedVipUsername);
 
       //devo riassociare l'id corrispondente a quello username
 
