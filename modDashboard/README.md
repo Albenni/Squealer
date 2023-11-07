@@ -1,7 +1,9 @@
 ## MODERATOR DASHBOARD:
 
-- Squeals filter by date non funzia
 - persistent login se vogliamo farlo
+- Bottone per bloccare/sbloccare un utente (verificare che nel backend sia tutto ok)
+- Bottone per aumentare i caratteri + api nel backend
+- Da sistemare tutta la parte dei canali
 - caricare squeals a blocchi (users e channels???)
 
 Utenti:

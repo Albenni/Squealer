@@ -137,13 +137,8 @@
       });
 
       let channelsData = []; // To store the channel data
-      // Function to fetch channel data
+
       function fetchChannelData() {
-        // $.get("channels.json", function (data) {
-        //   // Store channel data and populate the channel list
-        //   channelsData = data;
-        //   populateChannelList(channelsData);
-        // });
         $.ajax({
           url: "http://localhost:3500/channels",
           method: "GET",
@@ -165,7 +160,6 @@
         });
       }
 
-      // Function to populate the channel list
       function populateChannelList(channels) {
         const nameFilter = $("#nameFilter").val().toLowerCase();
         const privateFilter = $("#privateFilter").val();

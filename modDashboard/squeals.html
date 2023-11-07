@@ -164,7 +164,9 @@
       function populateMessageList(messages) {
         const authorFilter = $("#authorFilter").val().toLowerCase();
         const contentTypeFilter = $("#contentTypeFilter").val();
-        const dateFilter = new Date($("#dateFilter").val()).toLocaleString();
+        const dateFilter = new Date(
+          $("#dateFilter").val()
+        ).toLocaleDateString();
         const squealType = $("#squealType").val().toLowerCase();
 
         const messageList = $("#messageList");
@@ -177,7 +179,8 @@
             (contentTypeFilter === "" ||
               message.contentType === contentTypeFilter) &&
             ($("#dateFilter").val() === "" ||
-              new Date(message.data).getTime() === dateFilter) &&
+              new Date(message.createdAt).toLocaleDateString() ===
+                dateFilter) &&
             (squealType === "" ||
               message.squealType?.toLowerCase().includes(squealType) ||
               (squealType === "public" && message.publicSqueal))
@@ -194,7 +197,7 @@
                 "</td><td>" +
                 message.impression +
                 "</td><td>" +
-                new Date(message.data).toLocaleString() +
+                new Date(message.createdAt).toLocaleDateString() +
                 "</td></tr>"
             );
           }
