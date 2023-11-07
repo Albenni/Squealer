@@ -246,7 +246,7 @@ const updateProfilePic = async (req, res) => {
       "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
 
     //Crea il file con ObjectId dell'utente come nome
-    file.mv("./public/profilePic/" + req.params.userId + extension);
+    file.mv("./public/" + req.params.userId + extension);
     await User.findByIdAndUpdate(req.params.userId, { profilePic: extension });
     res.status(200).json({ message: "file uploaded" });
   } catch (error) {
