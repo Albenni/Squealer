@@ -434,7 +434,7 @@ const blockSblock = async (req, res) => {
 
   try {
     const user = await User.findById(req.params.userId);
-    user.blocked = !user?.blocked;
+    user.blocked = !user.blocked;
     user.save();
 
     res.status(200).json({ message: "User updated" });
