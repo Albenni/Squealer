@@ -22,3 +22,16 @@ export interface Characters {
   weekly: number;
   monthly: number;
 }
+
+export interface GetSquealsResponse {
+  _id: string;
+  author: string;
+  publicSqueal: boolean;
+  group: string[];
+  officialChannel: boolean;
+  content: string;
+  contentType: string;
+  impression: number;
+  createdAt: string;
+  __v: number;
+}

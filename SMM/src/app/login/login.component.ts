@@ -66,14 +66,9 @@ export class LoginComponent {
         })
       )
       .subscribe((data) => {
-        console.log('Login successful:', data);
-
         this.sharedService.smmUsername = this.userData.user;
         this.sharedService.accessToken = data.accessToken;
         this.sharedService.smmId = data.userid;
-
-        console.log(this.sharedService.accessToken);
-
         this.router.navigate(['/vipSelection']);
       });
   }

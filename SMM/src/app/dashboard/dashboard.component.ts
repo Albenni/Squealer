@@ -47,15 +47,12 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.vipId);
-
     this.http
       .get<GetCharsResponse>(
         'http://localhost:3500/users/' + this.vipId + '/charAvailable'
       )
       .pipe(
         catchError((error: any) => {
-          // Gestisci l'errore qui
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');
         })
