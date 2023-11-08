@@ -7,6 +7,10 @@ export interface UserData {
   username: string;
 }
 
+export interface RefreshTokenResponse {
+  accessToken: string;
+}
+
 export interface GetCharsResponse {
   _id: string;
   dailyChar: number;

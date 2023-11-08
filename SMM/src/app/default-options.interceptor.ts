@@ -4,15 +4,21 @@ import {
   HttpHandler,
   HttpRequest,
   HttpErrorResponse,
+  HttpClient,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { SharedService } from './shared.service';
 import { Injectable } from '@angular/core';
-import { catchError, throwError, switchMap } from 'rxjs';
+import { catchError, throwError, switchMap, map } from 'rxjs';
+
+import { jwtDecode } from 'jwt-decode';
+import { RefreshTokenResponse } from './shared-interfaces';
 
 @Injectable()
 export class DefaultOptionsInterceptor implements HttpInterceptor {
-  constructor(private sharedService: SharedService) {}
+  private isRefreshing = false;
+
+  constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -25,44 +31,67 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
       withCredentials: true,
     };
 
-    const modifiedRequest = request.clone(httpOptions);
-
-    return next.handle(modifiedRequest).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error?.status == 403) {
-          return this.refreshTokenMethod(request, next);
-        } else {
-          return throwError(() => error);
-        }
+    return from(this.checkToken(httpOptions)).pipe(
+      switchMap(() => {
+        const modifiedRequest = request.clone(httpOptions);
+        return next.handle(modifiedRequest);
       })
     );
   }
 
-  refreshTokenMethod(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    return this.sharedService.refreshToken().pipe(
-      switchMap((newAccessToken: string) => {
-        // Se hai ottenuto con successo un nuovo token di accesso
-        // Aggiorna il token nell'oggetto SharedService
-        this.sharedService.accessToken = newAccessToken;
+  async checkToken(httpOptions: any) {
+    if (
+      this.isTokenExpired(this.sharedService.accessToken) &&
+      !this.isRefreshing
+    ) {
+      this.isRefreshing = true;
+      await this.refreshToken(httpOptions);
+    }
+  }
 
-        // Clona la richiesta originale e aggiorna l'intestazione dell'autorizzazione
-        const modifiedRequest = request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${newAccessToken}`,
-          },
-        });
+  refreshToken(httpOptions: any): Promise<void> {
+    return this.http
+      .get<RefreshTokenResponse>('http://localhost:3500/refresh/')
+      .pipe(
+        catchError((error: any) => {
+          // Handle token refresh error here
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        }),
+        map((data) => {
+          this.sharedService.accessToken = data.accessToken;
+          httpOptions.headers = httpOptions.headers.set(
+            'Authorization',
+            `Bearer ${this.sharedService.accessToken}`
+          );
+        }),
+        switchMap(() => {
+          this.isRefreshing = false;
+          return from(Promise.resolve()); // Return a resolved promise to match the return type
+        })
+      )
+      .toPromise();
+  }
 
-        // Riprova la richiesta originale con il nuovo token
-        return next.handle(modifiedRequest);
-      }),
-      catchError((error: HttpErrorResponse) => {
-        // Gestisci eventuali errori durante il refresh del token
-        // Esempio: logout dell'utente, reindirizzamento alla pagina di login, ecc.
-        return throwError(error);
-      })
-    );
+  isTokenExpired(token: string): boolean {
+    try {
+      if (!token) {
+        return false;
+      }
+
+      const tokenData = jwtDecode(token);
+
+      if (!tokenData || !tokenData.exp) {
+        return true;
+      }
+
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      // se è scaduto ritorna true
+      return tokenData.exp < currentTime;
+    } catch (error) {
+      console.log('Errore in isTokenExpired');
+      return true;
+    }
   }
 }

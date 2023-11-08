@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,13 +26,5 @@ export class SharedService {
   public weeklyChar: string = '';
   public monthlyChar: string = '';
 
-  constructor(private http: HttpClient) {}
-
-  refreshToken(): Observable<string> {
-    return this.http.get<string>('http://localhost:3500/refresh/').pipe(
-      map((data: any) => {
-        return data.accessToken;
-      })
-    );
-  }
+  constructor() {}
 }
