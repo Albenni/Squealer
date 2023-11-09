@@ -15,7 +15,6 @@ import { DefaultOptionsInterceptor } from './default-options.interceptor';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PostComponent } from './post/post.component';
 import { UserItemComponent } from './user-item/user-item.component';
 import { VipSelectionComponent } from './vip-selection/vip-selection.component';
 import { CharacterDisplayerComponent } from './character-displayer/character-displayer.component';
@@ -28,7 +27,6 @@ import { FeedComponent } from './feed/feed.component';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    PostComponent,
     UserItemComponent,
     VipSelectionComponent,
     CharacterDisplayerComponent,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
 import { GetSquealsResponse } from '../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, throwError, map } from 'rxjs';
 
 @Component({
   selector: 'app-feed',
@@ -11,6 +11,7 @@ import { catchError, throwError } from 'rxjs';
 })
 export class FeedComponent {
   //squeals: GetSquealsResponse[] = [];
+
   squeals: GetSquealsResponse[] = [
     {
       _id: '6548e23a7faecfb150cfd657',
@@ -34,6 +35,19 @@ export class FeedComponent {
       contentType: 'image',
       impression: 8,
       createdAt: '2023-11-06T12:55:37.362Z',
+      __v: 0,
+    },
+    {
+      _id: '654d04b3404cbfb491706a5f',
+      author: '651d64ffba243e0813e502dd',
+      publicSqueal: true,
+      group: [],
+      officialChannel: false,
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      contentType: 'text',
+      impression: 1,
+      createdAt: '2023-11-09T16:11:31.950Z',
       __v: 0,
     },
     {
@@ -62,6 +76,15 @@ export class FeedComponent {
     },
   ];
 
+  //squealsDate: string[] = [];
+  squealsDate: string[] = [
+    'Domenica, 6 Novembre 2023',
+    'Domenica, 6 Novembre 2023',
+    'Domenica, 6 Novembre 2023',
+    'Martedì, 8 Novembre 2023',
+    'Mercoledì, 9 Novembre 2023',
+  ];
+
   constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   ngOnInit() {
@@ -78,8 +101,49 @@ export class FeedComponent {
         })
       )
       .subscribe((data) => {
-        // this.squeals = data;
-        console.log(this.squeals);
+        /*
+        this.squeals = data;
+
+        data.forEach((item, index) => {
+          this.convertDate(item.createdAt, index);
+        });
+        */
       });
+  }
+
+  convertDate(date: string, index: number) {
+    const inputDate = new Date(date);
+    const daysOfWeek = [
+      'Domenica',
+      'Lunedì',
+      'Martedì',
+      'Mercoledì',
+      'Giovedì',
+      'Venerdì',
+      'Sabato',
+    ];
+    const months = [
+      'Gennaio',
+      'Febbraio',
+      'Marzo',
+      'Aprile',
+      'Maggio',
+      'Giugno',
+      'Luglio',
+      'Agosto',
+      'Settembre',
+      'Ottobre',
+      'Novembre',
+      'Dicembre',
+    ];
+
+    const dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
+    const day = inputDate.getUTCDate();
+    const month = months[inputDate.getUTCMonth()];
+    const year = inputDate.getUTCFullYear();
+
+    const formattedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
+
+    this.squealsDate[index] = formattedDate;
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PostComponent } from '../post/post.component';
 import { UserItemComponent } from '../user-item/user-item.component';
 import { SharedService } from '../shared.service';
 import { Router } from '@angular/router';
@@ -33,12 +32,11 @@ export class DashboardComponent implements OnInit {
   vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
  */
   vipUsername: string = this.sharedService.selectedVipUsername;
+
   vipId = this.sharedService.selectedVipId;
 
   vipsUsernames: string[] = this.sharedService.vipUsernames;
   vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
-
-  posts$: Observable<any[]> | undefined;
 
   constructor(
     private http: HttpClient,
