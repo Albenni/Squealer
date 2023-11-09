@@ -7,17 +7,17 @@ import { Card, Button, Tab, Nav, Accordion } from "react-bootstrap";
 import { ChevronDown } from "react-bootstrap-icons";
 
 import TopBar from "../components/TopBar";
-import DeleteModal from "../components/DeleteModal";
-import AccountPane from "../components/AccountPane";
-import EditAccountPane from "../components/EditAccount";
+import DeleteModal from "../components/settings/DeleteModal";
+import AccountPane from "../components/settings/AccountPane";
+import EditAccountPane from "../components/settings/EditAccount";
 
-import ShopPane from "../components/ShopPane";
+import ShopPane from "../components/settings/ShopPane";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
 function SettingsPage() {
-  const userapi = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
   const endpoint = config.endpoint.users + "/";
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -32,7 +32,7 @@ function SettingsPage() {
   useEffect(() => {
     const userId = sessionStorage.getItem("userid");
 
-    userapi
+    axiosInstance
       .get(endpoint + userId)
       .then((res) => {
         console.log(res.data);
@@ -42,7 +42,7 @@ function SettingsPage() {
       .catch((err) => {
         console.log(err);
       });
-  }, [userapi, endpoint]);
+  }, [axiosInstance, endpoint]);
 
   function handleCheckDelete() {
     setShowDelete(true);
@@ -51,7 +51,7 @@ function SettingsPage() {
   function handleDelete() {
     const userId = sessionStorage.getItem("userid");
 
-    userapi
+    axiosInstance
       .delete(endpoint + userId)
       .then((res) => {
         // console.log(res.data);
@@ -229,7 +229,7 @@ function SettingsPage() {
                   <EditAccountPane />
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
-                  <ShopPane />
+                  <ShopPane user={user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fourth">
                   <div

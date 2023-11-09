@@ -265,92 +265,106 @@ function SquealBox(props) {
               <p>Numero caratteri giornalieri: {user.dailyChar}</p>
             </div>
           )}
-          <InputGroup
-            className={isMobile ? "container-fluid pt-5" : "container-fluid"}
-          >
-            <div className="container-fluid">
-              <ErrorMessage
-                visible={wrongfiletype}
-                error={
-                  "Tipo di file non consentito, puoi selezionare solo video e immagini!"
-                }
-              />
-              <ChannelSelector
-                isPublic={isPublic}
-                setIsPublic={setIsPublic}
-                squealchannel={squealchannel}
-                setSquealChannel={setSquealChannel}
-              />
+
+          {user.dailyChar === 0 ? (
+            <div className={isMobile ? " pt-5 text-center" : "text-center"}>
+              <h5>
+                Aspetta domani per postare un nuovo squeal, oppure acquista
+                caratteri extra!
+              </h5>
             </div>
-            <div className="container-fluid">
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder={"Inserisci URL " + postAttach}
-                  aria-label="With textarea"
-                  aria-describedby="Attachment"
-                  onChange={handleAttachmentLink}
-                  disabled={isAttachment}
-                />
-                <div className="col-m-2">
-                  <Form.Select
-                    aria-label="SelectAttachment"
-                    onChange={handleSelectAttachment}
-                    style={{
-                      backgroundColor: "#e9ecef",
-                      textAlign: "center",
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                    }}
+          ) : (
+            <>
+              <InputGroup
+                className={
+                  isMobile ? "container-fluid pt-5" : "container-fluid"
+                }
+              >
+                <div className="container-fluid">
+                  <ErrorMessage
+                    visible={wrongfiletype}
+                    error={
+                      "Tipo di file non consentito, puoi selezionare solo video e immagini!"
+                    }
+                  />
+                  <ChannelSelector
+                    isPublic={isPublic}
+                    setIsPublic={setIsPublic}
+                    squealchannel={squealchannel}
+                    setSquealChannel={setSquealChannel}
+                  />
+                </div>
+                <div className="container-fluid">
+                  <InputGroup className="mb-3">
+                    <Form.Control
+                      placeholder={"Inserisci URL " + postAttach}
+                      aria-label="With textarea"
+                      aria-describedby="Attachment"
+                      onChange={handleAttachmentLink}
+                      disabled={isAttachment}
+                    />
+                    <div className="col-m-2">
+                      <Form.Select
+                        aria-label="SelectAttachment"
+                        onChange={handleSelectAttachment}
+                        style={{
+                          backgroundColor: "#e9ecef",
+                          textAlign: "center",
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                        }}
+                      >
+                        <option value="Immagine">Image</option>
+                        <option value="Video">Video</option>
+                        <option value="Geolocation">Location</option>
+                      </Form.Select>
+                    </div>
+                  </InputGroup>
+
+                  <Form.Group
+                    controlId="formFile"
+                    className="mb-3"
+                    hidden={islocation}
                   >
-                    <option value="Immagine">Image</option>
-                    <option value="Video">Video</option>
-                    <option value="Geolocation">Location</option>
-                  </Form.Select>
+                    <Form.Label>oppure</Form.Label>
+
+                    <Form.Control
+                      type="file"
+                      disabled={isLink}
+                      onChange={handleCustomAttachment}
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className="container-fluid">
+                  <AttachPreview
+                    setSquealLocation={setSquealLocation}
+                    iscustom={isAttachment}
+                    type={postAttach}
+                    image={squealimage}
+                    video={squealvideo}
+                    location={squeallocation}
+                    file={squealfile}
+                  />
+                </div>
+
+                <div
+                  className="container-fluid"
+                  disabled={disableinputtext}
+                  aria-disabled={disableinputtext}
+                >
+                  <InputGroup>
+                    <InputGroup.Text>Scrivi il tuo squeal</InputGroup.Text>
+                    <Form.Control
+                      as="textarea"
+                      aria-label="Squeal textarea"
+                      onChange={handleCharacterLimit}
+                    />
+                  </InputGroup>
                 </div>
               </InputGroup>
-
-              <Form.Group
-                controlId="formFile"
-                className="mb-3"
-                hidden={islocation}
-              >
-                <Form.Label>oppure</Form.Label>
-
-                <Form.Control
-                  type="file"
-                  disabled={isLink}
-                  onChange={handleCustomAttachment}
-                />
-              </Form.Group>
-            </div>
-
-            <div className="container-fluid">
-              <AttachPreview
-                setSquealLocation={setSquealLocation}
-                iscustom={isAttachment}
-                type={postAttach}
-                image={squealimage}
-                video={squealvideo}
-                location={squeallocation}
-                file={squealfile}
-              />
-            </div>
-
-            <div
-              className="container-fluid"
-              disabled={disableinputtext}
-              aria-disabled={disableinputtext}
-            >
-              <InputGroup>
-                <InputGroup.Text>Scrivi il tuo squeal</InputGroup.Text>
-                <Form.Control
-                  as="textarea"
-                  aria-label="Squeal textarea"
-                  onChange={handleCharacterLimit}
-                />
-              </InputGroup>
-            </div>
-          </InputGroup>
+            </>
+          )}
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -362,6 +376,7 @@ function SquealBox(props) {
             variant="success"
             onClick={handleSqueal}
             style={{ fontWeight: "bold" }}
+            disabled={currentchars <= 0 || user.dailyChar === 0}
           >
             Squeal
           </Button>

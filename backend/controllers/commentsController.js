@@ -9,6 +9,10 @@ const getComments = async (req, res) => {
     const comments = await Comment.find({
       squealId: req.params.squealId,
     });
+
+    if (comments?.length === 0)
+      return res.status(204).json({ message: "No comments found" });
+
     res.status(200).json(comments);
   } catch (e) {
     console.error(e);

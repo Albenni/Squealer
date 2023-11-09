@@ -18,6 +18,10 @@ function CommentsModal(props) {
           config.endpoint.squeals + "/" + props.postid + "/comments"
         );
 
+        console.log(res);
+
+        if (res.status === 204) return;
+
         const userinfo = await axiosInstance.get(
           config.endpoint.users + "/" + res.data[0].author
         );
@@ -88,7 +92,7 @@ function CommentsModal(props) {
           {comments.length === 0 && (
             <ListGroup.Item>
               <p
-                className="text-center mb-0"
+                className="text-center mb-0 pe-none"
                 style={{
                   color: theme.colors.lightgrey,
                 }}

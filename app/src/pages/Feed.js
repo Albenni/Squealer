@@ -42,7 +42,6 @@ function Feed() {
     const userid = sessionStorage.getItem("userid");
 
     if (userid && pageBottom === false) {
-      console.log("GETTING POSTS");
       axiosInstance
         .get(config.endpoint.feed + "?index=" + postindex)
         .then((response) => {

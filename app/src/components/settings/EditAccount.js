@@ -1,11 +1,11 @@
-import theme from "../config/theme";
+import theme from "../../config/theme";
 import { useEffect, useState } from "react";
 import { useAccordionButton, Accordion, Button, Card } from "react-bootstrap";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 import { useMediaQuery } from "react-responsive";
 
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import config from "../config/config";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import config from "../../config/config";
 
 function EditAccountPane() {
   const axiosInstance = useAxiosPrivate();
