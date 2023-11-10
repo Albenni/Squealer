@@ -7,7 +7,7 @@ import {
   HttpClient,
 } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { SharedService } from './shared.service';
+import { SharedService } from './services/shared.service';
 import { Injectable } from '@angular/core';
 import { catchError, throwError, switchMap, map } from 'rxjs';
 

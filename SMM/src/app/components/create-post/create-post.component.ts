@@ -1,10 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../../services/shared.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { GetCharsResponse, Characters } from '../shared-interfaces';
+import { GetCharsResponse, Characters } from '../../shared-interfaces';
 
 @Component({
   selector: 'app-create-post',

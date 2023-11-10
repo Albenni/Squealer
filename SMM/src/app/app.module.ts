@@ -13,14 +13,14 @@ import { AvatarModule } from '@coreui/angular';
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserItemComponent } from './user-item/user-item.component';
-import { VipSelectionComponent } from './vip-selection/vip-selection.component';
-import { CharacterDisplayerComponent } from './character-displayer/character-displayer.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { CreatePostComponent } from './create-post/create-post.component';
-import { FeedComponent } from './feed/feed.component';
+import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { UserItemComponent } from './components/user-item/user-item.component';
+import { VipSelectionComponent } from './pages/vip-selection/vip-selection.component';
+import { CharacterDisplayerComponent } from './components/character-displayer/character-displayer.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
+import { FeedComponent } from './components/feed/feed.component';
 
 @NgModule({
   declarations: [

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared.service';
-import { GetSquealsResponse } from '../shared-interfaces';
+import { SharedService } from '../../services/shared.service';
+import { GetSquealsResponse } from '../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
+import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-feed',
@@ -85,7 +86,11 @@ export class FeedComponent {
     'Mercoledì, 9 Novembre 2023',
   ];
 
-  constructor(private sharedService: SharedService, private http: HttpClient) {}
+  constructor(
+    private sharedService: SharedService,
+    private http: HttpClient,
+    private geolocationService: GeolocationService
+  ) {}
 
   ngOnInit() {
     this.http
@@ -109,6 +114,15 @@ export class FeedComponent {
         });
         */
       });
+
+    this.geolocationService.getCurrentPosition().subscribe(
+      (position: GeolocationCoordinates) => {
+        console.log('Current position:', position);
+      },
+      (error: any) => {
+        console.error('Error getting current position:', error);
+      }
+    );
   }
 
   convertDate(date: string, index: number) {

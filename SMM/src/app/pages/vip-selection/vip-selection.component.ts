@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../../services/shared.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserData } from '../shared-interfaces';
+import { UserData } from '../../shared-interfaces';
 
 @Component({
   selector: 'app-vip-selection',
