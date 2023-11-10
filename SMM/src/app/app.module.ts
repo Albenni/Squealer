@@ -21,6 +21,7 @@ import { CharacterDisplayerComponent } from './components/character-displayer/ch
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { FeedComponent } from './components/feed/feed.component';
+import { LocalizationPostComponent } from './components/localization-post/localization-post.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FeedComponent } from './components/feed/feed.component';
     TopBarComponent,
     CreatePostComponent,
     FeedComponent,
+    LocalizationPostComponent,
   ],
   imports: [
     BrowserModule,

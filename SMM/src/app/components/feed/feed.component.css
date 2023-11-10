@@ -1,0 +1,5 @@
+.square-container {
+    height: 15rem; /* Imposta l'altezza desiderata */
+    width: 15rem; /* Imposta la larghezza uguale all'altezza */
+    overflow:auto;
+  }

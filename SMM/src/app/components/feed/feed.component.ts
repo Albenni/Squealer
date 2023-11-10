@@ -3,7 +3,6 @@ import { SharedService } from '../../services/shared.service';
 import { GetSquealsResponse } from '../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
-import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-feed',
@@ -14,6 +13,18 @@ export class FeedComponent {
   //squeals: GetSquealsResponse[] = [];
 
   squeals: GetSquealsResponse[] = [
+    {
+      "_id": "654e58f784a3395ec5f285d9",
+      "author": "651d64ffba243e0813e502dd",
+      "publicSqueal": true,
+      "group": [],
+      "officialChannel": false,
+      "content": "44.476662507415725,11.363996484504412",
+      "contentType": "geolocalization",
+      "impression": 1,
+      "createdAt": "2023-11-10T16:23:19.322Z",
+      "__v": 0
+  },
     {
       _id: '6548e23a7faecfb150cfd657',
       author: '651d64ffba243e0813e502dd',
@@ -88,8 +99,7 @@ export class FeedComponent {
 
   constructor(
     private sharedService: SharedService,
-    private http: HttpClient,
-    private geolocationService: GeolocationService
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -115,14 +125,7 @@ export class FeedComponent {
         */
       });
 
-    this.geolocationService.getCurrentPosition().subscribe(
-      (position: GeolocationCoordinates) => {
-        console.log('Current position:', position);
-      },
-      (error: any) => {
-        console.error('Error getting current position:', error);
-      }
-    );
+ 
   }
 
   convertDate(date: string, index: number) {
