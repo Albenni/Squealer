@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { UserItemComponent } from '../../components/user-item/user-item.component';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
-import { CharacterDisplayerComponent } from '../../components/character-displayer/character-displayer.component';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Characters, GetCharsResponse } from '../../shared-interfaces';

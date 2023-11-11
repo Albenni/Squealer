@@ -10,6 +10,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AvatarModule } from '@coreui/angular';
+
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
 import { AppComponent } from './app.component';
@@ -20,8 +21,10 @@ import { VipSelectionComponent } from './pages/vip-selection/vip-selection.compo
 import { CharacterDisplayerComponent } from './components/character-displayer/character-displayer.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
-import { FeedComponent } from './components/feed/feed.component';
+import { FeedTabComponent } from './components/feed-tab/feed-tab.component';
 import { LocalizationPostComponent } from './components/localization-post/localization-post.component';
+import { VideoPostComponent } from './components/video-post/video-post.component';
+import { CharacterTabComponent } from './components/character-tab/character-tab.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +36,10 @@ import { LocalizationPostComponent } from './components/localization-post/locali
     CharacterDisplayerComponent,
     TopBarComponent,
     CreatePostComponent,
-    FeedComponent,
+    FeedTabComponent,
     LocalizationPostComponent,
+    VideoPostComponent,
+    CharacterTabComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,7 @@ import { LocalizationPostComponent } from './components/localization-post/locali
     BsDropdownModule.forRoot(),
     MatIconModule,
     HttpClientModule,
-    AvatarModule,
+    AvatarModule
   ],
   providers: [
     {

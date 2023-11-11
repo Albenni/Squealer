@@ -5,26 +5,26 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css'],
+  selector: 'app-feed-tab',
+  templateUrl: './feed-tab.component.html',
+  styleUrls: ['./feed-tab.component.css'],
 })
-export class FeedComponent {
+export class FeedTabComponent {
   //squeals: GetSquealsResponse[] = [];
 
   squeals: GetSquealsResponse[] = [
     {
-      "_id": "654e58f784a3395ec5f285d9",
-      "author": "651d64ffba243e0813e502dd",
-      "publicSqueal": true,
-      "group": [],
-      "officialChannel": false,
-      "content": "44.476662507415725,11.363996484504412",
-      "contentType": "geolocalization",
-      "impression": 1,
-      "createdAt": "2023-11-10T16:23:19.322Z",
-      "__v": 0
-  },
+      _id: '654e58f784a3395ec5f285d9',
+      author: '651d64ffba243e0813e502dd',
+      publicSqueal: true,
+      group: [],
+      officialChannel: false,
+      content: '44.476662507415725,11.363996484504412',
+      contentType: 'geolocalization',
+      impression: 1,
+      createdAt: '2023-11-10T16:23:19.322Z',
+      __v: 0,
+    },
     {
       _id: '6548e23a7faecfb150cfd657',
       author: '651d64ffba243e0813e502dd',
@@ -86,6 +86,18 @@ export class FeedComponent {
       createdAt: '2023-11-08T14:36:28.828Z',
       __v: 0,
     },
+    {
+      _id: '6548e2497faecfb150cfd65b',
+      author: '651d64ffba243e0813e502dd',
+      publicSqueal: true,
+      group: [],
+      officialChannel: false,
+      content: '',
+      contentType: 'video',
+      impression: 8,
+      createdAt: '2023-11-06T12:55:37.362Z',
+      __v: 0,
+    },
   ];
 
   //squealsDate: string[] = [];
@@ -97,10 +109,7 @@ export class FeedComponent {
     'Mercoledì, 9 Novembre 2023',
   ];
 
-  constructor(
-    private sharedService: SharedService,
-    private http: HttpClient
-  ) {}
+  constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   ngOnInit() {
     this.http
@@ -124,8 +133,6 @@ export class FeedComponent {
         });
         */
       });
-
- 
   }
 
   convertDate(date: string, index: number) {

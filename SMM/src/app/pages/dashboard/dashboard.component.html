@@ -32,12 +32,11 @@
 </div>
 
 <div *ngIf="activeTab == 'feed'">
-    <app-feed></app-feed>
+    <app-feed-tab></app-feed-tab>
 </div>
 
 <div *ngIf="activeTab == 'chars'">
-    <app-character-displayer [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
-        [monthlyChars]="characters.monthly">
-    </app-character-displayer>
+    <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+        [monthlyChars]="characters.monthly"></app-character-tab>
 </div>
 <div class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
