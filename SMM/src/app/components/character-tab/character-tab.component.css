@@ -1,0 +1,7 @@
+.characters-card {
+  max-width: 45vw;
+}
+.characters-prices-card .characters-usage-card {
+  margin: 2rem;    
+  padding: 2rem;
+}

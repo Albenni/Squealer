@@ -1,3 +1,38 @@
-<app-character-displayer [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+<div class="row">
+    <div class="col-5">
+        <mat-card class="characters-card">
+            <mat-card-header>
+                <mat-card-title>Caratteri</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-card class="characters-usage-card">
+                    <mat-card-header>
+                        <mat-card-title>Utilizzo</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{usageText}}</p>
+                    </mat-card-content>
+
+                </mat-card>
+                <mat-card class="character-prices-card">
+                    <mat-card-header>
+                        <mat-card-title>Prezzi</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{pricesText}}</p>
+                    </mat-card-content>
+
+                </mat-card>
+            </mat-card-content>
+        </mat-card>
+
+
+
+    </div>
+
+    <mat-divider class="col-1" vertical></mat-divider>
+    <div class="col-1"></div>
+    <app-character-displayer class="col-5" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
         [monthlyChars]="characters.monthly">
     </app-character-displayer>
+</div>

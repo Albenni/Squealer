@@ -10,6 +10,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AvatarModule } from '@coreui/angular';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
@@ -52,7 +55,10 @@ import { CharacterTabComponent } from './components/character-tab/character-tab.
     BsDropdownModule.forRoot(),
     MatIconModule,
     HttpClientModule,
-    AvatarModule
+    AvatarModule,
+    MatDividerModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     {
