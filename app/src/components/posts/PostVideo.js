@@ -4,7 +4,7 @@ import PostHeader from "./PostHeader";
 import ReactPlayer from "react-player";
 import { useMediaQuery } from "react-responsive";
 
-function PostImage({ item, user }) {
+function PostVideo({ item, user }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   return (
     <div className="p-3">
@@ -46,4 +46,4 @@ function PostImage({ item, user }) {
   );
 }
 
-export default PostImage;
+export default PostVideo;

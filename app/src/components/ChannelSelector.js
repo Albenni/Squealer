@@ -12,8 +12,8 @@ import config from "../config/config";
 function ChannelSelector(props) {
   const axiosInstance = useAxiosPrivate();
 
-  const [postChannel, setPostChannel] = useState("Username");
   const [channelnotfound, setChannelNotFound] = useState(false);
+  const [userorchannel, setUserOrChannel] = useState(false);
 
   function AddSquealChannel() {
     setChannelNotFound(false);
@@ -30,9 +30,12 @@ function ChannelSelector(props) {
       return;
     }
 
-    const toadd = channeltype + channel;
+    let toadd = {
+      type: props.squealType,
+      channel: channeltype + channel,
+    };
 
-    if (props.squealchannel.includes(toadd)) {
+    if (props.squealchannel.includes(toadd.channel)) {
       alert("Hai già inserito questo canale!");
       return;
     }
@@ -49,6 +52,24 @@ function ChannelSelector(props) {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
+            toadd = {
+              id: res.data._id,
+              type: props.squealType,
+              channel: channeltype + channel,
+            };
+
+            // If you add a user, you can't add a channel or a keyword
+            if (
+              props.squealchannel.some(
+                (item) =>
+                  item.type === "Channel" ||
+                  props.squealchannel.some((item) => item.type === "Keyword")
+              )
+            ) {
+              setUserOrChannel(true);
+              return;
+            }
+
             props.setSquealChannel([...props.squealchannel, toadd]);
           } else if (res.status === 204) {
             setChannelNotFound(true);
@@ -66,6 +87,18 @@ function ChannelSelector(props) {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
+            toadd = {
+              id: res.data._id,
+              type: props.squealType,
+              channel: channeltype + channel,
+            };
+
+            // You can add a channel only if there are no users in the squealchannel array
+            if (props.squealchannel.some((item) => item.type === "Username")) {
+              setUserOrChannel(true);
+              return;
+            }
+
             props.setSquealChannel([...props.squealchannel, toadd]);
           } else if (res.status === 204) {
             setChannelNotFound(true);
@@ -83,6 +116,18 @@ function ChannelSelector(props) {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
+            toadd = {
+              id: res.data._id,
+              type: props.squealType,
+              channel: channeltype + channel,
+            };
+
+            // You can add a keyword only if there are no users in the squealchannel array
+            if (props.squealchannel.some((item) => item.type === "Username")) {
+              setUserOrChannel(true);
+              return;
+            }
+
             props.setSquealChannel([...props.squealchannel, toadd]);
           } else if (res.status === 204) {
             setChannelNotFound(true);
@@ -93,6 +138,8 @@ function ChannelSelector(props) {
           console.log(err);
         });
     }
+
+    document.getElementById("SBoxControlInputChannel").value = "";
   }
 
   function RemoveSquealChannel(toremove) {
@@ -106,6 +153,10 @@ function ChannelSelector(props) {
       <ErrorMessage
         visible={channelnotfound}
         error={"Il destinatario cercato non esiste!"}
+      />
+      <ErrorMessage
+        visible={userorchannel}
+        error={"Gli Squeal possono essere solo di tipo canale o utente!"}
       />
 
       <div className="button-container pb-3">
@@ -136,7 +187,7 @@ function ChannelSelector(props) {
                 id="SBoxControlSelectChannel"
                 aria-label="SelectChannel"
                 aria-describedby="SelectChannel"
-                onChange={(e) => setPostChannel(e.target.value)}
+                onChange={(e) => props.setSquealType(e.target.value)}
                 style={{
                   backgroundColor: "#e9ecef",
                   fontWeight: "bold",
@@ -146,12 +197,13 @@ function ChannelSelector(props) {
                 }}
               >
                 <option value="Username">@</option>
+                <option disabled>_________</option>
                 <option value="Channel">§</option>
-                <option value="Hashtag">#</option>
+                <option value="Keyword">#</option>
               </Form.Select>
             </div>
             <Form.Control
-              placeholder={postChannel}
+              placeholder={props.squealType}
               id="SBoxControlInputChannel"
               aria-label="Channel"
               aria-describedby="Channel"
@@ -161,19 +213,19 @@ function ChannelSelector(props) {
               <Plus />
             </Button>
           </InputGroup>
-          {props.squealchannel.map((channel, key) => {
+          {props.squealchannel.map((item, key) => {
             return (
               <ButtonGroup
                 key={key}
-                aria-label={"Button for " + channel}
+                aria-label={"Button for " + item.channel}
                 className="pb-3 px-2"
               >
                 <Button variant="outline-dark" disabled>
-                  {channel}
+                  {item.channel}
                 </Button>
                 <Button
                   variant="outline-danger"
-                  onClick={() => RemoveSquealChannel(channel)}
+                  onClick={() => RemoveSquealChannel(item)}
                 >
                   <Trash3 />
                 </Button>

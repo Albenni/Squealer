@@ -35,3 +35,11 @@ https://mui.com/material-ui/react-menu/
 - Aggiungere nei post a quale canale/keyword appartengono o se sono semplicemente pubblici
 
 - Finire il passaggio al pro degli utenti
+
+#
+
+- Aggiungere nomi canali nei post
+
+- Mettere il contatore dei caratteri che scende mentre scrivi
+
+- Finire chat con redirect

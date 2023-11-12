@@ -1,0 +1,70 @@
+.squeal-selector-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.choice-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.choice-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.selected-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.selected-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.go-back-button {
+  color: grey;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.selected-button {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .squeal-selector-container,
+  .choice-button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .selected-button-container {
+    justify-content: center;
+  }
+}

@@ -7,7 +7,7 @@ import { Spinner } from "react-bootstrap";
 
 import { PlusCircleFill } from "react-bootstrap-icons";
 
-import SquealBox from "../components/SquealBox";
+import SquealBox from "../components/SquealBox/SquealBox";
 
 import PostList from "../components/posts/PostList";
 import TrendBar from "../components/TrendBar";

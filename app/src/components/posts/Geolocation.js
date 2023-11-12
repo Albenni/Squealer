@@ -7,8 +7,6 @@ import { useMediaQuery } from "react-responsive";
 
 import logo from "../../assets/SLogo.svg";
 
-// import config from "../config/config";
-
 function Geolocation(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
@@ -20,14 +18,36 @@ function Geolocation(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (props.item) {
-      // setCenter({ lat: props.item.latitude, lng: props.item.longitude });
-      // setUserLocation({ lat: props.item.latitude, lng: props.item.longitude });
+    if (props.setSquealLocation === undefined) {
+      // Se non è presente la funzione per settare la posizione del post, allora è un post già esistente
+      // e quindi non devo cercare la posizione dell'utente
+      // Setto la posizione del post
+      const postLocation = props.squeallocation.split(",");
+
+      postLocation[0] = parseFloat(postLocation[0]);
+      postLocation[1] = parseFloat(postLocation[1]);
+
+      setUserLocation({
+        lat: postLocation[0],
+        lng: postLocation[1],
+      });
+      setCenter({
+        lat: postLocation[0],
+        lng: postLocation[1],
+      });
     } else {
       // Trovo la posizione dell'utente
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
+            props.setSquealLocation(
+              position.coords.latitude + "," + position.coords.longitude
+            );
+            console.log(
+              "Posizione per il post: " + position.coords.latitude,
+              position.coords.longitude
+            );
+
             setUserLocation({
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -49,6 +69,12 @@ function Geolocation(props) {
     }
 
     setLoading(false);
+
+    return () => {
+      setLoadError(false);
+      setLoading(true);
+      if (props.setSquealLocation !== undefined) props.setSquealLocation(null);
+    };
   }, []);
 
   if (loadError) return <div>Error loading map</div>;
@@ -73,13 +99,18 @@ function Geolocation(props) {
         <Map
           defaultCenter={[center.lat, center.lng]}
           defaultZoom={zoom}
+          zoom={zoom}
           center={[center.lat, center.lng]}
+          onBoundsChanged={({ center, zoom }) => {
+            setCenter(center);
+            setZoom(zoom);
+          }}
         >
           {!isMobile && <ZoomControl />}
           <Marker anchor={[userLocation.lat, userLocation.lng]}>
             <img
               src={logo}
-              alt="logo"
+              alt="Posizione attuale"
               style={{
                 width: "40px",
                 height: "40px",

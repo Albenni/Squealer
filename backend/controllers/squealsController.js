@@ -110,8 +110,8 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Body message required" });
   if (!req.body?.contentType)
     return res.status(400).json({ message: "Content type required" });
-  if (!req.body?.squealType)
-    return res.status(400).json({ message: "Squeal type required" });
+  // if (!req.body?.squealType)
+  //   return res.status(400).json({ message: "Squeal type required" });
 
   if (req.body.squealType === "Channel" || req.body.squealType === "Keyword")
     if (!req.body?.group?.map((item) => mongoose.Types.ObjectId.isValid(item)))
