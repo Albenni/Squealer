@@ -114,7 +114,7 @@ export class FeedTabComponent {
   ngOnInit() {
     this.http
       .get<GetSquealsResponse[]>(
-        'http://localhost:3500/users/' +
+        'http://localhost:3500/api/users/' +
           this.sharedService.selectedVipId +
           '/squeals'
       )

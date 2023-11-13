@@ -36,7 +36,7 @@ export class VipSelectionComponent {
     // Effettua una richiesta GET all'API per ottenere la lista degli account
     this.http
       .get<string[]>(
-        'http://localhost:3500/users/' + this.smmId + '/vips?onlyAccepted=true'
+        'http://localhost:3500/api/users/' + this.smmId + '/vips?onlyAccepted=true'
       )
       .pipe(
         catchError((error: any) => {

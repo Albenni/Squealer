@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.http
       .get<GetCharsResponse>(
-        'http://localhost:3500/users/' + this.vipId + '/charAvailable'
+        'http://localhost:3500/api/users/' + this.vipId + '/charAvailable'
       )
       .pipe(
         catchError((error: any) => {

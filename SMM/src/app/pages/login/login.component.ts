@@ -6,26 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { LoginResponse } from '../../shared-interfaces';
 
-interface GetUserResponse {
-  __v: number;
-  verified: boolean;
-  _id: string;
-  blocked: boolean;
-  charAvailable: number;
-  email: string;
-  firstname: string;
-  password: string;
-  professional: boolean;
-  refreshToken: string;
-  surname: string;
-  username: string;
-}
-
-interface UserData {
-  _id: string;
-  username: string;
-}
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -48,7 +28,7 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    const url = 'http://localhost:3500/auth/smm';
+    const url = 'http://localhost:3500/api/auth/smm';
 
     this.http
       .post<LoginResponse>(url, this.userData)

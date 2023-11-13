@@ -51,7 +51,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
 
   refreshToken(httpOptions: any): Promise<void> {
     return this.http
-      .get<RefreshTokenResponse>('http://localhost:3500/refresh/')
+      .get<RefreshTokenResponse>('http://localhost:3500/api/refresh/')
       .pipe(
         catchError((error: any) => {
           // Handle token refresh error here
