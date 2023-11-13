@@ -34,7 +34,6 @@ function PostImage({ item, user }) {
       >
         <Card.Img
           // variant="bottom"
-
           src={item?.content ? item.content : noimage}
           style={{
             position: "absolute",

@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ auth, setAuth, notifs, setNotifs }}>
       {console.log("AuthProvider: " + auth)}
-      {console.log("Notifs: " + notifs)}
+      {/* {console.log("Notifs: " + notifs)} */}
 
       {children}
     </AuthContext.Provider>

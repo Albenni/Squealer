@@ -3,12 +3,10 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { useState, useEffect, useRef } from "react";
 
 import {
-  MainContainer,
   ChatContainer,
   MessageList,
   Message,
   MessageInput,
-  Sidebar,
   Search,
   Avatar,
   Conversation,
@@ -16,42 +14,35 @@ import {
   ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 
-import sample from "../assets/conversationsample";
+import AttachPreview from "./SquealBox/AttachPreview";
 
 import { useMediaQuery } from "react-responsive";
+
+import guesticon from "../assets/guesticon.png";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
-function ChatUI() {
+function ChatUI({ myself }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const fileInputRef = useRef(null);
   const axiosInstance = useAxiosPrivate();
 
   // Conversations variables
-  const [sender, setSender] = useState({});
   const [activeconversation, setActiveConversation] = useState({});
+
   const [conversationslist, setConversationslist] = useState([]);
   const [searchedconversations, setSearchedConversations] = useState([]);
+
+  // Messages variables
   const [messages, setMessages] = useState([]);
+
+  const fileInputRef = useRef(null);
+  const [mfile, setMfile] = useState(null);
 
   // UI variables
   const [showsidebar, setShowSidebar] = useState(true);
 
   useEffect(() => {
-    const fetchSender = async () => {
-      axiosInstance
-        .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
-        .then((res) => {
-          const name = res.data.firstname;
-          const lastname = res.data.surname;
-          setSender({ name, lastname });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
     const fetchConversations = async () => {
       axiosInstance
         .get(
@@ -61,50 +52,85 @@ function ChatUI() {
             "/conversations"
         )
         .then((res) => {
+          // Check if in the response there are conversations
+          if (res.status === 204) {
+            return;
+          }
+
+          console.log(res.data);
+
+          // Remove myself from the list of users and keep the data of the other user, rename the field to only have user2 in the name
+          res.data = res.data.map((convo) => {
+            if (convo.user1._id === myself._id) {
+              delete convo.user1;
+            } else {
+              convo.user2 = convo.user1;
+              delete convo.user1;
+            }
+            return convo;
+          });
+
           setConversationslist(res.data);
           setSearchedConversations(res.data);
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
         });
     };
 
-    fetchSender();
     fetchConversations();
-
-    // setConversationslist(sample.conversations);
-    // setSearchedConversations(sample.conversations);
-    setMessages([...messages, sample.model]);
-    // setActiveConversation(sample.convomodel);
   }, []);
 
   function handleSendMessage(event) {
-    setMessages([
-      ...messages,
-      {
-        message: event,
-        sentTime: "adesso",
-        sender: "Test 1",
-        outgoing: true,
-      },
-    ]);
+    // setMessages([
+    //   ...messages,
+    //   {
+    //     message: event,
+    //     sentTime: "adesso",
+    //     sender: "Test 1",
+    //     outgoing: true,
+    //   },
+    // ]);
   }
 
-  function handleCovoChange(data) {
+  function handleCovoChange(cname) {
+    cname.user2.profilePic = cname.user2.profilePic
+      ? cname.user2.profilePic
+      : guesticon;
+
+    setActiveConversation(cname);
+
     // fetch dei messaggi della conversazione cambiata
 
-    setActiveConversation(data);
-    setConversationslist(
-      conversationslist.map((convo) => {
-        if (convo.sender === data.name) {
-          convo.nuoviMessaggi = 0;
+    axiosInstance
+      .get(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/conversations/" +
+          cname._id
+      )
+      .then((res) => {
+        // Check if in the response there are messages
+        if (res.status === 204) {
+          setMessages([]);
+          return;
         }
-        return convo;
+        console.log(res.data);
+        setMessages(res.data);
       })
-    );
+      .catch((err) => {
+        console.log(err);
+      });
 
-    setMessages(sample.messagesT1);
+    // setConversationslist(
+    //   conversationslist.map((convo) => {
+    //     if (convo.sender === cname.name) {
+    //       convo.nuoviMessaggi = 0;
+    //     }
+    //     return convo;
+    //   })
+    // );
   }
 
   function handleSearch(event) {
@@ -134,8 +160,8 @@ function ChatUI() {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
-      // Do something with the selected file, such as displaying its name
-      console.log(`Selected file: ${selectedFile.name}`);
+      console.log("Selected file: ", selectedFile);
+      setMfile(selectedFile);
     }
   };
 
@@ -156,7 +182,7 @@ function ChatUI() {
             }}
           >
             <Search
-              placeholder="Search..."
+              placeholder="Cerca..."
               onChange={handleSearch}
               onClearClick={() => {
                 setSearchedConversations(conversationslist);
@@ -169,20 +195,10 @@ function ChatUI() {
               return (
                 <Conversation
                   key={key}
-                  name={convo.user1.firstname}
-                  // lastSenderName={convo.user1.firstname}
-                  // info={convo.lastMessage}
-                  // unreadCnt={convo.nuoviMessaggi}
-                  active={activeconversation.name === convo.user1.firstname}
+                  name={convo.user2.firstname + " " + convo.user2.surname}
                   onClick={() => {
                     setShowSidebar(!showsidebar);
-                    handleCovoChange({
-                      name: convo.user1.firstname,
-                      // lastSenderName: convo.lastSenderName,
-                      // info: convo.lastMessage,
-                      unreadCnt: 0,
-                      active: true,
-                    });
+                    handleCovoChange(convo);
                   }}
                   style={{
                     border: "1px solid darkgray",
@@ -192,11 +208,11 @@ function ChatUI() {
                 >
                   <Avatar
                     src={
-                      convo.user1.profilePicture
-                        ? convo.user1.profilePicture
-                        : "https://picsum.photos/300/300"
+                      convo.user2?.profilePic
+                        ? convo.user2.profilePic
+                        : guesticon
                     }
-                    name={convo.sender}
+                    name={convo.user2.firstname}
                   />
                 </Conversation>
               );
@@ -218,14 +234,47 @@ function ChatUI() {
               />
 
               <Avatar
-                src="https://picsum.photos/300/300"
-                name={activeconversation.name}
+                src={
+                  activeconversation.user2?.profilePic
+                    ? activeconversation.user2.profilePic
+                    : guesticon
+                }
+                name={activeconversation.user2.firstname}
               />
-              <ConversationHeader.Content userName={activeconversation.name} />
+
+              <ConversationHeader.Content
+                userName={activeconversation.user2.firstname}
+              />
             </ConversationHeader>
 
             <MessageList>
-              <Message
+              {messages.map((message, index) =>
+                // Check if the message is incoming or outgoing, check if the message is a file or a text
+                message.contentType === "text" ? (
+                  <Message
+                    key={index}
+                    model={{
+                      message: message.content,
+                      sender: message.author === myself._id ? "Me" : "Other",
+                      sentTime: message.createdAt,
+                      direction:
+                        message.author === myself._id ? "outgoing" : "incoming",
+                    }}
+                  >
+                    <Avatar
+                      src={
+                        message.author === myself._id
+                          ? myself.profilePic
+                          : activeconversation.user2?.profilePic
+                      }
+                    />
+
+                    <Message.Header sender="Other" sentTime="just now" />
+                  </Message>
+                ) : null
+              )}
+
+              {/* <Message
                 type="custom"
                 model={{
                   sentTime: "adesso",
@@ -240,32 +289,30 @@ function ChatUI() {
                     style={{ width: "100%" }}
                   />
                 </Message.CustomContent>
-              </Message>
-              {messages.map((message, index) => (
-                <Message
-                  key={index}
-                  model={{
-                    message: message.message,
-                    sentTime: message.sentTime,
-                    sender: message.sender,
-                    direction: message.outgoing ? "outgoing" : "incoming",
-                  }}
-                />
-              ))}
+              </Message> */}
             </MessageList>
-
-            <MessageInput
-              placeholder="Scrivi qui il tuo messaggio"
-              onSend={handleSendMessage}
-              onAttachClick={handleAttachmentButtonClick}
-              style={{
-                position: "absolute",
-                bottom: "0",
-                width: "100%",
-                backgroundColor: theme.colors.white,
-              }}
-            />
           </ChatContainer>
+
+          <div
+            style={{
+              position: "absolute",
+              bottom: "60px",
+            }}
+          >
+            <AttachPreview />
+          </div>
+
+          <MessageInput
+            placeholder="Scrivi qui il tuo messaggio"
+            onSend={handleSendMessage}
+            onAttachClick={handleAttachmentButtonClick}
+            style={{
+              position: "absolute",
+              bottom: "10px",
+              width: "100%",
+              backgroundColor: theme.colors.white,
+            }}
+          />
           <input
             type="file"
             ref={fileInputRef}
