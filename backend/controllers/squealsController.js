@@ -143,8 +143,6 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Not enough character available" });
   // } else return res.status(400).json({ message: "Content type not accepted" });
 
-  const isPublic = squealType === "Public";
-
   if (
     req.files?.squeal &&
     (contentType === "image" || contentType === "video")
@@ -156,12 +154,12 @@ const createSqueal = async (req, res) => {
       );
 
     try {
-      const squeal = isPublic
+      const squeal = !(squealType === "Channel" || squealType === "Keyword")
         ? {
             author: userId,
             content: extension,
             contentType: contentType,
-            publicSqueal: isPublic,
+            publicSqueal: true,
           }
         : {
             author: userId,
@@ -188,12 +186,12 @@ const createSqueal = async (req, res) => {
     }
   } else {
     try {
-      const squeal = isPublic
+      const squeal = !(squealType === "Channel" || squealType === "Keyword")
         ? {
             author: userId,
             content: content,
             contentType: contentType,
-            publicSqueal: isPublic,
+            publicSqueal: true,
           }
         : {
             author: userId,
