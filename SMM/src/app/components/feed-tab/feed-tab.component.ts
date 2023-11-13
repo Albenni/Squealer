@@ -11,20 +11,8 @@ import { catchError, throwError, map } from 'rxjs';
 })
 export class FeedTabComponent {
   //squeals: GetSquealsResponse[] = [];
-
+  // displayedSqueals: GetSquealsResponse[] = [];
   squeals: GetSquealsResponse[] = [
-    {
-      _id: '654e58f784a3395ec5f285d9',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      group: [],
-      officialChannel: false,
-      content: '44.476662507415725,11.363996484504412',
-      contentType: 'geolocalization',
-      impression: 1,
-      createdAt: '2023-11-10T16:23:19.322Z',
-      __v: 0,
-    },
     {
       _id: '6548e23a7faecfb150cfd657',
       author: '651d64ffba243e0813e502dd',
@@ -33,7 +21,7 @@ export class FeedTabComponent {
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 8,
+      impression: 39,
       createdAt: '2023-11-06T12:55:22.315Z',
       __v: 0,
     },
@@ -45,21 +33,8 @@ export class FeedTabComponent {
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 8,
+      impression: 39,
       createdAt: '2023-11-06T12:55:37.362Z',
-      __v: 0,
-    },
-    {
-      _id: '654d04b3404cbfb491706a5f',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      group: [],
-      officialChannel: false,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      contentType: 'text',
-      impression: 1,
-      createdAt: '2023-11-09T16:11:31.950Z',
       __v: 0,
     },
     {
@@ -70,7 +45,7 @@ export class FeedTabComponent {
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 8,
+      impression: 39,
       createdAt: '2023-11-06T12:55:38.067Z',
       __v: 0,
     },
@@ -82,31 +57,47 @@ export class FeedTabComponent {
       officialChannel: false,
       content: 'Hello world!',
       contentType: 'text',
-      impression: 1,
+      impression: 32,
       createdAt: '2023-11-08T14:36:28.828Z',
       __v: 0,
     },
     {
-      _id: '6548e2497faecfb150cfd65b',
+      _id: '654d04b3404cbfb491706a5f',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
       group: [],
       officialChannel: false,
-      content: '',
-      contentType: 'video',
-      impression: 8,
-      createdAt: '2023-11-06T12:55:37.362Z',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      contentType: 'text',
+      impression: 22,
+      createdAt: '2023-11-09T16:11:31.950Z',
+      __v: 0,
+    },
+    {
+      _id: '654e58f784a3395ec5f285d9',
+      author: '651d64ffba243e0813e502dd',
+      publicSqueal: true,
+      group: [],
+      officialChannel: false,
+      content: '44.476662507415725,11.363996484504412',
+      contentType: 'geolocalization',
+      impression: 15,
+      createdAt: '2023-11-10T16:23:19.322Z',
       __v: 0,
     },
   ];
 
+  displayedSqueals: GetSquealsResponse[] = this.squeals;
+
   //squealsDate: string[] = [];
   squealsDate: string[] = [
-    'Domenica, 6 Novembre 2023',
-    'Domenica, 6 Novembre 2023',
-    'Domenica, 6 Novembre 2023',
-    'Martedì, 8 Novembre 2023',
-    'Mercoledì, 9 Novembre 2023',
+    'Lunedì, 6 Novembre 2023',
+    'Lunedì, 6 Novembre 2023',
+    'Lunedì, 6 Novembre 2023',
+    'Mercoledì, 8 Novembre 2023',
+    'Giovedì, 9 Novembre 2023',
+    'Venerdì, 10 Novembre 2023',
   ];
 
   constructor(private sharedService: SharedService, private http: HttpClient) {}
@@ -127,7 +118,7 @@ export class FeedTabComponent {
       .subscribe((data) => {
         /*
         this.squeals = data;
-
+        this.displayedSqueals = data;
         data.forEach((item, index) => {
           this.convertDate(item.createdAt, index);
         });
@@ -170,33 +161,18 @@ export class FeedTabComponent {
 
     this.squealsDate[index] = formattedDate;
   }
+
   applyFilter(filterParams: FilterParams) {
-    // Implementa la logica per filtrare gli squeals in base ai parametri
-    // Puoi utilizzare metodi come sort, filter, ecc.
-  
-    /*
-    // Esempio: Filtra per tipi di contenuto
+    let filteredSqueals: GetSquealsResponse[] = [];
     if (filterParams.contentTypes.includes('all')) {
-      // Nessun filtro sui tipi di contenuto
-      this.squealsToShow = this.squeals;
+      filteredSqueals = this.squeals;
     } else {
       // Filtra gli squeals in base ai tipi di contenuto selezionati
-      this.squealsToShow = this.squeals.filter(squeal => filterParams.contentTypes.includes(squeal.contentType));
+      filteredSqueals = this.squeals.filter((squeal) =>
+        filterParams.contentTypes.includes(squeal.contentType)
+      );
     }
-  
-    // Altre logiche di filtro possono essere aggiunte qui...
-  
-    // Esempio: Ordina gli squeals
-    if (filterParams.orderBy === 'recent') {
-      this.squealsToShow.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    } else if (filterParams.orderBy === 'oldest') {
-      this.squealsToShow.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-    }
-  
-    // Esempio: Aggiorna la lista visualizzata
-    // Puoi usare questa lista in ngFor nel tuo template
-    this.displayedSqueals = this.squealsToShow;
-    */
+
+    this.displayedSqueals = filteredSqueals;
   }
-  
 }

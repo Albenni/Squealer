@@ -7,11 +7,11 @@ import { FilterParams } from '../../shared-interfaces';
   styleUrls: ['./feed-filter.component.css'],
 })
 export class FeedFilterComponent {
-
   @Output() filterChange = new EventEmitter<FilterParams>();
 
+  filterForm!: NgForm;
   filterParams: FilterParams = {
-    orderBy: 'recent', // Valore predefinito per orderBy
+    orderBy: 'oldest', // Valore predefinito per orderBy
     contentTypes: ['all'], // Valore predefinito per contentType
   };
 
