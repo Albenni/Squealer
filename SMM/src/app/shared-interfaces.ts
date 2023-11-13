@@ -35,3 +35,7 @@ export interface GetSquealsResponse {
   createdAt: string;
   __v: number;
 }
+export interface FilterParams {
+  orderBy: string;
+  contentTypes: string[];
+}

@@ -1,0 +1,27 @@
+<div class="row">
+    <p class="col-1">Filtri:</p>
+    <form class="col" (ngSubmit)="applyFilter(filterForm)" #filterForm="ngForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Ordina per:</mat-label>
+            <mat-select name="orderBy" [(ngModel)]="filterParams.orderBy">
+                <mat-option value="recent">Più recenti</mat-option>
+                <mat-option value="oldest">Meno recenti</mat-option>
+                <!-- Aggiungi altre opzioni se necessario -->
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Mostra solo:</mat-label>
+            <mat-select name="contentTypes" [(ngModel)]="filterParams.contentTypes" multiple>
+                <mat-option value="all">Tutti</mat-option>
+                <mat-option value="text">Testo</mat-option>
+                <mat-option value="image">Immagine</mat-option>
+                <mat-option value="video">Video</mat-option>
+                <!-- Aggiungi altre opzioni se necessario -->
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-button type="submit">Applica filtri</button>
+    </form>
+
+</div>

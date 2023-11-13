@@ -1,3 +1,5 @@
+<app-feed-filter (filterChange)="applyFilter($event)"></app-feed-filter>
+
 <ul class="d-flex flex-row p-0" style="flex-wrap: wrap; list-style-type: none; ">
     <li *ngFor="let squeal of squeals; let index = index" class="square-container p-2 m-2 card text-center"
         style="align-items: center;">

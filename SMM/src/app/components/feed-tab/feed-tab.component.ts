@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import { GetSquealsResponse } from '../../shared-interfaces';
+import { GetSquealsResponse, FilterParams } from '../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 
@@ -170,4 +170,33 @@ export class FeedTabComponent {
 
     this.squealsDate[index] = formattedDate;
   }
+  applyFilter(filterParams: FilterParams) {
+    // Implementa la logica per filtrare gli squeals in base ai parametri
+    // Puoi utilizzare metodi come sort, filter, ecc.
+  
+    /*
+    // Esempio: Filtra per tipi di contenuto
+    if (filterParams.contentTypes.includes('all')) {
+      // Nessun filtro sui tipi di contenuto
+      this.squealsToShow = this.squeals;
+    } else {
+      // Filtra gli squeals in base ai tipi di contenuto selezionati
+      this.squealsToShow = this.squeals.filter(squeal => filterParams.contentTypes.includes(squeal.contentType));
+    }
+  
+    // Altre logiche di filtro possono essere aggiunte qui...
+  
+    // Esempio: Ordina gli squeals
+    if (filterParams.orderBy === 'recent') {
+      this.squealsToShow.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } else if (filterParams.orderBy === 'oldest') {
+      this.squealsToShow.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    }
+  
+    // Esempio: Aggiorna la lista visualizzata
+    // Puoi usare questa lista in ngFor nel tuo template
+    this.displayedSqueals = this.squealsToShow;
+    */
+  }
+  
 }

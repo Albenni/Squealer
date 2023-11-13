@@ -60,7 +60,7 @@ export class VipSelectionComponent {
 
   getUsername(id: string) {
     this.http
-      .get<string>('http://localhost:3500/users/' + id)
+      .get<string>('http://localhost:3500/api/users/' + id)
       .pipe(
         catchError((error: any) => {
           // Gestisci l'errore qui
@@ -85,7 +85,7 @@ export class VipSelectionComponent {
 
       this.http
         .get<UserData[]>(
-          'http://localhost:3500/users/?username=' + this.selectedAccount
+          'http://localhost:3500/api/users/?username=' + this.selectedAccount
         )
         .pipe(
           catchError((error: any) => {

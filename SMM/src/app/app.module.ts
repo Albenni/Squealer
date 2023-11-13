@@ -13,6 +13,9 @@ import { AvatarModule } from '@coreui/angular';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
@@ -28,6 +31,7 @@ import { FeedTabComponent } from './components/feed-tab/feed-tab.component';
 import { LocalizationPostComponent } from './components/localization-post/localization-post.component';
 import { VideoPostComponent } from './components/video-post/video-post.component';
 import { CharacterTabComponent } from './components/character-tab/character-tab.component';
+import { FeedFilterComponent } from './components/feed-filter/feed-filter.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,8 @@ import { CharacterTabComponent } from './components/character-tab/character-tab.
     FeedTabComponent,
     LocalizationPostComponent,
     VideoPostComponent,
-    CharacterTabComponent
+    CharacterTabComponent,
+    FeedFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,10 @@ import { CharacterTabComponent } from './components/character-tab/character-tab.
     AvatarModule,
     MatDividerModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
     {
