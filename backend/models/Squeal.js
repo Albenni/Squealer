@@ -11,15 +11,17 @@ const squealSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  squealType: {
-    type: String,
-    enum: ["Channel", "Keyword"],
-  },
   //contiene l'id dei canali o delle keyword
-  group: [
+  receivers: [
     {
-      type: mongoose.SchemaTypes.ObjectId,
-      refPath: "squealType",
+      group: {
+        type: mongoose.SchemaTypes.ObjectId,
+        refPath: "squealType",
+      },
+      groupType: {
+        type: String,
+        enum: ["Channel", "Keyword"],
+      },
     },
   ],
   //parametro che indica se lo squeal è stato inviato in un CANALE ufficiale

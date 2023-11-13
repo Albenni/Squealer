@@ -10,7 +10,7 @@ router.route("/:squealId").delete(squealsController.deleteSqueal);
 router
   .route("/:squealId/receivers/:receiverId")
   .post(squealsController.addReceiver) //da testare
-  .post(squealsController.removeReceiver); //da testare
+  .delete(squealsController.removeReceiver); //da testare
 
 router
   .route("/:squealId/reactions")

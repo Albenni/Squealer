@@ -33,12 +33,12 @@ const generateFeed = async (req, res) => {
       const squeals = await Squeal.find({
         $or: [
           { author: { $in: usersFollowedFilter } },
-          { group: { $in: groupsFollowedFilter } },
+          { "receivers.group": { $in: groupsFollowedFilter } },
         ],
       })
         .skip(squealLengthBlock * index)
         .limit(squealLengthBlock * (index + 1))
-        .populate("group", "name private editorialChannel profilePic");
+        .populate("receivers", "name private editorialChannel profilePic");
 
       squeals.map((squeal) => {
         squeal.impression += 1;
@@ -58,7 +58,6 @@ const generateFeed = async (req, res) => {
     //feed per utente non loggato
     const squeals = await Squeal.find({
       officialChannel: true,
-      squealType: "Channel",
     })
       .skip(squealLengthBlock * index)
       .limit(squealLengthBlock * (index + 1))

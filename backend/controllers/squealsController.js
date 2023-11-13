@@ -52,9 +52,9 @@ const getAllSquealsInChannel = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Invalid channel ID" });
 
+  // group: req.params.channelId,
   const squeals = await Squeal.find({
-    group: req.params.channelId,
-    squealType: "Channel",
+    "receivers.group": req.params.channelId,
     publicSqueal: false,
   })
     .skip(squealLengthBlock * index)
@@ -82,8 +82,7 @@ const getAllSquealsInKeyword = async (req, res) => {
     return res.status(400).json({ message: "Invalid keyword ID" });
 
   const squeals = await Squeal.find({
-    group: req.params.keywordId,
-    squealType: "Keyword",
+    "receivers.group": req.params.keywordId,
     publicSqueal: false,
   })
     .skip(squealLengthBlock * index)
@@ -165,8 +164,7 @@ const createSqueal = async (req, res) => {
             author: userId,
             content: extension,
             contentType: contentType,
-            squealType: squealType,
-            group: req.body.group,
+            receivers: req.body.receivers,
             officialChannel:
               req?.body?.officialChannel && squealType === "Channel"
                 ? true
@@ -197,8 +195,7 @@ const createSqueal = async (req, res) => {
             author: userId,
             content: content,
             contentType: contentType,
-            squealType: squealType,
-            group: req.body.group,
+            receivers: req.body.receivers,
             officialChannel:
               req?.body?.officialChannel && squealType === "Channel"
                 ? true
@@ -312,16 +309,22 @@ const addReaction = async (req, res) => {
 const addReceiver = async (req, res) => {
   if (!req.authorized || !req.isMod) return res.sendStatus(403);
 
+  const { groupType } = req.body;
+  if (!groupType) return res.status(400).json({ message: "groupType missing" });
+
   try {
     const squealId = req.params.squealId;
-    const destinatarioId = req.params.receiverId;
+    const destinatario = {
+      group: req.params.receiverId,
+      groupType: groupType,
+    };
 
     const squeal = await Squeal.findById(squealId);
     if (!squeal) {
       return res.status(404).json({ error: "Squeal non trovato" });
     }
 
-    squeal.group.push(destinatarioId);
+    squeal.receivers.push(destinatario);
     await squeal.save();
 
     return res
@@ -339,14 +342,13 @@ const removeReceiver = async (req, res) => {
 
   try {
     const squealId = req.params.squealId;
-    const destinatarioId = req.params.receiverId;
 
     const squeal = await Squeal.findById(squealId);
     if (!squeal) {
       return res.status(404).json({ error: "Squeal non trovato" });
     }
 
-    const index = squeal.group.indexOf(destinatarioId);
+    const index = squeal.group.indexOf(req.params.receiverId);
     if (index === -1) {
       return res
         .status(404)
