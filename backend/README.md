@@ -6,11 +6,14 @@ api da fare (poche):
 
 - delete reaction ad uno squeal
 
+- Messaggi temporizzati
+
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
 - reactions e comments
 - aggiunta/rimozione destinatari dagli squeal
+- reaction negli squeal da 1 a 4
 
 Da confermare:
 

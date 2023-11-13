@@ -19,7 +19,7 @@ import useAuth from "../hooks/useAuth";
 
 function TopBar() {
   const { setAuth } = useAuth();
-  const apiprivate = useAxiosPrivate();
+  const axiosInstance = useAxiosPrivate();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function TopBar() {
     }
 
     const fetchUsername = async () => {
-      apiprivate
+      axiosInstance
         .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
         .then((res) => {
           const name = res.data.firstname;

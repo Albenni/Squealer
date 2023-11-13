@@ -2,7 +2,8 @@ import "../../css/SquealBox.css";
 import theme from "../../config/theme";
 
 import { useEffect, useState } from "react";
-import { Form, InputGroup, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import ChannelSelector from "../ChannelSelector";
 import SquealSelector from "./SquealSelector";
@@ -23,6 +24,7 @@ function SquealBox(props) {
   const axiosInstance = useAxiosPrivate();
 
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+  const navigate = useNavigate();
 
   // User variables
   const [user, setUser] = useState({});
@@ -68,11 +70,51 @@ function SquealBox(props) {
       return;
 
     let idgroup = [];
-    if (squealType === "Username")
+
+    // Controllo la lista dei canali che sono stati aggiunti come destinatari per decidere il tipo dello squeal
+
+    // Se è un per utenti allora creo la conversazione se non esiste e faccio il redirect alla sezione messaggi privati
+    if (squealchannel.map((channel) => channel.type === "Username")) {
+      setSquealType("Username");
       console.log(
         "Redirect ai messaggi privati e crea la conversazione se non esiste"
       );
-    else if (squealType === "Channel" || squealType === "Keyword") {
+
+      // Wait for the creation of the conversation and then redirect to the private messages section
+
+      squealchannel.map((channel) => {
+        axiosInstance
+          .post(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations",
+            {
+              receiverId: channel.id,
+            }
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+
+      // Redirect alla sezione messaggi privati
+
+      navigate("/feed", { replace: true });
+    } else if (
+      squealchannel.map(
+        (channel) => channel.type === "Channel" || channel.type === "Keyword"
+      )
+    ) {
+      setSquealType("Channel");
+      console.log("Crea il gruppo");
+      idgroup = squealchannel.map((channel) => channel.id);
+    } else if (squealchannel.map((channel) => channel.type === "Keyword")) {
+      setSquealType("Keyword");
+      console.log("Crea il gruppo");
       idgroup = squealchannel.map((channel) => channel.id);
     }
 
@@ -154,87 +196,6 @@ function SquealBox(props) {
 
     props.setShowBox(false);
   }
-
-  // function handleSelectAttachment(event) {
-  //   // block the user from changing the attachment type if he has already uploaded a file or link
-  //   if (isAttachment) {
-  //     alert("You have already uploaded a file or link!");
-  //     return (event.target.value = postAttach);
-  //   }
-
-  //   // if the user selects the same attachment type, return
-  //   if (event.target.value === postAttach) {
-  //     return;
-  //   }
-
-  //   if (event.target.value === "Geolocation") {
-  //     setIsLocation(true);
-  //     setPostAttach(event.target.value);
-  //     // setSquealLocation();
-  //   } else {
-  //     setIsLocation(false);
-  //     setPostAttach(event.target.value);
-  //     // setSquealImage();
-  //   }
-  // }
-
-  // function handleCustomAttachment(event) {
-  //   // if (event.target.files[0].size > 10000000) {
-  //   //   alert("File too big!");
-  //   //   return;
-  //   // }
-  //   setWrongFileType(false);
-
-  //   // if the event is not given (e.g. when the user cancels the file selection), return
-  //   if (!event.target.files[0]) {
-  //     setIsAttachment(false);
-  //     setDisableInputText(false);
-  //     return;
-  //   }
-
-  //   // check if the file is an image or a video
-  //   if (
-  //     !event.target.files[0].type.includes("image") &&
-  //     !event.target.files[0].type.includes("video")
-  //   ) {
-  //     setWrongFileType(true);
-  //     return (event.target.value = null);
-  //   }
-
-  //   if (
-  //     event.target.files[0].type.includes("image") &&
-  //     postAttach !== "Immagine"
-  //   ) {
-  //     setWrongFileType(true);
-  //     return (event.target.value = null);
-  //   } else if (
-  //     event.target.files[0].type.includes("video") &&
-  //     postAttach !== "Video"
-  //   ) {
-  //     setWrongFileType(true);
-  //     return (event.target.value = null);
-  //   }
-
-  //   setDisableInputText(true);
-  //   setIsAttachment(true);
-  //   setSquealFile(event.target.files[0]);
-  // }
-
-  // function handleCharacterLimit(event) {
-  //   event.preventDefault();
-
-  //   if (currentchars > user.dailyChar) {
-  //     event.target.value = event.target.value.substring(0, user.dailyChar);
-  //   }
-
-  //   if (squealimage.length > 0) {
-  //     // setCurrentChars(event.target.value.length + imagecharsize);
-  //   } else {
-  //     setCurrentChars(event.target.value.length);
-  //   }
-
-  //   // handleImage(event);
-  // }
 
   return (
     <Modal
@@ -351,7 +312,11 @@ function SquealBox(props) {
             variant="success"
             onClick={handleSqueal}
             style={{ fontWeight: "bold" }}
-            disabled={user.dailyChar === 0 || contentType === ""}
+            disabled={
+              user.dailyChar === 0 ||
+              contentType === "" ||
+              (!isPublic && squealchannel.length === 0)
+            }
           >
             Squeal
           </Button>

@@ -23,6 +23,7 @@ function Post({ item }) {
     useapi
       .get(config.endpoint.users + "/" + item.author)
       .then((res) => {
+        console.log(res.data);
         setUser(res.data);
       })
       .catch((err) => {

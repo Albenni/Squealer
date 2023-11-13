@@ -17,7 +17,10 @@ function PostHeader({ item }) {
     <div className="row">
       <div className="d-flex">
         <div className="m-1">
-          <Avatar src={item?.profilePic ? item.profilePic : guesticon} />
+          <Avatar
+            src={item?.profilePic !== undefined ? item.profilePic : guesticon}
+            alt={"Immagine profilo di" + item?.firstname + item?.surname}
+          />
         </div>
         <div className="p-1 usernametext" onClick={handleUserClick}>
           {item?.firstname} {item?.surname}

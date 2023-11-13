@@ -59,12 +59,13 @@ function PostReaction({ postid, postimpression }) {
     axiosInstance
       .get(config.endpoint.squeals + "/" + postid + "/reactions")
       .then((res) => {
-        // setReaction(
-        //   res.data.map((acc, cur) => {
-        //     acc[cur.type] = true;
-        //     return acc;
-        //   })
-        // );
+        // console.log(res);
+        // if (res.data.yourReac === undefined) return;
+        // if (res.data.yourReac === true) {
+        //   setReaction({ reallylike: true });
+        // } else {
+        //   setReaction({ reallydislike: true });
+        // }
       })
       .catch((err) => {
         console.log(err);
