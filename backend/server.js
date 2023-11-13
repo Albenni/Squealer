@@ -40,7 +40,6 @@ app.use(cookieParser());
 app.use(fileupload());
 
 //serve static files
-
 app.use(express.static("public"));
 
 // routes

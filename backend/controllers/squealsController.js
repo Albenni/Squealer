@@ -101,34 +101,38 @@ const getAllSquealsInKeyword = async (req, res) => {
   res.json(squeals);
 };
 
+//il nome del campo del file (image o video) deve essere "squeal"
+//il campo content può essere omesso solo se è stato caricato un file
+// video e immagini sono salvate con nome = ID dello squeal + extension
 const createSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
 
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+  const { content, contentType, squealType } = req.body;
+  const { userId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId))
     return res.status(400).json({ message: "Author ID not valid" });
-  if (!req?.body?.content)
+  if (!content && !req.files)
     return res.status(400).json({ message: "Body message required" });
-  if (!req.body?.contentType)
+  if (!contentType)
     return res.status(400).json({ message: "Content type required" });
   // if (!req.body?.squealType)
   //   return res.status(400).json({ message: "Squeal type required" });
 
-  if (req.body.squealType === "Channel" || req.body.squealType === "Keyword")
+  if (squealType === "Channel" || squealType === "Keyword")
     if (!req.body?.group?.map((item) => mongoose.Types.ObjectId.isValid(item)))
       return res
         .status(400)
         .json({ message: "Channel or Keyword ID not valid" });
 
-  const author = await User.findById(req.params.userId).select(
+  const author = await User.findById(userId).select(
     "dailyChar weeklyChar monthlyChar -_id"
   );
   //controlliamo che l'autore del messaggio esista
   if (!author) return res.status(400).json({ message: "Author not found" });
 
   const messLength =
-    req.body.contentType === "text"
-      ? req.body.content.length
-      : constants.MEDIA_CHAR_DIMENSION;
+    contentType === "text" ? content.length : constants.MEDIA_CHAR_DIMENSION;
 
   //controllo che ci siano abbastanza caratteri disponibili
   if (
@@ -139,36 +143,83 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Not enough character available" });
   // } else return res.status(400).json({ message: "Content type not accepted" });
 
-  const isPublic = req.body.squealType === "Public";
+  const isPublic = squealType === "Public";
 
-  const squeal = isPublic
-    ? {
-        author: req.params.userId,
-        content: req.body.content,
-        contentType: req.body.contentType,
-        publicSqueal: isPublic,
-      }
-    : {
-        author: req.params.userId,
-        content: req.body.content,
-        contentType: req.body.contentType,
-        squealType: req.body.squealType,
-        group: req.body.group,
-        officialChannel:
-          req?.body?.officialChannel && squealType === "Channel" ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
-      };
-  try {
-    const result = await Squeal.create(squeal);
-    await User.findByIdAndUpdate(req.params.userId, {
-      dailyChar: author.dailyChar - messLength,
-      weeklyChar: author.weeklyChar - messLength,
-      monthlyChar: author.monthlyChar - messLength,
-    });
-    res.json(result);
-  } catch (e) {
-    console.error(e);
-    res.json(e);
+  if (
+    req.files?.squeal &&
+    (contentType === "image" || contentType === "video")
+  ) {
+    const extension =
+      "." +
+      req.files.squeal?.name.slice(
+        ((req.files.squeal?.name.lastIndexOf(".") - 1) >>> 0) + 2
+      );
+
+    try {
+      const squeal = isPublic
+        ? {
+            author: userId,
+            content: extension,
+            contentType: contentType,
+            publicSqueal: isPublic,
+          }
+        : {
+            author: userId,
+            content: extension,
+            contentType: contentType,
+            squealType: squealType,
+            group: req.body.group,
+            officialChannel:
+              req?.body?.officialChannel && squealType === "Channel"
+                ? true
+                : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
+          };
+      const result = await Squeal.create(squeal);
+      await User.findByIdAndUpdate(userId, {
+        dailyChar: author.dailyChar - messLength,
+        weeklyChar: author.weeklyChar - messLength,
+        monthlyChar: author.monthlyChar - messLength,
+      });
+      req.files.squeal.mv("./public/squeal/" + result._id + extension);
+      res.json(result);
+    } catch (e) {
+      console.error(e);
+      res.json(e);
+    }
+  } else {
+    try {
+      const squeal = isPublic
+        ? {
+            author: userId,
+            content: content,
+            contentType: contentType,
+            publicSqueal: isPublic,
+          }
+        : {
+            author: userId,
+            content: content,
+            contentType: contentType,
+            squealType: squealType,
+            group: req.body.group,
+            officialChannel:
+              req?.body?.officialChannel && squealType === "Channel"
+                ? true
+                : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
+          };
+      const result = await Squeal.create(squeal);
+      await User.findByIdAndUpdate(userId, {
+        dailyChar: author.dailyChar - messLength,
+        weeklyChar: author.weeklyChar - messLength,
+        monthlyChar: author.monthlyChar - messLength,
+      });
+      res.json(result);
+    } catch (e) {
+      console.error(e);
+      res.json(e);
+    }
   }
+
+  //Crea il file con ObjectId dell'utente come nome
 };
 
 const deleteSqueal = async (req, res) => {
