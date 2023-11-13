@@ -43,21 +43,21 @@ app.use(fileupload());
 app.use(express.static("public"));
 
 // routes
-app.use("/register", require("./routes/register"));
-app.use("/auth", require("./routes/auth"));
-app.use("/refresh", require("./routes/refresh"));
-app.use("/logout", require("./routes/logout"));
-app.use("/newpassword", require("./routes/newpassword"));
+app.use("/api/register", require("./routes/register"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/refresh", require("./routes/refresh"));
+app.use("/api/logout", require("./routes/logout"));
+app.use("/api/newpassword", require("./routes/newpassword"));
 
 //in questo middleware vengono settati req.authorized, req.username, req.id e req.isMod tramite i dati contenuti nel token
 //per accedere a tutte le routes sotto bisogna essere loggati
 app.use(verifyJWT);
 
-app.use("/feed", require("./routes/feed"));
-app.use("/users", require("./routes/users"));
-app.use("/squeals", require("./routes/squeals"));
-app.use("/channels", require("./routes/channels"));
-app.use("/keywords", require("./routes/keywords"));
+app.use("/api/feed", require("./routes/feed"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/squeals", require("./routes/squeals"));
+app.use("/api/channels", require("./routes/channels"));
+app.use("/api/keywords", require("./routes/keywords"));
 
 app.all("*", (req, res) => {
   res.status(404);
