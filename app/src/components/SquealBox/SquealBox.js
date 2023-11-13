@@ -3,7 +3,6 @@ import theme from "../../config/theme";
 
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 import ChannelSelector from "../ChannelSelector";
 import SquealSelector from "./SquealSelector";
@@ -16,15 +15,18 @@ import AttachPreview from "./AttachPreview";
 import Geolocation from "../posts/Geolocation";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAuth from "../../hooks/useAuth";
+
 import config from "../../config/config";
 
 import { useMediaQuery } from "react-responsive";
 
 function SquealBox(props) {
+  const { setNotifs } = useAuth();
+
   const axiosInstance = useAxiosPrivate();
 
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
-  const navigate = useNavigate();
 
   // User variables
   const [user, setUser] = useState({});
@@ -95,15 +97,13 @@ function SquealBox(props) {
           )
           .then((res) => {
             console.log(res);
+            // Se ci sono nuove conversazioni, mando una notifica
+            setNotifs(true);
           })
           .catch((err) => {
             console.log(err);
           });
       });
-
-      // Redirect alla sezione messaggi privati
-
-      navigate("/feed", { replace: true });
     } else if (
       squealchannel.map(
         (channel) => channel.type === "Channel" || channel.type === "Keyword"

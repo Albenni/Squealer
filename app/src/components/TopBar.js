@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Navbar, Container, Nav, Dropdown } from "react-bootstrap";
-import { Bell } from "react-bootstrap-icons";
+import { Bell, CircleFill } from "react-bootstrap-icons";
 
 import SearchBar from "./SearchBar";
 import PrivateMessages from "../pages/PrivateMessages";
@@ -18,7 +18,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 
 function TopBar() {
-  const { setAuth } = useAuth();
+  const { setAuth, notifs, setNotifs } = useAuth();
   const axiosInstance = useAxiosPrivate();
 
   const location = useLocation();
@@ -129,10 +129,28 @@ function TopBar() {
 
               <Nav className="justify-content-end">
                 <div className="shop-chat-buttons">
-                  <Nav.Link onClick={() => setShowChat(true)}>
+                  <Nav.Link
+                    onClick={() => {
+                      setShowChat(true);
+                      setNotifs(false);
+                    }}
+                  >
                     <Button variant="outline-primary">
                       <Bell size={20} />
                     </Button>
+                    {notifs && (
+                      <CircleFill
+                        size={15}
+                        color="red"
+                        aria-label="Logo notifica"
+                        aria-describedby="Ci sono nuove notifiche"
+                        style={{
+                          position: "relative",
+                          top: "-1rem",
+                          right: "0.5rem",
+                        }}
+                      />
+                    )}
                   </Nav.Link>
                 </div>
                 <Dropdown>
@@ -150,7 +168,22 @@ function TopBar() {
                     </Dropdown.ItemText>
                     <Dropdown.Item href="/settings">Impostazioni</Dropdown.Item>
                     <div className="responsive-addons">
-                      <Dropdown.Item onClick={() => setShowChat(true)}>
+                      <Dropdown.Item
+                        aria-label="Notifiche"
+                        aria-describedby="Sezione notifiche"
+                        onClick={() => {
+                          setShowChat(true);
+                          setNotifs(false);
+                        }}
+                      >
+                        {notifs && (
+                          <CircleFill
+                            size={10}
+                            color="red"
+                            aria-label="Logo notifica"
+                            aria-describedby="Ci sono nuove notifiche"
+                          />
+                        )}{" "}
                         Notifiche
                       </Dropdown.Item>
                     </div>
