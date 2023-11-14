@@ -27,14 +27,36 @@ export interface GetSquealsResponse {
   _id: string;
   author: string;
   publicSqueal: boolean;
-  group: string[];
   officialChannel: boolean;
   content: string;
   contentType: string;
   impression: number;
   createdAt: string;
   __v: number;
+  receivers: string[];
 }
+
+export interface SquealsInfo{
+  _id: string;
+  author: string;
+  publicSqueal: boolean;
+  officialChannel: boolean;
+  content: string;
+  contentType: string;
+  impression: number;
+  createdAt: string;
+  convertedDate: string;
+  posReac: number;
+  negReac: number;
+  __v: number;
+  receivers: string[];
+}
+
+export interface GetReactionsResponse {
+  posReac: number;
+  negReac: number;
+}
+
 export interface FilterParams {
   orderBy: string;
   contentTypes: string[];

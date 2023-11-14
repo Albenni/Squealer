@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import { GetSquealsResponse, FilterParams } from '../../shared-interfaces';
+import {
+  GetSquealsResponse,
+  FilterParams,
+  SquealsInfo,
+} from '../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 
@@ -10,96 +14,109 @@ import { catchError, throwError, map } from 'rxjs';
   styleUrls: ['./feed-tab.component.css'],
 })
 export class FeedTabComponent {
-  //squeals: GetSquealsResponse[] = [];
-  // displayedSqueals: GetSquealsResponse[] = [];
-  squeals: GetSquealsResponse[] = [
+  /*
+  getSqueals: GetSquealsResponse[] = [];
+  squeals: SquealsInfo[] = [];
+  displayedSqueals: SquealsInfo[] = [];
+  
+*/
+
+  squeals: SquealsInfo[] = [
     {
       _id: '6548e23a7faecfb150cfd657',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 39,
+      impression: 45,
       createdAt: '2023-11-06T12:55:22.315Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
     {
       _id: '6548e2497faecfb150cfd65b',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 39,
+      impression: 45,
       createdAt: '2023-11-06T12:55:37.362Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
     {
       _id: '6548e24a7faecfb150cfd65f',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content: 'https://picsum.photos/200',
       contentType: 'image',
-      impression: 39,
+      impression: 45,
       createdAt: '2023-11-06T12:55:38.067Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
     {
       _id: '654b9cec15e2330c700374c6',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content: 'Hello world!',
       contentType: 'text',
-      impression: 32,
+      impression: 38,
       createdAt: '2023-11-08T14:36:28.828Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
     {
       _id: '654d04b3404cbfb491706a5f',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       contentType: 'text',
-      impression: 22,
+      impression: 28,
       createdAt: '2023-11-09T16:11:31.950Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
     {
       _id: '654e58f784a3395ec5f285d9',
       author: '651d64ffba243e0813e502dd',
       publicSqueal: true,
-      group: [],
       officialChannel: false,
       content: '44.476662507415725,11.363996484504412',
       contentType: 'geolocalization',
-      impression: 15,
+      impression: 21,
       createdAt: '2023-11-10T16:23:19.322Z',
       __v: 0,
+      receivers: [],
+      posReac: 0,
+      negReac: 0,
+      convertedDate: '10 Novembre 2023',
     },
   ];
 
-  displayedSqueals: GetSquealsResponse[] = this.squeals;
-
-  //squealsDate: string[] = [];
-  squealsDate: string[] = [
-    'Lunedì, 6 Novembre 2023',
-    'Lunedì, 6 Novembre 2023',
-    'Lunedì, 6 Novembre 2023',
-    'Mercoledì, 8 Novembre 2023',
-    'Giovedì, 9 Novembre 2023',
-    'Venerdì, 10 Novembre 2023',
-  ];
-
+  displayedSqueals: SquealsInfo[] = this.squeals;
+  
   constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   ngOnInit() {
@@ -117,17 +134,37 @@ export class FeedTabComponent {
       )
       .subscribe((data) => {
         /*
-        this.squeals = data;
-        this.displayedSqueals = data;
-        data.forEach((item, index) => {
-          this.convertDate(item.createdAt, index);
+        this.getSqueals = data;
+        this.squeals = this.getSqueals.map((squeal) => {
+          return {
+            _id: squeal._id,
+            author: squeal.author,
+            publicSqueal: squeal.publicSqueal,
+            receivers: squeal.receivers,
+            officialChannel: squeal.officialChannel,
+            content: squeal.content,
+            contentType: squeal.contentType,
+            impression: squeal.impression,
+            createdAt: squeal.createdAt,
+            convertedDate: '', // Inizializzeremo con convertDate
+            posReac: 0,
+            negReac: 0,
+            __v: squeal.__v,
+          };
         });
+        this.squeals.forEach((squeal) => {
+          this.convertDate(squeal);
+        });
+
+        this.displayedSqueals = this.squeals;
+
+        console.log(this.squeals);
         */
       });
   }
 
-  convertDate(date: string, index: number) {
-    const inputDate = new Date(date);
+  convertDate(squeal: SquealsInfo) {
+    const inputDate = new Date(squeal.createdAt);
     const daysOfWeek = [
       'Domenica',
       'Lunedì',
@@ -157,13 +194,11 @@ export class FeedTabComponent {
     const month = months[inputDate.getUTCMonth()];
     const year = inputDate.getUTCFullYear();
 
-    const formattedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
-
-    this.squealsDate[index] = formattedDate;
+    squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
   }
 
   applyFilter(filterParams: FilterParams) {
-    let filteredSqueals: GetSquealsResponse[] = [];
+    let filteredSqueals: SquealsInfo[] = [];
     if (filterParams.contentTypes.includes('all')) {
       filteredSqueals = this.squeals;
     } else {
@@ -177,12 +212,16 @@ export class FeedTabComponent {
     switch (filterParams.orderBy) {
       case 'recent':
         filteredSqueals = filteredSqueals.sort((a, b) => {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
         });
         break;
       case 'oldest':
         filteredSqueals = filteredSqueals.sort((a, b) => {
-          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
         });
         break;
       case 'viewed':
@@ -199,7 +238,6 @@ export class FeedTabComponent {
         // Se l'opzione di ordinamento non è riconosciuta, mantieni l'ordine attuale
         break;
     }
-  
 
     this.displayedSqueals = filteredSqueals;
   }
