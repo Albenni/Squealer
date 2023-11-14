@@ -7,28 +7,22 @@
             <h1 class=" align-middle" id="title">Squealer SMM</h1>
         </div>
         <div class="col-2">
-            <div class="row">   
+            <div class="row">
                 <button mat-icon-button color="primary" class="col" aria-label="Example icon button with a home icon">
                     <mat-icon>shopping_cart</mat-icon>
                 </button>
                 <div class="col btn-group" dropdown>
-                    <button dropdownToggle mat-icon-button id="buttonVipSel" type="button" color="primary"
-                        aria-label="Example icon button with a home icon" aria-controls="dropdown-animated">
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                         <mat-icon>groups</mat-icon>
                     </button>
-                    <ul id="ulVipSel" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                        aria-labelledby="button-animated">
-                        <li class="user-item" *ngFor="let username of vipsUsernames; let i = index"
-                            (click)="selectVip(i)">
-                            <div class="dropdown-item " style="padding: 10px; border-color: black; ">
-                                <div class="row">
-                                    <div class="col-6"> <img class="img-fluid" style="height: auto;" id="selectionImg"
-                                            src={{vipsProfilePics[i]}}> </div>
-                                    <div class="col-6" style="margin-top: 12%;">{{username}}</div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <mat-menu #menu="matMenu">
+                        <app-vip-dropdown-card *ngFor="let username of vipsUsernames; let i = index"
+                                                [username]="username" [profileImg]="vipsProfilePics[i]">
+                        </app-vip-dropdown-card>
+                    </mat-menu>
+                    
+
                 </div>
 
             </div>

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserItemComponent } from '../../components/user-item/user-item.component';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
@@ -62,6 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectVip(index: number) {
+    
     this.vipUsername = this.vipsUsernames[index];
     this.sharedService.selectedVipUsername = this.vipUsername;
 

@@ -15,8 +15,15 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 export class TopBarComponent {
   logosrc: string = './assets/SLogo.png'; // Dichiarazione della proprietà logo
 
+  /*
   vipsUsernames: string[] = this.sharedService.vipUsernames;
   vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
+  */
+  vipsUsernames: string[] = ['vip1', 'vip2'];
+  vipsProfilePics: string[] = [
+    'https://picsum.photos/200',
+    'https://picsum.photos/200',
+  ];
 
   constructor(private sharedService: SharedService) {}
   selectVip(index: number) {

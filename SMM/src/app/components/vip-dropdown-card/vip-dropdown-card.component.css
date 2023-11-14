@@ -1,0 +1,37 @@
+.vip-selection-card {
+    background-color: #fff; /* Add a background color */
+    border: 1px solid #ddd; /* Add a border for better separation */
+    border-radius: 8px; /* Add rounded corners for a softer look */
+    margin-bottom: 10px; /* Adjust spacing between cards */
+    padding: 10px; /* Add padding for better visual spacing */
+    transition: box-shadow 0.8s ease; /* Add a subtle transition effect */
+  
+    /* Responsive styles */
+    @media (max-width: 767px) {
+      flex-direction: column; /* Stack columns on small screens */
+    }
+  
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a box-shadow on hover */
+    }
+  }
+  
+  #selectionImg {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%; /* Make the image circular */
+  }
+  
+  .username-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .username {
+    font-size: 1.2em; /* Adjust font size for better readability */
+    font-weight: bold;
+    margin-top: 12%;
+  }
+  
+  /* Add more styling as needed */
+  
