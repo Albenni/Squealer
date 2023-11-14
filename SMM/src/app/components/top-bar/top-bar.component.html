@@ -17,11 +17,24 @@
                         <mat-icon>groups</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <app-vip-dropdown-card *ngFor="let username of vipsUsernames; let i = index"
-                                                [username]="username" [profileImg]="vipsProfilePics[i]">
-                        </app-vip-dropdown-card>
+
+                        <button mat-menu-item *ngFor="let username of vipsUsernames; let i = index"
+                            style="overflow:hidden ;" (click)="changeVip(i)">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <img class="img-fluid" id="selectionImg" [src]="vipsProfilePics[i]" 
+                                        alt="">
+                                </div>
+                                <div class="col-md-8 col-sm-12 username-container">
+                                    <div class="username">{{ username }}</div>
+                                </div>
+                            </div>
+
+                        </button>
+
+
                     </mat-menu>
-                    
+
 
                 </div>
 

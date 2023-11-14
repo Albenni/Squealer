@@ -11,13 +11,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AvatarModule } from '@coreui/angular';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatMenuModule} from '@angular/material/menu';
-
+import { MatMenuModule } from '@angular/material/menu';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
@@ -34,7 +33,6 @@ import { LocalizationPostComponent } from './components/localization-post/locali
 import { VideoPostComponent } from './components/video-post/video-post.component';
 import { CharacterTabComponent } from './components/character-tab/character-tab.component';
 import { FeedFilterComponent } from './components/feed-filter/feed-filter.component';
-import { VipDropdownCardComponent } from './components/vip-dropdown-card/vip-dropdown-card.component';
 
 @NgModule({
   declarations: [
@@ -51,8 +49,7 @@ import { VipDropdownCardComponent } from './components/vip-dropdown-card/vip-dro
     VideoPostComponent,
     CharacterTabComponent,
     FeedFilterComponent,
-    VipDropdownCardComponent,
-    ],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -71,7 +68,7 @@ import { VipDropdownCardComponent } from './components/vip-dropdown-card/vip-dro
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [
     {

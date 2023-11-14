@@ -60,15 +60,17 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  
   selectVip(index: number) {
     
+    console.log('index: ' + index);
     this.vipUsername = this.vipsUsernames[index];
     this.sharedService.selectedVipUsername = this.vipUsername;
 
     this.vipProfilePic = this.vipsProfilePics[index];
     this.sharedService.selectedVipProfilePic = this.vipProfilePic;
 
-    //qui devono cambiare anche tutti i post etc..
+    
   }
 
   showChars() {}
