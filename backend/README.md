@@ -11,9 +11,8 @@ api da fare (poche):
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
-- reactions e comments
+- comments
 - aggiunta/rimozione destinatari dagli squeal
-- reaction negli squeal da 1 a 4
 
 Da confermare:
 
