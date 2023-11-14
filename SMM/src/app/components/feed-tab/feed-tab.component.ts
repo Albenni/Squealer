@@ -4,6 +4,7 @@ import {
   GetSquealsResponse,
   FilterParams,
   SquealsInfo,
+  GetReactionResponse,
 } from '../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
@@ -14,14 +15,11 @@ import { catchError, throwError, map } from 'rxjs';
   styleUrls: ['./feed-tab.component.css'],
 })
 export class FeedTabComponent {
-  /*
   getSqueals: GetSquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
   displayedSqueals: SquealsInfo[] = [];
-  
-*/
 
-  squeals: SquealsInfo[] = [
+  /* squeals: SquealsInfo[] = [
     {
       _id: '6548e23a7faecfb150cfd657',
       author: '651d64ffba243e0813e502dd',
@@ -116,7 +114,8 @@ export class FeedTabComponent {
   ];
 
   displayedSqueals: SquealsInfo[] = this.squeals;
-  
+ */
+
   constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   ngOnInit() {
@@ -133,7 +132,6 @@ export class FeedTabComponent {
         })
       )
       .subscribe((data) => {
-        /*
         this.getSqueals = data;
         this.squeals = this.getSqueals.map((squeal) => {
           return {
@@ -147,54 +145,43 @@ export class FeedTabComponent {
             impression: squeal.impression,
             createdAt: squeal.createdAt,
             convertedDate: '', // Inizializzeremo con convertDate
-            posReac: 0,
-            negReac: 0,
+            neg0Reac: 0,
+            neg1Reac: 0,
+            pos2Reac: 0,
+            pos3Reac: 0,
+            weightedPosReac: 0,
+            weightedNegReac: 0,
             __v: squeal.__v,
           };
         });
         this.squeals.forEach((squeal) => {
           this.convertDate(squeal);
+          this.getReactions(squeal);
         });
 
         this.displayedSqueals = this.squeals;
-
-        console.log(this.squeals);
-        */
       });
   }
 
-  convertDate(squeal: SquealsInfo) {
-    const inputDate = new Date(squeal.createdAt);
-    const daysOfWeek = [
-      'Domenica',
-      'Lunedì',
-      'Martedì',
-      'Mercoledì',
-      'Giovedì',
-      'Venerdì',
-      'Sabato',
-    ];
-    const months = [
-      'Gennaio',
-      'Febbraio',
-      'Marzo',
-      'Aprile',
-      'Maggio',
-      'Giugno',
-      'Luglio',
-      'Agosto',
-      'Settembre',
-      'Ottobre',
-      'Novembre',
-      'Dicembre',
-    ];
-
-    const dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
-    const day = inputDate.getUTCDate();
-    const month = months[inputDate.getUTCMonth()];
-    const year = inputDate.getUTCFullYear();
-
-    squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
+  getReactions(squeal: SquealsInfo) {
+    this.http
+      .get<GetReactionResponse>(
+        'http://localhost:3500/api/squeals/' + squeal._id + '/reactions'
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        squeal.neg0Reac = data.neg0Reac;
+        squeal.neg1Reac = data.neg1Reac;
+        squeal.pos2Reac = data.pos2Reac;
+        squeal.pos3Reac = data.pos3Reac;
+        squeal.weightedPosReac = data.pos2Reac + data.pos3Reac * 2;
+        squeal.weightedNegReac = data.neg0Reac * 2 + data.neg1Reac;
+      });
   }
 
   applyFilter(filterParams: FilterParams) {
@@ -234,11 +221,54 @@ export class FeedTabComponent {
           return a.impression - b.impression;
         });
         break;
+      case 'liked':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return b.weightedPosReac - a.weightedPosReac;
+        });
+        break;
+      case 'disliked':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return b.weightedNegReac - a.weightedNegReac;
+        });
+        break;
       default:
         // Se l'opzione di ordinamento non è riconosciuta, mantieni l'ordine attuale
         break;
     }
 
     this.displayedSqueals = filteredSqueals;
+  }
+  convertDate(squeal: SquealsInfo) {
+    const inputDate = new Date(squeal.createdAt);
+    const daysOfWeek = [
+      'Domenica',
+      'Lunedì',
+      'Martedì',
+      'Mercoledì',
+      'Giovedì',
+      'Venerdì',
+      'Sabato',
+    ];
+    const months = [
+      'Gennaio',
+      'Febbraio',
+      'Marzo',
+      'Aprile',
+      'Maggio',
+      'Giugno',
+      'Luglio',
+      'Agosto',
+      'Settembre',
+      'Ottobre',
+      'Novembre',
+      'Dicembre',
+    ];
+
+    const dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
+    const day = inputDate.getUTCDate();
+    const month = months[inputDate.getUTCMonth()];
+    const year = inputDate.getUTCFullYear();
+
+    squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
   }
 }

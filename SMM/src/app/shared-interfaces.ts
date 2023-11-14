@@ -46,15 +46,22 @@ export interface SquealsInfo{
   impression: number;
   createdAt: string;
   convertedDate: string;
-  posReac: number;
-  negReac: number;
+  neg0Reac: number;
+  neg1Reac: number;
+  pos2Reac: number;
+  pos3Reac: number;
+  weightedPosReac: number;
+  weightedNegReac: number;
   __v: number;
   receivers: string[];
 }
 
-export interface GetReactionsResponse {
-  posReac: number;
-  negReac: number;
+export interface GetReactionResponse {
+  neg0Reac: number;
+  neg1Reac: number;
+  pos2Reac: number;
+  pos3Reac: number;
+  yourReac: number;
 }
 
 export interface FilterParams {
