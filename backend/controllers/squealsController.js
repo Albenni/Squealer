@@ -301,12 +301,12 @@ const addReaction = async (req, res) => {
         reactionType: parseInt(req.body.reactionType),
       });
 
-    res.status(200).json({ message: "OK" });
-  } else {
-    const result = await Reaction.create({
-      squealId: req.params.squealId,
-      reactionType: parseInt(req.body.reactionType),
-    });
+      res.status(200).json({ message: "OK" });
+    } else {
+      const result = await Reaction.create({
+        squealId: req.params.squealId,
+        reactionType: parseInt(req.body.reactionType),
+      });
 
       res.status(200).json({ message: "OK" });
     }
