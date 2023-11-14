@@ -28,11 +28,10 @@ function PostReaction({ postid, postimpression }) {
 
   const [showComments, setShowComments] = useState(false);
   const [reaction, setReaction] = useState({
-    reallydislike: false,
-    dislike: false,
-    neutral: false,
-    like: false,
-    reallylike: false,
+    neg0Reac: 0,
+    neg1Reac: 0,
+    pos2Reac: 0,
+    pos3Reac: 0,
   });
   const [cm, setCm] = useState(50);
   const [barcolor, setBarColor] = useState("");
@@ -41,11 +40,23 @@ function PostReaction({ postid, postimpression }) {
     if (reaction[type]) {
       return;
     }
-    setReaction({ [type]: true });
+
+    setReaction({ [type]: 1 });
+
+    let postreac = 0;
+    if (type === "reallydislike") {
+      postreac = 0;
+    } else if (type === "dislike") {
+      postreac = 1;
+    } else if (type === "like") {
+      postreac = 2;
+    } else if (type === "reallylike") {
+      postreac = 3;
+    }
 
     axiosInstance
       .post(config.endpoint.squeals + "/" + postid + "/reactions", {
-        reaction: true,
+        reactionType: postreac,
       })
       .then((res) => {
         console.log(res.data);
@@ -59,13 +70,19 @@ function PostReaction({ postid, postimpression }) {
     axiosInstance
       .get(config.endpoint.squeals + "/" + postid + "/reactions")
       .then((res) => {
-        // console.log(res);
-        // if (res.data.yourReac === undefined) return;
-        // if (res.data.yourReac === true) {
-        //   setReaction({ reallylike: true });
-        // } else {
-        //   setReaction({ reallydislike: true });
-        // }
+        console.log(res);
+        if (res.data.yourReac === undefined) return;
+
+        // check which reaction has been returned and set the state accordingly (0...3)
+        if (res.data.yourReac === 0) {
+          setReaction({ reallydislike: 1 });
+        } else if (res.data.yourReac === 1) {
+          setReaction({ dislike: 1 });
+        } else if (res.data.yourReac === 2) {
+          setReaction({ like: 1 });
+        } else if (res.data.yourReac === 3) {
+          setReaction({ reallylike: 1 });
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -17,7 +17,11 @@ import TopBar from "../components/TopBar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
+import { useMediaQuery } from "react-responsive";
+
 function Feed() {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   const [showbox, setShowBox] = useState(false);
   const [successfullSqueal, setSuccessfullSqueal] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -115,7 +119,7 @@ function Feed() {
           <div className="container-fluid">
             <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
               <PlusCircleFill
-                size={"4em"}
+                size={isMobile ? "3em" : "4em"}
                 color={theme.colors.button}
                 onClick={() => setShowBox(true)}
                 style={{ cursor: "pointer" }}

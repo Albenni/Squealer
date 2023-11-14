@@ -33,7 +33,7 @@ function ShopPane({ user }) {
           }
         )
         .then((res) => {
-          console.log(res.data);
+          console.log(res);
           window.location.reload();
         })
         .catch((err) => {

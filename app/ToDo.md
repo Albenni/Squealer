@@ -42,4 +42,4 @@ https://mui.com/material-ui/react-menu/
 
 - Mettere il contatore dei caratteri che scende mentre scrivi
 
-- Finire chat con redirect
+- Finire chat (invio messaggi)
