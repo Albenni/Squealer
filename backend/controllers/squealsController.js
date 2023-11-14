@@ -289,16 +289,17 @@ const addReaction = async (req, res) => {
   const squeal = await Squeal.findById(req.params.squealId);
   if (!squeal) return res.status(204).json({ message: `Squeal not found` });
 
-  if (req?.authorized) {
-    await Reaction.findOneAndRemove({
-      squealId: req.params.squealId,
-      userId: req.id,
-    });
-    const result = await Reaction.create({
-      squealId: req.params.squealId,
-      userId: req.id,
-      reactionType: parseInt(req.body.reactionType),
-    });
+  try {
+    if (req?.authorized) {
+      await Reaction.findOneAndRemove({
+        squealId: req.params.squealId,
+        userId: req.id,
+      });
+      const result = await Reaction.create({
+        squealId: req.params.squealId,
+        userId: req.id,
+        reactionType: parseInt(req.body.reactionType),
+      });
 
     res.status(200).json({ message: "OK" });
   } else {
@@ -307,7 +308,11 @@ const addReaction = async (req, res) => {
       reactionType: parseInt(req.body.reactionType),
     });
 
-    res.status(200).json({ message: "OK" });
+      res.status(200).json({ message: "OK" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
   }
 };
 
