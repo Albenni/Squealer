@@ -236,14 +236,21 @@ const getReactions = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
 
-  const posReac = await Reaction.find({
+  const neg0Reac = await Reaction.find({
     squealId: req.params.squealId,
-    positiveReaction: true,
+    reactionType: 0,
   }).count();
-
-  const negReac = await Reaction.find({
+  const neg1Reac = await Reaction.find({
     squealId: req.params.squealId,
-    positiveReaction: true,
+    reactionType: 1,
+  }).count();
+  const pos2Reac = await Reaction.find({
+    squealId: req.params.squealId,
+    reactionType: 2,
+  }).count();
+  const pos3Reac = await Reaction.find({
+    squealId: req.params.squealId,
+    reactionType: 3,
   }).count();
 
   if (req?.authorized) {
@@ -252,53 +259,52 @@ const getReactions = async (req, res) => {
       userId: req.id,
     });
 
-    const response = yourReac?.positiveReaction
-      ? {
-          posReac,
-          negReac,
-          yourReac: yourReac.positiveReaction,
-        }
-      : {
-          posReac,
-          negReac,
-        };
+    const response = {
+      neg0Reac,
+      neg1Reac,
+      pos2Reac,
+      pos3Reac,
+      yourReac: yourReac?.reactionType,
+    };
     res.status(200).json(response);
   } else {
     const response = {
-      posReac,
-      negReac,
+      neg0Reac,
+      neg1Reac,
+      pos2Reac,
+      pos3Reac,
     };
     res.status(200).json(response);
   }
 };
 
+//body.reaction="positive" per aggiungere una reazione positiva
+//sennò viene negativa
 const addReaction = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
-  if (!req?.body?.reaction)
-    return res.status(400).json({ message: "Reaction required valid" });
+  if (isNaN(req.body.reactionType))
+    return res.status(400).json({ message: "Reaction type Not valid" });
 
   const squeal = await Squeal.findById(req.params.squealId);
   if (!squeal) return res.status(204).json({ message: `Squeal not found` });
 
   if (req?.authorized) {
-    const result = await Reaction.findOneAndReplace(
-      {
-        squealId: req.params.squealId,
-        userId: req.id,
-      },
-      {
-        squealId: req.params.squealId,
-        userId: req.id,
-        positiveReaction: req.body.reaction === "positive",
-      }
-    );
+    await Reaction.findOneAndRemove({
+      squealId: req.params.squealId,
+      userId: req.id,
+    });
+    const result = await Reaction.create({
+      squealId: req.params.squealId,
+      userId: req.id,
+      reactionType: parseInt(req.body.reactionType),
+    });
 
     res.status(200).json({ message: "OK" });
   } else {
     const result = await Reaction.create({
       squealId: req.params.squealId,
-      positiveReaction: req.body.reaction === "positive",
+      reactionType: parseInt(req.body.reactionType),
     });
 
     res.status(200).json({ message: "OK" });

@@ -11,9 +11,10 @@ const reactionSchema = new Schema({
     ref: "Conversation",
     required: true,
   },
-  positiveReaction: {
-    type: Boolean,
+  reactionType: {
+    type: Number,
     required: true,
+    enum: [0, 1, 2, 3],
   },
 });
 
