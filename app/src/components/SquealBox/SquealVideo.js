@@ -21,6 +21,14 @@ function SquealVideo(props) {
   const [isAttachment, setIsAttachment] = useState(false);
   const [isLink, setIsLink] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      //   console.log("Unmounting");
+      props.setSquealFile("");
+      props.setSquealContent("");
+    };
+  }, []);
+
   function handleURL(e) {
     if (e.target.value === "") {
       setIsLink(false);
@@ -37,8 +45,10 @@ function SquealVideo(props) {
 
     if (videourlRegex.test(url) || checkVideo(url)) {
       props.setSquealContent(url);
+      props.setWrongFileType(false);
     } else {
       props.setSquealContent("");
+      props.setWrongFileType(true);
     }
   }
 
@@ -56,20 +66,14 @@ function SquealVideo(props) {
 
     if (videofileRegex.test(file.type)) {
       props.setSquealFile(file);
+      props.setWrongFileType(false);
       console.log(file);
     } else {
       props.setSquealFile("");
+      props.setWrongFileType(true);
       console.log("Not file");
     }
   }
-
-  useEffect(() => {
-    return () => {
-      //   console.log("Unmounting");
-      props.setSquealFile("");
-      props.setSquealContent("");
-    };
-  }, [props.contentType]);
 
   return (
     <>

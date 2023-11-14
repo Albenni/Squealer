@@ -45,8 +45,6 @@ function SquealBox(props) {
   // Control variables
   const [currentchars, setCurrentChars] = useState(0);
   const [disableinputtext, setDisableInputText] = useState(false);
-  const [isLink, setIsLink] = useState(false);
-  const [isAttachment, setIsAttachment] = useState(false);
   const [wrongfiletype, setWrongFileType] = useState(false);
 
   useEffect(() => {
@@ -68,15 +66,25 @@ function SquealBox(props) {
   function handleSqueal(event) {
     event.preventDefault();
 
+    if (wrongfiletype) return;
+
     if (squealcontent === "" && squealfile === null && squeallocation === null)
       return;
 
     let idgroup = [];
 
-    // Controllo la lista dei canali che sono stati aggiunti come destinatari per decidere il tipo dello squeal
-
     // Se è un per utenti allora creo la conversazione se non esiste e faccio il redirect alla sezione messaggi privati
-    if (squealchannel.map((channel) => channel.type === "Username")) {
+    console.log(squealchannel);
+    console.log(squealcontent);
+
+    // Check if every member of the squealchannel array is a username
+    const isUsername = squealchannel.every((channel) => {
+      return channel.type === "Username";
+    });
+
+    console.log(squealchannel);
+
+    if (isUsername && !isPublic) {
       setSquealType("Username");
       console.log(
         "Redirect ai messaggi privati e crea la conversazione se non esiste"
@@ -104,21 +112,34 @@ function SquealBox(props) {
             console.log(err);
           });
       });
-    } else if (
-      squealchannel.map(
-        (channel) => channel.type === "Channel" || channel.type === "Keyword"
-      )
-    ) {
-      setSquealType("Channel");
-      console.log("Crea il gruppo");
-      idgroup = squealchannel.map((channel) => channel.id);
-    } else if (squealchannel.map((channel) => channel.type === "Keyword")) {
-      setSquealType("Keyword");
-      console.log("Crea il gruppo");
-      idgroup = squealchannel.map((channel) => channel.id);
+
+      // Da mandare i messaggi privati a tutti i destinatari
+
+      return;
     }
 
     console.log(idgroup);
+
+    // Model
+    // receivers: [
+    //   {
+    //     group: {
+    //       type: mongoose.SchemaTypes.ObjectId,
+    //       refPath: "receivers.groupType",
+    //     },
+    //     groupType: {
+    //       type: String,
+    //       enum: ["Channel", "Keyword"],
+    //     },
+    //   },
+    // ]
+
+    const receivers = squealchannel.map((channel) => {
+      return {
+        group: channel.id,
+        groupType: channel.type,
+      };
+    });
 
     let squealobj = {};
 
@@ -132,8 +153,7 @@ function SquealBox(props) {
       } else {
         squealobj = {
           publicSqueal: isPublic,
-          squealType: squealType,
-          group: idgroup,
+          receivers: receivers,
           content: squealcontent,
           contentType: contentType,
         };
@@ -150,8 +170,7 @@ function SquealBox(props) {
       } else {
         squealobj = {
           publicSqueal: isPublic,
-          squealType: squealType,
-          group: idgroup,
+          receivers: receivers,
           content: squeallocation,
           contentType: contentType,
         };
@@ -159,21 +178,48 @@ function SquealBox(props) {
     }
 
     if (squealfile !== null) {
+      const formData = new FormData();
       if (isPublic) {
-        squealobj = {
-          publicSqueal: isPublic,
-          content: squealfile,
-          contentType: contentType,
-        };
+        formData.append("publicSqueal", isPublic);
+        formData.append("contentType", contentType);
+        // squealobj = {
+        //   publicSqueal: isPublic,
+        //   contentType: contentType,
+        // };
       } else {
-        squealobj = {
-          publicSqueal: isPublic,
-          squealType: squealType,
-          group: idgroup,
-          content: squealfile,
-          contentType: contentType,
-        };
+        formData.append("publicSqueal", isPublic);
+        formData.append("receivers", receivers);
+        formData.append("contentType", contentType);
+
+        // squealobj = {
+        //   publicSqueal: isPublic,
+        //   receivers: receivers,
+        //   contentType: contentType,
+        // };
       }
+
+      formData.append("squeal", squealfile);
+
+      axiosInstance
+        .post(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/squeals",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          props.setSuccessfullSqueal(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     console.log(squealobj);
@@ -205,9 +251,7 @@ function SquealBox(props) {
         props.setSuccessfullSqueal(false);
       }}
       onExit={() => {
-        setIsAttachment(false);
         setDisableInputText(false);
-        setIsLink(false);
         setWrongFileType(false);
         setSquealContent("");
         setSquealFile(null);
@@ -275,6 +319,7 @@ function SquealBox(props) {
                       setSquealContent={setSquealContent}
                       squealfile={squealfile}
                       setSquealFile={setSquealFile}
+                      setWrongFileType={setWrongFileType}
                     />
                   )}
                   {contentType === "video" && (
@@ -283,6 +328,7 @@ function SquealBox(props) {
                       setSquealContent={setSquealContent}
                       squealfile={squealfile}
                       setSquealFile={setSquealFile}
+                      setWrongFileType={setWrongFileType}
                     />
                   )}
                   {contentType === "geolocalization" && (

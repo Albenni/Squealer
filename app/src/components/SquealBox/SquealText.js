@@ -11,7 +11,7 @@ function SquealText(props) {
       // console.log("Unmounting");
       props.setSquealContent("");
     };
-  }, [props.contentType]);
+  }, []);
 
   return (
     <div

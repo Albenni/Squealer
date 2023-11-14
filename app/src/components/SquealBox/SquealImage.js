@@ -14,6 +14,15 @@ function SquealImage(props) {
   const [isAttachment, setIsAttachment] = useState(false);
   const [isLink, setIsLink] = useState(false);
 
+  // Remove the file and the link if the user changes the content type or when the comoponent unmounts
+  useEffect(() => {
+    return () => {
+      //   console.log("Unmounting");
+      props.setSquealFile("");
+      props.setSquealContent("");
+    };
+  }, []);
+
   function handleURL(e) {
     if (e.target.value === "") {
       setIsLink(false);
@@ -29,9 +38,11 @@ function SquealImage(props) {
 
     if (imgurlRegex.test(url) || checkImage(url)) {
       props.setSquealContent(url);
-      console.log(url);
+      props.setWrongFileType(false);
+      console.log("URL VIVO: " + url);
     } else {
       props.setSquealContent("");
+      props.setWrongFileType(true);
       console.log("Not url");
     }
   }
@@ -50,21 +61,14 @@ function SquealImage(props) {
 
     if (imgfileRegex.test(file.type)) {
       props.setSquealFile(file);
+      props.setWrongFileType(false);
       console.log(file);
     } else {
       props.setSquealFile("");
+      props.setWrongFileType(true);
       console.log("Not file");
     }
   }
-
-  // Remove the file and the link if the user changes the content type or when the comoponent unmounts
-  useEffect(() => {
-    return () => {
-      //   console.log("Unmounting");
-      props.setSquealFile("");
-      props.setSquealContent("");
-    };
-  }, [props.contentType]);
 
   return (
     <>
