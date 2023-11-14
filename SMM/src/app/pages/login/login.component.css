@@ -1,66 +1,67 @@
-
-
-
 #login-container {
-  background-color: #93B3FF;
+  background-color: #93b3ff;
   height: 100vh;
   width: 100vw;
-
-  display: flex; 
-  align-items: center ; 
-  justify-content: space-around; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   user-select: none;
-  
-  }
-  
-  #login-title{
-    color: #18020C; 
-    font-size: 2rem ;
-    font-weight: bold;
-    font-family: 'CenturyGothic';
+}
 
-  }
-
+#login-title {
+  color: #18020c;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: "CenturyGothic";
+}
 
 #login-form {
-    
-
   background-color: white;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0px 0px 10px rgba(43, 130, 230, 0.5);
-  }
-  
-  #login-logo {
-    text-align: center;
-  }
-  
-  #responseErr{
-    color: rgb(189, 0, 0); text-decoration: underline; padding-left: 0.8rem;
-  }
-  
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  
-   
+}
 
-  p {
-    text-align: start;
-    margin-top: 10px;
-  }
-  
-  a {
-    color: #007bff;
-    text-decoration: underline;
-  }
+#login-logo {
+  text-align: center;
+}
 
-  #submitButton{
-    width: 80px;
-  }
-  
+#responseErr {
+  color: rgb(189, 0, 0);
+  text-decoration: underline;
+  padding-left: 0.8rem;
+}
 
-  
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+p {
+  text-align: start;
+  margin-top: 10px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+#submitButton {
+  width: 80px;
+}
+
+/* Aggiunto stile per il link 'Hai dimenticato la password?' */
+#forgotPasswordLink {
+  color: #007bff;
+  text-decoration: underline;
+  margin-top: 1rem;
+}
+
+/* Aggiunto stile per i messaggi di errore */
+.errorMessage {
+  color: rgb(189, 0, 0);
+  text-decoration: underline;
+  padding-top: 0.8rem;
+}

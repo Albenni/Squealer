@@ -1,111 +1,64 @@
-#welcome-container{
-
-    background-color: #93B3FF;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    display: flex; 
-    flex-direction: column;
-    align-items: center ; 
-    justify-content: space-around; 
-    user-select: none;
-     
+#welcome-container {
+  background-color: #93B3FF;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  user-select: none;
 }
 
-#logoContainer{
+#logoContainer {
   position: absolute;
   top: 5vh;
   height: 10vh;
 }
 
-#logo{
+#logo {
   max-height: 100%;
   width: auto;
 }
 
-#titleContainer{
-
-  position: fixed; 
+#titleContainer {
+  position: fixed;
   top: 10%;
 }
 
-#title{
+#title {
   font-family: 'CenturyGothic';
   font-weight: bold;
-  color: #18020C; 
 }
 
-/* Stili per il contenitore principale */
 .account-selection-container {
-  border-radius: 15px; 
-  border-color: blue; 
-  border: 2px;
+  border-radius: 15px;
+  border: 2px solid #42A5F5;
   background-color: #f5f5f5;
-
   text-align: center;
   max-width: 600px;
-
   box-shadow: 0px 0px 10px rgba(41, 23, 122, 0.4);
-}
-
-/* Stili per l'intestazione */
-.account-selection-container h1 {
-  font-size: 24px;
-  color: #333;
-  margin: 0;
-  padding: 10px 0;
-}
-
-/* Stili per la selezione dell'account */
-.account-selection-form {
-  margin-top: 20px;
+  margin: auto;
 }
 
 .account-selection-form label {
   font-size: 16px;
-  color: #666;
-  display: block;
+  color: #333333;
 }
 
 #accountSelect {
-  width: 80%;
+  width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
   font-size: 16px;
   background-color: #fff;
   color: #333;
-  border-radius: 2px;
 }
 
-/* Stili per le opzioni del menu a discesa */
-#accountSelect option {
-  padding: 10px;
-  height: 40px;
-  font-size: 16px;
-  color: #333;
-  font-family: 'CenturyGothic';
-  border: #18020C;
-}
-
-/* Stili per rendere il contenitore responsive */
-@media (max-width: 768px) {
-  .welcome-container {
-      max-width: 100%;
-  }
-  #accountSelect {
-      font-size: 14px; /* Riduci la dimensione del testo per dispositivi mobili */
-  }
-}
-
-/* Stili aggiuntivi per opzioni del menu a discesa su dispositivi mobili */
-@media (max-width: 768px) {
-  #accountSelect option {
-      font-size: 14px; 
-  }}
-
-  
-#submitButton{
+#submitButton {
   margin-top: 20px;
-  width: 100px;
+  width: 100%;
 }
-  
+
+.mat-focused, .mat-select-panel, .mat-option:focus {
+  outline: 2px solid #42A5F5;
+}

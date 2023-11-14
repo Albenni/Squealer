@@ -1,9 +1,6 @@
-<!-- Togliere barre scorrimento lat e ver-->
-
 <div class="container-fluid row" id="login-container">
     <div class="col-md-4" id="login-logo">
         <img class="img-fluid" [src]="logosrc" alt="Logo">
-
     </div>
     <div class="col-md-3">
         <div id="login-title" class="row d-flex justify-content-center pb-4">
@@ -15,7 +12,7 @@
 
                     <div class="pt-2">
 
-                        <div *ngIf="wrongResponse">
+                        <div *ngIf="wrongResponse" class="errorMessage">
                             <p id="responseErr"> Username o password errata </p>
                         </div>
 
@@ -31,9 +28,9 @@
                                 <input type="password" class="form-control" id="pwd" name="pwd"
                                     placeholder="Inserisci password" [(ngModel)]="userData.pwd" required>
                             </div>
-                            <p class="mt-3"><a href="#">Hai
-                                    dimenticato la
-                                    password?</a></p>
+                            <p class="mt-3">
+                                <a href="#" id="forgotPasswordLink">Hai dimenticato la password?</a>
+                            </p>
                             <button id="submitButton" type="submit" class="text btn btn-dark">Accedi</button>
                         </form>
                     </div>
@@ -41,6 +38,4 @@
             </tabset>
         </div>
     </div>
-
-
 </div>

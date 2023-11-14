@@ -1,21 +1,26 @@
 <div id="welcome-container">
 
-    <div id="logoContainer"> <img class="img-fluid" [src]="logosrc" alt="Logo" id="logo"></div>
-    <div class="p-2" style="position: fixed; top: 18%;" id="titleContainer">
-        <h1 id="title" style="font-weight: 600;">Benvenuto {{ smmUsername }}!</h1>
+    <div id="logoContainer">
+        <img class="img-fluid" [src]="logosrc" alt="Logo" id="logo" aria-label="Logo dell'applicazione">
     </div>
 
+    <div class="p-2" style="position: fixed; top: 18%;" id="titleContainer">
+        <h1 id="title" style="font-weight: 600; color: #ffffff;">Benvenuto {{ smmUsername }}!</h1>
+    </div>
 
-    <div class="account-selection-container py-4 px-5" style="bottom: 18vh; position:fixed;">
+    <div class="account-selection-container py-4 px-5" style="bottom: 18vh; position: fixed;">
 
         <div class="account-selection-form">
-            <label for="accountSelect" style="padding-bottom: 1rem;">Seleziona l'account da gestire:</label>
-            <select id="accountSelect" [(ngModel)]="selectedAccount">
-                <option *ngFor="let username of vipUsernames" [value]="username">{{ username }}</option>
-            </select>
+            <mat-form-field appearance="fill">
+                <mat-label aria-live="polite" style="color: #333333;">Seleziona l'account da gestire:</mat-label>
+                <mat-select [(ngModel)]="selectedAccount" placeholder="Account"
+                    aria-label="Seleziona l'account da gestire">
+                    <mat-option *ngFor="let username of vipUsernames" [value]="username">{{ username }}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
-        <button id="submitButton" type="submit" class="text btn btn-dark" (click)="onSubmit()"
-            style="border-radius: 20px;">Seleziona</button>
+
+        <button mat-raised-button color="primary" (click)="onSubmit()" style="border-radius: 20px;">Seleziona</button>
 
     </div>
 </div>

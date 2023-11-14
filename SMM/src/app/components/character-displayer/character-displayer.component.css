@@ -1,8 +1,6 @@
 #charDisplayer{
     font-size: 1.5rem; 
-    font-weight: 600; 
-    font-family: 'CenturyGothic';
-
+    font-weight: 300; 
     text-align: center;
     border-top: 1rem;
 }
