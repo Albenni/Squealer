@@ -106,7 +106,7 @@ const getAllSquealsInKeyword = async (req, res) => {
 const createSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
 
-  const { content, contentType, squealType } = req.body;
+  const { content, contentType, publicSqueal } = req.body;
   const { userId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId))
@@ -118,8 +118,13 @@ const createSqueal = async (req, res) => {
   // if (!req.body?.squealType)
   //   return res.status(400).json({ message: "Squeal type required" });
 
-  if (squealType === "Channel" || squealType === "Keyword")
-    if (!req.body?.group?.map((item) => mongoose.Types.ObjectId.isValid(item)))
+  if (!publicSqueal)
+    if (
+      !req.body?.receivers?.map((item) => {
+        console.log(item);
+        return mongoose.Types.ObjectId.isValid(item.group);
+      })
+    )
       return res
         .status(400)
         .json({ message: "Channel or Keyword ID not valid" });
@@ -153,7 +158,7 @@ const createSqueal = async (req, res) => {
       );
 
     try {
-      const squeal = !(squealType === "Channel" || squealType === "Keyword")
+      const squeal = publicSqueal
         ? {
             author: userId,
             content: extension,
@@ -165,10 +170,7 @@ const createSqueal = async (req, res) => {
             content: extension,
             contentType: contentType,
             receivers: req.body.receivers,
-            officialChannel:
-              req?.body?.officialChannel && squealType === "Channel"
-                ? true
-                : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
+            officialChannel: req?.body?.officialChannel ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
           };
       const result = await Squeal.create(squeal);
       await User.findByIdAndUpdate(userId, {
@@ -184,7 +186,7 @@ const createSqueal = async (req, res) => {
     }
   } else {
     try {
-      const squeal = !(squealType === "Channel" || squealType === "Keyword")
+      const squeal = publicSqueal
         ? {
             author: userId,
             content: content,
@@ -196,10 +198,7 @@ const createSqueal = async (req, res) => {
             content: content,
             contentType: contentType,
             receivers: req.body.receivers,
-            officialChannel:
-              req?.body?.officialChannel && squealType === "Channel"
-                ? true
-                : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
+            officialChannel: req?.body?.officialChannel ? true : false, //bisogna settarlo solo quando si invia un messaggio in un canale ufficiale
           };
       const result = await Squeal.create(squeal);
       await User.findByIdAndUpdate(userId, {

@@ -38,7 +38,10 @@ const generateFeed = async (req, res) => {
       })
         .skip(squealLengthBlock * index)
         .limit(squealLengthBlock * (index + 1))
-        .populate("receivers", "name private editorialChannel profilePic");
+        .populate(
+          "receivers.group",
+          "name private editorialChannel profilePic"
+        );
 
       squeals.map((squeal) => {
         squeal.impression += 1;
@@ -61,7 +64,7 @@ const generateFeed = async (req, res) => {
     })
       .skip(squealLengthBlock * index)
       .limit(squealLengthBlock * (index + 1))
-      .populate("group", "name private editorialChannel profilePic");
+      .populate("receivers.group", "name private editorialChannel profilePic");
     if (!squeals?.length)
       return res.status(204).json({ message: "No content" });
 

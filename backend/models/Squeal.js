@@ -16,7 +16,7 @@ const squealSchema = new Schema({
     {
       group: {
         type: mongoose.SchemaTypes.ObjectId,
-        refPath: "squealType",
+        refPath: "receivers.groupType",
       },
       groupType: {
         type: String,
