@@ -57,8 +57,6 @@ function ChatUI({ myself }) {
             return;
           }
 
-          console.log(res.data);
-
           // Remove myself from the list of users and keep the data of the other user, rename the field to only have user2 in the name
           res.data = res.data.map((convo) => {
             if (convo.user1._id === myself._id) {
@@ -195,7 +193,13 @@ function ChatUI({ myself }) {
               return (
                 <Conversation
                   key={key}
-                  name={convo.user2.firstname + " " + convo.user2.surname}
+                  name={
+                    convo.user2?.firstname +
+                    " " +
+                    convo.user2?.surname +
+                    " @" +
+                    convo.user2?.username
+                  }
                   onClick={() => {
                     setShowSidebar(!showsidebar);
                     handleCovoChange(convo);
@@ -212,7 +216,7 @@ function ChatUI({ myself }) {
                         ? convo.user2.profilePic
                         : guesticon
                     }
-                    name={convo.user2.firstname}
+                    name={convo.user2?.firstname}
                   />
                 </Conversation>
               );

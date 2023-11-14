@@ -84,7 +84,7 @@ function UserBar({ user }) {
       className="container-fluid d-flex justify-content-center"
       style={{
         backgroundColor: theme.colors.bg1,
-        border: "1px solid #e0e0e0",
+        border: "1px solid " + theme.colors.lightgrey,
         borderRadius: "20px",
         padding: "1em",
         color: theme.colors.dark,

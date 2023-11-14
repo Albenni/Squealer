@@ -8,7 +8,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 import { useNavigate } from "react-router-dom";
 import TrendBar from "../components/TrendBar";
-import Channel from "../components/Channel";
+import ChannelPage from "./ChannelPage";
 
 const ChannelsPage = () => {
   const axiosInstance = useAxiosPrivate();
@@ -85,79 +85,72 @@ const ChannelsPage = () => {
           minHeight: "100vh",
         }}
       >
-        {sessionStorage.getItem("searchedchannel") ? (
-          <Channel />
-        ) : (
-          <>
-            <div className="pb-4">
-              <TrendBar />
-            </div>
-            <div className="container">
-              <ListGroup>
-                {channels.map((channel, key) => (
-                  <ListGroup.Item key={key} className="listitem">
-                    <div
-                      className="row"
-                      style={{
-                        backgroundColor: theme.colors.transparent,
-                        color: theme.colors.white,
-                        border: "none",
-                      }}
-                    >
-                      <div className="col">
-                        <h4
-                          style={{ cursor: "pointer" }}
-                          onMouseEnter={(e) => {
-                            e.target.style.textDecoration = "underline";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.textDecoration = "none";
-                          }}
-                          onClick={() => {
-                            sessionStorage.setItem(
-                              "searchedchannel",
-                              channel.name
-                            );
-
-                            navigate("/channels", { replace: true });
+        <>
+          <div className="pb-4">
+            <TrendBar />
+          </div>
+          <div className="container">
+            <ListGroup>
+              {channels.map((channel, key) => (
+                <ListGroup.Item key={key} className="listitem">
+                  <div
+                    className="row"
+                    style={{
+                      backgroundColor: theme.colors.transparent,
+                      color: theme.colors.white,
+                      border: "none",
+                    }}
+                  >
+                    <div className="col">
+                      <h4
+                        style={{ cursor: "pointer" }}
+                        onMouseEnter={(e) => {
+                          e.target.style.textDecoration = "underline";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.textDecoration = "none";
+                        }}
+                        onClick={() => {
+                          navigate("/channel/" + channel.name, {
+                            replace: true,
+                          });
+                        }}
+                      >
+                        {channel.name}
+                      </h4>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                      {!followedChannels.some(
+                        (obj) =>
+                          obj.id === channel.id && obj.name === channel.name
+                      ) ? (
+                        <Button
+                          variant="success"
+                          onClick={() => handleFollow(channel._id)}
+                          style={{
+                            maxHeight: "2.5em",
                           }}
                         >
-                          {channel.name}
-                        </h4>
-                      </div>
-                      <div className="col d-flex justify-content-end">
-                        {!followedChannels.some(
-                          (obj) =>
-                            obj.id === channel.id && obj.name === channel.name
-                        ) ? (
-                          <Button
-                            variant="success"
-                            onClick={() => handleFollow(channel._id)}
-                            style={{
-                              maxHeight: "2.5em",
-                            }}
-                          >
-                            Segui
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="danger"
-                            onClick={() => handleUnFollow(channel._id)}
-                            style={{
-                              maxHeight: "2.5em",
-                            }}
-                          >
-                            Non seguire
-                          </Button>
-                        )}
-                      </div>
+                          Segui
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="danger"
+                          onClick={() => handleUnFollow(channel._id)}
+                          style={{
+                            maxHeight: "2.5em",
+                          }}
+                        >
+                          Non seguire
+                        </Button>
+                      )}
                     </div>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </div>
-          </>
-        )}
+                  </div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
+        </>
       </div>
     </>
   );

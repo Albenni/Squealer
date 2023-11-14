@@ -13,6 +13,7 @@ import ChannelsPage from "./pages/ChannelsPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import loading from "./assets/Loading.gif";
 import KeywordsPage from "./pages/KeywordsPage";
+import ChannelPage from "./pages/ChannelPage";
 
 export default function App() {
   return (
@@ -26,11 +27,12 @@ export default function App() {
           <Route path="feed" element={<Feed />} />
           {/* Questo componente serve per richiedere il login nelle pagine figlie */}
           <Route element={<RequireAuth />}>
-            <Route path="/:username" element={<Account />} />
             {sessionStorage.getItem("userid") !== "guest" && (
               <>
+                <Route path="/:username" element={<Account />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="channels" element={<ChannelsPage />} />
+                <Route path="channel/:channelname" element={<Channel />} />
                 <Route path="keywords" element={<KeywordsPage />} />
               </>
             )}
@@ -74,4 +76,10 @@ function Account() {
   let { username } = useParams();
 
   return <AccountPage username={username} />;
+}
+
+function Channel() {
+  let { channelname } = useParams();
+
+  return <ChannelPage channelname={channelname} />;
 }

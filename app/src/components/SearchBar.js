@@ -101,11 +101,7 @@ function SearchBar() {
     if (wordEntered[0] === "@") {
       navigate("/" + wordEntered.slice(1), { replace: true });
     } else if (wordEntered[0] === "§") {
-      sessionStorage.setItem("searchedchannel", wordEntered.slice(1));
-      if (location.pathname !== "/channels") {
-        navigate("/channels", { replace: true });
-        return;
-      }
+      navigate("/channel/" + wordEntered.slice(1), { replace: true });
     } else {
       sessionStorage.setItem("searchedkeyword", wordEntered.slice(1));
       if (location.pathname !== "/keywords") {

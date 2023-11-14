@@ -30,6 +30,7 @@ function AccountPage(props) {
           config.endpoint.users + "/" + userInfoResponse.data._id + "/squeals"
         );
         setUserposts(userPostsResponse.data);
+
         console.log(userPostsResponse.data);
       } catch (err) {
         console.log(err);
@@ -52,8 +53,15 @@ function AccountPage(props) {
           </p>
         </div>
       ) : (
-        <>
-          <UserBar user={user} />
+        <div
+          style={{
+            backgroundColor: theme.colors.dark,
+            paddingTop: "10px",
+          }}
+        >
+          <div className="container">
+            <UserBar user={user} />
+          </div>
 
           <div className="container">
             {userposts.length === 0 ? (
@@ -61,10 +69,10 @@ function AccountPage(props) {
                 L'utente non ha pubblicato nessun post
               </p>
             ) : (
-              <PostList posts={userposts} />
+              <PostList getposts={userposts} />
             )}
           </div>
-        </>
+        </div>
       )}
     </>
   );
