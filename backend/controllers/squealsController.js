@@ -316,6 +316,23 @@ const addReaction = async (req, res) => {
   }
 };
 
+const removeReaction = async (req, res) => {
+  if (!req.authorized) return res.sendStatus(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
+    return res.status(400).json({ message: "Squeal ID not valid" });
+
+  try {
+    await Reaction.findOneAndRemove({
+      squealId: req.params.squealId,
+      userId: req.id,
+    });
+    res.status(200).json({ message: "OK" });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
 const addReceiver = async (req, res) => {
   if (!req.authorized || !req.isMod) return res.sendStatus(403);
 
@@ -388,6 +405,7 @@ module.exports = {
   deleteSqueal,
   getReactions,
   addReaction,
+  removeReaction,
   addReceiver,
   removeReceiver,
 };

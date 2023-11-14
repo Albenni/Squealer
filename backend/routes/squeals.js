@@ -15,7 +15,8 @@ router
 router
   .route("/:squealId/reactions")
   .get(squealsController.getReactions) // da testare
-  .post(squealsController.addReaction); // da testare
+  .post(squealsController.addReaction)
+  .delete(squealsController.removeReaction); // da testare
 
 router
   .route("/:squealId/comments")
