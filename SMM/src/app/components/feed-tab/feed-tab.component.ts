@@ -173,6 +173,34 @@ export class FeedTabComponent {
       );
     }
 
+    //mancano case 'liked' e 'disliked'
+    switch (filterParams.orderBy) {
+      case 'recent':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+        break;
+      case 'oldest':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        });
+        break;
+      case 'viewed':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return b.impression - a.impression;
+        });
+        break;
+      case 'unviewed':
+        filteredSqueals = filteredSqueals.sort((a, b) => {
+          return a.impression - b.impression;
+        });
+        break;
+      default:
+        // Se l'opzione di ordinamento non è riconosciuta, mantieni l'ordine attuale
+        break;
+    }
+  
+
     this.displayedSqueals = filteredSqueals;
   }
 }
