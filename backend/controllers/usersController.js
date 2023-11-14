@@ -71,36 +71,19 @@ const addChars = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
-
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.char))
+  if (isNaN(req.body?.char))
     return res
       .status(400)
       .json({ message: "Specify char in body for characters" });
-
-  //verifica che l'utente abbia il permesso
-  if (req.id !== req.params.userId) {
-    if (req.isSmm) {
-      const smm = await Smm.findOne({
-        vipId: req.params.userId,
-        smmId: req.id,
-      });
-      if (!smm)
-        return res
-          .status(403)
-          .json({ message: "You are not the SMM for this Vip" });
-    } else {
-      return res.status(403).json({ message: "Permission denied" });
-    }
-  }
 
   try {
     const user = await User.findById(req.params.userId).select(
       "dailyChar weeklyChar monthlyChar -_id"
     );
     const updatedChars = {
-      dailyChar: parseInt(req.body.dailyChar) + parseInt(user.dailyChar),
-      weeklyChar: parseInt(req.body.weeklyChar) + parseInt(user.weeklyChar),
-      monthlyChar: parseInt(req.body.monthlyChar) + parseInt(user.monthlyChar),
+      dailyChar: parseInt(req.body.char) + user.dailyChar,
+      weeklyChar: parseInt(req.body.char) + user.weeklyChar,
+      monthlyChar: parseInt(req.body.char) + user.monthlyChar,
     };
     const result = await User.findByIdAndUpdate(
       req.params.userId,
@@ -111,6 +94,7 @@ const addChars = async (req, res) => {
     }
     res.json(result);
   } catch (error) {
+    console.log(error);
     res.json({ message: error });
   }
 };
