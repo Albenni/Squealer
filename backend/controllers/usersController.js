@@ -87,7 +87,8 @@ const addChars = async (req, res) => {
     };
     const result = await User.findByIdAndUpdate(
       req.params.userId,
-      updatedChars
+      updatedChars,
+      { new: true }
     ).select("dailyChar weeklyChar monthlyChar");
     if (!result) {
       return res.status(204).json({ message: "User ID not found" });
