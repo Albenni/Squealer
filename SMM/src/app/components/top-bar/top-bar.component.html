@@ -1,4 +1,4 @@
-<nav class="navbar bg-light">
+<nav class="navbar" id="topBarContainer">
     <div class="container-fluid row no-gutters" id="topTabDashboard">
         <div class="col-2" id="logoContainer">
             <img id="logo" [src]="logosrc" alt="Logo">
@@ -8,9 +8,11 @@
         </div>
         <div class="col-2">
             <div class="row">
-                <button mat-icon-button color="primary" class="col" aria-label="Example icon button with a home icon">
-                    <mat-icon>shopping_cart</mat-icon>
-                </button>
+                <div class="col"><button (click)="shopButton()" mat-icon-button color="primary"
+                        aria-label="Example icon button with a home icon">
+                        <mat-icon>shopping_cart</mat-icon>
+                    </button></div>
+
                 <div class="col btn-group" dropdown>
 
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -22,8 +24,7 @@
                             style="overflow:hidden ;" (click)="changeVip(i)">
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
-                                    <img class="img-fluid" id="selectionImg" [src]="vipsProfilePics[i]" 
-                                        alt="">
+                                    <img class="img-fluid" id="selectionImg" [src]="vipsProfilePics[i]" alt="">
                                 </div>
                                 <div class="col-md-8 col-sm-12 username-container">
                                     <div class="username">{{ username }}</div>

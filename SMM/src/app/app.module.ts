@@ -35,6 +35,9 @@ import { VideoPostComponent } from './components/video-post/video-post.component
 import { CharacterTabComponent } from './components/character-tab/character-tab.component';
 import { FeedFilterComponent } from './components/feed-filter/feed-filter.component';
 import { ReactionsCardHeaderComponent } from './components/reactions-card-header/reactions-card-header.component';
+import { ShopPageComponent } from './pages/shop-page/shop-page.component';
+import { ShopTopBarComponent } from './components/shop-top-bar/shop-top-bar.component';
+import { ShopCardsComponent } from './components/shop-cards/shop-cards.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { ReactionsCardHeaderComponent } from './components/reactions-card-header
     CharacterTabComponent,
     FeedFilterComponent,
     ReactionsCardHeaderComponent,
+    ShopPageComponent,
+    ShopTopBarComponent,
+    ShopCardsComponent,
   ],
   imports: [
     BrowserModule,
