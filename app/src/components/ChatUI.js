@@ -12,7 +12,9 @@ import {
   Conversation,
   ConversationList,
   ConversationHeader,
+  Loader,
 } from "@chatscope/chat-ui-kit-react";
+import { Signpost } from "react-bootstrap-icons";
 
 import AttachPreview from "./SquealBox/AttachPreview";
 
@@ -22,6 +24,7 @@ import guesticon from "../assets/guesticon.png";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
+import { Button } from "react-bootstrap";
 
 function ChatUI({ myself }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -41,6 +44,7 @@ function ChatUI({ myself }) {
 
   // UI variables
   const [showsidebar, setShowSidebar] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -70,6 +74,7 @@ function ChatUI({ myself }) {
 
           setConversationslist(res.data);
           setSearchedConversations(res.data);
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -77,18 +82,50 @@ function ChatUI({ myself }) {
     };
 
     fetchConversations();
+
+    // When activeconversation is set, add an interval to constantly fetch the messages for the conversation
+    // if (activeconversation._id) {
+    //   const interval = setInterval(() => {
+    //     axiosInstance
+    //       .get(
+    //         config.endpoint.users +
+    //           "/" +
+    //           sessionStorage.getItem("userid") +
+    //           "/conversations/" +
+    //           activeconversation._id
+    //       )
+    //       .then((res) => {
+    //         // Check if in the response there are messages
+    //         if (res.status === 204) {
+    //           setMessages([]);
+    //           return;
+    //         }
+    //         console.log(res.data);
+    //         setMessages(res.data);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }, 1000);
+
+    // return () => clearInterval(interval);
+    // }
   }, []);
 
   function handleSendMessage(event) {
-    // setMessages([
-    //   ...messages,
-    //   {
-    //     message: event,
-    //     sentTime: "adesso",
-    //     sender: "Test 1",
-    //     outgoing: true,
-    //   },
-    // ]);
+    if (event === "") return;
+
+    // Check if the message is a file or a text
+
+    if (mfile) {
+      // Send the squeal with the file
+    } else if (event) {
+      // Send the squeal with the text
+    }
+
+    // Refetch the messages of the conversation
+
+    // Reset the message input
   }
 
   function handleCovoChange(cname) {
@@ -99,7 +136,6 @@ function ChatUI({ myself }) {
     setActiveConversation(cname);
 
     // fetch dei messaggi della conversazione cambiata
-
     axiosInstance
       .get(
         config.endpoint.users +
@@ -120,15 +156,6 @@ function ChatUI({ myself }) {
       .catch((err) => {
         console.log(err);
       });
-
-    // setConversationslist(
-    //   conversationslist.map((convo) => {
-    //     if (convo.sender === cname.name) {
-    //       convo.nuoviMessaggi = 0;
-    //     }
-    //     return convo;
-    //   })
-    // );
   }
 
   function handleSearch(event) {
@@ -163,6 +190,15 @@ function ChatUI({ myself }) {
     }
   };
 
+  const handleLocation = () => {
+    // Get the user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+      });
+    }
+  };
+
   return (
     <div
       style={{
@@ -188,6 +224,12 @@ function ChatUI({ myself }) {
               className="mb-3"
             />
           </div>
+          {isLoading && (
+            <div className="d-flex justify-content-center">
+              <Loader />
+            </div>
+          )}
+
           <ConversationList scrollable>
             {searchedconversations.map((convo, key) => {
               return (
@@ -306,17 +348,32 @@ function ChatUI({ myself }) {
             <AttachPreview />
           </div>
 
-          <MessageInput
-            placeholder="Scrivi qui il tuo messaggio"
-            onSend={handleSendMessage}
-            onAttachClick={handleAttachmentButtonClick}
+          <div
             style={{
               position: "absolute",
               bottom: "10px",
               width: "100%",
               backgroundColor: theme.colors.white,
             }}
-          />
+          >
+            <Button
+              onClick={handleLocation}
+              style={{
+                backgroundColor: theme.colors.white,
+                border: "none",
+                marginLeft: "0px",
+              }}
+            >
+              <Signpost size={25} color="#6495ED" />
+            </Button>
+
+            <MessageInput
+              placeholder="Scrivi qui il tuo messaggio"
+              onSend={handleSendMessage}
+              onAttachClick={handleAttachmentButtonClick}
+              autoFocus
+            />
+          </div>
           <input
             type="file"
             ref={fileInputRef}
