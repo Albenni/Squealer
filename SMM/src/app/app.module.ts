@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
@@ -33,6 +34,7 @@ import { LocalizationPostComponent } from './components/localization-post/locali
 import { VideoPostComponent } from './components/video-post/video-post.component';
 import { CharacterTabComponent } from './components/character-tab/character-tab.component';
 import { FeedFilterComponent } from './components/feed-filter/feed-filter.component';
+import { ReactionsCardHeaderComponent } from './components/reactions-card-header/reactions-card-header.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { FeedFilterComponent } from './components/feed-filter/feed-filter.compon
     VideoPostComponent,
     CharacterTabComponent,
     FeedFilterComponent,
+    ReactionsCardHeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +72,7 @@ import { FeedFilterComponent } from './components/feed-filter/feed-filter.compon
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
+    MatBadgeModule
   ],
   providers: [
     {

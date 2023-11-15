@@ -46,9 +46,16 @@ export class LoginComponent {
         })
       )
       .subscribe((data) => {
+        sessionStorage.setItem('accessToken', data.accessToken);
+        sessionStorage.setItem('smmId', data.userid);
+        sessionStorage.setItem('smmUsername', this.userData.user);
+
         this.sharedService.smmUsername = this.userData.user;
         this.sharedService.accessToken = data.accessToken;
         this.sharedService.smmId = data.userid;
+
+        console.log(sessionStorage.getItem('accessToken'));
+        
         this.router.navigate(['/vipSelection']);
       });
   }
