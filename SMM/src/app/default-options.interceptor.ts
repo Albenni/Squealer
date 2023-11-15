@@ -27,7 +27,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
     const httpOptions = {
       headers: request.headers
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${this.sharedService.accessToken}`),
+        .set('Authorization', `Bearer ${sessionStorage.getItem('accessToken')}`),
       withCredentials: true,
     };
 
@@ -41,7 +41,8 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
 
   async checkToken(httpOptions: any) {
     if (
-      this.isTokenExpired(this.sharedService.accessToken) &&
+      
+      this.isTokenExpired(sessionStorage.getItem('accessToken')!) &&
       !this.isRefreshing
     ) {
       this.isRefreshing = true;
@@ -54,15 +55,14 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
       .get<RefreshTokenResponse>('http://localhost:3500/api/refresh/')
       .pipe(
         catchError((error: any) => {
-          // Handle token refresh error here
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');
         }),
         map((data) => {
-          this.sharedService.accessToken = data.accessToken;
+          sessionStorage.setItem('accessToken', data.accessToken);
           httpOptions.headers = httpOptions.headers.set(
             'Authorization',
-            `Bearer ${this.sharedService.accessToken}`
+            `Bearer ${sessionStorage.getItem('accessToken')}`
           );
         }),
         switchMap(() => {

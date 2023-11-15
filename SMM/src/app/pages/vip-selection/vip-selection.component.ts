@@ -12,19 +12,16 @@ import { UserData } from '../../shared-interfaces';
   styleUrls: ['./vip-selection.component.css'],
 })
 export class VipSelectionComponent {
+
   selectedAccount: string = '';
   vipUsernames: string[] = [];
   vipProfilePics: string[] = [];
   vipIds: string[] = [];
-  smmUsername: string = this.sharedService.smmUsername;
-  smmId: string = this.sharedService.smmId;
-  token: string = this.sharedService.accessToken;
+  smmUsername: string = sessionStorage.getItem('smmUsername')!;
+  smmId: string = sessionStorage.getItem('smmId')!;
+  token: string = sessionStorage.getItem('accessToken')!;
 
   logosrc: string = './assets/SLogo.png';
-  /*
-    per accedere a smm username
-    this.sharedService.smmUsername
-  */
 
   constructor(
     private http: HttpClient,
@@ -51,6 +48,10 @@ export class VipSelectionComponent {
         this.vipIds.forEach((id) => {
           this.getUsername(id);
         });
+
+        sessionStorage.setItem('vipIds', JSON.stringify(this.vipIds));
+        sessionStorage.setItem('vipUsernames', JSON.stringify(this.vipUsernames));
+        sessionStorage.setItem('vipProfilePics', JSON.stringify(this.vipProfilePics));  
 
         this.sharedService.vipIds = this.vipIds;
         this.sharedService.vipUsernames = this.vipUsernames;
