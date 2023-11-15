@@ -122,7 +122,7 @@ export class FeedTabComponent {
     this.http
       .get<GetSquealsResponse[]>(
         'http://localhost:3500/api/users/' +
-          this.sharedService.selectedVipId +
+          sessionStorage.getItem('vipId') +
           '/squeals'
       )
       .pipe(

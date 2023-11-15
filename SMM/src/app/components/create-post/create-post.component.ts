@@ -37,7 +37,7 @@ export class CreatePostComponent {
     this.http
       .get<GetCharsResponse>(
         'http://localhost:3500/api/users/' +
-          this.sharedService.selectedVipId +
+          sessionStorage.getItem('vipId') +
           '/charAvailable'
       )
       .pipe(

@@ -23,13 +23,13 @@ export class DashboardComponent implements OnInit {
     monthly: 0,
   };
 
-  vipProfilePic: string = 'https://www.w3schools.com/howto/img_avatar.png';
+  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
   /*
  vipUsername: string = this.sharedService.selectedVipUsername;
   vipsUsernames: string[] = ['Aldo', 'Giovanni', 'Giacomo'];
   vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
  */
-  vipUsername: string = this.sharedService.selectedVipUsername;
+  vipUsername: string = sessionStorage.getItem('vipUsername')!;
 
   vipId = this.sharedService.selectedVipId;
 
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.http
       .get<GetCharsResponse>(
-        'http://localhost:3500/api/users/' + this.vipId + '/charAvailable'
+        'http://localhost:3500/api/users/' + sessionStorage.getItem('vipId') + '/charAvailable'
       )
       .pipe(
         catchError((error: any) => {

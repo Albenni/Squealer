@@ -12,7 +12,6 @@ import { UserData } from '../../shared-interfaces';
   styleUrls: ['./vip-selection.component.css'],
 })
 export class VipSelectionComponent {
-
   selectedAccount: string = '';
   vipUsernames: string[] = [];
   vipProfilePics: string[] = [];
@@ -33,7 +32,9 @@ export class VipSelectionComponent {
     // Effettua una richiesta GET all'API per ottenere la lista degli account
     this.http
       .get<string[]>(
-        'http://localhost:3500/api/users/' + this.smmId + '/vips?onlyAccepted=true'
+        'http://localhost:3500/api/users/' +
+          this.smmId +
+          '/vips?onlyAccepted=true'
       )
       .pipe(
         catchError((error: any) => {
@@ -46,12 +47,18 @@ export class VipSelectionComponent {
         this.vipIds = data.map((item: any) => item.vipId);
 
         this.vipIds.forEach((id) => {
-          this.getUsername(id);
+          this.getUserById(id, true);
         });
 
         sessionStorage.setItem('vipIds', JSON.stringify(this.vipIds));
-        sessionStorage.setItem('vipUsernames', JSON.stringify(this.vipUsernames));
-        sessionStorage.setItem('vipProfilePics', JSON.stringify(this.vipProfilePics));  
+        sessionStorage.setItem(
+          'vipUsernames',
+          JSON.stringify(this.vipUsernames)
+        );
+        sessionStorage.setItem(
+          'vipProfilePics',
+          JSON.stringify(this.vipProfilePics)
+        );
 
         this.sharedService.vipIds = this.vipIds;
         this.sharedService.vipUsernames = this.vipUsernames;
@@ -59,7 +66,7 @@ export class VipSelectionComponent {
       });
   }
 
-  getUsername(id: string) {
+  getUserById(id: string, getName: boolean) {
     this.http
       .get<string>('http://localhost:3500/api/users/' + id)
       .pipe(
@@ -70,8 +77,14 @@ export class VipSelectionComponent {
         })
       )
       .subscribe((data) => {
-        this.vipUsernames.push((data as any)['username']);
-        this.vipProfilePics.push((data as any)['profilePic']);
+        if (getName) {
+          this.vipUsernames.push((data as any)['username']);
+          this.vipProfilePics.push((data as any)['profilePic']);
+        } else {
+          //salvo immagine profilo nel session storage
+          sessionStorage.setItem('vipProfilePic', (data as any)['profilePic']);
+          this.router.navigate(['/home']);
+        }
       });
   }
 
@@ -80,6 +93,7 @@ export class VipSelectionComponent {
       alert('Devi selezionare un account');
       return;
     } else {
+      sessionStorage.setItem('vipUsername', this.selectedAccount);
       this.sharedService.selectedVipUsername = this.selectedAccount;
 
       //devo riassociare l'id corrispondente a quello username
@@ -97,8 +111,11 @@ export class VipSelectionComponent {
         )
         .subscribe((data) => {
           const vip = data[0];
+          sessionStorage.setItem('vipId', vip._id);
           this.sharedService.selectedVipId = vip._id;
-          this.router.navigate(['/home']);
+
+          this.getUserById(vip._id, false);
+          
         });
     }
   }
