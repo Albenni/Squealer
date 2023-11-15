@@ -38,7 +38,7 @@ function ChatUI({ myself }) {
 
   // Messages variables
   const [messages, setMessages] = useState([]);
-
+  const [contentType, setContentType] = useState("text"); // ["text", "file", "location"]
   const fileInputRef = useRef(null);
   const [mfile, setMfile] = useState(null);
 
@@ -82,45 +82,68 @@ function ChatUI({ myself }) {
     };
 
     fetchConversations();
-
-    // When activeconversation is set, add an interval to constantly fetch the messages for the conversation
-    // if (activeconversation._id) {
-    //   const interval = setInterval(() => {
-    //     axiosInstance
-    //       .get(
-    //         config.endpoint.users +
-    //           "/" +
-    //           sessionStorage.getItem("userid") +
-    //           "/conversations/" +
-    //           activeconversation._id
-    //       )
-    //       .then((res) => {
-    //         // Check if in the response there are messages
-    //         if (res.status === 204) {
-    //           setMessages([]);
-    //           return;
-    //         }
-    //         console.log(res.data);
-    //         setMessages(res.data);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }, 1000);
-
-    // return () => clearInterval(interval);
-    // }
   }, []);
+
+  useEffect(() => {
+    // When activeconversation is set, add an interval to constantly fetch the messages for the conversation
+    if (activeconversation._id) {
+      const interval = setInterval(() => {
+        console.log("Fetching messages for conversation: ", activeconversation);
+        axiosInstance
+          .get(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations/" +
+              activeconversation._id
+          )
+          .then((res) => {
+            // Check if in the response there are messages
+            console.log(res.data);
+            if (res.status === 204) {
+              setMessages([]);
+              return;
+            }
+            setMessages(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [activeconversation]);
 
   function handleSendMessage(event) {
     if (event === "") return;
 
     // Check if the message is a file or a text
-
-    if (mfile) {
+    if (contentType === "geolocalization") {
+    } else if ((contentType === "image" || contentType === "video") && mfile) {
       // Send the squeal with the file
-    } else if (event) {
-      // Send the squeal with the text
+    } else if (contentType === "text") {
+      if (event) {
+        axiosInstance
+          .post(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations/" +
+              activeconversation._id,
+            {
+              content: event,
+              contentType: "text",
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } else if ((contentType === "image" || contentType === "video") && !mfile) {
+      // Immagine o video link
     }
 
     // Refetch the messages of the conversation
@@ -134,6 +157,7 @@ function ChatUI({ myself }) {
       : guesticon;
 
     setActiveConversation(cname);
+    console.log(cname);
 
     // fetch dei messaggi della conversazione cambiata
     axiosInstance
@@ -146,10 +170,7 @@ function ChatUI({ myself }) {
       )
       .then((res) => {
         // Check if in the response there are messages
-        if (res.status === 204) {
-          setMessages([]);
-          return;
-        }
+
         console.log(res.data);
         setMessages(res.data);
       })
@@ -235,13 +256,7 @@ function ChatUI({ myself }) {
               return (
                 <Conversation
                   key={key}
-                  name={
-                    convo.user2?.firstname +
-                    " " +
-                    convo.user2?.surname +
-                    " @" +
-                    convo.user2?.username
-                  }
+                  name={convo.user2?.firstname + " @" + convo.user2?.username}
                   onClick={() => {
                     setShowSidebar(!showsidebar);
                     handleCovoChange(convo);
@@ -276,7 +291,10 @@ function ChatUI({ myself }) {
               }}
             >
               <ConversationHeader.Back
-                onClick={() => setShowSidebar(!showsidebar)}
+                onClick={() => {
+                  setActiveConversation({});
+                  setShowSidebar(!showsidebar);
+                }}
               />
 
               <Avatar
@@ -294,31 +312,34 @@ function ChatUI({ myself }) {
             </ConversationHeader>
 
             <MessageList>
-              {messages.map((message, index) =>
-                // Check if the message is incoming or outgoing, check if the message is a file or a text
-                message.contentType === "text" ? (
-                  <Message
-                    key={index}
-                    model={{
-                      message: message.content,
-                      sender: message.author === myself._id ? "Me" : "Other",
-                      sentTime: message.createdAt,
-                      direction:
-                        message.author === myself._id ? "outgoing" : "incoming",
-                    }}
-                  >
-                    <Avatar
-                      src={
-                        message.author === myself._id
-                          ? myself.profilePic
-                          : activeconversation.user2?.profilePic
-                      }
-                    />
+              {messages &&
+                messages.map((message, index) =>
+                  // Check if the message is incoming or outgoing, check if the message is a file or a text
+                  message.contentType === "text" ? (
+                    <Message
+                      key={index}
+                      model={{
+                        message: message.content,
+                        sender: message.author === myself._id ? "Me" : "Other",
+                        sentTime: message.createdAt,
+                        direction:
+                          message.author === myself._id
+                            ? "outgoing"
+                            : "incoming",
+                      }}
+                    >
+                      <Avatar
+                        src={
+                          message.author === myself._id
+                            ? myself.profilePic
+                            : activeconversation.user2?.profilePic
+                        }
+                      />
 
-                    <Message.Header sender="Other" sentTime="just now" />
-                  </Message>
-                ) : null
-              )}
+                      <Message.Header sender="Other" sentTime="just now" />
+                    </Message>
+                  ) : null
+                )}
 
               {/* <Message
                 type="custom"
