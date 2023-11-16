@@ -34,8 +34,16 @@
     <app-feed-tab></app-feed-tab>
 </div>
 
-<div *ngIf="activeTab == 'chars'">
+<div *ngIf="activeTab == 'chars'" class="chars-tab">
     <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
         [monthlyChars]="characters.monthly"></app-character-tab>
+    <div class="shop-card">
+        <span class="shop-title">Shop Notice</span>
+        
+        <p class="description">Dai un'occhiata allo <a
+            [routerLink]="['/shop']">shop</a> per comprare caratteri aggiuntivi! </p>
+        
+    </div>
+   
 </div>
 <div class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
