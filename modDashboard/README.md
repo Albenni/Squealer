@@ -1,12 +1,10 @@
 ## MODERATOR DASHBOARD:
 
 - persistent login se vogliamo farlo
-- Bottone per bloccare/sbloccare un utente (verificare che nel backend sia tutto ok)
-- Bottone per aumentare i caratteri + api nel backend
 - Da sistemare tutta la parte dei canali
 - caricare squeals a blocchi (users e channels???)
 
-Utenti:
+Utenti: (finito)
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.
 Può bloccare e riabilitare gli utenti a mano. Può aumentare a mano i caratteri residui per singoli utenti.
 

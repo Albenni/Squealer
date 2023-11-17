@@ -10,7 +10,3 @@ Da finire/testare:
 - comments
 - aggiunta/rimozione destinatari dagli squeal
 - delete reaction ad uno squeal
-
-Da confermare:
-
-- commenti non sono consumano caratteri e sono formati da solo testo, va bene ????

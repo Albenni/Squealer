@@ -83,7 +83,7 @@
           const password = $("#password").val();
 
           $.ajax({
-            url: "http://localhost:3500/auth/moderator",
+            url: "http://localhost:3500/api/auth/moderator",
             method: "POST",
             data: { user: username, pwd: password },
             success: function (data) {

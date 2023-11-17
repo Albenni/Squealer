@@ -17,6 +17,11 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- CSS di SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
+    <!-- JavaScript di SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
       body {
         background-color: #f8f9fa;
@@ -31,6 +36,10 @@
 
       h1 {
         text-align: center;
+      }
+
+      .modal-body button {
+        margin-bottom: 0.5rem;
       }
 
       .form-control {
@@ -52,7 +61,7 @@
       .table th,
       .table td {
         white-space: nowrap;
-        text-overflow: ellipsis;
+        /* text-overflow: ellipsis; */
         overflow: hidden;
       }
 
@@ -67,18 +76,55 @@
         margin-bottom: 1px;
         visibility: hidden;
       }
-
-      .dropdown,
-      .dropdown-menu,
-      .dropdown-item {
-        position: relative;
-        z-index: 4;
-      }
     </style>
   </head>
   <body>
     <!-- Navigation bar -->
     <div id="nav-placeholder"></div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="userModal"
+      tabindex="-1"
+      aria-labelledby="userModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="userModalLabel">User Information</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center">
+            <button id="add500CharsBtn" class="btn btn-primary">
+              +500 Chars
+            </button>
+            <button id="add1000CharsBtn" class="btn btn-primary">
+              +1000 Chars
+            </button>
+            <button id="blockUserBtn" class="btn btn-danger">Block User</button>
+            <button id="unblockUserBtn" class="btn btn-success">
+              Sblocca Utente
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container my-4">
       <h1 class="mt-4 mb-4">Users</h1>
@@ -133,9 +179,9 @@
               <th>Firstname</th>
               <th>Lastname</th>
               <th>Email</th>
-              <th>Professional</th>
+              <th>Pro</th>
               <th>Verified</th>
-              <th>Char Available</th>
+              <th>Chars Available</th>
               <th>Blocked</th>
               <th>Action</th>
             </tr>
@@ -163,7 +209,7 @@
       let usersData = []; // To store the user data
       // Function to fetch user data
       function fetchUserData() {
-        $.get("http://localhost:3500/users", function (data) {
+        $.get("http://localhost:3500/api/users", function (data) {
           // Store user data and populate the user list
 
           usersData = data;
@@ -205,23 +251,38 @@
                 "</td><td>" +
                 user.verified +
                 "</td><td>" +
-                user.charAvailable +
+                user.dailyChar +
+                " - " +
+                user.weeklyChar +
+                " - " +
+                user.monthlyChar +
                 "</td><td>" +
                 user.blocked +
                 "</td><td>" +
-                "<div class='dropdown'>" +
-                "<button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton1" +
-                user.username +
-                "' data-bs-toggle='dropdown' aria-expanded='false'> <i class='fas fa-ellipsis-v'></i> </button> " +
-                "<ul class='dropdown-menu' aria-labelledby='dropdownMenuButton1'>" +
-                "<li><a class='dropdown-item' href='#'>Action</a></li>" +
-                "<li><a class='dropdown-item' href='#'>Another action</a></li>" +
-                "<li><a class='dropdown-item' href='#'>Something else here</a></li>" +
-                "</ul> </div>" +
-                +"</td></tr>"
+                `<button class='btn btn-primary' onclick='actionButtonClick("${user._id}")'>Action</button>` +
+                "</td></tr>"
             );
           }
         });
+      }
+
+      function actionButtonClick(userId) {
+        console.log("Button clicked for user ID: " + userId);
+        // Popola il contenuto del modal con le informazioni dell'utente
+        const user = usersData.find((u) => u._id === userId);
+
+        // Popola il contenuto del modal con le informazioni dell'utente
+        $("#userModalLabel").text(
+          `Username:${user.username}, Email:${user.email}`
+        );
+        // // Imposta l'ID dell'utente come attributo data nell'elemento userModalLabel
+        $("#userModalLabel").data("user", user);
+
+        changeBlockSblockButton(user.blocked);
+
+        // $("#userModal").modal("show");
+        var myModal = new bootstrap.Modal(document.getElementById("userModal"));
+        myModal.show();
       }
 
       $(document).ready(function () {
@@ -264,7 +325,126 @@
             this.value.trim() !== "" ? "visible" : "hidden"
           );
         });
+
+        //bottoni nel modale
+        $("#blockUserBtn").click(function () {
+          const user = $("#userModalLabel").data("user");
+          changeBlockSblockButton(true);
+          blockUser(user._id);
+        });
+        $("#unblockUserBtn").click(function () {
+          const user = $("#userModalLabel").data("user");
+          changeBlockSblockButton(false);
+          blockUser(user._id);
+        });
+
+        $("#add500CharsBtn").click(function () {
+          const user = $("#userModalLabel").data("user");
+          add500Chars(user._id);
+        });
+
+        $("#add1000CharsBtn").click(function () {
+          const user = $("#userModalLabel").data("user");
+          add1000Chars(user._id);
+        });
       });
+
+      // Funzione per bloccare l'utente
+      function blockUser(userId) {
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/users/${userId}/blocked`;
+
+        $.ajax({
+          type: "PATCH",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          success: function (data) {
+            console.log("User blocked successfully:", data);
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Accesso dell'utente modificato con successo",
+            });
+          },
+          error: function (error) {
+            console.error("Error blocking user:", error);
+          },
+        });
+      }
+
+      // Funzione per aggiungere 500 caratteri
+      function add500Chars(userId) {
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/users/${userId}/charAvailable`;
+
+        const requestBody = {
+          char: 500,
+        };
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify(requestBody),
+          success: function (data) {
+            console.log("500 caratteri aggiunti al profilo:", data);
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "500 caratteri aggiunti al profilo",
+            });
+          },
+          error: function (error) {
+            console.error("Error adding 500 chars:", error);
+          },
+        });
+      }
+
+      // Funzione per aggiungere 1000 caratteri
+      function add1000Chars(userId) {
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/users/${userId}/charAvailable`;
+
+        const requestBody = {
+          char: 1000,
+        };
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify(requestBody),
+          success: function (data) {
+            console.log("Added 1000 chars successfully:", data);
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "1000 caratteri aggiunti al profilo",
+            });
+          },
+          error: function (error) {
+            console.error("Error adding 1000 chars:", error);
+          },
+        });
+      }
+
+      function changeBlockSblockButton(blocked) {
+        if (blocked) {
+          $("#unblockUserBtn").show();
+          $("#blockUserBtn").hide();
+        } else {
+          $("#unblockUserBtn").hide();
+          $("#blockUserBtn").show();
+        }
+      }
     </script>
   </body>
 </html>
