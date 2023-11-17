@@ -6,7 +6,7 @@ const squealsController = require("../controllers/squealsController");
 router
   .route("/")
   .get(keywordsController.searchKeywords)
-  .post(keywordsController.createKeyword); //da implementare
+  .post(keywordsController.createKeyword);
 
 router
   .route("/:keywordId/squeals")
