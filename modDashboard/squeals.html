@@ -7,6 +7,15 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
     <style>
       body {
         background-color: #f8f9fa;
@@ -64,6 +73,36 @@
     <!-- Navigation bar -->
     <div id="nav-placeholder"></div>
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="squealModal"
+      tabindex="-1"
+      aria-labelledby="squealModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="squealModalLabel">Squeal detail</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center">
+            <p id="squealModalAuthor"></p>
+            <p id="squealModalReceivers"></p>
+            <p id="squealModalContent"></p>
+            <p id="squealModalImpression"></p>
+            <p id="squealModalDate"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container my-4">
       <h1 class="mt-4 mb-4">Messages</h1>
 
@@ -94,12 +133,11 @@
           <input type="date" class="form-control" id="dateFilter" />
         </div>
         <div class="col-md-3">
-          <label for="squealType" class="label-small">Squeal type</label>
+          <label for="squealType" class="label-small">Public Squeal</label>
           <select class="form-select" id="squealType">
-            <option value="">Filter by Squeal Type</option>
-            <option value="Public">Public</option>
-            <option value="Channel">Channel</option>
-            <option value="Keyword">Keyword</option>
+            <option value="">Filter by Public Squeal</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
           </select>
         </div>
       </div>
@@ -112,11 +150,12 @@
           <thead>
             <tr>
               <th>Author</th>
-              <th>Group</th>
+              <th>Receiver</th>
               <th>Content</th>
               <th>Content Type</th>
               <th>Impression</th>
               <th>Date</th>
+              <th>More</th>
             </tr>
           </thead>
           <tbody id="messageList">
@@ -184,14 +223,19 @@
               new Date(message.createdAt).toLocaleDateString() ===
                 dateFilter) &&
             (squealType === "" ||
-              message.squealType?.toLowerCase().includes(squealType) ||
-              (squealType === "public" && message.publicSqueal))
+              message.publicSqueal?.toString() === squealType)
           ) {
             messageList.append(
               "<tr><td>" +
                 message.author.username +
                 "</td><td>" +
-                (message.publicSqueal ? "Public" : message.squealType) +
+                (message.publicSqueal
+                  ? "Public"
+                  : message.receivers?.map((item) => {
+                      return item.groupType === "Channel"
+                        ? "§" + item.group?.name
+                        : "#" + item.group?.name;
+                    })) +
                 "</td><td>" +
                 message.content +
                 "</td><td>" +
@@ -200,6 +244,8 @@
                 message.impression +
                 "</td><td>" +
                 new Date(message.createdAt).toLocaleDateString() +
+                "</td><td>" +
+                `<button class='btn btn-primary' onclick='actionButtonClick("${message._id}")'>Details</button>` +
                 "</td></tr>"
             );
           }
@@ -246,6 +292,37 @@
           );
         });
       });
+
+      function actionButtonClick(squealId) {
+        // Popola il contenuto del modal con le informazioni dell'utente
+        const squeal = messagesData.find((u) => u._id === squealId);
+
+        const receivers = squeal.publicSqueal
+          ? "Public"
+          : squeal.receivers?.map((item) => {
+              return item.groupType === "Channel"
+                ? "§" + item.group?.name
+                : "#" + item.group?.name;
+            });
+
+        // Popola il contenuto del modal con le informazioni dell'utente
+        $("#squealModalAuthor").text(
+          `Author: ${squeal.author.username}, ${squeal.author.firstname} ${squeal.author.surname}`
+        );
+        $("#squealModalReceivers").text(`Receivers: ${receivers}`);
+        $("#squealModalContent").text(`Content: ${squeal.content}`);
+        $("#squealModalImpression").text(`Impression: ${squeal.impression}`);
+        $("#squealModalDate").text(
+          `Date: ${new Date(squeal.createdAt).toLocaleDateString()} `
+        );
+
+        $("#squealModalLabel").data("squeal", squeal);
+
+        var myModal = new bootstrap.Modal(
+          document.getElementById("squealModal")
+        );
+        myModal.show();
+      }
     </script>
   </body>
 </html>

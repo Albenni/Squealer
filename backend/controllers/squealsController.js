@@ -8,10 +8,9 @@ const searchSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
   if (!req.isMod) return res.sendStatus(403);
 
-  const squeals = await Squeal.find({}).populate(
-    "author",
-    "username firstname surname email professional verified profilePic"
-  );
+  const squeals = await Squeal.find({})
+    .populate("author", "username firstname surname ")
+    .populate("receivers.group", "name private editorialChannel profilePic");
 
   if (!squeals?.length)
     return res.status(204).json({ message: "No squeals found" });

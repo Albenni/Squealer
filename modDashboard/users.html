@@ -113,15 +113,6 @@
               Sblocca Utente
             </button>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -265,26 +256,6 @@
           }
         });
       }
-
-      function actionButtonClick(userId) {
-        console.log("Button clicked for user ID: " + userId);
-        // Popola il contenuto del modal con le informazioni dell'utente
-        const user = usersData.find((u) => u._id === userId);
-
-        // Popola il contenuto del modal con le informazioni dell'utente
-        $("#userModalLabel").text(
-          `${user.username}, ${user.firstname} ${user.surname}`
-        );
-        // // Imposta l'ID dell'utente come attributo data nell'elemento userModalLabel
-        $("#userModalLabel").data("user", user);
-
-        changeBlockSblockButton(user.blocked);
-
-        // $("#userModal").modal("show");
-        var myModal = new bootstrap.Modal(document.getElementById("userModal"));
-        myModal.show();
-      }
-
       $(document).ready(function () {
         if (!isUserLoggedIn()) {
           // Il token non è presente nel sessionStorage, redirect alla pagina di login
@@ -348,6 +319,25 @@
           add1000Chars(user._id);
         });
       });
+
+      function actionButtonClick(userId) {
+        console.log("Button clicked for user ID: " + userId);
+        // Popola il contenuto del modal con le informazioni dell'utente
+        const user = usersData.find((u) => u._id === userId);
+
+        // Popola il contenuto del modal con le informazioni dell'utente
+        $("#userModalLabel").text(
+          `${user.username}, ${user.firstname} ${user.surname}`
+        );
+        // // Imposta l'ID dell'utente come attributo data nell'elemento userModalLabel
+        $("#userModalLabel").data("user", user);
+
+        changeBlockSblockButton(user.blocked);
+
+        // $("#userModal").modal("show");
+        var myModal = new bootstrap.Modal(document.getElementById("userModal"));
+        myModal.show();
+      }
 
       // Funzione per bloccare l'utente
       function blockUser(userId) {

@@ -4,7 +4,7 @@
 - Da sistemare tutta la parte dei canali
 - gestire destinatari negli squeal
 - immagine profilo di fianco a username nella sezione user
-- caricare squeals a blocchi (users e channels???)
+- caricare squeals a blocchi, bisogna però cambiare filtrare tramite api e non solo nel frontend (users e channels???)
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.
