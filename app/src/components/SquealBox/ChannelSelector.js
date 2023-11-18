@@ -1,13 +1,13 @@
-import "../css/ChannelSelector.css";
+import "../../css/ChannelSelector.css";
 import { useState } from "react";
 import { InputGroup, Form, Button, ButtonGroup, Nav } from "react-bootstrap";
 
 import { Trash3, Plus } from "react-bootstrap-icons";
 
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import config from "../config/config";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import config from "../../config/config";
 
 function ChannelSelector(props) {
   const axiosInstance = useAxiosPrivate();

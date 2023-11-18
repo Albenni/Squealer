@@ -14,6 +14,7 @@ import {
   ConversationHeader,
   Loader,
 } from "@chatscope/chat-ui-kit-react";
+
 import { Signpost } from "react-bootstrap-icons";
 
 import AttachPreview from "./SquealBox/AttachPreview";
@@ -25,6 +26,7 @@ import guesticon from "../assets/guesticon.png";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 import { Button } from "react-bootstrap";
+import Geolocation from "./posts/Geolocation";
 
 function ChatUI({ myself }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -32,7 +34,7 @@ function ChatUI({ myself }) {
 
   // Conversations variables
   const [activeconversation, setActiveConversation] = useState({});
-
+  const [inputValue, setInputValue] = useState("");
   const [conversationslist, setConversationslist] = useState([]);
   const [searchedconversations, setSearchedConversations] = useState([]);
 
@@ -41,6 +43,7 @@ function ChatUI({ myself }) {
   const [contentType, setContentType] = useState("text"); // ["text", "file", "location"]
   const fileInputRef = useRef(null);
   const [mfile, setMfile] = useState(null);
+  const [squeallocation, setSqueallocation] = useState(null);
 
   // UI variables
   const [showsidebar, setShowSidebar] = useState(true);
@@ -88,7 +91,7 @@ function ChatUI({ myself }) {
     // When activeconversation is set, add an interval to constantly fetch the messages for the conversation
     if (activeconversation._id) {
       const interval = setInterval(() => {
-        console.log("Fetching messages for conversation: ", activeconversation);
+        // console.log("Fetching messages for conversation: ", activeconversation);
         axiosInstance
           .get(
             config.endpoint.users +
@@ -99,7 +102,7 @@ function ChatUI({ myself }) {
           )
           .then((res) => {
             // Check if in the response there are messages
-            console.log(res.data);
+            // console.log(res.data);
             if (res.status === 204) {
               setMessages([]);
               return;
@@ -114,41 +117,79 @@ function ChatUI({ myself }) {
     }
   }, [activeconversation]);
 
-  function handleSendMessage(event) {
-    if (event === "") return;
+  function handleSendMessage() {
+    console.log("Sending message");
+    const event = inputValue;
+    // if (event === "" && !mfile) return;
+    setInputValue("");
 
     // Check if the message is a file or a text
     if (contentType === "geolocalization") {
+      // Send the squeal with the location
+
+      axiosInstance
+        .post(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/conversations/" +
+            activeconversation._id,
+          {
+            content: squeallocation,
+            contentType: "geolocalization",
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if ((contentType === "image" || contentType === "video") && mfile) {
       // Send the squeal with the file
+      console.log("Sending file");
+      // const formData = new FormData();
+      // formData.append("file", mfile);
+      // formData.append("contentType", contentType);
+      // axiosInstance
+      //   .post(
+      //     config.endpoint.users +
+      //       "/" +
+      //       sessionStorage.getItem("userid") +
+      //       "/conversations/" +
+      //       activeconversation._id,
+      //     formData
+      //   )
+      //   .then((res) => {
+      //     console.log(res.data);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     } else if (contentType === "text") {
-      if (event) {
-        axiosInstance
-          .post(
-            config.endpoint.users +
-              "/" +
-              sessionStorage.getItem("userid") +
-              "/conversations/" +
-              activeconversation._id,
-            {
-              content: event,
-              contentType: "text",
-            }
-          )
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    } else if ((contentType === "image" || contentType === "video") && !mfile) {
-      // Immagine o video link
+      axiosInstance
+        .post(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/conversations/" +
+            activeconversation._id,
+          {
+            content: event,
+            contentType: "text",
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
-    // Refetch the messages of the conversation
-
     // Reset the message input
+    setMfile(null);
+    setContentType("text");
   }
 
   function handleCovoChange(cname) {
@@ -201,23 +242,31 @@ function ChatUI({ myself }) {
     }
   };
 
-  const handleFileSelect = (e) => {
+  const handleFileSelect = async (e) => {
     // Get the selected file
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
       console.log("Selected file: ", selectedFile);
+
+      if (selectedFile.type.startsWith("image/")) {
+        console.log("CHECK IMMAGINE");
+        setContentType("image");
+      } else if (selectedFile.type.startsWith("video/")) {
+        console.log("CHECK VIDEO");
+        setContentType("video");
+      } else {
+        console.log("Not image or video");
+        setMfile(null);
+        return;
+      }
       setMfile(selectedFile);
     }
   };
 
   const handleLocation = () => {
     // Get the user's location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-      });
-    }
+    setContentType("geolocalization");
   };
 
   return (
@@ -282,7 +331,17 @@ function ChatUI({ myself }) {
         </div>
       ) : (
         <div>
-          <ChatContainer>
+          <ChatContainer
+            style={{
+              position: "absolute",
+              top: "0",
+              bottom: "0",
+              left: "0",
+              right: "0",
+              overflow: "hidden",
+              paddingBottom: "20px",
+            }}
+          >
             <ConversationHeader
               style={{
                 position: "sticky",
@@ -335,45 +394,155 @@ function ChatUI({ myself }) {
                             : activeconversation.user2?.profilePic
                         }
                       />
-
-                      <Message.Header sender="Other" sentTime="just now" />
+                    </Message>
+                  ) : message.contentType === "image" ? (
+                    <Message
+                      key={index}
+                      model={{
+                        sender: message.author === myself._id ? "Me" : "Other",
+                        sentTime: message.createdAt,
+                        direction:
+                          message.author === myself._id
+                            ? "outgoing"
+                            : "incoming",
+                      }}
+                    >
+                      <Avatar
+                        src={
+                          message.author === myself._id
+                            ? myself.profilePic
+                            : activeconversation.user2?.profilePic
+                        }
+                      />
+                      <Message.ImageContent
+                        src={message.content}
+                        alt="Immagine"
+                        aria-label="Messaggio di tipo immagine"
+                      />
+                    </Message>
+                  ) : message.contentType ===
+                    "video" ? null : message.contentType ===
+                    "geolocalization" ? (
+                    <Message
+                      type="custom"
+                      key={index}
+                      model={{
+                        sender: message.author === myself._id ? "Me" : "Other",
+                        sentTime: message.createdAt,
+                        direction:
+                          message.author === myself._id
+                            ? "outgoing"
+                            : "incoming",
+                      }}
+                    >
+                      <Message.CustomContent>
+                        <div
+                          style={{
+                            width: "270px",
+                            height: "400px",
+                            pointerEvents: "none",
+                          }}
+                        >
+                          <Geolocation squeallocation={message.content} />
+                        </div>
+                      </Message.CustomContent>
                     </Message>
                   ) : null
                 )}
-
-              {/* <Message
-                type="custom"
-                model={{
-                  sentTime: "adesso",
-                  sender: "Test 1",
-                  direction: "incoming",
-                }}
-              >
-                <Message.CustomContent>
-                  <img
-                    src="https://picsum.photos/300/300"
-                    alt="test"
-                    style={{ width: "100%" }}
-                  />
-                </Message.CustomContent>
-              </Message> */}
             </MessageList>
           </ChatContainer>
 
-          <div
-            style={{
-              position: "absolute",
-              bottom: "60px",
-            }}
-          >
-            <AttachPreview />
-          </div>
+          {contentType === "geolocalization" && (
+            <div
+              className="p-2"
+              style={{
+                position: "absolute",
+                bottom: "150px",
+                height: "45%",
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: theme.colors.white,
+              }}
+            >
+              <Geolocation setSquealLocation={setSqueallocation} />
+              <div className="d-flex justify-content-center align-items-center pt-3">
+                <Button
+                  variant="danger"
+                  className="mx-2"
+                  onClick={() => {
+                    setContentType("text");
+                    setMfile(null);
+                  }}
+                >
+                  Cancella
+                </Button>
+                <Button
+                  variant="primary"
+                  className="mx-2"
+                  onClick={() => {
+                    handleSendMessage();
+                  }}
+                >
+                  Invia
+                </Button>
+              </div>
+            </div>
+          )}
 
+          {mfile && (
+            <div
+              className="d-flex flex-column justify-content-center align-items-center "
+              style={
+                contentType === "video"
+                  ? {
+                      position: "absolute",
+                      bottom: "100px",
+                      height: "30%",
+                      width: "100%",
+                      maxWidth: "100%",
+                      backgroundColor: theme.colors.white,
+                    }
+                  : {
+                      position: "absolute",
+                      bottom: "100px",
+                      width: "100%",
+                      maxWidth: "100%",
+                      backgroundColor: theme.colors.white,
+                    }
+              }
+            >
+              <div className={contentType === "video" ? "w-70 h-100" : "w-50"}>
+                <AttachPreview contentType={contentType} squealfile={mfile} />
+              </div>
+              <div>
+                <Button
+                  variant="danger"
+                  className="mx-2"
+                  onClick={() => {
+                    setContentType("text");
+                    setMfile(null);
+                  }}
+                >
+                  Cancella
+                </Button>
+                <Button
+                  variant="primary"
+                  className="mx-2"
+                  onClick={() => {
+                    handleSendMessage();
+                  }}
+                >
+                  Invia
+                </Button>
+              </div>
+            </div>
+          )}
           <div
             style={{
               position: "absolute",
-              bottom: "10px",
-              width: "100%",
+
+              bottom: "50px",
+
               backgroundColor: theme.colors.white,
             }}
           >
@@ -387,11 +556,33 @@ function ChatUI({ myself }) {
             >
               <Signpost size={25} color="#6495ED" />
             </Button>
-
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              paddingBottom: "10px",
+              bottom: "0px",
+              width: "100%",
+              maxWidth: "100%",
+              backgroundColor: theme.colors.white,
+            }}
+          >
             <MessageInput
               placeholder="Scrivi qui il tuo messaggio"
+              sendDisabled={false}
+              attachDisabled={false}
+              sendButton
               onSend={handleSendMessage}
               onAttachClick={handleAttachmentButtonClick}
+              onChange={(e) => {
+                setInputValue(e);
+              }}
+              onPaste={(e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData("text/plain");
+                setInputValue(text);
+              }}
+              value={inputValue}
               autoFocus
             />
           </div>

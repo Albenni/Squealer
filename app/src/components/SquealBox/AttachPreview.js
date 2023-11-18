@@ -73,7 +73,7 @@ function AttachPreview(props) {
 
   return props.contentType === "video" && props.squealcontent ? (
     <div className="container-fluid p-3 d-flex justify-content-center">
-      <ReactPlayer url={props.squealcontent} controls={true} fluid muted />
+      <ReactPlayer url={props.squealcontent} controls={true} />
     </div>
   ) : props.contentType === "image" && props.squealcontent ? (
     <div className="container-fluid p-3 d-flex justify-content-center">

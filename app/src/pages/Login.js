@@ -39,6 +39,7 @@ function Login() {
   const [passwordmatch, setPasswordMatch] = useState(false);
   const [missingFieldsreg, setMissingFieldsreg] = useState(false);
   const [userNameTaken, setUserNameTaken] = useState(false);
+  const [userBlocked, setUserBlocked] = useState(false);
 
   // Login fields
   const [loginobj, setLoginobj] = useState({
@@ -92,6 +93,9 @@ function Login() {
   async function submitFormLogin(event) {
     event.preventDefault();
 
+    setUserBlocked(false);
+    setUserNameTaken(false);
+
     if (!loginobj.username || !loginobj.password) {
       setMissingFields(true);
       return;
@@ -102,6 +106,11 @@ function Login() {
     authapi
       .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
+        if (response.data.blocked) {
+          setUserBlocked(true);
+          return;
+        }
+
         setAuth(response?.data?.accessToken);
 
         // sessionStorage.setItem("token", response?.data?.accessToken);
@@ -220,6 +229,10 @@ function Login() {
                       <ErrorMessage
                         error="Username o password non valida"
                         visible={loginFailed}
+                      />
+                      <ErrorMessage
+                        error="User bloccato da un moderatore"
+                        visible={userBlocked}
                       />
                       <label>Username</label>
                       <input

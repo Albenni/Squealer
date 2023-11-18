@@ -1,8 +1,8 @@
 import "../../css/SquealSelector.css";
 
-import { useState } from "react";
-
 import { useMediaQuery } from "react-responsive";
+
+import { Arrow90degLeft } from "react-bootstrap-icons";
 
 function SquealSelector({ contentType, setContentType }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
@@ -36,7 +36,7 @@ function SquealSelector({ contentType, setContentType }) {
             {nameRender[contentType]}
           </button>
           <button className="go-back-button" onClick={handleGoBack}>
-            Indietro
+            <Arrow90degLeft size={24} />
           </button>
         </div>
       ) : (

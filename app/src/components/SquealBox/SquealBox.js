@@ -4,7 +4,7 @@ import theme from "../../config/theme";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-import ChannelSelector from "../ChannelSelector";
+import ChannelSelector from "./ChannelSelector";
 import SquealSelector from "./SquealSelector";
 import ErrorMessage from "../ErrorMessage";
 import SquealUser from "./SquealUser";
