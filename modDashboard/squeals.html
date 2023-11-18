@@ -33,6 +33,7 @@
 
       .table-container {
         overflow-x: auto;
+        /* max-width: 100%; */
       }
 
       .table {
@@ -44,6 +45,7 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        max-width: 150px; /* Imposta la larghezza massima desiderata per ciascuna cella */
       }
 
       .list-group-item {
@@ -187,7 +189,7 @@
           ) {
             messageList.append(
               "<tr><td>" +
-                message.author +
+                message.author.username +
                 "</td><td>" +
                 (message.publicSqueal ? "Public" : message.squealType) +
                 "</td><td>" +

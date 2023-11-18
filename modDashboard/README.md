@@ -2,9 +2,11 @@
 
 - persistent login se vogliamo farlo
 - Da sistemare tutta la parte dei canali
+- gestire destinatari negli squeal
+- immagine profilo di fianco a username nella sezione user
 - caricare squeals a blocchi (users e channels???)
 
-Utenti: (finito)
+Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.
 Può bloccare e riabilitare gli utenti a mano. Può aumentare a mano i caratteri residui per singoli utenti.
 
