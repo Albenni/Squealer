@@ -117,6 +117,15 @@
           />
         </div>
         <div class="col-md-3">
+          <label for="receiverFilter" class="label-small">Receiver</label>
+          <input
+            type="text"
+            class="form-control"
+            id="receiverFilter"
+            placeholder="Filter by Receiver"
+          />
+        </div>
+        <div class="col-md-3">
           <label for="contentTypeFilter" class="label-small"
             >Content Type</label
           >
@@ -131,14 +140,6 @@
         <div class="col-md-3">
           <label for="dateFilter" class="label-small">Date</label>
           <input type="date" class="form-control" id="dateFilter" />
-        </div>
-        <div class="col-md-3">
-          <label for="squealType" class="label-small">Public Squeal</label>
-          <select class="form-select" id="squealType">
-            <option value="">Filter by Public Squeal</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
         </div>
       </div>
       <button class="btn btn-primary mb-4" id="fetchMessagesButton">
@@ -208,7 +209,7 @@
         const dateFilter = new Date(
           $("#dateFilter").val()
         ).toLocaleDateString();
-        const squealType = $("#squealType").val().toLowerCase();
+        const receiverFilter = $("#receiverFilter").val().toLowerCase();
 
         const messageList = $("#messageList");
         messageList.empty();
@@ -222,8 +223,11 @@
             ($("#dateFilter").val() === "" ||
               new Date(message.createdAt).toLocaleDateString() ===
                 dateFilter) &&
-            (squealType === "" ||
-              message.publicSqueal?.toString() === squealType)
+            (receiverFilter === "" ||
+              message.receivers.some((receiver) =>
+                receiver.group?.name?.includes(receiverFilter)
+              ) ||
+              (receiverFilter === "public" && message.publicSqueal))
           ) {
             messageList.append(
               "<tr><td>" +
@@ -257,7 +261,7 @@
           window.location.href = "./";
         }
         // Add event listeners to the filters
-        $("#authorFilter, #contentTypeFilter, #dateFilter, #squealType").on(
+        $("#authorFilter, #contentTypeFilter, #dateFilter, #receiverFilter").on(
           "input",
           function () {
             populateMessageList(messagesData);
@@ -284,8 +288,8 @@
           label.css("visibility", this.value !== "" ? "visible" : "hidden");
         });
 
-        $("#squealType").on("input", function () {
-          const label = $('label[for="squealType"]');
+        $("#receiverFilter").on("input", function () {
+          const label = $('label[for="receiverFilter"]');
           label.css(
             "visibility",
             this.value.trim() !== "" ? "visible" : "hidden"
