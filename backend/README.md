@@ -4,6 +4,8 @@ api da fare (poche):
 
 - Messaggi temporizzati
 
+- Modificare la quota giornaliera di caratteri in base alle reazioni ricevute
+
 Da finire/testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
