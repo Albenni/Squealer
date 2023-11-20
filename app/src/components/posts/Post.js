@@ -1,7 +1,6 @@
 import theme from "../../config/theme";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import PostHeader from "./PostHeader";
 import PostReaction from "./PostReaction";
 import PostText from "./PostText";
 import PostImage from "./PostImage";
@@ -51,8 +50,8 @@ function Post({ item }) {
             border: "1px solid " + theme.colors.lightgrey,
             padding: "5px",
             zIndex: "1",
-            display: "flex", // To stack the div elements
-            flexDirection: "column", // Stacking elements vertically
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {item.officialChannel ? (
@@ -63,8 +62,26 @@ function Post({ item }) {
             >
               Canale ufficiale squealer
             </div>
+          ) : item.publicSqueal ? (
+            "Squeal pubblico"
           ) : null}
-          <div>{item.channelSqueal ? "Canale" : "Squeal pubblico"}</div>
+
+          {!item.publicSqueal && !item.officialChannel ? (
+            <div className="container">
+              {item.receivers.groupType}
+              {item.receivers.map((receiver, key) => {
+                if (key > 1) return null;
+                if (key === 1)
+                  return (
+                    <div key={key}>
+                      <div key={key}>{receiver.group.name} e altri...</div>
+                    </div>
+                  );
+
+                return <div key={key}>{receiver.group.name}</div>;
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
       <Card
