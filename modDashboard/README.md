@@ -1,10 +1,11 @@
 ## MODERATOR DASHBOARD:
 
-- persistent login se vogliamo farlo
-- Da sistemare tutta la parte dei canali
 - gestire destinatari negli squeal
-- immagine profilo di fianco a username nella sezione user
+- cambiare numero di reazioni positive e negative degli squeal
+- Da sistemare tutta la parte dei canali
 - caricare squeals a blocchi, bisogna però cambiare filtrare tramite api e non solo nel frontend (users e channels???)
+- immagine profilo di fianco a username nella sezione user
+- persistent login se vogliamo farlo
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.

@@ -41,24 +41,50 @@ const createMessage = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.convId))
     return res.status(400).json({ message: "Invalid conversation ID" });
 
-  if (!req?.body?.content)
+  if (!req?.body?.content && !req.files)
     return res.status(400).json({ message: "Body message required" });
   if (!req?.body?.contentType)
     return res.status(400).json({ message: "Content type required" });
 
-  const message = {
-    author: req.params.userId,
-    conversation: req.params.convId,
-    content: req.body.content,
-    contentType: req.body.contentType,
-  };
+  if (
+    req.files?.message &&
+    (req.body.contentType === "image" || req.body.contentType === "video")
+  ) {
+    try {
+      const extension =
+        "." +
+        req.files.message?.name.slice(
+          ((req.files.message?.name.lastIndexOf(".") - 1) >>> 0) + 2
+        );
+      const message = {
+        author: req.params.userId,
+        conversation: req.params.convId,
+        content: extension,
+        contentType: req.body.contentType,
+      };
 
-  try {
-    await Message.create(message);
-    return res.status(200).json({ message: "message created" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
+      const result = await Message.create(message);
+      req.files.message.mv("./public/messagesMedia/" + result._id + extension);
+      return res.status(200).json({ message: "message created" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  } else {
+    const message = {
+      author: req.params.userId,
+      conversation: req.params.convId,
+      content: req.body.content,
+      contentType: req.body.contentType,
+    };
+
+    try {
+      await Message.create(message);
+      return res.status(200).json({ message: "message created" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
   }
 };
 

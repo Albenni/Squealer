@@ -14,5 +14,3 @@ Da finire/testare:
 - delete reaction ad uno squeal
 
 - inserire nello squeal il nome del canale/keyword nel quale è postato (o trovare un modo per recuperarlo nel frontend)
-
-- aggiungere possibilita di mandare file anche nei messaggi privati
