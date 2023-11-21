@@ -3,10 +3,14 @@
     <div class="row px-2" id="profileTabDashboard" style="background-color: black; ">
         <div class="col-6" id="tabProfile">
             <div class="row">
-                <div class="col-4" style="padding: 3%;" id="vipProfilePic">
-                    <img class="" id="imgVipProfilePic" src={{vipProfilePic}}>
+                <div class="col-6 " style="padding: 1.5%;" id="vipProfilePic">
+                    <div class="rounded-avatar">
+                        <!-- Use ngIf to show the image only if vipProfilePic is defined -->
+                        <img *ngIf="vipProfilePic" class="rounded-avatar-img" id="imgVipProfilePic"
+                            [src]="vipProfilePic" alt="Avatar">
+                    </div>
                 </div>
-                <div class="col-4" id="vipUsername " style="color: white; margin-top: 1rem;">{{vipUsername}}</div>
+                <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;">{{vipUsername}}</div>
 
             </div>
 
@@ -15,13 +19,13 @@
             <div class="row">
                 <!-- funzione caricamento feed-->
                 <tab class="col-6"><ng-template tabHeading>
-                        <button id="showFeedButton" class="text btn" (click)="activeTab = 'feed' "><span class=""
-                                style=" font-weight: bold;">Feed</span></button>
+                        <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed' "><span class=""
+                                style=" font-weight: 500; font-size: 1.2rem;">Feed</span></button>
                     </ng-template></tab>
                 <!-- funzione caricamento caratteri rimanenti-->
                 <tab class="col-6"><ng-template tabHeading>
-                        <button id="showCharsButton" class="text btn " (click)="activeTab = 'chars' "><span class=""
-                                style="font-weight: bold;">Caratteri</span></button>
+                        <button id="showCharsButton" class="mx-2 p-0 text btn " (click)="activeTab = 'chars' "><span class=""
+                                style="font-weight: 500; font-size: 1.2rem;">Caratteri</span></button>
 
                     </ng-template></tab>
 
@@ -39,11 +43,11 @@
         [monthlyChars]="characters.monthly"></app-character-tab>
     <div class="shop-card">
         <span class="shop-title">Shop Notice</span>
-        
-        <p class="description">Dai un'occhiata allo <a
-            [routerLink]="['/shop']">shop</a> per comprare caratteri aggiuntivi! </p>
-        
+
+        <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri
+            aggiuntivi! </p>
+
     </div>
-   
+
 </div>
-<div class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
+<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
