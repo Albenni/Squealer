@@ -1,10 +1,10 @@
 <div class="shop-page">
     <app-shop-top-bar></app-shop-top-bar>
-    <h2 style="text-align: center;">Il tuo shop dei caratteri.</h2>
+    <h2 id="shop-title">Il tuo shop dei caratteri.</h2>
     <div class="row"> <app-shop-cards class="col-6"></app-shop-cards>
         <mat-divider class="col-1" vertical></mat-divider>
-        <app-character-displayer class="col-5" [dailyChars]="100" [weeklyChars]="1000"
-            [monthlyChars]="2000">
+        <app-character-displayer class="col-5" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+            [monthlyChars]="characters.monthly">
         </app-character-displayer>
     </div>
 

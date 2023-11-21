@@ -31,3 +31,13 @@
     margin-top: 1.5rem;
     margin-left: 8vw;
 }
+
+.mat-card{
+  max-width: 100px;
+  
+}
+mat-card-content{
+  margin-top: 1rem;
+  padding: 0;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}

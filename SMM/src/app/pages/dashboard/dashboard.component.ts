@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
