@@ -60,7 +60,7 @@ function SquealBox(props) {
       }
     }
 
-    getUser();
+    if (sessionStorage.getItem("userid") !== "guest") getUser();
   }, [axiosInstance]);
 
   function handleSqueal(event) {

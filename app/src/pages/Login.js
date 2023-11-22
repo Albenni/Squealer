@@ -129,7 +129,6 @@ function Login() {
   }
 
   function handleGuestUser() {
-    // setAuth("guest");
     sessionStorage.setItem("userid", "guest");
 
     navigate("/feed");

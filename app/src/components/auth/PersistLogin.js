@@ -28,6 +28,12 @@ const PersistLogin = () => {
 
     // persist Avoids unwanted call to verifyRefreshToken
     // !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
+
+    if (sessionStorage.getItem("userid") === "guest") {
+      setIsLoading(false);
+      return;
+    }
+
     !auth ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (isMounted = false);

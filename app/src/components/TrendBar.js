@@ -4,27 +4,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useLocation } from "react-router-dom";
-import config from "../config/config";
-
-import useAuth from "../hooks/useAuth";
 
 function TrendBar() {
-  const userapi = useAxiosPrivate();
+  // const userapi = useAxiosPrivate();
 
   const location = useLocation();
-  const { auth } = useAuth();
-  const [tags, setTags] = useState([]);
-  const [channelCount, setChannelCount] = useState(0);
+
   const [activeKey, setActiveKey] = useState("feed");
 
   useEffect(() => {
-    if (!auth) {
-      alert("NON SEI LOGGATO");
-      setTags(["#squeal", "#squealapp", "#squealapp"]);
-      return;
-    }
+    // if (!auth) {
+    //   alert("NON SEI LOGGATO");
+    //   setTags(["#squeal", "#squealapp", "#squealapp"]);
+    //   return;
+    // }
 
     if (location.pathname === "/channels") {
       setActiveKey("channels");
@@ -87,7 +82,9 @@ function TrendBar() {
               fontSize: "1.2rem",
               fontWeight: "bold",
             }}
-            href="/channels"
+            href={
+              sessionStorage.getItem("userid") === "guest" ? "/" : "/channels"
+            }
           >
             Scopri nuovi canali
           </Nav.Link>

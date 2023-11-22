@@ -43,9 +43,7 @@ function Feed() {
   };
 
   useEffect(() => {
-    const userid = sessionStorage.getItem("userid");
-
-    if (userid && pageBottom === false) {
+    if (pageBottom === false) {
       axiosInstance
         .get(config.endpoint.feed + "?index=" + postindex)
         .then((response) => {
@@ -62,8 +60,6 @@ function Feed() {
         .catch((error) => {
           console.log(error);
         });
-    } else if (userid === "guest" && pageBottom === false) {
-      alert("SEI UN GUEST");
     }
   }, [pageBottom]);
 

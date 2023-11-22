@@ -96,6 +96,12 @@ function SearchBar() {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (sessionStorage.getItem("userid") === "guest") {
+      navigate("/", { replace: true });
+      return;
+    }
+
     if (wordEntered === "") return;
 
     if (wordEntered[0] === "@") {
@@ -125,10 +131,11 @@ function SearchBar() {
     <>
       <Form onSubmit={handleSubmit} className="d-flex">
         <Form.Control
-          type="search"
+          type="text"
           placeholder="Cerca"
           className="me-1"
-          aria-label="Search"
+          aria-label="Cerca"
+          aria-describedby="Cerca utenti, canali e keyword"
           onChange={handleChange}
           value={wordEntered}
           style={{ borderWidth: "1px", borderColor: "black" }}

@@ -89,36 +89,37 @@ function TopBar() {
             </div>
           </Navbar.Brand>
 
-          {location.pathname !== "/settings" && (
-            <div className="justify-content-center">
-              <SearchBar />
-            </div>
-          )}
-
           {sessionStorage.getItem("userid") === "guest" ? (
-            <Dropdown>
-              <Dropdown.Toggle variant="light">
-                <img
-                  alt="Profile"
-                  src={guesticon}
-                  style={{ maxHeight: "4.5vh" }}
-                  className="rounded-circle"
-                />
-              </Dropdown.Toggle>
-              <Dropdown.Menu align={"end"}>
-                <Dropdown.ItemText>
-                  <h6>Ciao, Guest!</h6>
-                </Dropdown.ItemText>
-                <Dropdown.Item
-                  onClick={() => {
-                    sessionStorage.clear();
-                    navigate("/", { replace: true });
-                  }}
-                >
-                  Login
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <div className="d-flex align-items-center">
+              {location.pathname !== "/settings" && (
+                <div>
+                  <SearchBar />
+                </div>
+              )}
+              <Dropdown>
+                <Dropdown.Toggle variant="light">
+                  <img
+                    alt="Profile"
+                    src={guesticon}
+                    style={{ maxHeight: "4.5vh" }}
+                    className="rounded-circle"
+                  />
+                </Dropdown.Toggle>
+                <Dropdown.Menu align={"end"}>
+                  <Dropdown.ItemText>
+                    <h6>Ciao, Guest!</h6>
+                  </Dropdown.ItemText>
+                  <Dropdown.Item
+                    onClick={() => {
+                      sessionStorage.clear();
+                      navigate("/", { replace: true });
+                    }}
+                  >
+                    Login
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           ) : (
             <>
               <PrivateMessages
@@ -127,7 +128,12 @@ function TopBar() {
                 placement={"end"}
               />
 
-              <Nav className="justify-content-end">
+              <Nav className="justify-content-end align-items-center">
+                {location.pathname !== "/settings" && (
+                  <div>
+                    <SearchBar />
+                  </div>
+                )}
                 <div className="shop-chat-buttons">
                   <Nav.Link
                     onClick={() => {
