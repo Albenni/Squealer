@@ -1,6 +1,6 @@
 import theme from "../../config/theme";
 import { useEffect, useState } from "react";
-import { Button, ProgressBar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useMediaQuery } from "react-responsive";
 
 import {
@@ -100,17 +100,12 @@ function PostReaction({ postid, postimpression, postcategory }) {
         />
       )}
       <div className="container d-flex align-items-center justify-content-center">
-        <div className="container">
-          {/* <ProgressBar
-            now={cm}
-            label={`${cm}%`}
-            variant={barcolor}
-            style={{
-              height: isMobile ? "15px" : "25px",
-              borderRadius: "20px",
-              backgroundColor: theme.colors.transparent,
-            }}
-          /> */}
+        <div
+          className="container"
+          style={{
+            paddingLeft: "20px",
+          }}
+        >
           {postcategory === undefined ? null : postcategory === "popolare" ? (
             <div
               style={

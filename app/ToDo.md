@@ -47,5 +47,3 @@ https://mui.com/material-ui/react-menu/
 - Aggiungere sezione nella box per la creazione di messaggi temporizzati (geolocalizzazioni)
 
 - Aggiungere possibilita di caricare foto scattate da cellulare sul momento
-
-- Finire modalità guest
