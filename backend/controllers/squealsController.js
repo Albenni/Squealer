@@ -280,8 +280,7 @@ const getReactions = async (req, res) => {
   }
 };
 
-//body.reaction="positive" per aggiungere una reazione positiva
-//sennò viene negativa
+//body.reactionType deve contenere l'intero che indica la reazione
 const addReaction = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
@@ -302,6 +301,53 @@ const addReaction = async (req, res) => {
         userId: req.id,
         reactionType: parseInt(req.body.reactionType),
       });
+
+      //stabiliamo se un post è popolare o impopolare
+
+      // reactionType = 3 vale come doppio rispetto a reactionType = 2
+      //solo reaction positive
+      const numReactionPos =
+        (await Reaction.countDocuments({
+          squealId: req.params.squealId,
+          userId: req.id,
+          reactionType: 2,
+        })) +
+        2 *
+          (await Reaction.countDocuments({
+            squealId: req.params.squealId,
+            userId: req.id,
+            reactionType: 3,
+          }));
+      const numReactionNeg =
+        (await Reaction.countDocuments({
+          squealId: req.params.squealId,
+          userId: req.id,
+          reactionType: 1,
+        })) +
+        2 *
+          (await Reaction.countDocuments({
+            squealId: req.params.squealId,
+            userId: req.id,
+            reactionType: 0,
+          }));
+
+      if (
+        (numReactionPos >= squeal.impression * 0, 25) &&
+        (numReactionNeg >= squeal.impression * 0, 25)
+      ) {
+        squeal.category = "controverso";
+        await squeal.save();
+      } else if ((numReactionPos >= squeal.impression * 0, 25)) {
+        squeal.category = "popolare";
+        await squeal.save();
+      } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
+        squeal.category = "impopolare";
+        await squeal.save();
+      } else {
+        squeal.category = null;
+        await squeal.save();
+      }
+      //manca la parte di aumento/diminuzione della quota nel caso di post popolari/impopolari
 
       res.status(200).json({ message: "OK" });
     } else {

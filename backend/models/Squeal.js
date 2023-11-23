@@ -42,6 +42,13 @@ const squealSchema = new Schema({
       message: "{VALUE} is not supported",
     },
   },
+  category: {
+    type: String,
+    enum: {
+      values: ["popolare", "impopolare", "controverso"],
+      message: "{VALUE} is not supported",
+    },
+  },
   impression: {
     type: Number,
     default: 0,

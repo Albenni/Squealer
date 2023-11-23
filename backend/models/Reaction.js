@@ -11,6 +11,7 @@ const reactionSchema = new Schema({
     ref: "Conversation",
     required: true,
   },
+  //0 molto negativa, 3 molto positiva
   reactionType: {
     type: Number,
     required: true,

@@ -31,6 +31,8 @@ const createChannel = async (req, res) => {
 };
 
 const updateProfilePic = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
     return res.status(400).json({ message: "Channel ID invalid" });
 
