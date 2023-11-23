@@ -14,6 +14,9 @@ import {
   EmojiHeartEyes,
   EmojiHeartEyesFill,
   EyeFill,
+  Fire,
+  GraphDownArrow,
+  GraphUpArrow,
 } from "react-bootstrap-icons";
 
 import CommentsModal from "./CommentsModal";
@@ -21,7 +24,7 @@ import CommentsModal from "./CommentsModal";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import config from "../../config/config";
 
-function PostReaction({ postid, postimpression }) {
+function PostReaction({ postid, postimpression, postcategory }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const axiosInstance = useAxiosPrivate();
@@ -33,8 +36,6 @@ function PostReaction({ postid, postimpression }) {
     pos2Reac: 0,
     pos3Reac: 0,
   });
-  const [cm, setCm] = useState(50);
-  const [barcolor, setBarColor] = useState("");
 
   function handleReaction(type) {
     if (reaction[type]) {
@@ -87,20 +88,6 @@ function PostReaction({ postid, postimpression }) {
       .catch((err) => {
         console.log(err);
       });
-
-    if (postimpression < 33) {
-      setBarColor("danger");
-    } else if (postimpression < 66) {
-      setBarColor("warning");
-    } else {
-      setBarColor("success");
-    }
-    if (postimpression <= 0) {
-      setCm(1);
-      return;
-    }
-
-    setCm(postimpression);
   }, []);
 
   return (
@@ -114,7 +101,7 @@ function PostReaction({ postid, postimpression }) {
       )}
       <div className="container d-flex align-items-center justify-content-center">
         <div className="container">
-          <ProgressBar
+          {/* <ProgressBar
             now={cm}
             label={`${cm}%`}
             variant={barcolor}
@@ -123,7 +110,86 @@ function PostReaction({ postid, postimpression }) {
               borderRadius: "20px",
               backgroundColor: theme.colors.transparent,
             }}
-          />
+          /> */}
+          {postcategory === undefined ? null : postcategory === "popolare" ? (
+            <div
+              style={
+                isMobile
+                  ? {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                    }
+                  : {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "end",
+                    }
+              }
+            >
+              Popolare
+              <GraphUpArrow
+                style={{
+                  color: theme.colors.success,
+                  height: isMobile ? "20px" : "25px",
+                  width: isMobile ? "20px" : "25px",
+                  paddingLeft: "5px",
+                }}
+              />
+            </div>
+          ) : postcategory === "controverso" ? (
+            <div
+              style={
+                isMobile
+                  ? {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                    }
+                  : {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "end",
+                    }
+              }
+            >
+              Controverso
+              <Fire
+                style={{
+                  color: theme.colors.danger,
+                  height: isMobile ? "20px" : "25px",
+                  width: isMobile ? "20px" : "25px",
+                  paddingLeft: "5px",
+                }}
+              />
+            </div>
+          ) : postcategory === "impopolare" ? (
+            <div
+              style={
+                isMobile
+                  ? {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                    }
+                  : {
+                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "end",
+                    }
+              }
+            >
+              Impopolare
+              <GraphDownArrow
+                style={{
+                  color: theme.colors.primary,
+                  height: isMobile ? "20px" : "25px",
+                  width: isMobile ? "20px" : "25px",
+                  paddingLeft: "5px",
+                }}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="ms-auto d-flex align-items-center">
           <EyeFill

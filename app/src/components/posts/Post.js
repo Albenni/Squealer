@@ -98,7 +98,11 @@ function Post({ item }) {
           <PostLocation item={item} user={user} />
         )}
         <Card.Footer>
-          <PostReaction postid={item._id} postimpression={item.impression} />
+          <PostReaction
+            postid={item._id}
+            postimpression={item.impression}
+            postcategory={item.category}
+          />
         </Card.Footer>
       </Card>
     </>

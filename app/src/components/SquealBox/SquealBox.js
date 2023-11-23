@@ -224,21 +224,21 @@ function SquealBox(props) {
 
     console.log(squealobj);
 
-    // axiosInstance
-    //   .post(
-    //     config.endpoint.users +
-    //       "/" +
-    //       sessionStorage.getItem("userid") +
-    //       "/squeals",
-    //     squealobj
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     props.setSuccessfullSqueal(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axiosInstance
+      .post(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/squeals",
+        squealobj
+      )
+      .then((res) => {
+        console.log(res);
+        props.setSuccessfullSqueal(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     props.setShowBox(false);
   }
