@@ -64,7 +64,15 @@ function SettingsPage() {
   }
 
   function handleSProfessional() {
-    console.log("SProfessional");
+    axiosInstance
+      .patch(endpoint + sessionStorage.getItem("userid") + "/professional")
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -241,28 +249,41 @@ function SettingsPage() {
                   >
                     <Card style={{ borderRadius: "2vh" }}>
                       <Card.Body>
-                        <Card.Title className="p-3 text-center">
+                        <Card.Title className="p-3 text-center ">
                           Squealer Professional
                         </Card.Title>
 
-                        <Card.Text>
+                        <Card.Text className="pe-none">
                           Squealer Professional è un abbonamento che ti permette
                           di avere accesso a funzionalità esclusive, come
-                          caratteri aggiuntivi, canali personalizzati e
-                          amministratori.
+                          caratteri aggiuntivi, canali personalizzati e la
+                          possibilità di avere un Social Media Manager.
                         </Card.Text>
 
-                        <Card.Text>
+                        <Card.Text className="pe-none">
                           L'abbonamento costa 9,99€ al mese.
                         </Card.Text>
 
-                        <Button
-                          variant="primary"
-                          className="m-3"
-                          onClick={handleSProfessional}
-                        >
-                          Attiva
-                        </Button>
+                        {user.professional ? (
+                          <div
+                            className="text-center"
+                            style={{
+                              color: theme.colors.success,
+                              fontWeight: "bold",
+                              fontSize: "1.3rem",
+                            }}
+                          >
+                            Sei già uno Squealer Professional!
+                          </div>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            className="mx-auto d-block"
+                            onClick={handleSProfessional}
+                          >
+                            Attiva
+                          </Button>
+                        )}
                       </Card.Body>
                     </Card>
                   </div>

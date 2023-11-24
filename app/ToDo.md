@@ -12,14 +12,6 @@ https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
 https://mui.com/material-ui/react-menu/
 
-- Finire la sezione messaggi privati
-
-- Fare il redirect alla sezione messaggi privati quando un utente prova a pubblicare uno squeal con destinatario un utente privato
-
-- Fare una pagina pubblica dove posso vedere tutti i post pubblici di un utente, anche privati nel caso tu lo segua
-
-- Aggiustare grafica reazioni per mobile, finire di collegare le reazioni al backend
-
 - Fixare grafica del pulsante di nuovo squeal e tutti i bug della squeal box
 
 - Codificare il token che teniamo all'interno dell'app
@@ -27,8 +19,6 @@ https://mui.com/material-ui/react-menu/
 - Aggiungere sezione dove admin possono decidere chi legge e chi scrive nei canali di cui sono proprietari
 
 - Per qualche motivo posts nei canali è undefined, cercare soluzione
-
-- Rendere sito accessibile
 
 - Aggiungere la possibilità di creare canali
 
@@ -47,3 +37,5 @@ https://mui.com/material-ui/react-menu/
 - Aggiungere sezione nella box per la creazione di messaggi temporizzati (geolocalizzazioni)
 
 - Aggiungere possibilita di caricare foto scattate da cellulare sul momento
+
+- Rendere sito accessibile

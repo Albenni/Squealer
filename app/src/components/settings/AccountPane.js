@@ -11,13 +11,27 @@ import { useMediaQuery } from "react-responsive";
 
 import SMMModal from "./SMMModal";
 
-function AccountPane({ user }) {
-  const [show, setShow] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import config from "../../config/config";
 
-  function handleSync(usernameSMM) {
-    console.log("Aggiungi il SMM scelto all'account di questo utente");
-    console.log(usernameSMM);
+function AccountPane({ user }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const axiosInstance = useAxiosPrivate();
+
+  const [show, setShow] = useState(false);
+
+  function handleSync(smmid) {
+    axiosInstance
+      .post(config.endpoint.users + "/" + user._id + "/smm", {
+        smmId: smmid,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     setShow(false);
   }
 
@@ -112,15 +126,15 @@ function AccountPane({ user }) {
                 {user.professional && (
                   <div className="d-flex justify-content-between align-items-center">
                     <Card.Text
+                      className="pe-none"
                       style={{
-                        pointerEvents: "none",
+                        marginBottom: "0px",
                       }}
                     >
                       Scegli il tuo Social Media Manager
                     </Card.Text>
                     <Button
                       variant="outline-dark"
-                      className="ml-2"
                       onClick={() => setShow(true)}
                     >
                       Aggiungi

@@ -407,18 +407,23 @@ function ChatUI({ myself }) {
                             : "incoming",
                       }}
                     >
-                      <Avatar
-                        src={
-                          message.author === myself._id
-                            ? myself.profilePic
-                            : activeconversation.user2?.profilePic
-                        }
-                      />
-                      <Message.ImageContent
-                        src={message.content}
-                        alt="Immagine"
-                        aria-label="Messaggio di tipo immagine"
-                      />
+                      {message.content[0] === "." ? (
+                        <Message.ImageContent
+                          src={
+                            config.URL +
+                            "/messagesMedia/" +
+                            message._id +
+                            message.content
+                          }
+                          alt="Immagine"
+                          aria-label="Messaggio di tipo immagine"
+                          width={isMobile ? "280px" : "500px"}
+                        />
+                      ) : (
+                        <Message.TextContent>
+                          Immagine non disponibile
+                        </Message.TextContent>
+                      )}
                     </Message>
                   ) : message.contentType ===
                     "video" ? null : message.contentType ===
@@ -437,11 +442,19 @@ function ChatUI({ myself }) {
                     >
                       <Message.CustomContent>
                         <div
-                          style={{
-                            width: "270px",
-                            height: "400px",
-                            pointerEvents: "none",
-                          }}
+                          style={
+                            isMobile
+                              ? {
+                                  width: "270px",
+                                  height: "400px",
+                                  pointerEvents: "none",
+                                }
+                              : {
+                                  width: "500px",
+                                  height: "400px",
+                                  pointerEvents: "none",
+                                }
+                          }
                         >
                           <Geolocation squeallocation={message.content} />
                         </div>
