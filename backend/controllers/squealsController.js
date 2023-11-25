@@ -302,52 +302,7 @@ const addReaction = async (req, res) => {
         reactionType: parseInt(req.body.reactionType),
       });
 
-      //stabiliamo se un post è popolare o impopolare
-
-      // reactionType = 3 vale come doppio rispetto a reactionType = 2
-      //solo reaction positive
-      const numReactionPos =
-        (await Reaction.countDocuments({
-          squealId: req.params.squealId,
-          userId: req.id,
-          reactionType: 2,
-        })) +
-        2 *
-          (await Reaction.countDocuments({
-            squealId: req.params.squealId,
-            userId: req.id,
-            reactionType: 3,
-          }));
-      const numReactionNeg =
-        (await Reaction.countDocuments({
-          squealId: req.params.squealId,
-          userId: req.id,
-          reactionType: 1,
-        })) +
-        2 *
-          (await Reaction.countDocuments({
-            squealId: req.params.squealId,
-            userId: req.id,
-            reactionType: 0,
-          }));
-
-      if (
-        (numReactionPos >= squeal.impression * 0, 25) &&
-        (numReactionNeg >= squeal.impression * 0, 25)
-      ) {
-        squeal.category = "controverso";
-        await squeal.save();
-      } else if ((numReactionPos >= squeal.impression * 0, 25)) {
-        squeal.category = "popolare";
-        await squeal.save();
-      } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
-        squeal.category = "impopolare";
-        await squeal.save();
-      } else {
-        squeal.category = null;
-        await squeal.save();
-      }
-      //manca la parte di aumento/diminuzione della quota nel caso di post popolari/impopolari
+      manageReactions(squeal);
 
       res.status(200).json({ message: "OK" });
     } else {
@@ -356,6 +311,8 @@ const addReaction = async (req, res) => {
         reactionType: parseInt(req.body.reactionType),
       });
 
+      manageReactions(squeal);
+
       res.status(200).json({ message: "OK" });
     }
   } catch (error) {
@@ -363,6 +320,74 @@ const addReaction = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
+async function manageReactions(squeal) {
+  // reactionType = 3 vale come doppio rispetto a reactionType = 2
+  //solo reaction positive
+  const numReactionPos =
+    (await Reaction.countDocuments({
+      squealId: req.params.squealId,
+      userId: req.id,
+      reactionType: 2,
+    })) +
+    2 *
+      (await Reaction.countDocuments({
+        squealId: req.params.squealId,
+        userId: req.id,
+        reactionType: 3,
+      }));
+  const numReactionNeg =
+    (await Reaction.countDocuments({
+      squealId: req.params.squealId,
+      userId: req.id,
+      reactionType: 1,
+    })) +
+    2 *
+      (await Reaction.countDocuments({
+        squealId: req.params.squealId,
+        userId: req.id,
+        reactionType: 0,
+      }));
+
+  //stabiliamo se un post è popolare o impopolare
+  if (
+    (numReactionPos >= squeal.impression * 0, 25) &&
+    (numReactionNeg >= squeal.impression * 0, 25)
+  ) {
+    squeal.category = "controverso";
+    await squeal.save();
+  } else if ((numReactionPos >= squeal.impression * 0, 25)) {
+    squeal.category = "popolare";
+    await squeal.save();
+    //aumento quota se questo è il decimo squeal popolare
+    const contPop = await Squeal.count({
+      author: squeal.author,
+      category: "popolare",
+    });
+    if (contPop % 10 === 0) {
+      const author = await User.findById(squeal.author);
+      author.dailyChar = author.dailyChar + constants.DAILY_CHAR / 100;
+      await author.save();
+    }
+  } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
+    squeal.category = "impopolare";
+    await squeal.save();
+    //diminuisco quota se questo è il terzo squeal impopolare
+    const contImpop = await Squeal.count({
+      author: squeal.author,
+      category: "impopolare",
+    });
+    if (contImpop % 3 === 0) {
+      const author = await User.findById(squeal.author);
+      author.dailyChar = author.dailyChar - constants.DAILY_CHAR / 100;
+      if (author.dailyChar < 0) author.dailyChar = 0;
+      await author.save();
+    }
+  } else {
+    squeal.category = null;
+    await squeal.save();
+  }
+}
 
 const removeReaction = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
