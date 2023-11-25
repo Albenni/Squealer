@@ -19,5 +19,3 @@ Da finire/testare:
 - comments
 - aggiunta/rimozione destinatari dagli squeal
 - delete reaction ad uno squeal
-
-- nel feed ritornare gli squeal dal più recente al più vecchio

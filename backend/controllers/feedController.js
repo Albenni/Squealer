@@ -36,6 +36,7 @@ const generateFeed = async (req, res) => {
           { "receivers.group": { $in: groupsFollowedFilter } },
         ],
       })
+        .sort("-createdAt")
         .skip(squealLengthBlock * index)
         .limit(squealLengthBlock * (index + 1))
         .populate(
