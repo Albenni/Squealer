@@ -3,17 +3,14 @@
   z-index: 2; /* or an appropriate value */
 }
 
-/* Ensure a stacking context for app-top-bar */
 app-top-bar {
   z-index: 2;
 }
 
-/* Ensure a stacking context for #profileTabDashboard */
 #profileTabDashboard {
   z-index: 1;
 }
 
-/* Ensure a stacking context for .fixed-bottom */
 .fixed-bottom {
   z-index: 3;
 }

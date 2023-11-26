@@ -12,6 +12,7 @@ import { GetCharsResponse, Characters } from '../../shared-interfaces';
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
+  activePubTab: string = 'pubblico';
   characters: Characters = {
     daily: 0,
     weekly: 0,
@@ -52,5 +53,7 @@ export class CreatePostComponent {
         this.characters.weekly = data.weeklyChar;
         this.characters.monthly = data.monthlyChar;
       });
+  }
+  post() {
   }
 }

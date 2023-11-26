@@ -13,4 +13,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 Da fare:
 -Squeal box per postare
 -Gestione video in generale (visualizzazione, postare)
--Gestione visualizzazione immagini di dimensioni non standard (finora testato con 200px*200px)
+-Gestione visualizzazione immagini di dimensioni non standard (finora testato con 200px\*200px)
+-Reset della password

@@ -32,7 +32,6 @@ export class TopBarComponent {
   constructor(private sharedService: SharedService, private router: Router) {}
 
   changeVip(index: number) {
-    // Emit the selected index to notify the parent component
     this.vipSelected.emit(index);
   }
   shopButton() {

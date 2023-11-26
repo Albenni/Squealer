@@ -13,7 +13,7 @@ import { Characters, GetCharsResponse } from '../../shared-interfaces';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  logosrc: string = './assets/SLogo.png'; // Dichiarazione della proprietà logo
+  logosrc: string = './assets/SLogo.png'; 
   activeTab: string = 'feed';
 
   characters: Characters = {
