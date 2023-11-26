@@ -74,7 +74,7 @@ const addChars = async (req, res) => {
   if (isNaN(req.body?.char))
     return res
       .status(400)
-      .json({ message: "Specify char in body for characters" });
+      .json({ message: "Specify body.char for characters" });
 
   try {
     const user = await User.findById(req.params.userId).select(
@@ -97,6 +97,31 @@ const addChars = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ message: error });
+  }
+};
+
+const buyQuota = async (req, res) => {
+  if (!req.authorized) return res.status(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+  if (isNaN(req.body?.char))
+    return res
+      .status(400)
+      .json({ message: "Specify body.char for characters" });
+
+  let date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+
+  try {
+    const result = await User.findByIdAndUpdate(req.params.userId, {
+      aumentoQuota: parseInt(req.body.char),
+      aumentoDuration: date.getTime(),
+    });
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
   }
 };
 
@@ -432,6 +457,7 @@ module.exports = {
   searchUser,
   getCharsAvailable,
   addChars,
+  buyQuota,
   deleteUser,
   getUser,
   updateUsername,

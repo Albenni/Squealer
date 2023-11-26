@@ -34,6 +34,14 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  aumentoQuota: {
+    type: Number,
+    min: [0, "questo campo non può essere negativo"],
+    default: 0,
+  },
+  aumentoDuration: {
+    type: Date,
+  },
   dailyChar: {
     type: Number,
     min: [0, "Not enough character available"],

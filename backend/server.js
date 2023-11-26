@@ -74,25 +74,28 @@ mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
 
   cron.schedule("0 0 * * *", async () => {
-    const users = User.find({});
+    const users = await User.find({});
     for (const user of users) {
-      user.dailyChar = constants.DAILY_CHAR;
+      if (user.aumentoDuration < Date.now()) {
+        user.aumentoQuota = 0;
+      }
+      user.dailyChar = constants.DAILY_CHAR + user.aumentoQuota;
       await user.save({});
     }
     console.log("Reset quota giornaliera");
   });
   cron.schedule("0 0 * * 0", async () => {
-    const users = User.find({});
+    const users = await User.find({});
     for (const user of users) {
-      user.weeklyChar = constants.WEEKLY_CHAR;
+      user.weeklyChar = constants.WEEKLY_CHAR + user.aumentoQuota;
       await user.save({});
     }
     console.log("Reset quota settimanale");
   });
   cron.schedule("0 0 1 * *", async () => {
-    const users = User.find({});
+    const users = await User.find({});
     for (const user of users) {
-      user.weeklyChar = constants.MONTHLY_CHAR;
+      user.weeklyChar = constants.MONTHLY_CHAR + user.aumentoQuota;
       await user.save({});
     }
     console.log("Reset quota mensile");

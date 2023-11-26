@@ -17,7 +17,10 @@ router
 router
   .route("/:userId/charAvailable")
   .get(usersController.getCharsAvailable)
-  .post(usersController.addChars); //da testare
+  .post(usersController.addChars);
+
+router.route("/:userId/dailyChar").post(usersController.buyQuota);
+
 router.route("/:userId/username").patch(usersController.updateUsername);
 router.route("/:userId/password").patch(usersController.updatePassword);
 router.route("/:userId/email").patch(usersController.updateEmail);
