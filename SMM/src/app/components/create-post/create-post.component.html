@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-secondary colored-btn" (click)="openPostModal(template)">Squeal</button>
 
-<ng-template #template>
+<ng-template #template >
     <div class="modal-header">
         <h4 class="modal-title pull-left">Post a Squeal.</h4>
         <button type="button" class="btn-close close pull-right colored-btn" aria-label="Close"
@@ -9,21 +9,43 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="private-public">
-            <button class="btn btn-primary" type="button" (click)="activePubTab = 'pubblico'">Pubblico</button>
-            <button class="btn btn-primary" type="button" (click)="activePubTab = 'privato'">Privato</button>
+        <div class="vip-infos row " style="margin-bottom: 1rem;">
+            <div class="col-3">
+                <div class="rounded-avatar ">
+                    <img class="rounded-avatar-img" id="imgVipProfilePic" [src]="vipProfilePic" alt="Avatar">
+                </div>
+            </div>
+
+            <div class="col-3">
+                <p style="font-weight: 500;">{{vipName}} {{vipSurname}}</p>
+                <p style="font-weight: 300;">@{{vipUsername}}</p>
+
+            </div>
+            <div class="col-6"></div>
+        </div>
+        <div class="private-public" style="margin-bottom: 1rem;">
+            <button class="btn " type="button" [class.btn-primary]="activePubTab === 'pubblico'"
+                [class.btn-light]="activePubTab == 'privato'" (click)="activePubTab = 'pubblico'">Pubblico</button>
+            <button class="btn " type="button" [class.btn-primary]="activePubTab === 'privato'"
+                [class.btn-light]="activePubTab == 'pubblico'" (click)="activePubTab = 'privato'">Privato</button>
         </div>
         <div *ngIf="activePubTab== 'pubblico'">
             Pubblico
         </div>
-        <div *ngIf="activePubTab== 'privato'">Privato</div>
-        <!-- privato  @
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                aria-describedby="basic-addon1" />
+        <div *ngIf="activePubTab== 'privato'">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <mat-select class="form-control" placeholder="@" panelClass="custom-mat-select-panel">
+                        <mat-option *ngFor="let symbol of symbols" [value]="symbol">
+                            {{ symbol }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                    aria-describedby="basic-addon1" />
+            </div>
         </div>
-        -->
+
     </div>
     <div class="modal-footer d-flex justify-content-between align-items-center">
         <div class="" id="footer-chars">

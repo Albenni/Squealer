@@ -81,8 +81,11 @@ export class VipSelectionComponent {
           this.vipUsernames.push((data as any)['username']);
           this.vipProfilePics.push((data as any)['profilePic']);
         } else {
-          //salvo immagine profilo nel session storage
           sessionStorage.setItem('vipProfilePic', (data as any)['profilePic']);
+          sessionStorage.setItem('vipUsername', (data as any)['username']);
+          sessionStorage.setItem('vipName', (data as any)['firstname']);
+          sessionStorage.setItem('vipSurname', (data as any)['surname']);
+        
           this.router.navigate(['/home']);
         }
       });

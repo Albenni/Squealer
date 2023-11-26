@@ -12,7 +12,12 @@ import { GetCharsResponse, Characters } from '../../shared-interfaces';
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
+  symbols: string[] = ['@', '#', '$', '%', '&'];
   activePubTab: string = 'pubblico';
+  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
+  vipUsername: string = sessionStorage.getItem('vipUsername')!;
+  vipName: string = sessionStorage.getItem('vipName')!;
+  vipSurname: string = sessionStorage.getItem('vipSurname')!;
   characters: Characters = {
     daily: 0,
     weekly: 0,

@@ -85,16 +85,16 @@ app-top-bar {
 }
 
 .rounded-avatar {
-  width: 3.5rem; /* Set the desired width of the avatar */
-  height: 3.5rem; /* Set the desired height of the avatar */
-  border-radius: 50%; /* Make it circular */
-  overflow: hidden; /* Hide anything outside the circular boundary */
+  width: 3.5rem; 
+  height: 3.5rem; 
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .rounded-avatar-img {
-  width: 100%; /* Ensure the image takes up the full space inside the rounded avatar */
-  height: 100%; /* Ensure the image takes up the full space inside the rounded avatar */
-  object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+  width: 100%;
+  height: 100%; 
+  object-fit: cover; 
 }
 
 
