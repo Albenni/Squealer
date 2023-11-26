@@ -105,9 +105,6 @@ function AccountPane({ user }) {
                 </div>
                 <Card.Title className="pt-3">I tuoi caratteri.</Card.Title>
 
-                <Card.Text>
-                  Caratteri disponibili: {user.charAvailable}
-                </Card.Text>
                 <Card.Text>Caratteri giornalieri: {user.dailyChar}</Card.Text>
                 <Card.Text>Caratteri settimanali: {user.weeklyChar}</Card.Text>
                 <Card.Text>Caratteri mensili: {user.monthlyChar}</Card.Text>
