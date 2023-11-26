@@ -149,7 +149,7 @@ function TopBar() {
                         size={15}
                         color="red"
                         aria-label="Logo notifica"
-                        aria-describedby="Ci sono nuove notifiche"
+                        aria-describedby="Ci sono nuovi messaggi"
                         style={{
                           position: "relative",
                           top: "-1rem",
@@ -175,8 +175,8 @@ function TopBar() {
                     <Dropdown.Item href="/settings">Impostazioni</Dropdown.Item>
                     <div className="responsive-addons">
                       <Dropdown.Item
-                        aria-label="Notifiche"
-                        aria-describedby="Sezione notifiche"
+                        aria-label="Messaggi"
+                        aria-describedby="Sezione messaggi"
                         onClick={() => {
                           setShowChat(true);
                           setNotifs(false);
@@ -187,10 +187,10 @@ function TopBar() {
                             size={10}
                             color="red"
                             aria-label="Logo notifica"
-                            aria-describedby="Ci sono nuove notifiche"
+                            aria-describedby="Ci sono nuove messaggi"
                           />
                         )}{" "}
-                        Notifiche
+                        Messaggi
                       </Dropdown.Item>
                     </div>
 

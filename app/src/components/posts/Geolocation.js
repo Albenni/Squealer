@@ -77,12 +77,18 @@ function Geolocation(props) {
     };
   }, []);
 
-  if (loadError) return <div>Error loading map</div>;
+  if (loadError)
+    return (
+      <div className="text-center py-4">
+        {" "}
+        Modifica i permessi per accedere a questa funzionalità
+      </div>
+    );
 
   return loading ? (
     <div className="d-flex justify-content-center align-items-center">
       <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading Map...</span>
+        <span className="visually-hidden">Caricamento mappa...</span>
       </Spinner>
     </div>
   ) : (

@@ -220,6 +220,7 @@ function SettingsPage() {
                 </Nav>
               </div>
             )}
+
             <div className="col">
               <Tab.Content
                 style={{

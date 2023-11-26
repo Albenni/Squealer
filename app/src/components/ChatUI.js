@@ -148,24 +148,24 @@ function ChatUI({ myself }) {
     } else if ((contentType === "image" || contentType === "video") && mfile) {
       // Send the squeal with the file
       console.log("Sending file");
-      // const formData = new FormData();
-      // formData.append("file", mfile);
-      // formData.append("contentType", contentType);
-      // axiosInstance
-      //   .post(
-      //     config.endpoint.users +
-      //       "/" +
-      //       sessionStorage.getItem("userid") +
-      //       "/conversations/" +
-      //       activeconversation._id,
-      //     formData
-      //   )
-      //   .then((res) => {
-      //     console.log(res.data);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+      const formData = new FormData();
+      formData.append("message", mfile);
+      formData.append("contentType", contentType);
+      axiosInstance
+        .post(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/conversations/" +
+            activeconversation._id,
+          formData
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (contentType === "text") {
       axiosInstance
         .post(
@@ -242,9 +242,10 @@ function ChatUI({ myself }) {
     }
   };
 
-  const handleFileSelect = async (e) => {
+  const handleFileSelect = (e) => {
     // Get the selected file
     const selectedFile = e.target.files[0];
+    console.log(selectedFile);
 
     if (selectedFile) {
       console.log("Selected file: ", selectedFile);
@@ -268,6 +269,115 @@ function ChatUI({ myself }) {
     // Get the user's location
     setContentType("geolocalization");
   };
+
+  if (contentType === "geolocalization") {
+    return (
+      <div
+        className="p-2"
+        style={
+          isMobile
+            ? {
+                position: "absolute",
+                bottom: "150px",
+                // height: "45%",
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: theme.colors.white,
+              }
+            : {
+                position: "absolute",
+                bottom: "250px",
+                // height: "45%",
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: theme.colors.white,
+              }
+        }
+      >
+        <Geolocation setSquealLocation={setSqueallocation} />
+        <div
+          className="d-flex justify-content-center align-items-center pt-3"
+          style={{
+            paddingBottom: "10px",
+            backgroundColor: theme.colors.white,
+          }}
+        >
+          <Button
+            variant="danger"
+            className="mx-2"
+            onClick={() => {
+              setContentType("text");
+              setMfile(null);
+            }}
+          >
+            Cancella
+          </Button>
+          <Button
+            variant="primary"
+            className="mx-2"
+            onClick={() => {
+              handleSendMessage();
+            }}
+          >
+            Invia
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (mfile) {
+    return (
+      <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={
+          contentType === "video"
+            ? {
+                position: "absolute",
+                bottom: "100px",
+                // height: "30%",
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: theme.colors.white,
+              }
+            : {
+                position: "absolute",
+                bottom: "100px",
+
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: theme.colors.white,
+              }
+        }
+      >
+        <div className={contentType === "video" ? "w-100" : "w-100"}>
+          <AttachPreview contentType={contentType} squealfile={mfile} />
+        </div>
+        <div>
+          <Button
+            variant="danger"
+            className="mx-2"
+            onClick={() => {
+              setContentType("text");
+              setMfile(null);
+              // console.log("Cancella");
+            }}
+          >
+            Cancella
+          </Button>
+          <Button
+            variant="primary"
+            className="mx-2"
+            onClick={() => {
+              handleSendMessage();
+            }}
+          >
+            Invia
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -465,91 +575,6 @@ function ChatUI({ myself }) {
             </MessageList>
           </ChatContainer>
 
-          {contentType === "geolocalization" && (
-            <div
-              className="p-2"
-              style={{
-                position: "absolute",
-                bottom: "150px",
-                height: "45%",
-                width: "100%",
-                maxWidth: "100%",
-                backgroundColor: theme.colors.white,
-              }}
-            >
-              <Geolocation setSquealLocation={setSqueallocation} />
-              <div className="d-flex justify-content-center align-items-center pt-3">
-                <Button
-                  variant="danger"
-                  className="mx-2"
-                  onClick={() => {
-                    setContentType("text");
-                    setMfile(null);
-                  }}
-                >
-                  Cancella
-                </Button>
-                <Button
-                  variant="primary"
-                  className="mx-2"
-                  onClick={() => {
-                    handleSendMessage();
-                  }}
-                >
-                  Invia
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {mfile && (
-            <div
-              className="d-flex flex-column justify-content-center align-items-center "
-              style={
-                contentType === "video"
-                  ? {
-                      position: "absolute",
-                      bottom: "100px",
-                      height: "30%",
-                      width: "100%",
-                      maxWidth: "100%",
-                      backgroundColor: theme.colors.white,
-                    }
-                  : {
-                      position: "absolute",
-                      bottom: "100px",
-                      width: "100%",
-                      maxWidth: "100%",
-                      backgroundColor: theme.colors.white,
-                    }
-              }
-            >
-              <div className={contentType === "video" ? "w-70 h-100" : "w-50"}>
-                <AttachPreview contentType={contentType} squealfile={mfile} />
-              </div>
-              <div>
-                <Button
-                  variant="danger"
-                  className="mx-2"
-                  onClick={() => {
-                    setContentType("text");
-                    setMfile(null);
-                  }}
-                >
-                  Cancella
-                </Button>
-                <Button
-                  variant="primary"
-                  className="mx-2"
-                  onClick={() => {
-                    handleSendMessage();
-                  }}
-                >
-                  Invia
-                </Button>
-              </div>
-            </div>
-          )}
           <div
             style={{
               position: "absolute",

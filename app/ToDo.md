@@ -30,10 +30,6 @@ https://mui.com/material-ui/react-menu/
 
 - Mettere il contatore dei caratteri che scende mentre scrivi
 
-- Finire chat (invio messaggi)
-
-- Aggiungere sezione per poter comprare l'aumento di caratteri giornalieri
-
 - Aggiungere sezione nella box per la creazione di messaggi temporizzati (geolocalizzazioni)
 
 - Aggiungere possibilita di caricare foto scattate da cellulare sul momento
