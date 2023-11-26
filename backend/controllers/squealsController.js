@@ -302,7 +302,7 @@ const addReaction = async (req, res) => {
         reactionType: parseInt(req.body.reactionType),
       });
 
-      manageReactions(squeal);
+      manageReactions(squeal, req);
 
       res.status(200).json({ message: "OK" });
     } else {
@@ -311,7 +311,7 @@ const addReaction = async (req, res) => {
         reactionType: parseInt(req.body.reactionType),
       });
 
-      manageReactions(squeal);
+      manageReactions(squeal, req);
 
       res.status(200).json({ message: "OK" });
     }
@@ -321,7 +321,7 @@ const addReaction = async (req, res) => {
   }
 };
 
-async function manageReactions(squeal) {
+async function manageReactions(squeal, req) {
   // reactionType = 3 vale come doppio rispetto a reactionType = 2
   //solo reaction positive
   const numReactionPos =
