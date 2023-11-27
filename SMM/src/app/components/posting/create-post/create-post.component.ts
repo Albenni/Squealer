@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../../services/shared.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { GetCharsResponse, Characters } from '../../../shared-interfaces';
+import { GetCharsResponse, Characters,GetSquealsResponse } from '../../../shared-interfaces';
 
 @Component({
   selector: 'app-create-post',
@@ -70,7 +70,29 @@ export class CreatePostComponent {
         this.countChars.monthly = data.monthlyChar;
       });
   }
-  post() {}
+  post() {
+
+    //unico gestito finora,  da rimuovere
+    if(this.contentChoice == 'text' && this.activePubTab == 'pubblico'){
+      const url: string = 'http://localhost:3500/api/users/'+ sessionStorage.getItem('vipId')+'/squeals';
+
+      this.http.post<GetSquealsResponse>(url, {
+        contentType: this.contentChoice,
+        content: this.textValue,
+        publicSqueal: true,
+      }).pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      ).subscribe((data) => {
+        //diminuire il numero di caratteri disponibili
+      });
+    }
+
+    this.modalRef?.hide();
+    window.location.reload();
+  }
   chooseChannel(channel: string) {
     this.channelChoice = channel;
     //gestire scelta canale
@@ -84,8 +106,10 @@ export class CreatePostComponent {
 
   onTextChange(textValue: string): void {
     // Update countChars when text changes in TextPostComponent
+    this.textValue = textValue;
     this.countChars.daily = this.characters.daily - textValue.length;
     this.countChars.weekly = this.characters.weekly - textValue.length;
     this.countChars.monthly = this.characters.monthly - textValue.length;
+    
   }
 }

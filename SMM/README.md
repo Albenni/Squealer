@@ -18,3 +18,4 @@ Da fare:
 
 Da fixare:
 -mat-options della squealbox compaiono sotto il modal
+-controllare getChars nello squealbox, ci mette una vita
