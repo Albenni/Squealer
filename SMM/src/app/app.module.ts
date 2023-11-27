@@ -17,7 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { DefaultOptionsInterceptor } from './default-options.interceptor';
 
@@ -28,7 +28,7 @@ import { UserItemComponent } from './components/user-item/user-item.component';
 import { VipSelectionComponent } from './pages/vip-selection/vip-selection.component';
 import { CharacterDisplayerComponent } from './components/character-displayer/character-displayer.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
-import { CreatePostComponent } from './components/create-post/create-post.component';
+import { CreatePostComponent } from './components/posting/create-post/create-post.component';
 import { FeedTabComponent } from './components/feed-tab/feed-tab.component';
 import { LocalizationPostComponent } from './components/localization-post/localization-post.component';
 import { VideoPostComponent } from './components/video-post/video-post.component';
@@ -38,6 +38,7 @@ import { ReactionsCardHeaderComponent } from './components/reactions-card-header
 import { ShopPageComponent } from './pages/shop-page/shop-page.component';
 import { ShopTopBarComponent } from './components/shop-top-bar/shop-top-bar.component';
 import { ShopCardsComponent } from './components/shop-cards/shop-cards.component';
+import { TextPostComponent } from './components/posting/text-post/text-post.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ShopCardsComponent } from './components/shop-cards/shop-cards.component
     ShopPageComponent,
     ShopTopBarComponent,
     ShopCardsComponent,
+    TextPostComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,7 @@ import { ShopCardsComponent } from './components/shop-cards/shop-cards.component
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
-    MatBadgeModule
+    MatBadgeModule,
   ],
   providers: [
     {

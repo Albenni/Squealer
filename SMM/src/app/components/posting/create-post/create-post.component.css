@@ -1,5 +1,4 @@
 .colored-btn {
-    
   position: relative;
   padding: 10px 20px;
   border-radius: 7px;
@@ -8,7 +7,7 @@
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 2px;
-  background: transparent;
+  background-color: white;
   color: #6269e488;
   overflow: hidden;
   box-shadow: 0 0 0 0 transparent;
@@ -33,7 +32,6 @@
 }
 
 .colored-btn::before {
-  
   content: "";
   display: block;
   width: 0px;
@@ -76,20 +74,58 @@ button:active {
 
 .icon-close {
   vertical-align: middle;
-  margin-top: -8px; 
+  margin-top: -8px;
   margin-left: -4px;
 }
 .rounded-avatar {
-  width: 5rem; 
-  height: 5rem; 
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   overflow: hidden;
 }
 
 .rounded-avatar-img {
   width: 100%;
-  height: 100%; 
-  object-fit: cover; 
+  height: 100%;
+  object-fit: cover;
 }
 
+.content-choice {
+  margin-bottom: 1rem;
 
+  font-size: 18px;
+  color: #e1e1e1;
+
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+.content-choice:focus,
+.content-choice:hover {
+  color: #626262;
+}
+
+.content-choice:focus:after,
+.content-choice:hover:after {
+  width: 100%;
+  left: 0%;
+}
+.content-choice:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #1f1f1f;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
