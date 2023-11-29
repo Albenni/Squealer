@@ -437,6 +437,7 @@ const addReceiver = async (req, res) => {
       .json({ error: "Errore durante l'aggiunta del destinatario" });
   }
 };
+
 const removeReceiver = async (req, res) => {
   if (!req.authorized || !req.isMod) return res.sendStatus(403);
 

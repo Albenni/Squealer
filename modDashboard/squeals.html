@@ -16,6 +16,12 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+
+    <!-- CSS di SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
+    <!-- JavaScript di SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
       body {
         background-color: #f8f9fa;
@@ -98,6 +104,9 @@
             <p id="squealModalContent"></p>
             <p id="squealModalImpression"></p>
             <p id="squealModalDate"></p>
+            <button id="deleteSquealButton" class="btn btn-danger">
+              Delete Squeal
+            </button>
           </div>
         </div>
       </div>
@@ -217,7 +226,7 @@
         messages.forEach(function (message) {
           if (
             (authorFilter === "" ||
-              message.author.toLowerCase().includes(authorFilter)) &&
+              message.author.username.toLowerCase().includes(authorFilter)) &&
             (contentTypeFilter === "" ||
               message.contentType === contentTypeFilter) &&
             ($("#dateFilter").val() === "" ||
@@ -322,10 +331,50 @@
 
         $("#squealModalLabel").data("squeal", squeal);
 
+        $("#deleteSquealButton").click(function () {
+          const squeal = $("#squealModalLabel").data("squeal");
+          deleteSqueal(squeal._id);
+        });
+
         var myModal = new bootstrap.Modal(
           document.getElementById("squealModal")
         );
         myModal.show();
+      }
+
+      function deleteSqueal(squealId) {
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/squeals/${squealId}`;
+
+        $.ajax({
+          type: "DELETE",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          success: function (data) {
+            console.log("Squeal deleted:", data);
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Squeal Deleted",
+            });
+          },
+          error: function (error) {
+            console.error("Error deleting the squeal", error);
+          },
+        });
+      }
+
+      function changeBlockSblockButton(blocked) {
+        if (blocked) {
+          $("#unblockUserBtn").show();
+          $("#blockUserBtn").hide();
+        } else {
+          $("#unblockUserBtn").hide();
+          $("#blockUserBtn").show();
+        }
       }
     </script>
   </body>

@@ -3,9 +3,8 @@
 - gestire destinatari negli squeal
 - cambiare numero di reazioni positive e negative degli squeal
 - Da sistemare tutta la parte dei canali
-- caricare squeals a blocchi, bisogna però cambiare filtrare tramite api e non solo nel frontend (users e channels???)
+- caricare squeals a blocchi, bisogna però aggiungere i filtri tramite api e non solo nel frontend (users e channels???)
 - immagine profilo di fianco a username nella sezione user
-- persistent login se vogliamo farlo
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.
