@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dettagli Messaggio</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      #messageDetails {
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #007bff;
+      }
+
+      .card-text {
+        color: #495057;
+      }
+
+      #deleteBtn,
+      #sendRequestBtn {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div id="messageDetails" class="card">
+            <div class="card-body">
+              <h5 class="card-title">Dettagli Messaggio</h5>
+              <p class="card-text" id="author"></p>
+              <p class="card-text" id="category"></p>
+              <p class="card-text" id="content"></p>
+              <p class="card-text" id="contentType"></p>
+              <p class="card-text" id="createdAt"></p>
+              <p class="card-text" id="impression"></p>
+              <p class="card-text" id="receivers"></p>
+              <p class="card-text" id="_id"></p>
+              <button class="btn btn-danger" id="deleteBtn">
+                Elimina Messaggio
+              </button>
+              <button class="btn btn-primary" id="sendRequestBtn">
+                Invia Richiesta HTTP
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function isUserLoggedIn() {
+        // Return true if logged in, false if not.
+        var token = sessionStorage.getItem("token");
+
+        return !(token === null);
+      }
+
+      $(function () {
+        $("#nav-placeholder").load("navBar.html");
+      });
+      $(document).ready(function () {
+        if (!isUserLoggedIn()) {
+          // Il token non è presente nel sessionStorage, redirect alla pagina di login
+          window.location.href = "./";
+        }
+
+        // Ottieni l'id del messaggio dalla query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const squealId = urlParams.get("id");
+        fetchMessageData(squealId);
+
+        // Aggiungi un evento al pulsante di eliminazione del messaggio
+        $("#deleteBtn").click(() => deleteSqueal(squealId));
+
+        // Aggiungi un evento al pulsante di invio richiesta HTTP con il nome
+        $("#sendRequestBtn").click(function () {
+          // Ottieni il nome dall'utente (puoi utilizzare un prompt o un input)
+          const nomeRichiesta = prompt(
+            "Inserisci un nome per la richiesta HTTP:"
+          );
+
+          // Effettua una richiesta HTTP con il nome inserito
+          $.post(
+            "URL_DEL_TUO_API/endpoint",
+            { nome: nomeRichiesta },
+            function (response) {
+              // Gestisci la risposta come desideri
+              alert(response.message);
+            }
+          );
+        });
+      });
+
+      function fetchMessageData(squealId) {
+        $.ajax({
+          url: `http://localhost:3500/api/squeals?id=${squealId}`,
+          method: "GET",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+              "Authorization",
+              "Bearer " + sessionStorage.getItem("token")
+            );
+          },
+          success: function (data) {
+            $("#author").text(`Autore: ${data.author.username}`);
+            $("#category").text(`Categoria: ${data.category}`);
+            $("#content").text(`Contenuto: ${data.content}`);
+            $("#contentType").text(`Tipo Contenuto: ${data.contentType}`);
+            $("#createdAt").text(`Creato il: ${data.createdAt}`);
+            $("#impression").text(`Impression: ${data.impression}`);
+            $("#receivers").text(
+              `Destinatari: ${
+                data.publicSqueal
+                  ? "Public"
+                  : data.receivers.map((item) => {
+                      return item.groupType === "Channel"
+                        ? "§" + item.group?.name
+                        : "#" + item.group?.name;
+                    })
+              }`
+            );
+            $("#_id").text(`ID: ${data._id}`);
+          },
+          error: function (xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            alert("Impossibile caricare i messaggi.");
+          },
+        });
+      }
+
+      function deleteSqueal(squealId) {
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/squeals/${squealId}`;
+
+        $.ajax({
+          type: "DELETE",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          success: function (data) {
+            console.log("Squeal deleted:", data);
+            alert("Squeal eliminato");
+            window.location.href = "/squeals.html";
+          },
+          error: function (error) {
+            alert("error");
+            console.error("Error deleting the squeal", error);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

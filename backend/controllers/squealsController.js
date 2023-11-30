@@ -8,13 +8,30 @@ const searchSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
   if (!req.isMod) return res.sendStatus(403);
 
-  const squeals = await Squeal.find({})
-    .populate("author", "username firstname surname ")
-    .populate("receivers.group", "name private editorialChannel profilePic");
+  try {
+    if (req.query.id) {
+      const squeal = await Squeal.findById(req.query.id)
+        .populate("author", "username firstname surname ")
+        .populate(
+          "receivers.group",
+          "name private editorialChannel profilePic"
+        );
 
-  if (!squeals?.length)
-    return res.status(204).json({ message: "No squeals found" });
-  res.status(200).json(squeals);
+      if (!squeal) return res.status(204).json({ message: "No squeal found" });
+      res.status(200).json(squeal);
+    } else {
+      const squeals = await Squeal.find({})
+        .populate("author", "username firstname surname ")
+        .populate(
+          "receivers.group",
+          "name private editorialChannel profilePic"
+        );
+
+      if (!squeals?.length)
+        return res.status(204).json({ message: "No squeals found" });
+      res.status(200).json(squeals);
+    }
+  } catch (error) {}
 };
 
 //solo quelli pubblici

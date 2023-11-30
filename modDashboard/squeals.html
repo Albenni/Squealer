@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Messages</title>
+    <title>Squeals</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
       rel="stylesheet"
@@ -73,47 +73,19 @@
         margin-bottom: 1px;
         visibility: hidden;
       }
+
+      .custom-btn {
+        width: 3rem;
+        height: 2rem;
+      }
     </style>
   </head>
   <body>
     <!-- Navigation bar -->
     <div id="nav-placeholder"></div>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="squealModal"
-      tabindex="-1"
-      aria-labelledby="squealModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="squealModalLabel">Squeal detail</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body text-center">
-            <p id="squealModalAuthor"></p>
-            <p id="squealModalReceivers"></p>
-            <p id="squealModalContent"></p>
-            <p id="squealModalImpression"></p>
-            <p id="squealModalDate"></p>
-            <button id="deleteSquealButton" class="btn btn-danger">
-              Delete Squeal
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="container my-4">
-      <h1 class="mt-4 mb-4">Messages</h1>
+      <h1 class="mt-4 mb-4">Squeals</h1>
 
       <div class="row">
         <div class="col-md-3">
@@ -152,7 +124,7 @@
         </div>
       </div>
       <button class="btn btn-primary mb-4" id="fetchMessagesButton">
-        Fetch Messages
+        Fetch Squeals
       </button>
 
       <div class="table-container">
@@ -224,6 +196,7 @@
         messageList.empty();
 
         messages.forEach(function (message) {
+          console.log(message);
           if (
             (authorFilter === "" ||
               message.author.username.toLowerCase().includes(authorFilter)) &&
@@ -258,7 +231,7 @@
                 "</td><td>" +
                 new Date(message.createdAt).toLocaleDateString() +
                 "</td><td>" +
-                `<button class='btn btn-primary' onclick='actionButtonClick("${message._id}")'>Details</button>` +
+                `<button class='btn btn-primary' onclick='window.location.href="/squeal.html?id=${message._id}"'>Details</button>` +
                 "</td></tr>"
             );
           }
@@ -305,77 +278,6 @@
           );
         });
       });
-
-      function actionButtonClick(squealId) {
-        // Popola il contenuto del modal con le informazioni dell'utente
-        const squeal = messagesData.find((u) => u._id === squealId);
-
-        const receivers = squeal.publicSqueal
-          ? "Public"
-          : squeal.receivers?.map((item) => {
-              return item.groupType === "Channel"
-                ? "§" + item.group?.name
-                : "#" + item.group?.name;
-            });
-
-        // Popola il contenuto del modal con le informazioni dell'utente
-        $("#squealModalAuthor").text(
-          `Author: ${squeal.author.username}, ${squeal.author.firstname} ${squeal.author.surname}`
-        );
-        $("#squealModalReceivers").text(`Receivers: ${receivers}`);
-        $("#squealModalContent").text(`Content: ${squeal.content}`);
-        $("#squealModalImpression").text(`Impression: ${squeal.impression}`);
-        $("#squealModalDate").text(
-          `Date: ${new Date(squeal.createdAt).toLocaleDateString()} `
-        );
-
-        $("#squealModalLabel").data("squeal", squeal);
-
-        $("#deleteSquealButton").click(function () {
-          const squeal = $("#squealModalLabel").data("squeal");
-          deleteSqueal(squeal._id);
-        });
-
-        var myModal = new bootstrap.Modal(
-          document.getElementById("squealModal")
-        );
-        myModal.show();
-      }
-
-      function deleteSqueal(squealId) {
-        const token = sessionStorage.getItem("token");
-        const url = `http://localhost:3500/api/squeals/${squealId}`;
-
-        $.ajax({
-          type: "DELETE",
-          url: url,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          contentType: "application/json",
-          success: function (data) {
-            console.log("Squeal deleted:", data);
-            Swal.fire({
-              icon: "success",
-              title: "Success",
-              text: "Squeal Deleted",
-            });
-          },
-          error: function (error) {
-            console.error("Error deleting the squeal", error);
-          },
-        });
-      }
-
-      function changeBlockSblockButton(blocked) {
-        if (blocked) {
-          $("#unblockUserBtn").show();
-          $("#blockUserBtn").hide();
-        } else {
-          $("#unblockUserBtn").hide();
-          $("#blockUserBtn").show();
-        }
-      }
     </script>
   </body>
 </html>
