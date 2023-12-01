@@ -309,19 +309,33 @@ const addReaction = async (req, res) => {
 
   try {
     if (req?.authorized) {
-      await Reaction.findOneAndRemove({
-        squealId: req.params.squealId,
-        userId: req.id,
-      });
-      const result = await Reaction.create({
-        squealId: req.params.squealId,
-        userId: req.id,
-        reactionType: parseInt(req.body.reactionType),
-      });
+      if (req.isMod) {
+        const reaction = req.body.reaction || 1;
 
-      manageReactions(squeal, req);
+        for (let index = 0; index < parseInt(reaction); index++) {
+          await Reaction.create({
+            squealId: req.params.squealId,
+            reactionType: parseInt(req.body.reactionType),
+          });
+        }
 
-      res.status(200).json({ message: "OK" });
+        manageReactions(squeal, req);
+        res.status(200).json({ message: "OK" });
+      } else {
+        await Reaction.findOneAndRemove({
+          squealId: req.params.squealId,
+          userId: req.id,
+        });
+        const result = await Reaction.create({
+          squealId: req.params.squealId,
+          userId: req.id,
+          reactionType: parseInt(req.body.reactionType),
+        });
+
+        manageReactions(squeal, req);
+
+        res.status(200).json({ message: "OK" });
+      }
     } else {
       const result = await Reaction.create({
         squealId: req.params.squealId,
@@ -426,10 +440,11 @@ const removeReaction = async (req, res) => {
 const addReceiver = async (req, res) => {
   if (!req.authorized || !req.isMod) return res.sendStatus(403);
 
-  const { groupType } = req.body;
-  if (!groupType) return res.status(400).json({ message: "groupType missing" });
-
   try {
+    const { groupType } = req.body;
+    if (!groupType)
+      return res.status(400).json({ message: "groupType missing" });
+
     const squealId = req.params.squealId;
     const destinatario = {
       group: req.params.receiverId,

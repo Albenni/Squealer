@@ -18,6 +18,7 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
     <style>
       body {
@@ -55,23 +56,112 @@
 
     <div class="container mt-5">
       <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6">
           <div id="messageDetails" class="card">
+            <!-- ... Contenuto della prima card ... -->
             <div class="card-body">
-              <h5 class="card-title">Dettagli Messaggio</h5>
+              <h5 class="card-title">Squeal Details</h5>
               <p class="card-text" id="author"></p>
               <p class="card-text" id="category"></p>
               <p class="card-text" id="content"></p>
               <p class="card-text" id="contentType"></p>
               <p class="card-text" id="createdAt"></p>
               <p class="card-text" id="impression"></p>
+
+              <p class="card-text" id="reactionPos"></p>
+              <p class="card-text" id="reactionNeg"></p>
               <p class="card-text" id="receivers"></p>
               <p class="card-text" id="_id"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div id="messageAction" class="card">
+            <!-- ... Contenuto della seconda card ... -->
+            <div class="card-body">
+              <h5 class="card-title">Squeal Actions</h5>
+              <div
+                class="container mt-5"
+                id="addReceiverDiv"
+                style="display: none"
+              >
+                <div class="text-center">
+                  <h4>Add Receiver</h4>
+                </div>
+                <form id="addReceiverForm">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="id" class="small">ID:</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="id"
+                          placeholder="Enter ID"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="groupType" class="small">Group Type:</label>
+                        <select class="form-control" id="groupType">
+                          <option value="Channel">Channel</option>
+                          <option value="Keyword">Keyword</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="addReceiver()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="container mt-5" id="addReactionsDiv">
+                <div class="text-center">
+                  <h4>Add Reactions</h4>
+                </div>
+                <form id="addReactionForm">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="reactionNumber" class="small"
+                          >How many reactions:</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="reactionNumber"
+                          placeholder="Reaction Amount"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="reactionType" class="small"
+                          >Reaction Type:</label
+                        >
+                        <select class="form-control" id="reactionType">
+                          <option value="2">Positive</option>
+                          <option value="1">Negative</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="addReactions()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
               <button class="btn btn-danger" id="deleteBtn">
-                Elimina Messaggio
-              </button>
-              <button class="btn btn-primary" id="sendRequestBtn">
-                Invia Richiesta HTTP
+                Delete Squeal
               </button>
             </div>
           </div>
@@ -100,28 +190,107 @@
         const urlParams = new URLSearchParams(window.location.search);
         const squealId = urlParams.get("id");
         fetchMessageData(squealId);
+        getReactions(squealId);
 
         // Aggiungi un evento al pulsante di eliminazione del messaggio
         $("#deleteBtn").click(() => deleteSqueal(squealId));
-
-        // Aggiungi un evento al pulsante di invio richiesta HTTP con il nome
-        $("#sendRequestBtn").click(function () {
-          // Ottieni il nome dall'utente (puoi utilizzare un prompt o un input)
-          const nomeRichiesta = prompt(
-            "Inserisci un nome per la richiesta HTTP:"
-          );
-
-          // Effettua una richiesta HTTP con il nome inserito
-          $.post(
-            "URL_DEL_TUO_API/endpoint",
-            { nome: nomeRichiesta },
-            function (response) {
-              // Gestisci la risposta come desideri
-              alert(response.message);
-            }
-          );
-        });
       });
+
+      function addReceiver() {
+        // Get values from the form
+        var boxId = $("#id").val();
+        var groupType = $("#groupType").val();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const squealId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+
+        // Make the POST request
+        $.ajax({
+          type: "POST",
+          url:
+            "http://localhost:3500/api/squeals/" +
+            squealId +
+            "/receivers/" +
+            boxId,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify({
+            groupType,
+          }),
+          success: function (response) {
+            console.log("Request sent successfully:", response);
+            alert("receiver aggiunto");
+            location.reload();
+          },
+          error: function (error) {
+            console.error("Error sending request:", error);
+            alert("ERRORE: receiver non aggiunto");
+          },
+        });
+      }
+
+      function getReactions(squealId) {
+        const token = sessionStorage.getItem("token");
+
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:3500/api/squeals/" + squealId + "/reactions",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          success: function (data) {
+            $("#reactionPos").text(
+              `Positive reactions: ${2 * data.pos3Reac + data.pos2Reac}`
+            );
+            $("#reactionNeg").text(
+              `Negative reactions: ${2 * data.neg0Reac + data.neg1Reac}`
+            );
+          },
+          error: function (error) {
+            console.error("Error sending request:", error);
+            alert("ERRORE: impossibile aggiungere reazioni");
+          },
+        });
+      }
+
+      function addReactions() {
+        // Get values from the form
+        var reaction = $("#reactionNumber").val();
+        var reactionType = $("#reactionType").val();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const squealId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+
+        // Make the POST request
+        $.ajax({
+          type: "POST",
+          url: "http://localhost:3500/api/squeals/" + squealId + "/reactions",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify({
+            reaction,
+            reactionType,
+          }),
+          success: function (response) {
+            console.log("Request sent successfully:", response);
+            alert("Reazioni aggiunte");
+            location.reload();
+          },
+          error: function (error) {
+            console.error("Error sending request:", error);
+            alert("ERRORE: impossibile aggiungere reazioni");
+          },
+        });
+      }
 
       function fetchMessageData(squealId) {
         $.ajax({
@@ -152,6 +321,10 @@
               }`
             );
             $("#_id").text(`ID: ${data._id}`);
+
+            if (!data.publicSqueal) {
+              document.getElementById("addReceiverDiv").style.display = "block";
+            }
           },
           error: function (xhr, status, error) {
             console.log(status);

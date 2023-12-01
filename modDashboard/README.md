@@ -1,7 +1,6 @@
 ## MODERATOR DASHBOARD:
 
-- gestire destinatari negli squeal
-- cambiare numero di reazioni positive e negative degli squeal
+- come ottengo gli id di channel e keyword per aggiungerli ai receivers???
 - Da sistemare tutta la parte dei canali
 - caricare squeals a blocchi, bisogna però aggiungere i filtri tramite api e non solo nel frontend (users e channels???)
 - immagine profilo di fianco a username nella sezione user
