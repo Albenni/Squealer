@@ -77,6 +77,15 @@
           />
         </div>
         <div class="col-md-3">
+          <label for="adminFilter" class="label-small">Admin</label>
+          <input
+            type="text"
+            class="form-control"
+            id="adminFilter"
+            placeholder="Filter by Admin"
+          />
+        </div>
+        <div class="col-md-2">
           <label for="privateFilter" class="label-small">Private</label>
           <select class="form-select" id="privateFilter">
             <option value="">Filter by Private</option>
@@ -84,7 +93,7 @@
             <option value="false">No</option>
           </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label for="editorialFilter" class="label-small">Editorial</label>
           <select class="form-select" id="editorialFilter">
             <option value="">Filter by Editorial Channel</option>
@@ -92,7 +101,7 @@
             <option value="false">No</option>
           </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label for="blockedFilter" class="label-small">Blocked</label>
           <select class="form-select" id="blockedFilter">
             <option value="">Filter by Blocked</option>
@@ -110,7 +119,6 @@
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th></th>
               <th>Channel Name</th>
               <th>Private</th>
               <th>Editorial Channel</th>
@@ -165,6 +173,7 @@
         const privateFilter = $("#privateFilter").val();
         const editorialFilter = $("#editorialFilter").val();
         const blockedFilter = $("#blockedFilter").val();
+        const adminFilter = $("#adminFilter").val().toLowerCase();
 
         const channelList = $("#channelList");
         channelList.empty();
@@ -178,19 +187,22 @@
             (editorialFilter === "" ||
               channel.editorialChannel?.toString() === editorialFilter) &&
             (blockedFilter === "" ||
-              channel.blocked?.toString() === blockedFilter)
+              channel.blocked?.toString() === blockedFilter) &&
+            (adminFilter === "" ||
+              channel.admins.some((admin) =>
+                admin.userId?.username?.includes(adminFilter)
+              ) ||
+              (adminFilter === "public" && message.publicSqueal))
           ) {
             channelList.append(
               "<tr><td>" +
-                channel.profilePic +
-                "</td><td>" +
                 channel.name +
                 "</td><td>" +
                 channel.private +
                 "</td><td>" +
                 channel.editorialChannel +
                 "</td><td>" +
-                channel.admins +
+                channel.admins.map((item) => item.userId.username) +
                 "</td><td>" +
                 channel.blocked +
                 "</td></tr>"
@@ -204,12 +216,11 @@
           window.location.href = "./";
         }
         // Add event listeners to the filters
-        $("#nameFilter, #privateFilter, #editorialFilter, #blockedFilter").on(
-          "input",
-          function () {
-            populateChannelList(channelsData);
-          }
-        );
+        $(
+          "#nameFilter, #adminFilter, #privateFilter, #editorialFilter, #blockedFilter"
+        ).on("input", function () {
+          populateChannelList(channelsData);
+        });
 
         // Add an event listener to the "Fetch Channels" button
         $("#fetchChannelsButton").click(function () {
@@ -234,6 +245,13 @@
 
         $("#nameFilter").on("input", function () {
           const label = $('label[for="nameFilter"]');
+          label.css(
+            "visibility",
+            this.value.trim() !== "" ? "visible" : "hidden"
+          );
+        });
+        $("#adminFilter").on("input", function () {
+          const label = $('label[for="adminFilter"]');
           label.css(
             "visibility",
             this.value.trim() !== "" ? "visible" : "hidden"

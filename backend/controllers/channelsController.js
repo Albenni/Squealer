@@ -90,11 +90,31 @@ const searchChannels = async (req, res) => {
           };
 
       const channels = await Channel.find(query).select("-__v");
+      let result = new Array(channels.length);
+
+      for (let index = 0; index < channels.length; index++) {
+        const admins = await Admin.find({
+          channelId: channels[index]._id,
+        })
+          .select("userId -_id")
+          .populate("userId", "username");
+        result[index] = {
+          blocked: channels[index].blocked,
+          _id: channels[index]._id,
+          name: channels[index].name,
+          private: channels[index].private,
+          editorialChannel: channels[index].editorialChannel,
+          createdAt: channels[index].createdAt,
+          admins,
+        };
+      }
+
       if (!channels)
         return res.status(204).json({ message: "No channels found" });
-      res.json(channels);
+      res.json(result);
     }
   } catch (error) {
+    console.log(error);
     res.json({ message: error });
   }
 };
