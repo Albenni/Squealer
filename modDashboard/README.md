@@ -1,14 +1,11 @@
 ## MODERATOR DASHBOARD:
 
 - filtrare utenti per popolarità.
-- cambiare a mano proprietari e nome canale
+- cambiare proprietari e nome canale (api/channels/:channelId/name PATCH)
 - bloccare canale
-- filtrare canali per numero di post e popolarità.
 - aggiungere, togliere e cambiare la descrizione dei CANALI ufficiali
 - come ottengo gli id di channel e keyword per aggiungerli ai receivers???
-- Da sistemare tutta la parte dei canali
 - caricare squeals a blocchi, bisogna però aggiungere i filtri tramite api e non solo nel frontend (users e channels???)
-- immagine profilo di fianco a username nella sezione user
 
 Utenti:
 Il moderatore può elencare gli utenti e filtrarli per nome, tipo e popolarità.

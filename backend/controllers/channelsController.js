@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 const Admin = require("../models/Admin");
 const User = require("../models/User");
+const Squeal = require("../models/Squeal");
+const Follower = require("../models/Follower");
 
 const createChannel = async (req, res) => {
   if (!req.authorized) return res.status(403);
@@ -98,6 +100,13 @@ const searchChannels = async (req, res) => {
         })
           .select("userId -_id")
           .populate("userId", "username");
+        const numSqueal = await Squeal.count({
+          "receivers.group": { $in: channels[index]._id },
+        });
+        const numFollower = await Follower.count({
+          followedId: channels[index]._id,
+          followedType: "Channel",
+        });
         result[index] = {
           blocked: channels[index].blocked,
           _id: channels[index]._id,
@@ -106,6 +115,8 @@ const searchChannels = async (req, res) => {
           editorialChannel: channels[index].editorialChannel,
           createdAt: channels[index].createdAt,
           admins,
+          numSqueal,
+          numFollower,
         };
       }
 
@@ -221,7 +232,26 @@ const blockSblock = async (req, res) => {
 
     res.status(200).json({ message: "User updated" });
   } catch (error) {
-    res.json({ message: error });
+    console.log(error);
+    res.status(500).json({ message: error });
+  }
+};
+
+const changeName = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const name = req.body.name;
+    if (!name) return res.status(400).json({ message: "Name required" });
+
+    await Channel.findByIdAndUpdate(req.params.channelId, { name: name });
+    res.status(200).json({ message: "nome aggiornato con successo" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
   }
 };
 
@@ -234,4 +264,5 @@ module.exports = {
   addAdmin,
   removeAdmin,
   blockSblock,
+  changeName,
 };

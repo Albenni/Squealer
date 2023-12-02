@@ -13,8 +13,11 @@ router
   .get(channelsController.getChannelById)
   .delete(channelsController.deleteChannel); //da testare
 
-router.route("/:channelId/profilePic").get(channelsController.updateProfilePic); // da testare
-router.route("/:channelId/blocked").get(channelsController.blockSblock); // da testare
+router.route("/:channelId/name").patch(channelsController.changeName);
+router
+  .route("/:channelId/profilePic")
+  .patch(channelsController.updateProfilePic); // da testare
+router.route("/:channelId/blocked").patch(channelsController.blockSblock); // da testare
 
 router.route("/:channelId/admins").post(channelsController.addAdmin);
 router

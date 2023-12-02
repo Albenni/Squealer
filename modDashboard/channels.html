@@ -57,6 +57,12 @@
         margin-bottom: 1px;
         visibility: hidden;
       }
+
+      .label-small-show {
+        font-size: 0.7em;
+        color: #888;
+        margin-bottom: 1px;
+      }
     </style>
   </head>
   <body>
@@ -67,7 +73,7 @@
       <h1 class="mt-4 mb-4">Channels</h1>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label for="nameFilter" class="label-small">Channel name</label>
           <input
             type="text"
@@ -76,13 +82,28 @@
             placeholder="Filter by Channel Name"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label for="adminFilter" class="label-small">Admin</label>
           <input
             type="text"
             class="form-control"
             id="adminFilter"
             placeholder="Filter by Admin"
+          />
+        </div>
+        <div class="col-md-1">
+          <label for="squealFilter" class="label-small-show">Squeal</label>
+          <input type="number" class="form-control" id="squealFilter" min="0" />
+        </div>
+        <div class="col-md-1">
+          <label for="followerFilter" class="label-small-show"
+            >Popularity</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="followerFilter"
+            min="0"
           />
         </div>
         <div class="col-md-2">
@@ -120,6 +141,8 @@
           <thead>
             <tr>
               <th>Channel Name</th>
+              <th>Squeals</th>
+              <th>Follower</th>
               <th>Private</th>
               <th>Editorial Channel</th>
               <th>Admins</th>
@@ -174,6 +197,8 @@
         const editorialFilter = $("#editorialFilter").val();
         const blockedFilter = $("#blockedFilter").val();
         const adminFilter = $("#adminFilter").val().toLowerCase();
+        const squealFilter = $("#squealFilter").val();
+        const followerFilter = $("#followerFilter").val();
 
         const channelList = $("#channelList");
         channelList.empty();
@@ -191,12 +216,17 @@
             (adminFilter === "" ||
               channel.admins.some((admin) =>
                 admin.userId?.username?.includes(adminFilter)
-              ) ||
-              (adminFilter === "public" && message.publicSqueal))
+              )) &&
+            (squealFilter === "" || channel.numSqueal >= squealFilter) &&
+            (followerFilter === "" || channel.numFollower >= followerFilter)
           ) {
             channelList.append(
               "<tr><td>" +
                 channel.name +
+                "</td><td>" +
+                channel.numSqueal +
+                "</td><td>" +
+                channel.numFollower +
                 "</td><td>" +
                 channel.private +
                 "</td><td>" +
@@ -217,7 +247,7 @@
         }
         // Add event listeners to the filters
         $(
-          "#nameFilter, #adminFilter, #privateFilter, #editorialFilter, #blockedFilter"
+          "#nameFilter, #squealFilter, #followerFilter, #adminFilter, #privateFilter, #editorialFilter, #blockedFilter"
         ).on("input", function () {
           populateChannelList(channelsData);
         });
