@@ -147,6 +147,7 @@
               <th>Editorial Channel</th>
               <th>Admins</th>
               <th>Blocked</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="channelList">
@@ -204,6 +205,7 @@
         channelList.empty();
 
         channels.forEach(function (channel) {
+          console.log(channel);
           if (
             (nameFilter === "" ||
               channel.name.toLowerCase().includes(nameFilter)) &&
@@ -235,6 +237,8 @@
                 channel.admins.map((item) => item.userId.username) +
                 "</td><td>" +
                 channel.blocked +
+                "</td><td>" +
+                `<button class='btn btn-primary' onclick='window.location.href="/channel.html?id=${channel._id}"'>Details</button>` +
                 "</td></tr>"
             );
           }

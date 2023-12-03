@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dettagli Canale</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      #messageDetails {
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #007bff;
+      }
+
+      .card-text {
+        color: #495057;
+      }
+
+      #deleteBtn,
+      #sendRequestBtn {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <div id="messageDetails" class="card">
+            <!-- ... Contenuto della prima card ... -->
+            <div class="card-body">
+              <h5 class="card-title">Channel Details</h5>
+              <p class="card-text" id="channelName"></p>
+              <p class="card-text" id="numFollower"></p>
+              <p class="card-text" id="numSqueal"></p>
+              <p class="card-text" id="channelAdmins"></p>
+              <p class="card-text" id="channelPrivate"></p>
+              <p class="card-text" id="channelEditorial"></p>
+              <p class="card-text" id="channelBlocked"></p>
+              <p class="card-text" id="channelCreationDate"></p>
+              <p class="card-text" id="channelId"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div id="messageAction" class="card">
+            <!-- ... Contenuto della seconda card ... -->
+            <div class="card-body">
+              <h5 class="card-title">Channel Actions</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function isUserLoggedIn() {
+        // Return true if logged in, false if not.
+        var token = sessionStorage.getItem("token");
+
+        return !(token === null);
+      }
+
+      $(function () {
+        $("#nav-placeholder").load("navBar.html");
+      });
+      $(document).ready(function () {
+        if (!isUserLoggedIn()) {
+          // Il token non è presente nel sessionStorage, redirect alla pagina di login
+          window.location.href = "./";
+        }
+
+        // Ottieni l'id del messaggio dalla query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelId = urlParams.get("id");
+        fetchMessageData(channelId);
+      });
+
+      function fetchMessageData(channelId) {
+        $.ajax({
+          url: `http://localhost:3500/api/channels/${channelId}`,
+          method: "GET",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+              "Authorization",
+              "Bearer " + sessionStorage.getItem("token")
+            );
+          },
+          success: function (data) {
+            $("#channelName").text(`Name: ${data.name}`);
+            $("#numFollower").text(`Numero di follower: ${data.numFollower}`);
+            $("#numSqueal").text(`Numero di squeal: ${data.numSqueal}`);
+            $("#channelPrivate").text(`private: ${data.private}`);
+            $("#channelEditorial").text(`Editorial: ${data.editorialChannel}`);
+            $("#channelBlocked").text(`Blocked: ${data.blocked}`);
+            $("#channelCreationDate").text(`Created at: ${data.createdAt}`);
+            $("#channelId").text(`Id: ${data._id}`);
+            $("#channelAdmins").text(
+              `Admins: ${data.admins.map((item) => item.userId.username)}`
+            );
+            $("#_id").text(`ID: ${data._id}`);
+          },
+          error: function (xhr, status, error) {
+            console.log(status);
+            console.log(error);
+            alert("Impossibile caricare i messaggi.");
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

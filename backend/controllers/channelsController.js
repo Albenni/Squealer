@@ -138,7 +138,31 @@ const getChannelById = async (req, res) => {
   if (!channel) {
     return res.status(204).json({ message: "Channel not found" });
   }
-  res.status(200).json(channel);
+  const admins = await Admin.find({
+    channelId: channel._id,
+  })
+    .select("userId -_id")
+    .populate("userId", "username");
+  const numSqueal = await Squeal.count({
+    "receivers.group": { $in: channel._id },
+  });
+  const numFollower = await Follower.count({
+    followedId: channel._id,
+    followedType: "Channel",
+  });
+
+  result = {
+    blocked: channel.blocked,
+    _id: channel._id,
+    name: channel.name,
+    private: channel.private,
+    editorialChannel: channel.editorialChannel,
+    createdAt: channel.createdAt,
+    admins,
+    numSqueal,
+    numFollower,
+  };
+  res.status(200).json(result);
 };
 
 const deleteChannel = async (req, res) => {
