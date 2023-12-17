@@ -1,4 +1,4 @@
-<div class="sticky-top" style="z-index: 1500;">
+<div class="sticky-top" style="z-index: 500;">
     <app-top-bar (vipSelected)="selectVip($event)"></app-top-bar>
     <div class="row px-2" id="profileTabDashboard" style="background-color: black; ">
         <div class="col-6" id="tabProfile">
@@ -47,4 +47,4 @@
     </div>
 
 </div>
-<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%; z-index: 1000;" ><app-create-post></app-create-post></div>
+<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%;" ><app-create-post></app-create-post></div>
