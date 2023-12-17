@@ -59,7 +59,7 @@
             <button class="col content-choice" (click)="chooseContent('text')">
                 Testo
             </button>
-            <button class="col content-choice" (click)="chooseContent('img')">
+            <button class="col content-choice" (click)="chooseContent('image')">
                 Immagine
             </button><button class="col content-choice" (click)="chooseContent('video')">
                 Video
@@ -72,9 +72,10 @@
             [characters]="characters"
             (textChange)="onTextChange($event)" style="width: 100%; "></app-text-post>
         </div>
-        <div *ngIf="contentChoice == 'img'"> Img</div>
+        <div *ngIf="contentChoice == 'image'">   <app-img-post (imgChange)="onImgChange($event)"></app-img-post>
+        </div>
         <div *ngIf="contentChoice == 'video'"> Video</div>
-        <div *ngIf="contentChoice == 'geolocalization'">Geolocalizzazione</div>
+        <div *ngIf="contentChoice == 'geolocalization'"><app-geolocalization-post></app-geolocalization-post></div>
 
 
     </div>

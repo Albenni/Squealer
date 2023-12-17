@@ -9,9 +9,9 @@
         <div class="p-1 card-body" style="width: 10rem; border-radius: 3%; ">
             <img *ngIf="squeal.contentType === 'image'" src="{{ squeal.content}}" alt="squeal image" class="img-fluid">
             <p *ngIf="squeal.contentType === 'text'">{{ squeal.content}}</p>
-            <div *ngIf="squeal.contentType === 'geolocalization'"><app-localization-post
-                    [coordinates]="squeal.content"></app-localization-post></div>
-            <div *ngIf="squeal.contentType === 'video'"> <app-video-post [videoUrl]="squeal.content"></app-video-post>
+            <div *ngIf="squeal.contentType === 'geolocalization'"><app-localization-format
+                    [coordinates]="squeal.content"></app-localization-format></div>
+            <div *ngIf="squeal.contentType === 'video'"> <app-video-format></app-video-format>
             </div>
         </div>
         <div class="card-footer text-body-secondary" style="font-size: smaller;">

@@ -1,0 +1,20 @@
+<div>
+  <label for="imgUrl">Image URL:</label>
+  <input
+    type="text"
+    id="imgUrl"
+    [(ngModel)]="imgUrl"
+    (change)="onUrlChange()"
+    class="form-control"
+  />
+  <br />
+  <label for="imgFile">Or upload a file:</label>
+  <input
+  type="file"
+  id="imgFile"
+  #fileInput
+  (change)="onFileSelected($event, fileInput)"
+  class="form-control"
+/>
+
+</div>

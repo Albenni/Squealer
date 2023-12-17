@@ -1,11 +1,11 @@
-import { Component, Input, AfterViewInit, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 @Component({
-  selector: 'app-localization-post',
-  templateUrl: './localization-post.component.html',
-  styleUrls: ['./localization-post.component.css'],
+  selector: 'app-localization-format',
+  templateUrl: './localization-format.component.html',
+  styleUrls: ['./localization-format.component.css'],
 })
-export class LocalizationPostComponent {
+export class LocalizationFormatComponent implements OnDestroy {
   @Input() coordinates: string = '';
   latitudine: string = '';
   longitudine: string = '';
@@ -21,7 +21,12 @@ export class LocalizationPostComponent {
     // Inizializza la mappa dopo la visualizzazione dei componenti
     this.initMap();
   }
-
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.off();
+      this.map.remove();
+    }
+  }
   private initMap() {
   
     // Crea una mappa Leaflet con le coordinate

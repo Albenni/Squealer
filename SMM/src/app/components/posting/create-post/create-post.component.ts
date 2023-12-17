@@ -12,20 +12,23 @@ import { GetCharsResponse, Characters,GetSquealsResponse } from '../../../shared
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
+
   channelChoice: string = '@';
   contentChoice: string = '';
-  textValue: string = '';
   activePubTab: string = 'pubblico';
+  textValue: string = '';
+  imgValue: string | File | null = null;
+
   vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
   vipUsername: string = sessionStorage.getItem('vipUsername')!;
   vipName: string = sessionStorage.getItem('vipName')!;
   vipSurname: string = sessionStorage.getItem('vipSurname')!;
+
   characters: Characters = {
     daily: 0,
     weekly: 0,
     monthly: 0,
   };
-
   countChars: Characters = {
     daily: 0,
     weekly: 0,
@@ -72,13 +75,16 @@ export class CreatePostComponent {
   }
   post() {
 
-    //unico gestito finora,  da rimuovere
-    if(this.contentChoice == 'text' && this.activePubTab == 'pubblico'){
+    const contenuto = this.contentChoice == 'text' ? this.textValue : this.imgValue;
+    //da rimuovere
+    if(this.activePubTab == 'pubblico'){
       const url: string = 'http://localhost:3500/api/users/'+ sessionStorage.getItem('vipId')+'/squeals';
-
+      console.log(contenuto);
+      console.log(this.contentChoice);
+      
       this.http.post<GetSquealsResponse>(url, {
         contentType: this.contentChoice,
-        content: this.textValue,
+        content: contenuto,
         publicSqueal: true,
       }).pipe(
         catchError((error: any) => {
@@ -86,12 +92,12 @@ export class CreatePostComponent {
           return throwError('Errore gestito');
         })
       ).subscribe((data) => {
-        //diminuire il numero di caratteri disponibili
+        console.log('Successo');
+
       });
     }
 
     this.modalRef?.hide();
-    window.location.reload();
   }
   chooseChannel(channel: string) {
     this.channelChoice = channel;
@@ -105,11 +111,13 @@ export class CreatePostComponent {
   }
 
   onTextChange(textValue: string): void {
-    // Update countChars when text changes in TextPostComponent
     this.textValue = textValue;
     this.countChars.daily = this.characters.daily - textValue.length;
     this.countChars.weekly = this.characters.weekly - textValue.length;
     this.countChars.monthly = this.characters.monthly - textValue.length;
     
+  }
+  onImgChange(imgData: string | File): void {
+    this.imgValue = imgData;
   }
 }
