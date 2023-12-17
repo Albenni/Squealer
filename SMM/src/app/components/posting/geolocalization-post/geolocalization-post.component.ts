@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -7,6 +7,8 @@ import * as L from 'leaflet';
   styleUrls: ['./geolocalization-post.component.css'],
 })
 export class GeolocalizationPostComponent implements OnInit, OnDestroy {
+  @Output() locationChange: EventEmitter<string> = new EventEmitter<string>();
+
   private map!: L.Map;
   private chosenLocation!: L.LatLng;
   private marker?: L.Marker;
@@ -59,6 +61,8 @@ export class GeolocalizationPostComponent implements OnInit, OnDestroy {
           position.coords.longitude
         );
         this.updateMarker(latlng);
+        this.locationChange.emit(`${latlng.lat}, ${latlng.lng}`);
+
       }, () => {
         // Handle geolocation error here
       });

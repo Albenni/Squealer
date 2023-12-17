@@ -16,8 +16,11 @@ export class CreatePostComponent {
   channelChoice: string = '@';
   contentChoice: string = '';
   activePubTab: string = 'pubblico';
+
   textValue: string = '';
   imgValue: string | File | null = null;
+  videoValue: string | File | null = null;
+  locationValue: string = '';
 
   vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
   vipUsername: string = sessionStorage.getItem('vipUsername')!;
@@ -75,7 +78,33 @@ export class CreatePostComponent {
   }
   post() {
 
-    const contenuto = this.contentChoice == 'text' ? this.textValue : this.imgValue;
+    let formData: FormData = new FormData();
+  
+    if (this.contentChoice === 'text') {
+      formData.append('content', this.textValue);
+    } else if (this.contentChoice === 'image') {
+    
+      if (typeof this.imgValue === 'string') {
+        formData.append('content', this.imgValue);
+      } else {
+        // Append file with a field name, here 'file'
+        formData.append('squealfile', this.imgValue);
+      }
+
+    } else if (this.contentChoice === 'location') {
+      formData.append('content', this.locationValue);
+    }
+
+    let contenuto: string | File | null = '';
+    if (this.contentChoice == 'text') {
+      contenuto = this.textValue;
+    } else if (this.contentChoice == 'image') {
+      contenuto = this.imgValue;
+    } else if (this.contentChoice == 'video') {
+      contenuto = this.videoValue;
+    } else if (this.contentChoice == 'location') {
+      contenuto = this.locationValue;
+    }
     //da rimuovere
     if(this.activePubTab == 'pubblico'){
       const url: string = 'http://localhost:3500/api/users/'+ sessionStorage.getItem('vipId')+'/squeals';
@@ -101,7 +130,7 @@ export class CreatePostComponent {
   }
   chooseChannel(channel: string) {
     this.channelChoice = channel;
-    //gestire scelta canale
+    
   }
   chooseContent(content: string) {
     this.contentChoice = content;
@@ -119,5 +148,13 @@ export class CreatePostComponent {
   }
   onImgChange(imgData: string | File): void {
     this.imgValue = imgData;
+  }
+  onVideoChange(videoData: string | File): void {
+    console.log(videoData);
+    this.videoValue = videoData;
+  }
+  onLocationChange(location: string): void {
+    console.log(location);
+    this.locationValue = location;
   }
 }

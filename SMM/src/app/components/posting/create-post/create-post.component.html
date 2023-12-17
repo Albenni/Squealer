@@ -74,8 +74,8 @@
         </div>
         <div *ngIf="contentChoice == 'image'">   <app-img-post (imgChange)="onImgChange($event)"></app-img-post>
         </div>
-        <div *ngIf="contentChoice == 'video'"> Video</div>
-        <div *ngIf="contentChoice == 'geolocalization'"><app-geolocalization-post></app-geolocalization-post></div>
+        <div *ngIf="contentChoice == 'video'"> <app-video-post (videoChange)="onVideoChange($event)"></app-video-post></div>
+        <div *ngIf="contentChoice == 'geolocalization'"><app-geolocalization-post (locationChange)="onLocationChange($event)"></app-geolocalization-post></div>
 
 
     </div>
