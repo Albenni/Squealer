@@ -9,6 +9,7 @@ import * as L from 'leaflet';
 export class GeolocalizationPostComponent implements OnInit, OnDestroy {
   private map!: L.Map;
   private chosenLocation!: L.LatLng;
+  private marker?: L.Marker;
 
   ngOnInit() {
     this.initMap();
@@ -24,7 +25,6 @@ export class GeolocalizationPostComponent implements OnInit, OnDestroy {
       this.map = L.map('map-posting').setView([51.505, -0.09], 13); // Default location
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© OpenStreetMap contributors',
       }).addTo(this.map);
 
       this.map.on('click', (e: L.LeafletMouseEvent) => this.onMapClick(e));
@@ -32,22 +32,38 @@ export class GeolocalizationPostComponent implements OnInit, OnDestroy {
   }
 
   private onMapClick(e: L.LeafletMouseEvent): void {
-    this.chosenLocation = e.latlng;
-    // Add or update marker
-    L.marker(this.chosenLocation).addTo(this.map);
+    this.updateMarker(e.latlng);
+  }
+
+  private updateMarker(latlng: L.LatLng): void {
+    if (this.marker) {
+      this.marker.setLatLng(latlng);
+    } else {
+      const markerOptions: L.MarkerOptions = {
+        icon: L.icon({
+          iconUrl: '../../assets/SLogo.png',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32],
+        }),
+      };
+      this.marker = L.marker(latlng, markerOptions).addTo(this.map);
+    }
+    this.map.setView(latlng, 13);
   }
   useCurrentLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.chosenLocation = new L.LatLng(
+        const latlng = new L.LatLng(
           position.coords.latitude,
           position.coords.longitude
         );
-        // Update map view and marker
-        // ...
+        this.updateMarker(latlng);
+      }, () => {
+        // Handle geolocation error here
       });
     } else {
-      // Handle error or notify user that geolocation is not supported
+      alert('Geolocation is not supported by this browser.');
     }
   }
 }

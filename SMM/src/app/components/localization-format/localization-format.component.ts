@@ -10,6 +10,13 @@ export class LocalizationFormatComponent implements OnDestroy {
   latitudine: string = '';
   longitudine: string = '';
   map!: L.Map;
+
+  private static counter = 1;
+  public mapId: string;
+  constructor() {
+    // Assign a unique ID based on the counter
+    this.mapId = 'map' + LocalizationFormatComponent.counter++;
+  }
   
 
   ngOnInit(){
@@ -30,7 +37,7 @@ export class LocalizationFormatComponent implements OnDestroy {
   private initMap() {
   
     // Crea una mappa Leaflet con le coordinate
-    this.map = L.map('map').setView([parseFloat(this.latitudine), parseFloat(this.longitudine)], 13);
+    this.map = L.map(this.mapId).setView([parseFloat(this.latitudine), parseFloat(this.longitudine)], 13);
 
     // Aggiungi un layer di mappa
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
