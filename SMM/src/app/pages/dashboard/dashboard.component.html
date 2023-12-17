@@ -9,7 +9,7 @@
                             [src]="vipProfilePic" alt="Avatar">
                     </div>
                 </div>
-                <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;">{{vipUsername}}</div>
+                <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;"><h3 style="font-family:'CenturyGothic';">{{vipUsername}}</h3></div>
 
             </div>
 
@@ -31,15 +31,15 @@
     </div>
 </div>
 
-<div *ngIf="activeTab == 'feed'">
+<div *ngIf="activeTab == 'feed'" id="dashFeedTab">
     <app-feed-tab></app-feed-tab>
 </div>
 
-<div *ngIf="activeTab == 'chars'" class="chars-tab">
+<div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab">
     <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
         [monthlyChars]="characters.monthly"></app-character-tab>
     <div class="shop-card">
-        <span class="shop-title">Shop Notice</span>
+        <div class="shop-title">Shop Notice</div>
 
         <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri
             aggiuntivi! </p>
@@ -47,4 +47,4 @@
     </div>
 
 </div>
-<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
+<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%; z-index: 1000;" ><app-create-post></app-create-post></div>

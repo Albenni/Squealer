@@ -1,4 +1,9 @@
 .characters-card {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(236, 245, 245);
+
   max-width: 45vw;
 }
 
