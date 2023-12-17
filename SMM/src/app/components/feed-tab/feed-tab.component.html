@@ -1,12 +1,12 @@
 <app-feed-filter (filterChange)="applyFilter($event)"></app-feed-filter>
 <ul class="d-flex flex-row p-0" style="flex-wrap: wrap; list-style-type: none; ">
-    <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-2 card text-center"
+    <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center"
         style="align-items: center;">
-        <div class="card-header">
+        <div class="card-header" style="width: 15rem;">
             <app-reactions-card-header [neg0Reac]="squeal.neg0Reac" [neg1Reac]="squeal.neg1Reac"
                 [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>
         </div>
-        <div class="p-1 card-body" style="width: 10rem; border-radius: 3%; ">
+        <div class="p-1 card-body" style="width: 20rem; border-radius: 3%; ">
             <img *ngIf="squeal.contentType === 'image'" src="{{ squeal.content}}" alt="squeal image" class="img-fluid">
             <p *ngIf="squeal.contentType === 'text'">{{ squeal.content}}</p>
             <div *ngIf="squeal.contentType === 'geolocalization'"><app-localization-format

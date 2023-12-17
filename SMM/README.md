@@ -14,8 +14,6 @@ Da fare:
 -Squeal box per postare
 -Gestione video in generale (visualizzazione, postare)
 -Gestione visualizzazione immagini di dimensioni non standard (finora testato con 200px\*200px)
--Reset della password
-
+-visualizzare commenti
 Da fixare:
--mat-options della squealbox compaiono sotto il modal
 -controllare getChars nello squealbox, ci mette una vita
