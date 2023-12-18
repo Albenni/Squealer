@@ -4,7 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../../services/shared.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { GetCharsResponse, Characters,GetSquealsResponse } from '../../../shared-interfaces';
+import {
+  GetCharsResponse,
+  Characters,
+  GetSquealsResponse,
+} from '../../../shared-interfaces';
 
 @Component({
   selector: 'app-create-post',
@@ -12,7 +16,6 @@ import { GetCharsResponse, Characters,GetSquealsResponse } from '../../../shared
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
-
   channelChoice: string = '@';
   contentChoice: string = '';
   activePubTab: string = 'pubblico';
@@ -77,60 +80,54 @@ export class CreatePostComponent {
       });
   }
   post() {
-
-    let formData: FormData = new FormData();
-  
+    const formData: FormData = new FormData();
+    formData.append('contentType', this.contentChoice);
+    formData.append('publicSqueal', true.toString());
     if (this.contentChoice === 'text') {
       formData.append('content', this.textValue);
-    } else if (this.contentChoice === 'image') {
-    
-      if (typeof this.imgValue === 'string') {
-        formData.append('content', this.imgValue);
-      } else {
-        // Append file with a field name, here 'file'
-        formData.append('squealfile', this.imgValue);
-      }
-
-    } else if (this.contentChoice === 'location') {
+    } else if (this.contentChoice === 'geolocalization') {
       formData.append('content', this.locationValue);
+    } else if (this.contentChoice === 'image') {
+      if (this.imgValue != null) {
+        if (typeof this.imgValue === 'string') {
+          formData.append('content', this.imgValue);
+        } else {
+          formData.append('squeal', this.imgValue);
+        }
+      }
+    } else if (this.contentChoice === 'video') {
+      if (this.videoValue != null) {
+        if (typeof this.videoValue === 'string') {
+          formData.append('content', this.videoValue);
+        } else {
+          formData.append('squeal', this.videoValue);
+        }
+      }
     }
 
-    let contenuto: string | File | null = '';
-    if (this.contentChoice == 'text') {
-      contenuto = this.textValue;
-    } else if (this.contentChoice == 'image') {
-      contenuto = this.imgValue;
-    } else if (this.contentChoice == 'video') {
-      contenuto = this.videoValue;
-    } else if (this.contentChoice == 'location') {
-      contenuto = this.locationValue;
-    }
-    //da rimuovere
-    if(this.activePubTab == 'pubblico'){
-      const url: string = 'http://localhost:3500/api/users/'+ sessionStorage.getItem('vipId')+'/squeals';
-      console.log(contenuto);
-      console.log(this.contentChoice);
-      
-      this.http.post<GetSquealsResponse>(url, {
-        contentType: this.contentChoice,
-        content: contenuto,
-        publicSqueal: true,
-      }).pipe(
-        catchError((error: any) => {
-          console.error('Si è verificato un errore:', error);
-          return throwError('Errore gestito');
-        })
-      ).subscribe((data) => {
-        console.log('Successo');
+    console.log(formData.getAll('squeal'));
 
-      });
-    }
-
-    this.modalRef?.hide();
+    const url: string =
+      'http://localhost:3500/api/users/' +
+      sessionStorage.getItem('vipId') +
+      '/squeals';
+    this.http.post<GetSquealsResponse>(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).pipe(
+      catchError((error: any) => {
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe((data) => {
+      console.log('Successo');
+      this.modalRef?.hide();
+    });
   }
+  
   chooseChannel(channel: string) {
     this.channelChoice = channel;
-    
   }
   chooseContent(content: string) {
     this.contentChoice = content;
@@ -144,7 +141,6 @@ export class CreatePostComponent {
     this.countChars.daily = this.characters.daily - textValue.length;
     this.countChars.weekly = this.characters.weekly - textValue.length;
     this.countChars.monthly = this.characters.monthly - textValue.length;
-    
   }
   onImgChange(imgData: string | File): void {
     this.imgValue = imgData;
