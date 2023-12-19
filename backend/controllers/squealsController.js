@@ -125,7 +125,9 @@ const getAllSquealsInKeyword = async (req, res) => {
 const createSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
 
-  const { content, contentType, publicSqueal } = req.body;
+  const { content, contentType } = req.body;
+  const publicSqueal =
+    req.body.publicSqueal === "true" || req.body.publicSqueal === true;
   const { userId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId))
