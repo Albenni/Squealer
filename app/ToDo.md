@@ -32,6 +32,8 @@ https://mui.com/material-ui/react-menu/
 
 - Aggiungere sezione nella box per la creazione di messaggi temporizzati (geolocalizzazioni)
 
-- Aggiungere possibilita di caricare foto scattate da cellulare sul momento
+- Aggiungere possibilita di caricare foto dalla fotocamera
+
+- Aggiungere sezione richieste social media manager e accettazione richieste o controllare perche non funziona quello attuale
 
 - Rendere sito accessibile

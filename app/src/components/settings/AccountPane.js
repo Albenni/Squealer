@@ -27,12 +27,11 @@ function AccountPane({ user }) {
       })
       .then((res) => {
         console.log(res);
+        setShow(false);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    setShow(false);
   }
 
   return (

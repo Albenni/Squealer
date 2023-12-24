@@ -243,6 +243,32 @@ function SquealBox(props) {
     props.setShowBox(false);
   }
 
+  function createTempGeo() {
+    // const squealobj = {
+    //   publicSqueal: isPublic,
+    //   content: squeallocation,
+    //   contentType: contentType,
+    // };
+
+    // axiosInstance
+    //   .post(
+    //     config.endpoint.users +
+    //       "/" +
+    //       sessionStorage.getItem("userid") +
+    //       "/squeals",
+    //     squealobj
+    //   )
+    //   .then((res) => {
+    //     console.log(res);
+    //     props.setSuccessfullSqueal(true);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    props.setShowBox(false);
+  }
+
   return (
     <Modal
       show={props.show}
@@ -332,7 +358,17 @@ function SquealBox(props) {
                     />
                   )}
                   {contentType === "geolocalization" && (
-                    <Geolocation setSquealLocation={setSquealLocation} />
+                    <>
+                      <Geolocation setSquealLocation={setSquealLocation} />
+                      <div className="p-3">
+                        <Button
+                          variant="danger"
+                          onClick={() => createTempGeo()}
+                        >
+                          Crea messsaggio temporizzato
+                        </Button>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

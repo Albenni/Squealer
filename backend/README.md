@@ -5,6 +5,8 @@ api da fare (poche):
 - Messaggi temporizzati
 - profile pic dei canali, api da cambiare
 
+- api per accettare le richieste di smm oppure cambiare quella esistente per sincronizzare i due utenti
+
 Da testare:
 
 - generateFeed: bisogna testare populate quando c'è una keyword
