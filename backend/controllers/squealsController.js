@@ -165,7 +165,7 @@ const createSqueal = async (req, res) => {
     author.weeklyChar < messLength ||
     author.monthlyChar < messLength
   )
-    return res.status(400).json({ message: "Not enough character available" });
+    return res.status(406).json({ message: "Not enough character available" });
   // } else return res.status(400).json({ message: "Content type not accepted" });
 
   if (

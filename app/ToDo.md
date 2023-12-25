@@ -28,11 +28,7 @@ https://mui.com/material-ui/react-menu/
 
 #
 
-- Mettere il contatore dei caratteri che scende mentre scrivi
-
-- Aggiungere sezione nella box per la creazione di messaggi temporizzati (geolocalizzazioni)
-
-- Aggiungere possibilita di caricare foto dalla fotocamera
+- Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
 - Aggiungere sezione richieste social media manager e accettazione richieste o controllare perche non funziona quello attuale
 

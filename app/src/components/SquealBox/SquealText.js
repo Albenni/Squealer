@@ -10,8 +10,14 @@ function SquealText(props) {
     return () => {
       // console.log("Unmounting");
       props.setSquealContent("");
+      props.setCurrentChars(0);
     };
   }, []);
+
+  function handleInput(e) {
+    props.setSquealContent(e.target.value);
+    props.setCurrentChars(e.target.value.length);
+  }
 
   return (
     <div
@@ -35,7 +41,7 @@ function SquealText(props) {
       <Form.Control
         as="textarea"
         aria-label="Squeal textarea"
-        onChange={(e) => props.setSquealContent(e.target.value)}
+        onChange={handleInput}
         disabled={props.disableinputtext}
       />
     </div>

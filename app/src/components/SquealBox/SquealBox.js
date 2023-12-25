@@ -46,6 +46,7 @@ function SquealBox(props) {
   const [currentchars, setCurrentChars] = useState(0);
   const [disableinputtext, setDisableInputText] = useState(false);
   const [wrongfiletype, setWrongFileType] = useState(false);
+  const [insufficientchars, setInsufficientChars] = useState(false);
 
   useEffect(() => {
     async function getUser() {
@@ -218,6 +219,9 @@ function SquealBox(props) {
           props.setSuccessfullSqueal(true);
         })
         .catch((err) => {
+          if (err.response.status === 406) {
+            setInsufficientChars(true);
+          } else setInsufficientChars(false);
           console.log(err);
         });
     }
@@ -237,7 +241,9 @@ function SquealBox(props) {
         props.setSuccessfullSqueal(true);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 406) {
+          setInsufficientChars(true);
+        } else setInsufficientChars(false);
       });
 
     props.setShowBox(false);
@@ -294,7 +300,7 @@ function SquealBox(props) {
       </Modal.Header>
       <Modal.Body>
         <div className="container">
-          <SquealUser user={user} />
+          <SquealUser user={user} chars={currentchars} />
 
           {user.dailyChar === 0 ? (
             <div className={isMobile ? " pt-5 text-center" : "text-center"}>
@@ -337,6 +343,7 @@ function SquealBox(props) {
                     <SquealText
                       setSquealContent={setSquealContent}
                       disableinputtext={disableinputtext}
+                      setCurrentChars={setCurrentChars}
                     />
                   )}
                   {contentType === "image" && (
@@ -365,7 +372,7 @@ function SquealBox(props) {
                           variant="danger"
                           onClick={() => createTempGeo()}
                         >
-                          Crea messsaggio temporizzato
+                          Crea messaggio temporizzato
                         </Button>
                       </div>
                     </>
@@ -388,8 +395,12 @@ function SquealBox(props) {
       <Modal.Footer>
         <div className="container-fluid d-flex justify-content-end">
           <div className="d-flex align-items-center px-3">
-            {currentchars}/{user.dailyChar}
+            <ErrorMessage
+              visible={insufficientchars}
+              error={"Numero di caratteri non sufficiente!"}
+            />
           </div>
+
           <Button
             variant="success"
             onClick={handleSqueal}
@@ -397,6 +408,7 @@ function SquealBox(props) {
             disabled={
               user.dailyChar === 0 ||
               contentType === "" ||
+              user.dailyChar - currentchars < 0 ||
               (!isPublic && squealchannel.length === 0)
             }
           >

@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import theme from "../../config/theme";
 
 import { useMediaQuery } from "react-responsive";
 
-function SquealUser({ user }) {
+function SquealUser({ user, chars }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+
+  // useEffect(() => {}, []);
 
   return (
     <>
@@ -40,24 +43,32 @@ function SquealUser({ user }) {
         </div>
         {!isMobile && (
           <div
-            className="col d-flex align-items-start justify-content-end"
+            className="col flex-row align-items-start justify-content-end"
             style={{
               pointerEvents: "none",
             }}
           >
             <p>Numero caratteri giornalieri: {user.dailyChar}</p>
+            <p>
+              Caratteri rimanenti:{" "}
+              {user.dailyChar - chars < 0 ? 0 : user.dailyChar - chars}
+            </p>
           </div>
         )}
       </div>
 
       {isMobile && (
         <div
-          className="pt-3 d-flex justify-content-center align-items-center"
+          className="pt-3 flex-column justify-content-center align-items-center"
           style={{
             pointerEvents: "none",
           }}
         >
           <p>Numero caratteri giornalieri: {user.dailyChar}</p>
+          <p>
+            Caratteri rimanenti:{" "}
+            {user.dailyChar - chars < 0 ? 0 : user.dailyChar - chars}
+          </p>
         </div>
       )}
     </>
