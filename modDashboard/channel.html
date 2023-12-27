@@ -77,7 +77,33 @@
           <div id="messageAction" class="card">
             <!-- ... Contenuto della seconda card ... -->
             <div class="card-body">
-              <h5 class="card-title">Channel Actions</h5>
+              <h5 class="card-title mb-4">Channel Actions</h5>
+              <div class="text-center">
+                <h4>Change name:</h4>
+              </div>
+              <form id="changeNameForm">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="newName"
+                        placeholder="Enter name"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-block"
+                      onclick="changeName()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -135,6 +161,37 @@
             console.log(status);
             console.log(error);
             alert("Impossibile caricare i messaggi.");
+          },
+        });
+      }
+
+      function changeName() {
+        // Get values from the form
+        var name = $("#newName").val();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+
+        $.ajax({
+          type: "PATCH",
+          url: "http://localhost:3500/api/channels/" + channelId + "/name",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify({
+            name,
+          }),
+          success: function (response) {
+            console.log("Request sent successfully:", response);
+            alert("nome aggiornato");
+            location.reload();
+          },
+          error: function (error) {
+            console.error("Error sending request:", error);
+            alert("ERRORE: receiver non aggiunto");
           },
         });
       }
