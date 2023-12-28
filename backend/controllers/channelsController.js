@@ -17,15 +17,18 @@ const createChannel = async (req, res) => {
   const newChannel = {
     name: req.body.channelName,
     private: req?.body?.channelPrivate === "true",
+    editorialChannel: req.body?.editorialChannel == "true",
   };
 
   try {
     const result = await Channel.create(newChannel);
     //creo l'admin del canale
-    await Admin.create({
-      userId: req.id,
-      channelId: result._id,
-    });
+    if (!newChannel.editorialChannel) {
+      await Admin.create({
+        userId: req.id,
+        channelId: result._id,
+      });
+    }
     res.json(result);
   } catch (error) {
     res.json({ message: error });
@@ -178,19 +181,17 @@ const deleteChannel = async (req, res) => {
       .json({ message: `Channel ID ${req.params.channelId} not found` });
   }
 
-  const admin = await Admin.find({
-    userId: req.id,
-    channelId: req.params.channelId,
-  });
-  if (!admin) return res.status(403).json({ message: "Permission denied" });
+  if (!req.isMod) {
+    const admin = await Admin.find({
+      userId: req.id,
+      channelId: req.params.channelId,
+    });
+    if (!admin) return res.status(403).json({ message: "Permission denied" });
+  }
 
-  Channel.deleteOne({ _id: req.params.channelId });
-  // Squeal.deleteMany({
-  //   group: req.params.channelId,
-  //   squealType: "Channel",
-  // });
-  Admin.deleteMany({ channelId: req.params.channelId });
-  return res.status(200);
+  await Channel.deleteOne({ _id: req.params.channelId });
+  await Admin.deleteMany({ channelId: req.params.channelId });
+  return res.status(200).json({ message: "channel deleted" });
 };
 
 const addAdmin = async (req, res) => {

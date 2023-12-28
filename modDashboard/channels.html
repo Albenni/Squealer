@@ -136,6 +136,26 @@
         Fetch Channels
       </button>
 
+      <div class="row mb-6 my-3 justify-content-center">
+        <div class="col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            id="newChannelBox"
+            placeholder="New Channel Name"
+          />
+        </div>
+        <div class="col-md-3">
+          <button
+            class="btn btn-success"
+            id="createChannelBtn"
+            onclick="createNewChannel()"
+          >
+            Create Editorial Channel
+          </button>
+        </div>
+      </div>
+
       <div class="table-container">
         <table class="table table-bordered table-striped">
           <thead>
@@ -292,6 +312,38 @@
           );
         });
       });
+
+      function createNewChannel() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/channels`;
+
+        const channelName = $("#newChannelBox").val();
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify({
+            channelName,
+            editorialChannel: "true",
+          }),
+          success: function (data) {
+            console.log("Channel created:", data);
+            alert("Channel created");
+            window.location.href = "/channels.html";
+          },
+          error: function (error) {
+            alert("error");
+            console.error("Error deleting the channel", error);
+          },
+        });
+      }
     </script>
   </body>
 </html>

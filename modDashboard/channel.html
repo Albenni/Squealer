@@ -48,6 +48,11 @@
       #sendRequestBtn {
         margin-top: 15px;
       }
+
+      #deleteChannelBtn {
+        padding-left: 3em;
+        padding-right: 3em;
+      }
     </style>
   </head>
   <body>
@@ -104,6 +109,25 @@
                   </div>
                 </div>
               </form>
+              <div
+                class="container mt-5"
+                id="deleteChannelDiv"
+                style="display: none"
+              >
+                <div class="text-center">
+                  <h4>
+                    Delete Editorial Channel:
+                    <button
+                      type="button"
+                      id="deleteChannelBtn"
+                      class="btn btn-danger"
+                      onclick="deleteChannel()"
+                    >
+                      Delete
+                    </button>
+                  </h4>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -156,6 +180,11 @@
               `Admins: ${data.admins.map((item) => item.userId.username)}`
             );
             $("#_id").text(`ID: ${data._id}`);
+
+            if (data.editorialChannel) {
+              document.getElementById("deleteChannelDiv").style.display =
+                "block";
+            }
           },
           error: function (xhr, status, error) {
             console.log(status);
@@ -192,6 +221,32 @@
           error: function (error) {
             console.error("Error sending request:", error);
             alert("ERRORE: receiver non aggiunto");
+          },
+        });
+      }
+
+      function deleteChannel() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+        const url = `http://localhost:3500/api/channels/${channelId}`;
+
+        $.ajax({
+          type: "DELETE",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          success: function (data) {
+            console.log("Channel deleted:", data);
+            alert("Channel eliminato");
+            window.location.href = "/channels.html";
+          },
+          error: function (error) {
+            alert("error");
+            console.error("Error deleting the channel", error);
           },
         });
       }

@@ -11,7 +11,7 @@ router
 router
   .route("/:channelId")
   .get(channelsController.getChannelById)
-  .delete(channelsController.deleteChannel); //da testare
+  .delete(channelsController.deleteChannel);
 
 router.route("/:channelId/name").patch(channelsController.changeName);
 router
