@@ -20,6 +20,9 @@ const channelSchema = new Schema({
   profilePic: {
     type: String,
   },
+  description: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     immutable: true,

@@ -15,6 +15,9 @@ router
 
 router.route("/:channelId/name").patch(channelsController.changeName);
 router
+  .route("/:channelId/description")
+  .patch(channelsController.changeDescription);
+router
   .route("/:channelId/profilePic")
   .patch(channelsController.updateProfilePic); // da testare
 router.route("/:channelId/blocked").patch(channelsController.blockSblock); // da testare

@@ -67,6 +67,7 @@
             <div class="card-body">
               <h5 class="card-title">Channel Details</h5>
               <p class="card-text" id="channelName"></p>
+              <p class="card-text" id="channelDesc"></p>
               <p class="card-text" id="numFollower"></p>
               <p class="card-text" id="numSqueal"></p>
               <p class="card-text" id="channelAdmins"></p>
@@ -103,6 +104,32 @@
                       type="button"
                       class="btn btn-primary btn-block"
                       onclick="changeName()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div class="text-center">
+                <h4>Change description:</h4>
+              </div>
+              <form id="changeDescForm">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="newDescription"
+                        placeholder="Enter description"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-block"
+                      onclick="changeDescription()"
                     >
                       Submit
                     </button>
@@ -169,8 +196,10 @@
           },
           success: function (data) {
             $("#channelName").text(`Name: ${data.name}`);
-            $("#numFollower").text(`Numero di follower: ${data.numFollower}`);
-            $("#numSqueal").text(`Numero di squeal: ${data.numSqueal}`);
+            if (data?.description)
+              $("#channelDesc").text(`Description: ${data.description}`);
+            $("#numFollower").text(`Number of follower: ${data.numFollower}`);
+            $("#numSqueal").text(`Number of squeal: ${data.numSqueal}`);
             $("#channelPrivate").text(`private: ${data.private}`);
             $("#channelEditorial").text(`Editorial: ${data.editorialChannel}`);
             $("#channelBlocked").text(`Blocked: ${data.blocked}`);
@@ -215,12 +244,42 @@
           }),
           success: function (response) {
             console.log("Request sent successfully:", response);
-            alert("nome aggiornato");
             location.reload();
           },
           error: function (error) {
             console.error("Error sending request:", error);
-            alert("ERRORE: receiver non aggiunto");
+            alert("ERRORE");
+          },
+        });
+      }
+
+      function changeDescription() {
+        // Get values from the form
+        var description = $("#newDescription").val();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelId = urlParams.get("id");
+
+        const token = sessionStorage.getItem("token");
+
+        $.ajax({
+          type: "PATCH",
+          url:
+            "http://localhost:3500/api/channels/" + channelId + "/description",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          contentType: "application/json",
+          data: JSON.stringify({
+            description,
+          }),
+          success: function (response) {
+            console.log("Request sent successfully:", response);
+            location.reload();
+          },
+          error: function (error) {
+            console.error("Error sending request:", error);
+            alert("ERROR");
           },
         });
       }

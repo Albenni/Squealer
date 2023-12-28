@@ -14,11 +14,18 @@ const createChannel = async (req, res) => {
   const channel = await Channel.findOne({ name: req.body.channelName });
   if (channel) return res.status(400).json({ message: "Channel name taken" });
 
-  const newChannel = {
-    name: req.body.channelName,
-    private: req?.body?.channelPrivate === "true",
-    editorialChannel: req.body?.editorialChannel == "true",
-  };
+  const newChannel = req.body?.description
+    ? {
+        name: req.body.channelName,
+        private: req?.body?.channelPrivate === "true",
+        editorialChannel: req.body?.editorialChannel == "true",
+      }
+    : {
+        name: req.body.channelName,
+        private: req?.body?.channelPrivate === "true",
+        editorialChannel: req.body?.editorialChannel == "true",
+        description: req.body.description,
+      };
 
   try {
     const result = await Channel.create(newChannel);
@@ -117,6 +124,7 @@ const searchChannels = async (req, res) => {
           private: channels[index].private,
           editorialChannel: channels[index].editorialChannel,
           createdAt: channels[index].createdAt,
+          description: channels[index].description,
           admins,
           numSqueal,
           numFollower,
@@ -154,13 +162,14 @@ const getChannelById = async (req, res) => {
     followedType: "Channel",
   });
 
-  result = {
+  const result = {
     blocked: channel.blocked,
     _id: channel._id,
     name: channel.name,
     private: channel.private,
     editorialChannel: channel.editorialChannel,
     createdAt: channel.createdAt,
+    description: channel.description,
     admins,
     numSqueal,
     numFollower,
@@ -280,6 +289,27 @@ const changeName = async (req, res) => {
   }
 };
 
+const changeDescription = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const description = req.body.description;
+
+    if (!description)
+      return res.status(400).json({ message: "Description required" });
+    await Channel.findByIdAndUpdate(req.params.channelId, {
+      description: description,
+    });
+    res.status(200).json({ message: "descrizione aggiornata con successo" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
+  }
+};
+
 module.exports = {
   createChannel,
   updateProfilePic,
@@ -290,4 +320,5 @@ module.exports = {
   removeAdmin,
   blockSblock,
   changeName,
+  changeDescription,
 };
