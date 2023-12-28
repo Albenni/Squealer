@@ -82,7 +82,7 @@ export class CreatePostComponent {
   post() {
     const formData: FormData = new FormData();
     formData.append('contentType', this.contentChoice);
-    formData.append('publicSqueal', true.toString());
+    formData.append('publicSqueal', 'true');
     if (this.contentChoice === 'text') {
       formData.append('content', this.textValue);
     } else if (this.contentChoice === 'geolocalization') {
@@ -105,25 +105,24 @@ export class CreatePostComponent {
       }
     }
 
-    console.log(formData.getAll('squeal'));
-
     const url: string =
       'http://localhost:3500/api/users/' +
       sessionStorage.getItem('vipId') +
       '/squeals';
-    this.http.post<GetSquealsResponse>(url, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).pipe(
-      catchError((error: any) => {
-        console.error('Si è verificato un errore:', error);
-        return throwError('Errore gestito');
-      })
-    ).subscribe((data) => {
-      console.log('Successo');
-      this.modalRef?.hide();
-    });
+      this.http.post<GetSquealsResponse>(url, formData).pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError(() => new Error('Errore gestito'));
+        })
+      ).subscribe({
+        next: (data) => {
+          console.log('Successo');
+          this.modalRef?.hide();
+        },
+        error: (error) => {
+          console.error('Errore durante la sottoscrizione:', error);
+        }
+      });
   }
   
   chooseChannel(channel: string) {

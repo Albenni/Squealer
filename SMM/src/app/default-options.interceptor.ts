@@ -26,7 +26,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const httpOptions = {
       headers: request.headers
-        .set('Content-Type', 'application/json')
+        
         .set('Authorization', `Bearer ${sessionStorage.getItem('accessToken')}`),
       withCredentials: true,
     };
