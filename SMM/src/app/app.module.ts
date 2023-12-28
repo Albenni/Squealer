@@ -25,7 +25,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UserItemComponent } from './components/user-item/user-item.component';
-import { VipSelectionComponent } from './pages/vip-selection/vip-selection.component';
 import { CharacterDisplayerComponent } from './components/character-displayer/character-displayer.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { CreatePostComponent } from './components/posting/create-post/create-post.component';
@@ -42,6 +41,7 @@ import { TextPostComponent } from './components/posting/text-post/text-post.comp
 import { ImgPostComponent } from './components/posting/img-post/img-post.component';
 import { VideoFormatComponent } from './components/video-format/video-format.component';
 import { GeolocalizationPostComponent } from './components/posting/geolocalization-post/geolocalization-post.component';
+import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,6 @@ import { GeolocalizationPostComponent } from './components/posting/geolocalizati
     LoginComponent,
     DashboardComponent,
     UserItemComponent,
-    VipSelectionComponent,
     CharacterDisplayerComponent,
     TopBarComponent,
     CreatePostComponent,
@@ -66,6 +65,7 @@ import { GeolocalizationPostComponent } from './components/posting/geolocalizati
     ImgPostComponent,
     VideoFormatComponent,
     GeolocalizationPostComponent,
+    VipSelectPageComponent,
   ],
   imports: [
     BrowserModule,

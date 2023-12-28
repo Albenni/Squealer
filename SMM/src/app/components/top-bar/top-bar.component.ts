@@ -16,10 +16,10 @@ import { Router } from '@angular/router';
 export class TopBarComponent {
   @Output() vipSelected = new EventEmitter<number>();
 
-  logosrc: string = './assets/SLogo.png'; 
+  logosrc: string = './assets/SLogo.png';
 
   vipsUsernames: string[] = this.sharedService.vipUsernames;
-  vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
+  vipsProfilePics: string[] = this.sharedService.vipProfilePics;
 
   /*  vipsUsernames: string[] = ['vip1', 'vip2', 'vip3', 'vip4'];
   vipsProfilePics: string[] = [
@@ -35,7 +35,6 @@ export class TopBarComponent {
     this.vipSelected.emit(index);
   }
   shopButton() {
-    
     this.router.navigate(['/shop']);
   }
 }

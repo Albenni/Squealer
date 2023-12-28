@@ -13,9 +13,18 @@
         <div class="account-selection-form">
             <mat-form-field appearance="fill">
                 <mat-label aria-live="polite" style="color: #333333;">Seleziona l'account da gestire:</mat-label>
-                <mat-select [(ngModel)]="selectedAccount" placeholder="Account"
+                <mat-select [(ngModel)]="selectedAccountUsername" placeholder="Account"
                     aria-label="Seleziona l'account da gestire">
-                    <mat-option *ngFor="let username of vipUsernames" [value]="username">{{ username }}</mat-option>
+                    <mat-option *ngFor="let username of vipUsernames; let i = index" [value]="username">
+                        <div class="row py-1" style="width: 300px;">
+                            <div class="col-3">
+                                <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipImages[i]"
+                                        [src]="vipImages[i]" alt="Profile image"></div>
+                            </div>
+                            <div class="col-4" style="text-align: center; margin-top: 1rem; font-size: large;">{{ username }}</div>
+                        </div>
+
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>

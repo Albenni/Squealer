@@ -53,10 +53,8 @@ export class LoginComponent {
         this.sharedService.smmUsername = this.userData.user;
         this.sharedService.accessToken = data.accessToken;
         this.sharedService.smmId = data.userid;
-
-        console.log(sessionStorage.getItem('accessToken'));
         
-        this.router.navigate(['/vipSelection']);
+        this.router.navigate(['/vipSelect']);
       });
   }
 }

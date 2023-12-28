@@ -22,18 +22,17 @@ export class DashboardComponent implements OnInit {
     monthly: 0,
   };
 
-  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
-  /*
+/*
  vipUsername: string = this.sharedService.selectedVipUsername;
   vipsUsernames: string[] = ['Aldo', 'Giovanni', 'Giacomo'];
   vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
  */
+  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
   vipUsername: string = sessionStorage.getItem('vipUsername')!;
+  vipId = sessionStorage.getItem('vipId')!;
 
-  vipId = this.sharedService.selectedVipId;
-
-  vipsUsernames: string[] = this.sharedService.vipUsernames;
-  vipsProfilePics: string[] = this.sharedService.vipsProfilePics;
+  vipsUsernames: string[] = JSON.parse(sessionStorage.getItem('vipsUsernames')!);
+  vipsProfilePics: string[] = JSON.parse(sessionStorage.getItem('vipsProfilePics')!);
 
   constructor(
     private http: HttpClient,
@@ -64,7 +63,9 @@ export class DashboardComponent implements OnInit {
     
     console.log('index: ' + index);
     this.vipUsername = this.vipsUsernames[index];
+    console.log('vipUsername: ' + this.vipUsername);
     this.sharedService.selectedVipUsername = this.vipUsername;
+
 
     this.vipProfilePic = this.vipsProfilePics[index];
     this.sharedService.selectedVipProfilePic = this.vipProfilePic;

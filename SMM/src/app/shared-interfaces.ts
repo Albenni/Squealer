@@ -2,6 +2,33 @@ export interface LoginResponse {
   accessToken: string;
   userid: string;
 }
+
+export interface GetVipsResponse {
+  _id: string;
+  accepted: boolean;
+  smmId: string;
+  vipId: string;
+}
+
+export interface GetInfosVip{
+  aumentoQuota: number;
+  blocked: boolean;
+  dailyChar: number;
+  email: string;
+  firstname: string;
+  monthlyChar: number;
+  password: string;
+  professional: boolean;
+  profilePic: string;
+  refreshToken: string;
+  surname: string;
+  username: string;
+  verified: boolean;
+  weeklyChar: number;
+  __v: number;
+  _id: string;
+}
+
 export interface UserData {
   _id: string;
   username: string;
@@ -67,4 +94,9 @@ export interface GetReactionResponse {
 export interface FilterParams {
   orderBy: string;
   contentTypes: string[];
+}
+export interface Vip {
+  id: string;
+  username: string;
+  profilePic: string;
 }
