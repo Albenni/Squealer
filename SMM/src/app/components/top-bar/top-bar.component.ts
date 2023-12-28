@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   ],
 })
 export class TopBarComponent {
-  @Output() vipSelected = new EventEmitter<number>();
+  @Output() vipSelected: EventEmitter<number> = new EventEmitter<number>();
 
   logosrc: string = './assets/SLogo.png';
 
@@ -32,6 +32,11 @@ export class TopBarComponent {
   constructor(private sharedService: SharedService, private router: Router) {}
 
   changeVip(index: number) {
+
+    this.sharedService.selectedVipUsername = this.vipsUsernames[index];
+    this.sharedService.selectedVipProfilePic = this.vipsProfilePics[index];
+    this.sharedService.selectedVipId = this.sharedService.vipIds[index];
+    
     this.vipSelected.emit(index);
   }
   shopButton() {

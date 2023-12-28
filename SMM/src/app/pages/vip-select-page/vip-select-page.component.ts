@@ -73,7 +73,6 @@ export class VipSelectPageComponent {
       tap((data:GetInfosVip ) => {
         this.vipUsernames.push(data.username);
         this.sharedService.vipUsernames.push(data.username);
-        console.log('vipUsernames: ' + this.vipUsernames);
         this.vipIds.push(id);
 
         this.sharedService.vipIds.push(id);

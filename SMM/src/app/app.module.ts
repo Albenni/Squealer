@@ -28,20 +28,21 @@ import { UserItemComponent } from './components/user-item/user-item.component';
 import { CharacterDisplayerComponent } from './components/character-displayer/character-displayer.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { CreatePostComponent } from './components/posting/create-post/create-post.component';
-import { FeedTabComponent } from './components/feed-tab/feed-tab.component';
-import { LocalizationFormatComponent } from './components/localization-format/localization-format.component';
+import { FeedTabComponent } from './components/feed/feed-tab/feed-tab.component';
+import { LocalizationFormatComponent } from './components/feed/localization-format/localization-format.component';
 import { VideoPostComponent } from './components/posting/video-post/video-post.component';
 import { CharacterTabComponent } from './components/character-tab/character-tab.component';
-import { FeedFilterComponent } from './components/feed-filter/feed-filter.component';
+import { FeedFilterComponent } from './components/feed/feed-filter/feed-filter.component';
 import { ReactionsCardHeaderComponent } from './components/reactions-card-header/reactions-card-header.component';
 import { ShopPageComponent } from './pages/shop-page/shop-page.component';
 import { ShopTopBarComponent } from './components/shop-top-bar/shop-top-bar.component';
 import { ShopCardsComponent } from './components/shop-cards/shop-cards.component';
 import { TextPostComponent } from './components/posting/text-post/text-post.component';
 import { ImgPostComponent } from './components/posting/img-post/img-post.component';
-import { VideoFormatComponent } from './components/video-format/video-format.component';
+import { VideoFormatComponent } from './components/feed/video-format/video-format.component';
 import { GeolocalizationPostComponent } from './components/posting/geolocalization-post/geolocalization-post.component';
 import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.component';
+import { ImageFormatComponent } from './components/feed/image-format/image-format.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.
     VideoFormatComponent,
     GeolocalizationPostComponent,
     VipSelectPageComponent,
+    ImageFormatComponent,
   ],
   imports: [
     BrowserModule,

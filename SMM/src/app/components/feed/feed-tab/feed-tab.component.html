@@ -7,11 +7,11 @@
                 [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>
         </div>
         <div class="p-1 card-body" style="width: 20rem; border-radius: 3%; ">
-            <img *ngIf="squeal.contentType === 'image'" src="{{ squeal.content}}" alt="squeal image" class="img-fluid">
+            <div *ngIf="squeal.contentType=== 'image'"> <app-image-format [format] = "squeal.content" [idImage]="squeal._id"></app-image-format></div>
             <p *ngIf="squeal.contentType === 'text'">{{ squeal.content}}</p>
             <div *ngIf="squeal.contentType === 'geolocalization'"><app-localization-format
                     [coordinates]="squeal.content"></app-localization-format></div>
-            <div *ngIf="squeal.contentType === 'video'"> <app-video-format></app-video-format>
+            <div *ngIf="squeal.contentType === 'video'"> <app-video-format [format]="squeal.content" [idVideo]="squeal._id"></app-video-format>
             </div>
         </div>
         <div class="card-footer text-body-secondary" style="font-size: smaller;">

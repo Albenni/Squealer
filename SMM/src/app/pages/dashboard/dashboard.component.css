@@ -1,6 +1,8 @@
-/* Ensure a stacking context for .sticky-top */
+.dashboardContainer{
+  overflow: hidden; 
+}
 .sticky-top {
-  z-index: 2; /* or an appropriate value */
+  z-index: 2; 
 }
 
 app-top-bar {

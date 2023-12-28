@@ -1,50 +1,54 @@
-<div class="sticky-top" style="z-index: 500;">
-    <app-top-bar (vipSelected)="selectVip($event)"></app-top-bar>
-    <div class="row px-2" id="profileTabDashboard" style="background-color: black; ">
-        <div class="col-6" id="tabProfile">
-            <div class="row">
-                <div class="col-6 " style="padding: 1.5%;" id="vipProfilePic">
-                    <div class="rounded-avatar">
-                        <img *ngIf="vipProfilePic" class="rounded-avatar-img" id="imgVipProfilePic"
-                            [src]="vipProfilePic" alt="Avatar">
+<div id="dashboardContainer">
+    <div class="sticky-top" style="z-index: 500;">
+        <app-top-bar (vipSelected)="selectVip($event)"></app-top-bar>
+        <div class="row px-2" id="profileTabDashboard" style="background-color: black; ">
+            <div class="col-6" id="tabProfile">
+                <div class="row">
+                    <div class="col-6 " style="padding: 1.5%;" id="vipProfilePic">
+                        <div class="rounded-avatar">
+                            <img *ngIf="vipProfilePic" class="rounded-avatar-img" id="imgVipProfilePic"
+                                [src]="vipProfilePic" alt="Avatar">
+                        </div>
                     </div>
+                    <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;">
+                        <h3 style="font-family:'CenturyGothic';">{{vipUsername}}</h3>
+                    </div>
+
                 </div>
-                <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;"><h3 style="font-family:'CenturyGothic';">{{vipUsername}}</h3></div>
 
             </div>
+            <tabset type="pills" class="col-6" style="margin-top: 0.5rem;">
+                <div class="row">
+                    <tab class="col-6"><ng-template tabHeading>
+                            <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed' "><span
+                                    class="" style=" font-weight: 500; font-size: 1.2rem;">Feed</span></button>
+                        </ng-template></tab>
+                    <tab class="col-6"><ng-template tabHeading>
+                            <button id="showCharsButton" class="mx-2 p-0 text btn " (click)="activeTab = 'chars' "><span
+                                    class="" style="font-weight: 500; font-size: 1.2rem;">Caratteri</span></button>
+
+                        </ng-template></tab>
+
+                </div>
+            </tabset>
+        </div>
+    </div>
+
+    <div *ngIf="activeTab == 'feed'" id="dashFeedTab">
+        <app-feed-tab [refreshFeed]="refreshFeed"></app-feed-tab>
+    </div>
+
+    <div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab">
+        <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+            [monthlyChars]="characters.monthly"></app-character-tab>
+        <div class="shop-card">
+            <div class="shop-title">Shop Notice</div>
+
+            <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri
+                aggiuntivi! </p>
 
         </div>
-        <tabset type="pills" class="col-6" style="margin-top: 0.5rem;">
-            <div class="row">
-                <tab class="col-6"><ng-template tabHeading>
-                        <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed' "><span class=""
-                                style=" font-weight: 500; font-size: 1.2rem;">Feed</span></button>
-                    </ng-template></tab>
-                <tab class="col-6"><ng-template tabHeading>
-                        <button id="showCharsButton" class="mx-2 p-0 text btn " (click)="activeTab = 'chars' "><span class=""
-                                style="font-weight: 500; font-size: 1.2rem;">Caratteri</span></button>
-
-                    </ng-template></tab>
-
-            </div>
-        </tabset>
-    </div>
-</div>
-
-<div *ngIf="activeTab == 'feed'" id="dashFeedTab">
-    <app-feed-tab></app-feed-tab>
-</div>
-
-<div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab">
-    <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
-        [monthlyChars]="characters.monthly"></app-character-tab>
-    <div class="shop-card">
-        <div class="shop-title">Shop Notice</div>
-
-        <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri
-            aggiuntivi! </p>
 
     </div>
-
+    <div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%;"><app-create-post></app-create-post></div>
 </div>
-<div *ngIf="activeTab == 'feed'" class="fixed-bottom" style="padding: 2%;" ><app-create-post></app-create-post></div>

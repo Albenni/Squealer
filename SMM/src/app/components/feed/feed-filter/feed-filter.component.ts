@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FilterParams } from '../../shared-interfaces';
+import { FilterParams } from '../../../shared-interfaces';
 @Component({
   selector: 'app-feed-filter',
   templateUrl: './feed-filter.component.html',

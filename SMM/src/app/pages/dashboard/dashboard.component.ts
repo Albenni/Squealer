@@ -13,7 +13,10 @@ import { Characters, GetCharsResponse } from '../../shared-interfaces';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  logosrc: string = './assets/SLogo.png'; 
+
+  refreshFeed: boolean = false;
+
+  logosrc: string = './assets/SLogo.png';
   activeTab: string = 'feed';
 
   characters: Characters = {
@@ -22,17 +25,17 @@ export class DashboardComponent implements OnInit {
     monthly: 0,
   };
 
-/*
+  /*
  vipUsername: string = this.sharedService.selectedVipUsername;
   vipsUsernames: string[] = ['Aldo', 'Giovanni', 'Giacomo'];
   vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
  */
-  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
-  vipUsername: string = sessionStorage.getItem('vipUsername')!;
-  vipId = sessionStorage.getItem('vipId')!;
+  vipProfilePic: string = '';
+  vipUsername: string = '';
+  vipId: string = '';
 
-  vipsUsernames: string[] = JSON.parse(sessionStorage.getItem('vipsUsernames')!);
-  vipsProfilePics: string[] = JSON.parse(sessionStorage.getItem('vipsProfilePics')!);
+  vipUsernames: string[] = [];
+  vipProfilePics: string[] = [];
 
   constructor(
     private http: HttpClient,
@@ -41,9 +44,20 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.vipUsernames = JSON.parse(sessionStorage.getItem('vipUsernames')!);
+    this.vipProfilePics = JSON.parse(
+      sessionStorage.getItem('vipProfilePics')!
+    );
+
+    this.vipId = sessionStorage.getItem('vipId')!;
+    this.vipUsername = sessionStorage.getItem('vipUsername')!;
+    this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
+
     this.http
       .get<GetCharsResponse>(
-        'http://localhost:3500/api/users/' + sessionStorage.getItem('vipId') + '/charAvailable'
+        'http://localhost:3500/api/users/' +
+          sessionStorage.getItem('vipId') +
+          '/charAvailable'
       )
       .pipe(
         catchError((error: any) => {
@@ -58,19 +72,17 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  
   selectVip(index: number) {
     
     console.log('index: ' + index);
-    this.vipUsername = this.vipsUsernames[index];
+
+    this.vipUsername = this.vipUsernames[index];
     console.log('vipUsername: ' + this.vipUsername);
     this.sharedService.selectedVipUsername = this.vipUsername;
 
-
-    this.vipProfilePic = this.vipsProfilePics[index];
+    this.vipProfilePic = this.vipProfilePics[index];
     this.sharedService.selectedVipProfilePic = this.vipProfilePic;
-
-    
+    this.refreshFeed = !this.refreshFeed;
   }
 
   showChars() {}

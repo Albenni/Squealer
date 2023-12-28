@@ -59,7 +59,6 @@ export class LocalizationFormatComponent implements OnDestroy {
     // Use Axios to fetch address from the Nominatim API
     axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.latitudine}&lon=${this.longitudine}`)
       .then((response) => {
-        console.log('Response from Nominatim:', response);
         const address = response.data.display_name;
         marker.setPopupContent(address).openPopup(); // Update the popup with the address
         

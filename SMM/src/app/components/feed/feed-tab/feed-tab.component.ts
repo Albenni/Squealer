@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { SharedService } from '../../../services/shared.service';
 import {
   GetSquealsResponse,
   FilterParams,
   SquealsInfo,
   GetReactionResponse,
-} from '../../shared-interfaces';
+} from '../../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 
@@ -15,110 +15,28 @@ import { catchError, throwError, map } from 'rxjs';
   styleUrls: ['./feed-tab.component.css'],
 })
 export class FeedTabComponent {
+  @Input() refreshFeed: boolean = false;
+
   getSqueals: GetSquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
   displayedSqueals: SquealsInfo[] = [];
 
-  /* squeals: SquealsInfo[] = [
-    {
-      _id: '6548e23a7faecfb150cfd657',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content: 'https://picsum.photos/200',
-      contentType: 'image',
-      impression: 45,
-      createdAt: '2023-11-06T12:55:22.315Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-    {
-      _id: '6548e2497faecfb150cfd65b',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content: 'https://picsum.photos/200',
-      contentType: 'image',
-      impression: 45,
-      createdAt: '2023-11-06T12:55:37.362Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-    {
-      _id: '6548e24a7faecfb150cfd65f',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content: 'https://picsum.photos/200',
-      contentType: 'image',
-      impression: 45,
-      createdAt: '2023-11-06T12:55:38.067Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-    {
-      _id: '654b9cec15e2330c700374c6',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content: 'Hello world!',
-      contentType: 'text',
-      impression: 38,
-      createdAt: '2023-11-08T14:36:28.828Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-    {
-      _id: '654d04b3404cbfb491706a5f',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      contentType: 'text',
-      impression: 28,
-      createdAt: '2023-11-09T16:11:31.950Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-    {
-      _id: '654e58f784a3395ec5f285d9',
-      author: '651d64ffba243e0813e502dd',
-      publicSqueal: true,
-      officialChannel: false,
-      content: '44.476662507415725,11.363996484504412',
-      contentType: 'geolocalization',
-      impression: 21,
-      createdAt: '2023-11-10T16:23:19.322Z',
-      __v: 0,
-      receivers: [],
-      posReac: 0,
-      negReac: 0,
-      convertedDate: '10 Novembre 2023',
-    },
-  ];
-
-  displayedSqueals: SquealsInfo[] = this.squeals;
- */
-
   constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   ngOnInit() {
+    this.uploadSqueals();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes['refreshFeed'] &&
+      changes['refreshFeed'].currentValue !==
+        changes['refreshFeed'].previousValue
+    ) {
+      this.uploadSqueals();
+    }
+  }
+  private uploadSqueals() {
     this.http
       .get<GetSquealsResponse[]>(
         'http://localhost:3500/api/users/' +
