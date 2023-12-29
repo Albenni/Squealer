@@ -21,8 +21,11 @@ function ChannelBar({ channelinfo }) {
 
   const [isFollowedChannel, setIsFollowedChannel] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   useEffect(() => {
-    console.log(channelpathname);
+    // console.log(channelpathname);
     const checkFollow = async () => {
       await axiosInstance
         .get(config.endpoint.users + "/" + userid + "/channels")
@@ -38,7 +41,25 @@ function ChannelBar({ channelinfo }) {
         });
     };
 
+    async function getChannels() {
+      await axiosInstance
+        .get(
+          config.endpoint.channels +
+            "?exactMatch=true&channel=" +
+            channelpathname
+        )
+        .then((res) => {
+          if (res.data.admins.find((obj) => obj.userId._id === userid)) {
+            setIsAdmin(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     checkFollow();
+    getChannels();
   }, [axiosInstance, channelinfo]);
 
   async function handleFollowChannel() {
@@ -112,7 +133,7 @@ function ChannelBar({ channelinfo }) {
       </div>
       <div className="row">
         <div
-          className="p-3"
+          className="p-3 pe-none"
           style={{
             color: theme.colors.white,
           }}
@@ -124,17 +145,26 @@ function ChannelBar({ channelinfo }) {
               : "Nessuna descrizione."}
           </p>
         </div>
-        <div className="pt-3">
-          {isFollowedChannel ? (
-            <Button variant="danger" onClick={handleUnfollowChannel}>
-              Non seguire questo canale
+
+        {isAdmin ? (
+          <div className="pt-3">
+            <Button variant="outline-light" onClick={() => setShowEdit(true)}>
+              Modifica canale
             </Button>
-          ) : (
-            <Button variant="success" onClick={handleFollowChannel}>
-              Segui questo canale
-            </Button>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="pt-3">
+            {isFollowedChannel ? (
+              <Button variant="danger" onClick={handleUnfollowChannel}>
+                Non seguire questo canale
+              </Button>
+            ) : (
+              <Button variant="success" onClick={handleFollowChannel}>
+                Segui questo canale
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

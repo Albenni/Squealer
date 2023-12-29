@@ -86,7 +86,7 @@ function TrendBar() {
               sessionStorage.getItem("userid") === "guest" ? "/" : "/channels"
             }
           >
-            Scopri nuovi canali
+            Canali
           </Nav.Link>
         </Nav.Item>
       </Nav>

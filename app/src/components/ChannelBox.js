@@ -131,7 +131,8 @@ function ChannelBox({ show, setShowCreate }) {
               <input
                 type="text"
                 className="form-control"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value.toLowerCase())}
+                value={name}
               />
             </div>
           </div>

@@ -1,5 +1,5 @@
 import theme from "../../config/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import {
   ChatDots,
@@ -19,6 +19,34 @@ function AccountPane({ user }) {
   const axiosInstance = useAxiosPrivate();
 
   const [show, setShow] = useState(false);
+  const [channels, setChannels] = useState([]);
+
+  useEffect(() => {
+    getChannels();
+
+    async function getChannels() {
+      await axiosInstance
+        .get(config.endpoint.channels)
+        .then((res) => {
+          res.data.forEach((channel) => {
+            if (
+              channel.admins.find(
+                (obj) => obj.userId._id === sessionStorage.getItem("userid")
+              )
+            ) {
+              setChannels((channels) => [...channels, channel]);
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return () => {
+      setChannels([]);
+    };
+  }, [axiosInstance]);
 
   function handleSync(smmid) {
     axiosInstance
@@ -72,26 +100,39 @@ function AccountPane({ user }) {
                   )}
                 </div>
               </Card.Title>
-              <Card.Text className="pt-3 pe-none">
+              <Card.Text className="pt-2 pe-none">
                 La tua mail: {user.email}
               </Card.Text>
-              <Card.Text className="pt-3 pe-none">
+              <Card.Text className="pt-2 pe-none">
                 Il tuo tipo di account:{" "}
                 {user.professional ? "Professional" : "Regular"}
               </Card.Text>
 
-              <Card.Text className="pt-3 pe-none">
-                Il tuo §canale: {user.channel ? user.channel : "Nessuno"}
-              </Card.Text>
+              <div className="pt-2">
+                <p>
+                  I tuoi §canali: {channels.length === 0 && "Nessun canale."}
+                </p>
 
-              <Card.Text
-                className="pt-3 pe-none"
-                style={{
-                  color: "red",
-                }}
-              >
-                Acquista un §canale personalizzato (caratteri minuscoli)
-              </Card.Text>
+                {channels.length > 0 &&
+                  channels.map((channel, key) => (
+                    <div key={key}>
+                      <a
+                        href={"/channel/" + channel.name}
+                        style={{
+                          color: theme.colors.dark,
+                          textDecoration: "none",
+                          cursor: "pointer",
+                          marginLeft: "10px",
+                          border: "1px solid " + theme.colors.dark,
+                          borderRadius: "5px",
+                          padding: "5px",
+                        }}
+                      >
+                        §{channel.name}
+                      </a>
+                    </div>
+                  ))}
+              </div>
             </Card.Body>
           </Card>
         </div>
@@ -119,7 +160,7 @@ function AccountPane({ user }) {
 
                 <Card.Title className="pt-3">I tuoi amministratori.</Card.Title>
 
-                {user.professional && (
+                {user.professional ? (
                   <div className="d-flex justify-content-between align-items-center">
                     <Card.Text
                       className="pe-none"
@@ -136,8 +177,22 @@ function AccountPane({ user }) {
                       Aggiungi
                     </Button>
                   </div>
+                ) : (
+                  <div
+                    style={{
+                      color: theme.colors.dark,
+                    }}
+                  >
+                    Passa ad un account Professional per avere un Social Media
+                    Manager.
+                  </div>
                 )}
-                <Card.Text className="pe-none">
+                <Card.Text
+                  className="pe-none"
+                  style={{
+                    color: theme.colors.danger,
+                  }}
+                >
                   Gli amministratori del tuo canale: Se hai un canale, puoi
                   aggiungere un amministratore che gestirà il tuo canale per te.
                   <br />

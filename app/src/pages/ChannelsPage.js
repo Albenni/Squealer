@@ -9,6 +9,7 @@ import config from "../config/config";
 import { useNavigate } from "react-router-dom";
 import TrendBar from "../components/TrendBar";
 import ChannelBox from "../components/ChannelBox";
+import { Divider } from "@mui/material";
 
 const ChannelsPage = () => {
   const axiosInstance = useAxiosPrivate();
@@ -105,64 +106,134 @@ const ChannelsPage = () => {
           </div>
         </div>
       </div>
+
       <div className="container">
+        <h2
+          style={{
+            color: theme.colors.white,
+          }}
+        >
+          I tuoi canali
+        </h2>
         <ListGroup>
-          {channels.map((channel, key) => (
-            <ListGroup.Item key={key} className="listitem">
-              <div
-                className="row"
-                style={{
-                  backgroundColor: theme.colors.transparent,
-                  color: theme.colors.white,
-                  border: "none",
-                }}
-              >
-                <div className="col">
-                  <h4
-                    style={{ cursor: "pointer" }}
-                    onMouseEnter={(e) => {
-                      e.target.style.textDecoration = "underline";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.textDecoration = "none";
-                    }}
-                    onClick={() => {
-                      navigate("/channel/" + channel.name, {
-                        replace: true,
-                      });
+          {channels.map(
+            (channel, key) =>
+              channel.admins.find(
+                (obj) => obj.userId._id === sessionStorage.getItem("userid")
+              ) && (
+                <ListGroup.Item key={key} className="listitem">
+                  <div
+                    className="row"
+                    style={{
+                      backgroundColor: theme.colors.transparent,
+                      color: theme.colors.white,
+                      border: "none",
                     }}
                   >
-                    {channel.name}
-                  </h4>
-                </div>
-                <div className="col d-flex justify-content-end">
-                  {!followedChannels.some(
-                    (obj) => obj.id === channel.id && obj.name === channel.name
-                  ) ? (
-                    <Button
-                      variant="success"
-                      onClick={() => handleFollow(channel._id)}
-                      style={{
-                        maxHeight: "2.5em",
-                      }}
-                    >
-                      Segui
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="danger"
-                      onClick={() => handleUnFollow(channel._id)}
-                      style={{
-                        maxHeight: "2.5em",
-                      }}
-                    >
-                      Non seguire
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </ListGroup.Item>
-          ))}
+                    <div className="col">
+                      <h4
+                        style={{ cursor: "pointer" }}
+                        onMouseEnter={(e) => {
+                          e.target.style.textDecoration = "underline";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.textDecoration = "none";
+                        }}
+                        onClick={() => {
+                          navigate("/channel/" + channel.name, {
+                            replace: true,
+                          });
+                        }}
+                      >
+                        {channel.name}
+                      </h4>
+                    </div>
+                  </div>
+                </ListGroup.Item>
+              )
+          )}
+        </ListGroup>
+      </div>
+
+      <div className="container">
+        <Divider
+          style={{
+            margin: "20px 0",
+            backgroundColor: theme.colors.white,
+            height: "2px",
+          }}
+        />
+      </div>
+
+      <div className="container">
+        <h2
+          style={{
+            color: theme.colors.white,
+          }}
+        >
+          Scopri nuovi canali
+        </h2>
+        <ListGroup>
+          {channels.map(
+            (channel, key) =>
+              !channel.private && (
+                <ListGroup.Item key={key} className="listitem">
+                  <div
+                    className="row"
+                    style={{
+                      backgroundColor: theme.colors.transparent,
+                      color: theme.colors.white,
+                      border: "none",
+                    }}
+                  >
+                    <div className="col">
+                      <h4
+                        style={{ cursor: "pointer" }}
+                        onMouseEnter={(e) => {
+                          e.target.style.textDecoration = "underline";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.textDecoration = "none";
+                        }}
+                        onClick={() => {
+                          navigate("/channel/" + channel.name, {
+                            replace: true,
+                          });
+                        }}
+                      >
+                        {channel.name}
+                      </h4>
+                    </div>
+                    <div className="col d-flex justify-content-end">
+                      {!followedChannels.some(
+                        (obj) =>
+                          obj.id === channel.id && obj.name === channel.name
+                      ) ? (
+                        <Button
+                          variant="success"
+                          onClick={() => handleFollow(channel._id)}
+                          style={{
+                            maxHeight: "2.5em",
+                          }}
+                        >
+                          Segui
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="danger"
+                          onClick={() => handleUnFollow(channel._id)}
+                          style={{
+                            maxHeight: "2.5em",
+                          }}
+                        >
+                          Non seguire
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </ListGroup.Item>
+              )
+          )}
         </ListGroup>
       </div>
     </div>

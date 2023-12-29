@@ -90,7 +90,24 @@ const searchChannels = async (req, res) => {
       const channel = await Channel.findOne({ name: findChannels });
       if (!channel)
         return res.status(204).json({ message: "No channels found" });
-      return res.json(channel);
+
+      const admins = await Admin.find({
+        channelId: channel._id,
+      })
+        .select("userId -_id")
+        .populate("userId", "username");
+
+      const result = {
+        blocked: channel.blocked,
+        _id: channel._id,
+        name: channel.name,
+        private: channel.private,
+        editorialChannel: channel.editorialChannel,
+        createdAt: channel.createdAt,
+        description: channel.description,
+        admins,
+      };
+      res.json(result);
     } else {
       const query = req.query.editorial
         ? {
