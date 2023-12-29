@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import PostList from "../components/posts/PostList";
 import TopBar from "../components/TopBar";
 import ChannelBar from "../components/ChannelBar";
+import EditChannelBox from "../components/EditChannelBox";
 
 //API
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -19,6 +20,8 @@ function Channel({ channelname }) {
   const [channelinfo, setChannelInfo] = useState({});
   const [channelposts, setChannelPosts] = useState([]);
 
+  const [showEdit, setShowEdit] = useState(false);
+
   useEffect(() => {
     const getAllChannelInfo = async () => {
       try {
@@ -28,8 +31,8 @@ function Channel({ channelname }) {
             channelname +
             "&exactMatch=true"
         );
-        // console.log("INFO");
-        // console.log(channelInfoResponse.data);
+
+        console.log(channelInfoResponse.data);
         setChannelInfo(channelInfoResponse.data);
 
         const channelPostsResponse = await axiosInstance.get(
@@ -55,6 +58,15 @@ function Channel({ channelname }) {
       <div className="sticky-top">
         <TopBar />
       </div>
+
+      {showEdit && (
+        <EditChannelBox
+          show={showEdit}
+          setShowEdit={setShowEdit}
+          channelinfo={channelinfo}
+        />
+      )}
+
       <div
         style={{
           backgroundColor: theme.colors.dark,
@@ -63,7 +75,7 @@ function Channel({ channelname }) {
         }}
       >
         <div className="container">
-          <ChannelBar channelinfo={channelinfo} />
+          <ChannelBar channelinfo={channelinfo} setShowEdit={setShowEdit} />
         </div>
 
         <div className="container mt-sm-3">

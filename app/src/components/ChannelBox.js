@@ -7,10 +7,16 @@ import addimage from "../assets/add-image.png";
 import ErrorMessage from "./ErrorMessage";
 import UserSelector from "./UserSelector";
 
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import config from "../config/config";
+
 function ChannelBox({ show, setShowCreate }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+  const axiosInstance = useAxiosPrivate();
 
   const [missingfields, setMissingFields] = useState(false);
+  const [alreadyexists, setAlreadyExists] = useState(false);
+  const [creationerror, setCreationError] = useState(false);
 
   // Post content
   const [name, setName] = useState("");
@@ -52,7 +58,7 @@ function ChannelBox({ show, setShowCreate }) {
     }
   }
 
-  function handleCreate() {
+  async function handleCreate() {
     console.log("Name: " + name);
     console.log("Privato: " + isprivate);
     console.log("Des: " + description);
@@ -69,8 +75,80 @@ function ChannelBox({ show, setShowCreate }) {
       return;
     }
 
+    // Controllare che il nome non sia già stato usato
+    const checkChannelName = async () => {
+      try {
+        const res = await axiosInstance.get(
+          config.endpoint.channels + "?channel=" + name + "&exactMatch=true"
+        );
+
+        console.log(res);
+        if (res.status === 200) {
+          setAlreadyExists(true);
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (await checkChannelName()) return;
+
+    // Creo il canale
+    const formData = new FormData();
+    formData.append("channelName", name);
+    formData.append("description", description);
+    formData.append("channelPrivate", isprivate);
+    formData.append("editorialChannel", false);
+    formData.append("profilePic", profilepic);
+
+    let channelid = "";
+
+    const createChannel = async () => {
+      try {
+        const res = await axiosInstance.post(
+          config.endpoint.channels,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(res);
+        channelid = res.data._id;
+        setCreationError(false);
+        setAlreadyExists(false);
+      } catch (err) {
+        console.log(err);
+        setCreationError(true);
+        return;
+      }
+    };
+
+    await createChannel();
+
+    // Aggiungo i membri come follower
+    if (isprivate) {
+      receiverlist.forEach((receiver) => {
+        axiosInstance
+          .post(
+            config.endpoint.users + "/" + receiver.id + "/channels/" + channelid
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    }
+
     setMissingFields(false);
     setShowCreate(false);
+    window.location.reload();
   }
 
   return (
@@ -134,6 +212,10 @@ function ChannelBox({ show, setShowCreate }) {
                 onChange={(e) => setName(e.target.value.toLowerCase())}
                 value={name}
               />
+              <ErrorMessage
+                visible={alreadyexists}
+                error={"Canale già esistente!"}
+              />
             </div>
           </div>
         </div>
@@ -157,18 +239,22 @@ function ChannelBox({ show, setShowCreate }) {
         <div className="d-flex justify-content-end">
           <div className="d-flex align-items-center px-3">
             <ErrorMessage visible={missingfields} error={"Dati mancanti!"} />
+            <ErrorMessage
+              visible={creationerror}
+              error={"Errore durante la creazione del canale!"}
+            />
           </div>
 
           <Button
             variant="success"
             onClick={handleCreate}
             style={{ fontWeight: "bold" }}
-            // disabled={
-            //   user.dailyChar === 0 ||
-            //   contentType === "" ||
-            //   user.dailyChar - currentchars < 0 ||
-            //   (!isPublic && squealchannel.length === 0)
-            // }
+            disabled={
+              name === "" ||
+              description === "" ||
+              profilepic === null ||
+              (isprivate && receiverlist.length === 0)
+            }
           >
             Crea canale
           </Button>

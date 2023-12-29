@@ -30,10 +30,6 @@ https://mui.com/material-ui/react-menu/
 
 - Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
-- Aggiungere creazione canale minuscolo (da collegare e testare)
-
-- Aggiungere follower a canali per canali privati
-
 - Aggiungere controllo per visualizzare canale privato solo a chi è follower
 
 - Rendere sito accessibile

@@ -1,6 +1,7 @@
 import theme from "../config/theme";
 
 import React, { useState, useEffect } from "react";
+import logo from "../assets/SLogo.png";
 
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ import { Arrow90degLeft } from "react-bootstrap-icons";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
-function ChannelBar({ channelinfo }) {
+function ChannelBar({ channelinfo, setShowEdit }) {
   const navigate = useNavigate();
   const userid = sessionStorage.getItem("userid");
   const axiosInstance = useAxiosPrivate();
@@ -22,7 +23,6 @@ function ChannelBar({ channelinfo }) {
   const [isFollowedChannel, setIsFollowedChannel] = useState(false);
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     // console.log(channelpathname);
@@ -106,21 +106,30 @@ function ChannelBar({ channelinfo }) {
         border: "1px solid " + theme.colors.lightgrey,
       }}
     >
-      <div className="row">
-        <div
-          className="col d-flex justify-content-end"
-          style={{
-            maxHeight: "50px",
-          }}
-        >
-          <div
-            className="col"
+      <div className="row align-items-center">
+        <div className="col-auto">
+          <img
+            src={
+              channelinfo.profilePic
+                ? config.URL +
+                  "/channelPic/" +
+                  channelinfo._id +
+                  channelinfo.profilePic
+                : logo
+            }
+            alt="Channel"
             style={{
-              color: theme.colors.white,
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              objectFit: channelinfo.profilepic ? "cover" : "contain",
             }}
-          >
-            <h2>§{channelinfo.name}</h2>
-          </div>
+          />
+        </div>
+        <div className="col">
+          <h2 style={{ color: theme.colors.white }}>§{channelinfo.name}</h2>
+        </div>
+        <div className="col d-flex justify-content-end">
           <Button
             variant="outline-light"
             onClick={() => {

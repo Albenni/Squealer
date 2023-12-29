@@ -103,6 +103,7 @@ const searchChannels = async (req, res) => {
         editorialChannel: channel.editorialChannel,
         createdAt: channel.createdAt,
         description: channel.description,
+        profilePic: channel.profilePic,
         admins,
       };
       res.json(result);
@@ -140,6 +141,7 @@ const searchChannels = async (req, res) => {
           editorialChannel: channels[index].editorialChannel,
           createdAt: channels[index].createdAt,
           description: channels[index].description,
+          profilePic: channels[index].profilePic,
           admins,
           numSqueal,
           numFollower,
@@ -325,6 +327,30 @@ const changeDescription = async (req, res) => {
   }
 };
 
+const getFollowers = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
+    return res.status(400).json({ message: "Channel ID invalid" });
+
+  try {
+    const users = await Follower.find({
+      followedId: req.params.channelId,
+      followedType: "Channel",
+    }).select("followingUserId -_id");
+
+    const usersId = users.map((user) => user.followingUserId);
+    const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    if (!usersComplete?.length)
+      return res.status(204).json({ message: "No users found" });
+
+    res.json(usersComplete);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 module.exports = {
   createChannel,
   updateProfilePic,
@@ -336,4 +362,5 @@ module.exports = {
   blockSblock,
   changeName,
   changeDescription,
+  getFollowers,
 };

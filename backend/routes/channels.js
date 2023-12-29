@@ -13,6 +13,8 @@ router
   .get(channelsController.getChannelById)
   .delete(channelsController.deleteChannel);
 
+router.route("/:channelId/followers").get(channelsController.getFollowers);
+
 router.route("/:channelId/name").patch(channelsController.changeName);
 router
   .route("/:channelId/description")

@@ -95,11 +95,11 @@ const ChannelsPage = () => {
         <div
           className="pb-4"
           style={{
-            backgroundColor: theme.colors.transparent,
+            backgroundColor: theme.colors.bgdark,
           }}
         >
           <TrendBar />
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center pt-3">
             <Button variant="secondary" onClick={() => setShowCreate(true)}>
               Crea un canale
             </Button>
