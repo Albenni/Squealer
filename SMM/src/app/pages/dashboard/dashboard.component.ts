@@ -34,9 +34,6 @@ export class DashboardComponent implements OnInit {
   vipUsername: string = '';
   vipId: string = '';
 
-  vipUsernames: string[] = [];
-  vipProfilePics: string[] = [];
-
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
@@ -44,11 +41,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.vipUsernames = JSON.parse(sessionStorage.getItem('vipUsernames')!);
-    this.vipProfilePics = JSON.parse(
-      sessionStorage.getItem('vipProfilePics')!
-    );
-
+   
     this.vipId = sessionStorage.getItem('vipId')!;
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
     this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
@@ -76,12 +69,12 @@ export class DashboardComponent implements OnInit {
     
     console.log('index: ' + index);
 
-    this.vipUsername = this.vipUsernames[index];
-    console.log('vipUsername: ' + this.vipUsername);
-    this.sharedService.selectedVipUsername = this.vipUsername;
+    this.vipUsername = this.sharedService.vipUsernames[index];
+    this.vipProfilePic = this.sharedService.vipProfilePics[index];
+    
+    console.log(sessionStorage.getItem('vipId'));
+    console.log(sessionStorage.getItem('vipUsername'));
 
-    this.vipProfilePic = this.vipProfilePics[index];
-    this.sharedService.selectedVipProfilePic = this.vipProfilePic;
     this.refreshFeed = !this.refreshFeed;
   }
 

@@ -50,7 +50,7 @@ export interface Characters {
   monthly: number;
 }
 
-export interface GetSquealsResponse {
+export interface SquealsResponse {
   _id: string;
   author: string;
   publicSqueal: boolean;

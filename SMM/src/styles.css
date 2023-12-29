@@ -19,18 +19,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-#map1 > div.leaflet-control-container > div.leaflet-top.leaflet-left > div{
+[id^="map"] > div.leaflet-control-container > div.leaflet-top.leaflet-left > div {
   z-index: 200 !important;
 }
-#map1 > div.leaflet-control-container > div.leaflet-top.leaflet-left{
+
+[id^="map"] > div.leaflet-control-container > div.leaflet-top.leaflet-left {
   z-index: 200 !important;
 }
-#map1 > div.leaflet-pane.leaflet-map-pane{
+
+[id^="map"] > div.leaflet-pane.leaflet-map-pane {
   z-index: 20 !important;
 }
-#map1 > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div{
+
+[id^="map"] > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div {
   z-index: 0 !important;
 }
-#map1 > div.leaflet-control-container > div.leaflet-bottom.leaflet-right{
+
+[id^="map"] > div.leaflet-control-container > div.leaflet-bottom.leaflet-right {
   z-index: 0 !important;
+}
+body > modal-container > div.modal-dialog.modal-sm > div{
+  width: 30rem;
 }

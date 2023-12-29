@@ -7,7 +7,7 @@ import { throwError } from 'rxjs';
 import {
   GetCharsResponse,
   Characters,
-  GetSquealsResponse,
+  SquealsResponse,
 } from '../../../shared-interfaces';
 
 @Component({
@@ -109,7 +109,7 @@ export class CreatePostComponent {
       'http://localhost:3500/api/users/' +
       sessionStorage.getItem('vipId') +
       '/squeals';
-      this.http.post<GetSquealsResponse>(url, formData).pipe(
+      this.http.post<SquealsResponse>(url, formData).pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
           return throwError(() => new Error('Errore gestito'));

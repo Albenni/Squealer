@@ -36,7 +36,15 @@ export class TopBarComponent {
     this.sharedService.selectedVipUsername = this.vipsUsernames[index];
     this.sharedService.selectedVipProfilePic = this.vipsProfilePics[index];
     this.sharedService.selectedVipId = this.sharedService.vipIds[index];
-    
+    this.sharedService.selectedVipName = this.sharedService.vipNames[index];
+    this.sharedService.selectedVipSurname = this.sharedService.vipSurnames[index];
+
+    sessionStorage.setItem('vipId', this.sharedService.selectedVipId);
+    sessionStorage.setItem('vipUsername', this.sharedService.selectedVipUsername);
+    sessionStorage.setItem('vipProfilePic', this.sharedService.selectedVipProfilePic);
+    sessionStorage.setItem('vipName', this.sharedService.selectedVipName);
+    sessionStorage.setItem('vipSurname', this.sharedService.selectedVipSurname);    
+
     this.vipSelected.emit(index);
   }
   shopButton() {

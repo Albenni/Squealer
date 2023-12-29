@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ViewChild, TemplateRef } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import {
-  GetSquealsResponse,
+  SquealsResponse,
   FilterParams,
   SquealsInfo,
   GetReactionResponse,
 } from '../../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-feed-tab',
@@ -15,13 +16,18 @@ import { catchError, throwError, map } from 'rxjs';
   styleUrls: ['./feed-tab.component.css'],
 })
 export class FeedTabComponent {
-  @Input() refreshFeed: boolean = false;
+  modalRef?: BsModalRef;
 
-  getSqueals: GetSquealsResponse[] = [];
+  @Input() refreshFeed: boolean = false;
+  @ViewChild('deleteModal') deleteModal?: TemplateRef<any>;
+
+  getSqueals: SquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
   displayedSqueals: SquealsInfo[] = [];
 
-  constructor(private sharedService: SharedService, private http: HttpClient) {}
+  idPostToDelete: string = '';
+
+  constructor(private sharedService: SharedService, private http: HttpClient,private modalService: BsModalService) {}
 
   ngOnInit() {
     this.uploadSqueals();
@@ -36,9 +42,10 @@ export class FeedTabComponent {
       this.uploadSqueals();
     }
   }
+
   private uploadSqueals() {
     this.http
-      .get<GetSquealsResponse[]>(
+      .get<SquealsResponse[]>(
         'http://localhost:3500/api/users/' +
           sessionStorage.getItem('vipId') +
           '/squeals'
@@ -78,6 +85,7 @@ export class FeedTabComponent {
         });
 
         this.displayedSqueals = this.squeals;
+
       });
   }
 
@@ -156,6 +164,7 @@ export class FeedTabComponent {
 
     this.displayedSqueals = filteredSqueals;
   }
+
   convertDate(squeal: SquealsInfo) {
     const inputDate = new Date(squeal.createdAt);
     const daysOfWeek = [
@@ -188,5 +197,26 @@ export class FeedTabComponent {
     const year = inputDate.getUTCFullYear();
 
     squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
+  }
+
+  deletePost(index: number) {
+    this.idPostToDelete = this.squeals[index]._id;
+    console.log(this.idPostToDelete);
+    this.modalRef = this.modalService.show(this.deleteModal!, { class: 'modal-sm' });
+  }
+  confirmDeletePost() {
+    this.http.delete<SquealsResponse>('http://localhost:3500/api/squeals/' + this.idPostToDelete).pipe(
+      catchError((error: any) => {
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe((data) => {
+      //chiudere finestra e ricaricare squeals
+      console.log('successo')
+      this.modalRef?.hide();
+      this.uploadSqueals();
+      this.idPostToDelete = '';
+
+    });
   }
 }
