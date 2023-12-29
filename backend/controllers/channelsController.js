@@ -19,13 +19,25 @@ const createChannel = async (req, res) => {
         name: req.body.channelName,
         private: req?.body?.channelPrivate === "true",
         editorialChannel: req.body?.editorialChannel == "true",
+        description: req.body.description,
       }
     : {
         name: req.body.channelName,
         private: req?.body?.channelPrivate === "true",
         editorialChannel: req.body?.editorialChannel == "true",
-        description: req.body.description,
       };
+
+  if (req?.files?.profilePic) {
+    const file = req.files?.profilePic;
+    const extension =
+      "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
+
+    //Crea il file con ObjectId dell'utente come nome
+    file.mv("./public/channelPic/" + req.params.channelId + extension);
+    await Channel.findByIdAndUpdate(req.params.channelId, {
+      profilePic: extension,
+    });
+  }
 
   try {
     const result = await Channel.create(newChannel);
@@ -44,35 +56,22 @@ const createChannel = async (req, res) => {
 
 const updateProfilePic = async (req, res) => {
   if (!req.authorized) return res.status(403);
-
   if (!mongoose.Types.ObjectId.isValid(req?.params?.channelId))
-    return res.status(400).json({ message: "Channel ID invalid" });
+    return res.status(400).json({ message: "User ID invalid" });
 
-  const { newprofilepicture } = req.body;
-
-  if (!newprofilepicture)
-    return res.status(400).json({ message: "Missing profile picture" });
-
-  // Controllo che l'immagine sia valida (il MIME type deve essere image)
-  let isValid = false;
-  await fetch(newprofilepicture).then((res) => {
-    const contentType = res.headers.get("content-type");
-    isValid = contentType?.startsWith("image");
-  });
-
-  if (!isValid) return res.status(400).json({ message: "Invalid image" });
+  if (!req.files) return res.status(400).json({ message: "no file uploaded" });
 
   try {
-    // Aggiorno e ritorno il canale aggiornato
-    const result = await Channel.findByIdAndUpdate(
-      req.params.userId,
-      { profilePic: newprofilepicture },
-      { new: true }
-    ).exec();
+    const file = req.files?.profilePic;
+    const extension =
+      "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
 
-    if (!result) return res.status(404).json({ message: "Channel not found" });
-
-    res.json(result);
+    //Crea il file con ObjectId dell'utente come nome
+    file.mv("./public/channelPic/" + req.params.channelId + extension);
+    await Channel.findByIdAndUpdate(req.params.channelId, {
+      profilePic: extension,
+    });
+    res.status(200).json({ message: "file uploaded" });
   } catch (error) {
     console.log(error);
     res.json({ message: error });

@@ -19,7 +19,7 @@ router
   .patch(channelsController.changeDescription);
 router
   .route("/:channelId/profilePic")
-  .patch(channelsController.updateProfilePic); // da testare
+  .patch(channelsController.updateProfilePic);
 router.route("/:channelId/blocked").patch(channelsController.blockSblock); // da testare
 
 router.route("/:channelId/admins").post(channelsController.addAdmin);
