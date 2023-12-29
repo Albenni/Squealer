@@ -27,20 +27,19 @@ const createChannel = async (req, res) => {
         editorialChannel: req.body?.editorialChannel == "true",
       };
 
-  if (req?.files?.profilePic) {
-    const file = req.files?.profilePic;
-    const extension =
-      "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
-
-    //Crea il file con ObjectId dell'utente come nome
-    file.mv("./public/channelPic/" + req.params.channelId + extension);
-    await Channel.findByIdAndUpdate(req.params.channelId, {
-      profilePic: extension,
-    });
-  }
-
   try {
     const result = await Channel.create(newChannel);
+    if (req?.files?.profilePic) {
+      const file = req.files?.profilePic;
+      const extension =
+        "." + file?.name.slice(((file?.name.lastIndexOf(".") - 1) >>> 0) + 2);
+
+      //Crea il file con ObjectId dell'utente come nome
+      file.mv("./public/channelPic/" + result._id + extension);
+      await Channel.findByIdAndUpdate(result._id, {
+        profilePic: extension,
+      });
+    }
     //creo l'admin del canale
     if (!newChannel.editorialChannel) {
       await Admin.create({
