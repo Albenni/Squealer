@@ -30,6 +30,10 @@ https://mui.com/material-ui/react-menu/
 
 - Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
+- Aggiungere creazione canale minuscolo
+
+- Aggiungere descrizione canale
+
 - Aggiungere sezione richieste social media manager e accettazione richieste o controllare perche non funziona quello attuale
 
 - Rendere sito accessibile

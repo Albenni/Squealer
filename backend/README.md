@@ -14,3 +14,7 @@ Da testare:
 - aggiunta/rimozione destinatari dagli squeal
 - delete reaction ad uno squeal
 - Modificare la quota giornaliera di caratteri in base alle reazioni ricevute
+
+Modificare:
+
+- Nei canali bisogna fare come per gli squeal con i destinatari, quindi aggiungere un array di utenti che possono leggere e scrivere

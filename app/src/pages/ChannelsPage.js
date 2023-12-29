@@ -8,7 +8,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 import { useNavigate } from "react-router-dom";
 import TrendBar from "../components/TrendBar";
-import ChannelPage from "./ChannelPage";
+import ChannelBox from "../components/ChannelBox";
 
 const ChannelsPage = () => {
   const axiosInstance = useAxiosPrivate();
@@ -16,6 +16,8 @@ const ChannelsPage = () => {
 
   const [channels, setChannels] = useState([]);
   const [followedChannels, setFollowedChannels] = useState([]);
+
+  const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
     getChannels();
@@ -74,85 +76,96 @@ const ChannelsPage = () => {
   }
 
   return (
-    <>
-      <div className="sticky-top">
-        <TopBar />
-      </div>
+    <div
+      style={{
+        backgroundColor: theme.colors.bgdark,
+        minHeight: "100vh",
+      }}
+    >
+      <ChannelBox show={showCreate} setShowCreate={setShowCreate} />
+
       <div
-        className="container-fluid"
+        className="sticky-top"
         style={{
-          backgroundColor: theme.colors.bgdark,
-          minHeight: "100vh",
+          width: "100%",
         }}
       >
-        <>
-          <div className="pb-4">
-            <TrendBar />
+        <TopBar />
+        <div
+          className="pb-4"
+          style={{
+            backgroundColor: theme.colors.transparent,
+          }}
+        >
+          <TrendBar />
+          <div className="d-flex justify-content-center">
+            <Button variant="secondary" onClick={() => setShowCreate(true)}>
+              Crea un canale
+            </Button>
           </div>
-          <div className="container">
-            <ListGroup>
-              {channels.map((channel, key) => (
-                <ListGroup.Item key={key} className="listitem">
-                  <div
-                    className="row"
-                    style={{
-                      backgroundColor: theme.colors.transparent,
-                      color: theme.colors.white,
-                      border: "none",
+        </div>
+      </div>
+      <div className="container">
+        <ListGroup>
+          {channels.map((channel, key) => (
+            <ListGroup.Item key={key} className="listitem">
+              <div
+                className="row"
+                style={{
+                  backgroundColor: theme.colors.transparent,
+                  color: theme.colors.white,
+                  border: "none",
+                }}
+              >
+                <div className="col">
+                  <h4
+                    style={{ cursor: "pointer" }}
+                    onMouseEnter={(e) => {
+                      e.target.style.textDecoration = "underline";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.textDecoration = "none";
+                    }}
+                    onClick={() => {
+                      navigate("/channel/" + channel.name, {
+                        replace: true,
+                      });
                     }}
                   >
-                    <div className="col">
-                      <h4
-                        style={{ cursor: "pointer" }}
-                        onMouseEnter={(e) => {
-                          e.target.style.textDecoration = "underline";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.textDecoration = "none";
-                        }}
-                        onClick={() => {
-                          navigate("/channel/" + channel.name, {
-                            replace: true,
-                          });
-                        }}
-                      >
-                        {channel.name}
-                      </h4>
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                      {!followedChannels.some(
-                        (obj) =>
-                          obj.id === channel.id && obj.name === channel.name
-                      ) ? (
-                        <Button
-                          variant="success"
-                          onClick={() => handleFollow(channel._id)}
-                          style={{
-                            maxHeight: "2.5em",
-                          }}
-                        >
-                          Segui
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="danger"
-                          onClick={() => handleUnFollow(channel._id)}
-                          style={{
-                            maxHeight: "2.5em",
-                          }}
-                        >
-                          Non seguire
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </div>
-        </>
+                    {channel.name}
+                  </h4>
+                </div>
+                <div className="col d-flex justify-content-end">
+                  {!followedChannels.some(
+                    (obj) => obj.id === channel.id && obj.name === channel.name
+                  ) ? (
+                    <Button
+                      variant="success"
+                      onClick={() => handleFollow(channel._id)}
+                      style={{
+                        maxHeight: "2.5em",
+                      }}
+                    >
+                      Segui
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="danger"
+                      onClick={() => handleUnFollow(channel._id)}
+                      style={{
+                        maxHeight: "2.5em",
+                      }}
+                    >
+                      Non seguire
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
       </div>
-    </>
+    </div>
   );
 };
 

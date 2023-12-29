@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+import { Arrow90degLeft } from "react-bootstrap-icons";
+
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
@@ -85,30 +87,43 @@ function ChannelBar({ channelinfo }) {
     >
       <div className="row">
         <div
-          className="col"
-          style={{
-            color: theme.colors.white,
-          }}
-        >
-          <h1>Canale: {channelinfo.name}</h1>
-        </div>
-        <div
           className="col d-flex justify-content-end"
           style={{
             maxHeight: "50px",
           }}
         >
+          <div
+            className="col"
+            style={{
+              color: theme.colors.white,
+            }}
+          >
+            <h2>§{channelinfo.name}</h2>
+          </div>
           <Button
             variant="outline-light"
             onClick={() => {
               navigate("/channels", { replace: true });
             }}
           >
-            Torna ai canali
+            <Arrow90degLeft />
           </Button>
         </div>
       </div>
       <div className="row">
+        <div
+          className="p-3"
+          style={{
+            color: theme.colors.white,
+          }}
+        >
+          <h5>Descrizione: </h5>
+          <p>
+            {channelinfo.description
+              ? channelinfo.description
+              : "Nessuna descrizione."}
+          </p>
+        </div>
         <div className="pt-3">
           {isFollowedChannel ? (
             <Button variant="danger" onClick={handleUnfollowChannel}>
