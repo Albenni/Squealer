@@ -1,7 +1,10 @@
 .square-container {
-    max-height: 25rem; /* Imposta l'altezza desiderata */
-    width: 25rem; /* Imposta la larghezza uguale all'altezza */
+    max-height: 25rem; 
+    width: 25rem; 
     overflow:auto;
   }
   
- 
+  .scrollable-modal-body {
+    max-height: 70vh; 
+    overflow-y: auto; 
+}
