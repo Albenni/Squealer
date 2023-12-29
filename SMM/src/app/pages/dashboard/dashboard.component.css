@@ -1,10 +1,22 @@
-#dashboardContainer{
-  overflow-x: hidden; 
-  background-color: rgb(223, 238, 238);
+#dashboardContainer {
+  overflow-x: hidden;
   height: 100%;
 }
+#backgroundImg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url("../../../assets/bg.png");
+  background-repeat: repeat;
+  background-size: 150px 150px; /* Adjust this value to scale the image */
+
+  opacity: 0.3;
+  z-index: -1;
+}
 .sticky-top {
-  z-index: 2; 
+  z-index: 2;
 }
 
 app-top-bar {
@@ -23,7 +35,6 @@ app-top-bar {
   height: 100%;
   width: 5rem;
 }
-
 
 #postButtonContainer {
   margin-top: 1rem;
@@ -101,4 +112,3 @@ app-top-bar {
   height: 100%;
   object-fit: cover;
 }
-

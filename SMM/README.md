@@ -11,9 +11,10 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 Da fare:
--Squeal box per postare
--Gestione video in generale (visualizzazione, postare)
+
+-Gestione video 
 -Gestione visualizzazione immagini di dimensioni non standard (finora testato con 200px\*200px)
 -visualizzare commenti
-Da fixare:
--controllare getChars nello squealbox, ci mette una vita
+-accettare richieste vip
+-gestione accesso se si hanno richieste ma ancora nessun vip selezionato
+-posting in canali specifici

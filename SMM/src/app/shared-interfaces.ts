@@ -90,7 +90,18 @@ export interface GetReactionResponse {
   pos3Reac: number;
   yourReac: number;
 }
-
+export interface GetCommentResponse {
+  author: string;
+  content: string;
+  createdAt: string;
+  _id: string;
+  __v: number;
+  squealId: string;
+}
+export interface CommentInfo {
+  usernameAuthor: string;
+  content: string;
+}
 export interface FilterParams {
   orderBy: string;
   contentTypes: string[];
@@ -100,3 +111,4 @@ export interface Vip {
   username: string;
   profilePic: string;
 }
+

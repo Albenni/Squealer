@@ -1,10 +1,20 @@
-import { Component, OnInit, Input, SimpleChanges, ViewChild, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import {
   SquealsResponse,
   FilterParams,
   SquealsInfo,
   GetReactionResponse,
+  GetCommentResponse,
+  CommentInfo,
+  GetInfosVip,
 } from '../../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
@@ -20,14 +30,23 @@ export class FeedTabComponent {
 
   @Input() refreshFeed: boolean = false;
   @ViewChild('deleteModal') deleteModal?: TemplateRef<any>;
+  @ViewChild('commentModal') commentModal?: TemplateRef<any>;
 
   getSqueals: SquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
   displayedSqueals: SquealsInfo[] = [];
 
+  comments: GetCommentResponse[] = [];
+  displayedComments: CommentInfo[] = [];
   idPostToDelete: string = '';
 
-  constructor(private sharedService: SharedService, private http: HttpClient,private modalService: BsModalService) {}
+  existComments: boolean = false;
+
+  constructor(
+    private sharedService: SharedService,
+    private http: HttpClient,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit() {
     this.uploadSqueals();
@@ -85,7 +104,81 @@ export class FeedTabComponent {
         });
 
         this.displayedSqueals = this.squeals;
+      });
+  }
+  
+  openDeleteModal(index: number) {
+    this.idPostToDelete = this.squeals[index]._id;
+    this.modalRef = this.modalService.show(this.deleteModal!, {
+      class: 'modal-sm',
+    });
+  }
 
+  openCommentModal(index: number) {
+    this.uploadComments(this.squeals[index]._id);
+    this.modalRef = this.modalService.show(this.commentModal!, {
+      class: 'modal-md',
+    });
+  }
+
+  uploadComments(idPost: string) {
+    this.http
+      .get<GetCommentResponse[]>(
+        'http://localhost:3500/api/squeals/' + idPost + '/comments'
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        if (data === null) {
+          this.existComments = false;
+        } else {
+          this.existComments = true;
+          this.comments = data;
+
+          this.displayedComments = this.comments.map((comment) => {
+            return {
+              usernameAuthor: '',
+              content: comment.content,
+            };
+          });
+          this.comments.forEach((comment, index) => {
+            this.http
+              .get<GetInfosVip>(
+                'http://localhost:3500/api/users/' + comment.author
+              )
+              .pipe(
+                catchError((error: any) => {
+                  console.error('Si è verificato un errore:', error);
+                  return throwError('Errore gestito');
+                })
+              )
+              .subscribe((data) => {
+                this.displayedComments[index].usernameAuthor = data.username;
+              });
+          });
+        }
+      });
+  }
+
+  confirmDeletePost() {
+    this.http
+      .delete<SquealsResponse>(
+        'http://localhost:3500/api/squeals/' + this.idPostToDelete
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        this.modalRef?.hide();
+        this.uploadSqueals();
+        this.idPostToDelete = '';
       });
   }
 
@@ -197,26 +290,5 @@ export class FeedTabComponent {
     const year = inputDate.getUTCFullYear();
 
     squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
-  }
-
-  deletePost(index: number) {
-    this.idPostToDelete = this.squeals[index]._id;
-    console.log(this.idPostToDelete);
-    this.modalRef = this.modalService.show(this.deleteModal!, { class: 'modal-sm' });
-  }
-  confirmDeletePost() {
-    this.http.delete<SquealsResponse>('http://localhost:3500/api/squeals/' + this.idPostToDelete).pipe(
-      catchError((error: any) => {
-        console.error('Si è verificato un errore:', error);
-        return throwError('Errore gestito');
-      })
-    ).subscribe((data) => {
-      //chiudere finestra e ricaricare squeals
-      console.log('successo')
-      this.modalRef?.hide();
-      this.uploadSqueals();
-      this.idPostToDelete = '';
-
-    });
   }
 }
