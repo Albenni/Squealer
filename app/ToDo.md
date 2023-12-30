@@ -12,24 +12,12 @@ https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
 https://mui.com/material-ui/react-menu/
 
-- Fixare grafica del pulsante di nuovo squeal e tutti i bug della squeal box
-
-- Codificare il token che teniamo all'interno dell'app
-
-- Aggiungere sezione dove admin possono decidere chi legge e chi scrive nei canali di cui sono proprietari
-
-- Per qualche motivo posts nei canali è undefined, cercare soluzione
-
-- Aggiungere la possibilità di creare canali
-
-- Aggiungere nei post a quale canale/keyword appartengono o se sono semplicemente pubblici
-
-- Finire il passaggio al pro degli utenti
+- Codificare il token che teniamo all'interno dell'app ?
 
 #
 
 - Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
-- Aggiungere controllo per visualizzare canale privato solo a chi è follower
+- Creare messaggi temporizzati
 
 - Rendere sito accessibile

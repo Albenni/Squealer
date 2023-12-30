@@ -115,7 +115,7 @@ function AccountPane({ user }) {
 
                 {channels.length > 0 &&
                   channels.map((channel, key) => (
-                    <div key={key}>
+                    <div key={key} className="pb-2">
                       <a
                         href={"/channel/" + channel.name}
                         style={{

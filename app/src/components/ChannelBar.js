@@ -11,7 +11,7 @@ import { Arrow90degLeft } from "react-bootstrap-icons";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
-function ChannelBar({ channelinfo, setShowEdit }) {
+function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
   const navigate = useNavigate();
   const userid = sessionStorage.getItem("userid");
   const axiosInstance = useAxiosPrivate();
@@ -93,6 +93,84 @@ function ChannelBar({ channelinfo, setShowEdit }) {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  if (channelinfo.private && !isAdmin && !isFollowedChannel) {
+    setShowPosts(false);
+
+    return (
+      <div
+        className="container"
+        style={{
+          backgroundColor: theme.colors.bg2,
+          borderRadius: "10px",
+          padding: "10px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          border: "1px solid " + theme.colors.lightgrey,
+        }}
+      >
+        <div className="row align-items-center">
+          <div className="col-auto">
+            <img
+              src={
+                channelinfo.profilePic
+                  ? config.URL +
+                    "/channelPic/" +
+                    channelinfo._id +
+                    channelinfo.profilePic
+                  : logo
+              }
+              alt="Channel"
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                objectFit: channelinfo.profilepic ? "cover" : "contain",
+              }}
+            />
+          </div>
+          <div className="col">
+            <h2 style={{ color: theme.colors.white }}>§{channelinfo.name}</h2>
+          </div>
+          <div className="col d-flex justify-content-end">
+            <Button
+              variant="outline-light"
+              onClick={() => {
+                navigate("/channels", { replace: true });
+              }}
+            >
+              <Arrow90degLeft />
+            </Button>
+          </div>
+        </div>
+        <div className="row">
+          <div
+            className="p-3 pe-none"
+            style={{
+              color: theme.colors.white,
+            }}
+          >
+            <h5>Descrizione: </h5>
+            <p>
+              {channelinfo.description
+                ? channelinfo.description
+                : "Nessuna descrizione."}
+            </p>
+          </div>
+        </div>
+        <div className="row">
+          <div
+            className="p-3 pe-none"
+            style={{
+              color: theme.colors.white,
+            }}
+          >
+            Il canale è privato, chiedi all'amministratore di diventare membro
+            per vederne le attività.
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
