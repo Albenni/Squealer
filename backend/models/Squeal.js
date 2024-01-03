@@ -42,6 +42,10 @@ const squealSchema = new Schema({
       message: "{VALUE} is not supported",
     },
   },
+  tempGeolocation: {
+    type: Boolean,
+    default: false,
+  },
   category: {
     type: String,
     enum: {

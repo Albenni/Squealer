@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Squeal = require("../models/Squeal");
+const Keyword = require("../models/Keyword");
 const Reaction = require("../models/Reaction");
 const constants = require("../config/constants");
 
@@ -237,8 +238,62 @@ const createSqueal = async (req, res) => {
   //Crea il file con ObjectId dell'utente come nome
 };
 
+//params: userId
+//body: index, squealId(dalla seconda request)
+const createTempSqueal = async (req, res) => {
+  if (!req.authorized) return res.sendStatus(403);
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID not valid" });
+
+  if (!req?.body?.content)
+    return res.status(400).json({ message: "Body message required" });
+
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    //creo un nuovo squeal
+    if (parseInt(req?.body?.index) === 0) {
+      //verifico la presenza della keyword sennò la creo
+      let keyword = await Keyword.findOne({ name: `livePos:${user.username}` });
+      if (!keyword)
+        keyword = await Keyword.create({ name: `livePos:${user.username}` });
+
+      //creo lo squeal
+      const squeal = await Squeal.create({
+        author: req.params.userId,
+        content: req.body.content,
+        contentType: "geolocalization",
+        receivers: [
+          {
+            group: keyword._id,
+            groupType: "Keyword",
+          },
+        ],
+        tempGeolocation: true,
+      });
+
+      return res.status(200).json(squeal);
+    } else {
+      //aggiorno squeal esistente aggiungendo le nuove cordinate
+      if (!mongoose.Types.ObjectId.isValid(req?.body?.squealId))
+        return res.status(400).json({ message: "Squeal id not valid" });
+      const squeal = await Squeal.findById(req.body.squealId);
+      if (!squeal) return res.status(400).json({ message: "Squeal not found" });
+
+      squeal.content = squeal.content + "/" + req.body.content;
+      await squeal.save();
+      return res.status(200).json(squeal);
+    }
+  } catch (e) {
+    console.error(e);
+    res.json(e);
+  }
+};
+
 const deleteSqueal = async (req, res) => {
-  if (!req.authorized) return res.status(403);
+  if (!req.authorized) return res.sendStatus(403);
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.squealId))
     return res.status(400).json({ message: "Squeal ID not valid" });
@@ -510,6 +565,7 @@ module.exports = {
   getAllSquealsInChannel,
   getAllSquealsInKeyword,
   createSqueal,
+  createTempSqueal,
   deleteSqueal,
   getReactions,
   addReaction,
