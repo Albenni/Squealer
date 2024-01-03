@@ -16,8 +16,8 @@ import {
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
-  channelChoice: string = '@';
-  contentChoice: string = '';
+/*   channelChoice: string = '@';
+ */  contentChoice: string = '';
   activePubTab: string = 'pubblico';
 
   textValue: string = '';
@@ -25,10 +25,10 @@ export class CreatePostComponent {
   videoValue: string | File | null = null;
   locationValue: string = '';
 
-  vipProfilePic: string = sessionStorage.getItem('vipProfilePic')!;
-  vipUsername: string = sessionStorage.getItem('vipUsername')!;
-  vipName: string = sessionStorage.getItem('vipName')!;
-  vipSurname: string = sessionStorage.getItem('vipSurname')!;
+  vipProfilePic: string = '';
+  vipUsername: string = '';
+  vipName: string = '';
+  vipSurname: string = '';
 
   characters: Characters = {
     daily: 0,
@@ -53,6 +53,10 @@ export class CreatePostComponent {
   }
 
   openPostModal(template: TemplateRef<any>) {
+    this.vipName = sessionStorage.getItem('vipName')!;
+    this.vipSurname = sessionStorage.getItem('vipSurname')!;
+    this.vipUsername = sessionStorage.getItem('vipUsername')!;
+    this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -125,9 +129,9 @@ export class CreatePostComponent {
       });
   }
   
-  chooseChannel(channel: string) {
+  /* chooseChannel(channel: string) {
     this.channelChoice = channel;
-  }
+  } */
   chooseContent(content: string) {
     this.contentChoice = content;
     this.countChars.daily = this.characters.daily;

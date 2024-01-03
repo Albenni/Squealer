@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { Router } from '@angular/router';
@@ -18,8 +18,11 @@ export class TopBarComponent {
 
   logosrc: string = './assets/SLogo.png';
 
-  vipsUsernames: string[] = this.sharedService.vipUsernames;
-  vipsProfilePics: string[] = this.sharedService.vipProfilePics;
+  vipUsernames: string[] = [];
+  vipProfilePics: string[] = [];
+  vipIds: string[] = [];
+  vipNames: string[] = [];
+  vipSurnames: string[] = [];
 
   /*  vipsUsernames: string[] = ['vip1', 'vip2', 'vip3', 'vip4'];
   vipsProfilePics: string[] = [
@@ -31,19 +34,22 @@ export class TopBarComponent {
  */
   constructor(private sharedService: SharedService, private router: Router) {}
 
+  ngOnInit(): void {
+    this.vipUsernames = JSON.parse(sessionStorage.getItem('vipUsernames')!);
+    this.vipProfilePics = JSON.parse(
+      sessionStorage.getItem('vipProfilePics')!
+    );
+    this.vipIds = JSON.parse(sessionStorage.getItem('vipIds')!);
+    this.vipNames = JSON.parse(sessionStorage.getItem('vipNames')!);
+    this.vipSurnames = JSON.parse(sessionStorage.getItem('vipSurnames')!);
+  }
+
   changeVip(index: number) {
-
-    this.sharedService.selectedVipUsername = this.vipsUsernames[index];
-    this.sharedService.selectedVipProfilePic = this.vipsProfilePics[index];
-    this.sharedService.selectedVipId = this.sharedService.vipIds[index];
-    this.sharedService.selectedVipName = this.sharedService.vipNames[index];
-    this.sharedService.selectedVipSurname = this.sharedService.vipSurnames[index];
-
-    sessionStorage.setItem('vipId', this.sharedService.selectedVipId);
-    sessionStorage.setItem('vipUsername', this.sharedService.selectedVipUsername);
-    sessionStorage.setItem('vipProfilePic', this.sharedService.selectedVipProfilePic);
-    sessionStorage.setItem('vipName', this.sharedService.selectedVipName);
-    sessionStorage.setItem('vipSurname', this.sharedService.selectedVipSurname);    
+    sessionStorage.setItem('vipId', this.vipIds[index]);
+    sessionStorage.setItem('vipUsername', this.vipUsernames[index]);
+    sessionStorage.setItem('vipProfilePic', this.vipProfilePics[index]);
+    sessionStorage.setItem('vipName', this.vipNames[index]);
+    sessionStorage.setItem('vipSurname', this.vipSurnames[index]);
 
     this.vipSelected.emit(index);
   }

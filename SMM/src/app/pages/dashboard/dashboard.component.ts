@@ -46,6 +46,10 @@ export class DashboardComponent implements OnInit {
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
     this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
 
+    this.getChars();
+  }
+
+  getChars() {
     this.http
       .get<GetCharsResponse>(
         'http://localhost:3500/api/users/' +
@@ -66,17 +70,12 @@ export class DashboardComponent implements OnInit {
   }
 
   selectVip(index: number) {
-    
-    console.log('index: ' + index);
 
-    this.vipUsername = this.sharedService.vipUsernames[index];
-    this.vipProfilePic = this.sharedService.vipProfilePics[index];
-    
-    console.log(sessionStorage.getItem('vipId'));
-    console.log(sessionStorage.getItem('vipUsername'));
-
+    this.vipUsername = sessionStorage.getItem('vipUsername')!;
+    this.vipProfilePic =sessionStorage.getItem('vipProfilePic')!;
+   
     this.refreshFeed = !this.refreshFeed;
+    this.getChars();
   }
 
-  showChars() {}
 }

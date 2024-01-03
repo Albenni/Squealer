@@ -19,12 +19,12 @@
                     </button>
                     <mat-menu #menu="matMenu">
 
-                        <button mat-menu-item *ngFor="let username of vipsUsernames; let i = index"
+                        <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
                             style="overflow:hidden ;" (click)="changeVip(i)">
                             <div class="row py-1" style="width:25vw;">
                                 <div class="col-4 p-0">
-                                    <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipsProfilePics[i]"
-                                        [src]="vipsProfilePics[i]" alt="Profile image"></div>
+                                    <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
+                                        [src]="vipProfilePics[i]" alt="Profile image"></div>
                                 </div>
                                 <div class="col-8 p-0 username" style="text-align: center; margin-top: 1rem; font-size: large;">
                                     {{ username }}

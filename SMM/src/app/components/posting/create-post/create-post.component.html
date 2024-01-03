@@ -30,11 +30,10 @@
                 [class.btn-light]="activePubTab == 'pubblico'" (click)="activePubTab = 'privato'">Privato</button>
         </div>
         <div *ngIf="activePubTab== 'pubblico'" style="margin-bottom: 1rem;">
-            Pubblico
         </div>
         <div *ngIf="activePubTab== 'privato'" style="margin-bottom: 1rem;">
             <div class="input-group mb-3">
-                <div class="input-group-prepend">
+                <!-- <div class="input-group-prepend">
 
                     <div class="btn-group" dropdown>
                         <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -49,7 +48,8 @@
                         </ul>
                     </div>
                     
-                </div>
+                </div> -->
+                <div class="input-group-prepend"></div>
                 <input type="text" class="form-control" placeholder="Username" aria-label="Username"
                     aria-describedby="basic-addon1" />
             </div>
