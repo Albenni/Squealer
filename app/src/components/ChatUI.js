@@ -1,6 +1,7 @@
 import theme from "../config/theme";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { useState, useEffect, useRef } from "react";
+import ReactPlayer from "react-player";
 
 import {
   ChatContainer,
@@ -535,9 +536,44 @@ function ChatUI({ myself }) {
                         </Message.TextContent>
                       )}
                     </Message>
-                  ) : message.contentType ===
-                    "video" ? null : message.contentType ===
-                    "geolocalization" ? (
+                  ) : message.contentType === "video" ? (
+                    <Message
+                      key={index}
+                      model={{
+                        sender: message.author === myself._id ? "Me" : "Other",
+                        sentTime: message.createdAt,
+                        direction:
+                          message.author === myself._id
+                            ? "outgoing"
+                            : "incoming",
+                      }}
+                    >
+                      {message.content[0] === "." ? (
+                        <Message.CustomContent
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                          }}
+                        >
+                          <ReactPlayer
+                            url={
+                              config.URL +
+                              "/messagesMedia/" +
+                              message._id +
+                              message.content
+                            }
+                            controls={true}
+                            width="100%"
+                            height="100%"
+                          />
+                        </Message.CustomContent>
+                      ) : (
+                        <Message.TextContent>
+                          Video non disponibile
+                        </Message.TextContent>
+                      )}
+                    </Message>
+                  ) : message.contentType === "geolocalization" ? (
                     <Message
                       type="custom"
                       key={index}
