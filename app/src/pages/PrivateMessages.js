@@ -34,7 +34,7 @@ function PrivateMessages({ showchat, setShowChat, ...props }) {
     <>
       <Offcanvas show={showchat} onHide={handleClose} {...props}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Mesasggi privati </Offcanvas.Title>
+          <Offcanvas.Title>Messaggi privati </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body
           style={{

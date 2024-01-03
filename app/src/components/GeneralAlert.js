@@ -19,7 +19,7 @@ function GeneralAlert(props) {
           : { display: "none" }
       }
     >
-      <Alert.Heading>Reset della password</Alert.Heading>
+      <Alert.Heading>{props.GorR ? "Successo!" : "Errore!"}</Alert.Heading>
       <p
         style={{
           pointerEvents: "none",

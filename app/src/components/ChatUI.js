@@ -295,7 +295,7 @@ function ChatUI({ myself }) {
               }
         }
       >
-        <Geolocation setSquealLocation={setSqueallocation} />
+        <Geolocation setSquealLocation={setSqueallocation} temporized={false} />
         <div
           className="d-flex justify-content-center align-items-center pt-3"
           style={{
@@ -602,7 +602,10 @@ function ChatUI({ myself }) {
                                 }
                           }
                         >
-                          <Geolocation squeallocation={message.content} />
+                          <Geolocation
+                            squeallocation={message.content}
+                            temporized={false}
+                          />
                         </div>
                       </Message.CustomContent>
                     </Message>

@@ -9,7 +9,10 @@ function PostLocation({ item, user }) {
         <PostHeader item={user} />
       </Card.Body>
 
-      <Geolocation squeallocation={item.content} />
+      <Geolocation
+        squeallocation={item.content}
+        temporized={item.tempGeolocation}
+      />
     </div>
   );
 }

@@ -456,7 +456,10 @@ function SquealBox(props) {
                   )}
                   {contentType === "geolocalization" && (
                     <>
-                      <Geolocation setSquealLocation={setSquealLocation} />
+                      <Geolocation
+                        setSquealLocation={setSquealLocation}
+                        temporized={false}
+                      />
                       <div className="p-3">
                         <Button variant="danger" onClick={createTempGeo}>
                           Crea messaggio temporizzato
