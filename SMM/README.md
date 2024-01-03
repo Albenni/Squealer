@@ -12,9 +12,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 
--Gestione video 
--Gestione visualizzazione immagini di dimensioni non standard (finora testato con 200px\*200px)
--visualizzare commenti
+-cambio account vip
 -accettare richieste vip
 -gestione accesso se si hanno richieste ma ancora nessun vip selezionato
 -posting in canali specifici

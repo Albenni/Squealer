@@ -11,6 +11,15 @@ export class VideoPostComponent {
   >();
   videoUrl: string = '';
   selectedFile: File | null = null;
+  isFileSelected: boolean = false;
+  fileToShow:string = '';
+
+  ngOnDestroy(): void {
+    if (this.fileToShow) {
+      URL.revokeObjectURL(this.fileToShow);
+    }
+  }
+  
 
   onUrlChange(fileInput: HTMLInputElement): void {
     this.selectedFile = null; 
@@ -30,19 +39,25 @@ export class VideoPostComponent {
   }
 
   onFileSelected(event: any, fileInput: HTMLInputElement): void {
-    this.videoUrl = ''; // Clear URL input when a file is selected
+    this.videoUrl = '';
     const files: FileList = event.target.files;
     if (files && files.length > 0) {
       const selectedFileType = files[0].type;
       if (selectedFileType.startsWith('video/')) {
         this.selectedFile = files[0];
+        const objectUrl = URL.createObjectURL(this.selectedFile);
+
         this.videoChange.emit(this.selectedFile);
         console.log('Video file selected:', this.selectedFile);
+        this.isFileSelected = true;
+        this.fileToShow = objectUrl;
+
       } else {
         this.selectedFile = null;
-        fileInput.value = ''; // Reset the file input field
+        fileInput.value = ''; 
         alert('Only video files are allowed');
       }
     }
+
   }
 }
