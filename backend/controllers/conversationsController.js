@@ -46,8 +46,14 @@ const createConversation = async (req, res) => {
       user2: req.body.receiverId,
     };
 
-    await Conversation.create(conversation);
-    return res.status(200).json({ message: "conversation created" });
+    const newConversation = await Conversation.create(conversation);
+
+    return res
+      .status(200)
+      .json({
+        message: "Conversation created",
+        conversationId: newConversation._id,
+      });
   } catch (e) {
     console.error(e);
     return res.status(500);

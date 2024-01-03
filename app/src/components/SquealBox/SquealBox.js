@@ -33,7 +33,7 @@ function SquealBox(props) {
 
   // Form variables
   const [isPublic, setIsPublic] = useState(true);
-  const [squealchannel, setSquealChannel] = useState([]);
+  const [squealchannel, setSquealChannel] = useState([]); // Array of objects {id, type}, destination of the squeal
   const [contentType, setContentType] = useState(""); // text, image, video, geolocalization
   const [squealType, setSquealType] = useState("Username"); // Channel o Keyword o Username
 
@@ -64,6 +64,144 @@ function SquealBox(props) {
     if (sessionStorage.getItem("userid") !== "guest") getUser();
   }, [axiosInstance]);
 
+  async function handlePrivateMessages() {
+    let convosid = [];
+
+    // Wait for the creation of the conversation and then redirect to the private messages section
+    await axiosInstance
+      .get(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/conversations"
+      )
+      .then((res) => {
+        console.log(res);
+        const conversations = res.data;
+
+        squealchannel.forEach((channel) => {
+          const found = conversations.find((conversation) => {
+            return (
+              conversation.user1._id === channel.id ||
+              conversation.user2._id === channel.id
+            );
+          });
+          console.log(channel);
+          console.log("Found: ", found);
+
+          if (found)
+            convosid.push({
+              conversationId: found._id,
+              receiverId: channel.id,
+            });
+          else {
+            axiosInstance
+              .post(
+                config.endpoint.users +
+                  "/" +
+                  sessionStorage.getItem("userid") +
+                  "/conversations",
+                {
+                  receiverId: channel.id,
+                }
+              )
+              .then((res) => {
+                console.log(res);
+                convosid.push({
+                  receiverId: channel.id,
+                  conversationId: res.data.conversationId,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    console.log("Invio dei messaggi: ");
+    console.log(convosid);
+
+    convosid.forEach((conversation) => {
+      // Check if the message is a file or a text
+      if (contentType === "geolocalization") {
+        // Send the squeal with the location
+        axiosInstance
+          .post(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations/" +
+              conversation.conversationId,
+            {
+              content: squeallocation,
+              contentType: "geolocalization",
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (
+        (contentType === "image" || contentType === "video") &&
+        squealfile
+      ) {
+        // Send the squeal with the file
+        console.log("Sending file");
+        const formData = new FormData();
+        formData.append("message", squealfile);
+        formData.append("contentType", contentType);
+        axiosInstance
+          .post(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations/" +
+              conversation.conversationId,
+            formData
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (
+        contentType === "text" ||
+        ((contentType === "image" || contentType === "video") &&
+          squealcontent &&
+          !squealfile)
+      ) {
+        axiosInstance
+          .post(
+            config.endpoint.users +
+              "/" +
+              sessionStorage.getItem("userid") +
+              "/conversations/" +
+              conversation.conversationId,
+            {
+              content: squealcontent,
+              contentType: "text",
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+
+    setNotifs(true);
+    props.setShowBox(false);
+  }
+
   function handleSqueal(event) {
     event.preventDefault();
 
@@ -72,12 +210,6 @@ function SquealBox(props) {
     if (squealcontent === "" && squealfile === null && squeallocation === null)
       return;
 
-    let idgroup = [];
-
-    // Se è un per utenti allora creo la conversazione se non esiste e faccio il redirect alla sezione messaggi privati
-    console.log(squealchannel);
-    console.log(squealcontent);
-
     // Check if every member of the squealchannel array is a username
     const isUsername = squealchannel.every((channel) => {
       return channel.type === "Username";
@@ -85,41 +217,19 @@ function SquealBox(props) {
 
     console.log(squealchannel);
 
+    // Gestione messaggi privati
+
     if (isUsername && !isPublic) {
       setSquealType("Username");
       console.log(
         "Redirect ai messaggi privati e crea la conversazione se non esiste"
       );
 
-      // Wait for the creation of the conversation and then redirect to the private messages section
-
-      squealchannel.map((channel) => {
-        axiosInstance
-          .post(
-            config.endpoint.users +
-              "/" +
-              sessionStorage.getItem("userid") +
-              "/conversations",
-            {
-              receiverId: channel.id,
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            // Se ci sono nuove conversazioni, mando una notifica
-            setNotifs(true);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-
-      // Da mandare i messaggi privati a tutti i destinatari
-
+      handlePrivateMessages();
       return;
     }
 
-    console.log(idgroup);
+    // Gestione squeal
 
     // Model
     // receivers: [
@@ -250,29 +360,9 @@ function SquealBox(props) {
   }
 
   function createTempGeo() {
-    // const squealobj = {
-    //   publicSqueal: isPublic,
-    //   content: squeallocation,
-    //   contentType: contentType,
-    // };
+    sessionStorage.setItem("tempgeo", true);
 
-    // axiosInstance
-    //   .post(
-    //     config.endpoint.users +
-    //       "/" +
-    //       sessionStorage.getItem("userid") +
-    //       "/squeals",
-    //     squealobj
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     props.setSuccessfullSqueal(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    props.setShowBox(false);
+    // props.setShowBox(false);
   }
 
   return (
@@ -368,10 +458,7 @@ function SquealBox(props) {
                     <>
                       <Geolocation setSquealLocation={setSquealLocation} />
                       <div className="p-3">
-                        <Button
-                          variant="danger"
-                          onClick={() => createTempGeo()}
-                        >
+                        <Button variant="danger" onClick={createTempGeo}>
                           Crea messaggio temporizzato
                         </Button>
                       </div>

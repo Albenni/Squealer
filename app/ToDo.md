@@ -18,6 +18,8 @@ https://mui.com/material-ui/react-menu/
 
 - Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
+- Video nei messaggi privati non si vedono
+
 - Creare messaggi temporizzati
 
 - Rendere sito accessibile

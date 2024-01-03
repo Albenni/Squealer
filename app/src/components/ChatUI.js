@@ -560,7 +560,7 @@ function ChatUI({ myself }) {
                                   pointerEvents: "none",
                                 }
                               : {
-                                  width: "500px",
+                                  width: "400px",
                                   height: "400px",
                                   pointerEvents: "none",
                                 }
