@@ -60,7 +60,7 @@ function Geolocation(props) {
           if (index === locations.length - 1) return;
           // Fetch the osrm server to get the routes between the locations
           const url =
-            "https://router.project-osrm.org/route/v1/walking/" +
+            "https://router.project-osrm.org/route/v1/driving/" +
             locations[index].lng +
             "," +
             locations[index].lat +
