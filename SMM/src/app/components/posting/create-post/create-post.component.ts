@@ -69,7 +69,6 @@ export class CreatePostComponent {
       )
       .pipe(
         catchError((error: any) => {
-          // Gestisci l'errore qui
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');
         })
@@ -120,8 +119,8 @@ export class CreatePostComponent {
         })
       ).subscribe({
         next: (data) => {
-          console.log('Successo');
           this.modalRef?.hide();
+          location.reload();
         },
         error: (error) => {
           console.error('Errore durante la sottoscrizione:', error);
@@ -149,11 +148,9 @@ export class CreatePostComponent {
     this.imgValue = imgData;
   }
   onVideoChange(videoData: string | File): void {
-    console.log(videoData);
     this.videoValue = videoData;
   }
   onLocationChange(location: string): void {
-    console.log(location);
     this.locationValue = location;
   }
 }

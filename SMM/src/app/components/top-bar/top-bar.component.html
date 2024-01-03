@@ -8,20 +8,24 @@
         </div>
         <div class="col-2">
             <div class="row">
-                <div class="col"><button (click)="shopButton()" mat-icon-button color="primary"
-                        aria-label="Example icon button with a home icon">
+                <div class="col">
+                    <button (click)="openNotificationsModal()" mat-icon-button aria-label="Button with a notifications icon"><mat-icon>notifications_active</mat-icon></button>
+                    
+                </div>
+                <div class="col"><button (click)="shopButton()" mat-icon-button 
+                        aria-label="Button with a shop icon">
                         <mat-icon>shopping_cart</mat-icon>
                     </button></div>
 
                 <div class="col btn-group" dropdown>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Button with a menu icon">
                         <mat-icon>groups</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
 
                         <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
                             style="overflow:hidden ;" (click)="changeVip(i)">
-                            <div class="row py-1" style="width:25vw;">
+                            <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
                                 <div class="col-4 p-0">
                                     <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
                                         [src]="vipProfilePics[i]" alt="Profile image"></div>
@@ -43,3 +47,48 @@
 
     </div>
 </nav>
+
+<ng-template #notificationsModal>
+    <div class="modal-header">
+      <h5 class="modal-title" style="font-size: large;">Notifiche</h5>
+      <button type="button" mat-icon-button class="close" aria-label="Close" (click)="modalRef?.hide()">
+        <mat-icon aria-hidden="true">close</mat-icon>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="!existNotifications" style="font-size: medium;">Ancora nessuna notifica ...</div>
+        <div *ngIf="existNotifications">
+<!--             creo card per ogni reqVipUsernames
+ -->    
+            <div class="card" *ngFor="let reqVipUsername of reqVipUsernames; let i = index">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]"
+                                [src]="reqVipProfilePics[i]" alt="Profile image"></div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12" style="font-size: large;">{{ reqVipUsername }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12" style="font-size: small;">{{ reqVipUsernames[i] }} ha richiesto di diventare tuo VIP</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="text-align: right;">
+                                    <button mat-raised-button color="primary" (click)="acceptVip(i)">Accetta</button>
+                                    <button mat-raised-button color="warn" (click)="refuseVip(i)">Rifiuta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+  

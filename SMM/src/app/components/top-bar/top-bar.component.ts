@@ -1,7 +1,19 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { GetVipsResponse, GetInfosVip } from '../../shared-interfaces';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
@@ -15,6 +27,10 @@ import { Router } from '@angular/router';
 })
 export class TopBarComponent {
   @Output() vipSelected: EventEmitter<number> = new EventEmitter<number>();
+  @ViewChild('notificationsModal') notificationsModal!: TemplateRef<any>;
+  modalRef?: BsModalRef;
+
+  existNotifications: boolean = false;
 
   logosrc: string = './assets/SLogo.png';
 
@@ -32,16 +48,26 @@ export class TopBarComponent {
     'https://picsum.photos/200',
   ];
  */
-  constructor(private sharedService: SharedService, private router: Router) {}
+
+  reqVipIds: string[] = [];
+  reqVipUsernames: string[] = [];
+  reqVipProfilePics: string[] = [];
+
+  constructor(
+    private sharedService: SharedService,
+    private router: Router,
+    private modalService: BsModalService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.vipUsernames = JSON.parse(sessionStorage.getItem('vipUsernames')!);
-    this.vipProfilePics = JSON.parse(
-      sessionStorage.getItem('vipProfilePics')!
-    );
+    this.vipProfilePics = JSON.parse(sessionStorage.getItem('vipProfilePics')!);
     this.vipIds = JSON.parse(sessionStorage.getItem('vipIds')!);
     this.vipNames = JSON.parse(sessionStorage.getItem('vipNames')!);
     this.vipSurnames = JSON.parse(sessionStorage.getItem('vipSurnames')!);
+
+    this.fetchNotification();
   }
 
   changeVip(index: number) {
@@ -55,5 +81,93 @@ export class TopBarComponent {
   }
   shopButton() {
     this.router.navigate(['/shop']);
+  }
+
+  openNotificationsModal() {
+    this.modalRef = this.modalService.show(this.notificationsModal);
+  }
+
+  fetchNotification() {
+    this.http
+      .get<GetVipsResponse[]>(
+        'http://localhost:3500/api/users/' +
+          sessionStorage.getItem('smmId') +
+          '/vips?onlyAccepted=false'
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        if (data) {
+          this.reqVipIds = data.map((item) => item.vipId);
+
+          this.reqVipIds.forEach((vip) => {
+            this.fetchInfos(vip);
+          });
+        } else {
+          this.existNotifications = false;
+        }
+      });
+  }
+
+  fetchInfos(id: string) {
+    this.http
+      .get<GetInfosVip>('http://localhost:3500/api/users/' + id)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        this.reqVipUsernames.push(data.username);
+        this.reqVipProfilePics.push(data.profilePic);
+        this.existNotifications = true;
+      });
+  }
+
+  acceptVip(index: number) {
+    this.http
+      .post(
+        'http://localhost:3500/api/users/' +
+          sessionStorage.getItem('smmId') +
+          '/vips/' +
+          this.reqVipIds[index],
+        {}
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        this.modalRef?.hide();
+        location.reload();
+      });
+  }
+
+  refuseVip(index: number) {
+    this.http
+      .delete(
+        'http://localhost:3500/api/users/' +
+          sessionStorage.getItem('smmId') +
+          '/vips/' +
+          this.reqVipIds[index],
+        {}
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        this.modalRef?.hide();
+        location.reload();
+      });
   }
 }

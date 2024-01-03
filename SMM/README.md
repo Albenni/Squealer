@@ -12,6 +12,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 
--accettare richieste vip
 -gestione accesso se si hanno richieste ma ancora nessun vip selezionato
 -posting in canali specifici
