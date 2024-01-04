@@ -16,8 +16,8 @@ import {
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
-/*   channelChoice: string = '@';
- */  contentChoice: string = '';
+  /*   channelChoice: string = '@';
+   */ contentChoice: string = '';
   activePubTab: string = 'pubblico';
 
   textValue: string = '';
@@ -112,22 +112,25 @@ export class CreatePostComponent {
       'http://localhost:3500/api/users/' +
       sessionStorage.getItem('vipId') +
       '/squeals';
-      this.http.post<SquealsResponse>(url, formData).pipe(
+    this.http
+      .post<SquealsResponse>(url, formData)
+      .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
           return throwError(() => new Error('Errore gestito'));
         })
-      ).subscribe({
+      )
+      .subscribe({
         next: (data) => {
           this.modalRef?.hide();
           location.reload();
         },
         error: (error) => {
           console.error('Errore durante la sottoscrizione:', error);
-        }
+        },
       });
   }
-  
+
   /* chooseChannel(channel: string) {
     this.channelChoice = channel;
   } */

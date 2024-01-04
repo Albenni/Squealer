@@ -45,17 +45,12 @@ export class LoginComponent {
 
           if (error.error.message == 'No VIP associated.') {
             this.noVip = true;
-            sessionStorage.setItem('noVipSmmUsername', this.userData.user);
-            console.log('No vip associated');
           } else if (error.error.message == 'User not professional.') {
             this.notPro = true;
-            console.log('User not professional');
           } else if (error.error.message == 'User not found.') {
             this.notFound = true;
-            console.log('User not found');
           } else if (error.error.message == 'Incorrect password') {
             this.incorrectPwd = true;
-            console.log('Incorrect password');
           }
 
           console.error('Si è verificato un errore:', error);

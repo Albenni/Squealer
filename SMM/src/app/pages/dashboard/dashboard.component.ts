@@ -13,7 +13,6 @@ import { Characters, GetCharsResponse } from '../../shared-interfaces';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-
   refreshFeed: boolean = false;
 
   logosrc: string = './assets/SLogo.png';
@@ -41,7 +40,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-   
     this.vipId = sessionStorage.getItem('vipId')!;
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
     this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
@@ -70,12 +68,10 @@ export class DashboardComponent implements OnInit {
   }
 
   selectVip(index: number) {
-
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
-    this.vipProfilePic =sessionStorage.getItem('vipProfilePic')!;
-   
+    this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
+
     this.refreshFeed = !this.refreshFeed;
     this.getChars();
   }
-
 }

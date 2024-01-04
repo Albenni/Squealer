@@ -25,9 +25,10 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const httpOptions = {
-      headers: request.headers
-        
-        .set('Authorization', `Bearer ${sessionStorage.getItem('accessToken')}`),
+      headers: request.headers.set(
+        'Authorization',
+        `Bearer ${sessionStorage.getItem('accessToken')}`
+      ),
       withCredentials: true,
     };
 
@@ -41,7 +42,6 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
 
   async checkToken(httpOptions: any) {
     if (
-      
       this.isTokenExpired(sessionStorage.getItem('accessToken')!) &&
       !this.isRefreshing
     ) {

@@ -4,10 +4,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ShopPageComponent } from './pages/shop-page/shop-page.component';
 import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.component';
-import { VipRequestsComponent } from './pages/vip-requests/vip-requests.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'vipRequests', component: VipRequestsComponent },
   { path: 'home', component: DashboardComponent },
   { path: 'vipSelect', component: VipSelectPageComponent }, 
   { path: 'shop', component: ShopPageComponent },
