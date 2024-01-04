@@ -43,6 +43,7 @@ import { VideoFormatComponent } from './components/feed/video-format/video-forma
 import { GeolocalizationPostComponent } from './components/posting/geolocalization-post/geolocalization-post.component';
 import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.component';
 import { ImageFormatComponent } from './components/feed/image-format/image-format.component';
+import { VipRequestsComponent } from './pages/vip-requests/vip-requests.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ImageFormatComponent } from './components/feed/image-format/image-forma
     GeolocalizationPostComponent,
     VipSelectPageComponent,
     ImageFormatComponent,
+    VipRequestsComponent,
   ],
   imports: [
     BrowserModule,

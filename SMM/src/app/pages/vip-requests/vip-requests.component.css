@@ -1,0 +1,21 @@
+#welcome-container {
+  background-color: #93b3ff;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  user-select: none;
+}
+#logoContainer {
+  position: absolute;
+  top: 5vh;
+  height: 10vh;
+}
+
+#logo {
+  max-height: 100%;
+  width: auto;
+}

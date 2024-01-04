@@ -18,8 +18,12 @@ export class LoginComponent {
   };
 
   logosrc: string = './assets/SLogo.png'; // Dichiarazione della proprietà logo
-  wrongResponse: boolean = false;
   tryId: string = '';
+
+  noVip: boolean = false;
+  notPro: boolean = false;
+  notFound: boolean = false;
+  incorrectPwd: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -34,13 +38,26 @@ export class LoginComponent {
       .post<LoginResponse>(url, this.userData)
       .pipe(
         catchError((error: any) => {
-          // Gestisci l'errore qui
-          /*
-        verifica se l'acc è pro o no da errore API
-        e crea messaggio conseguente se non lo è
-        */
+          this.noVip = false;
+          this.notPro = false;
+          this.notFound = false;
+          this.incorrectPwd = false;
 
-          this.wrongResponse = true;
+          if (error.error.message == 'No VIP associated.') {
+            this.noVip = true;
+            sessionStorage.setItem('noVipSmmUsername', this.userData.user);
+            console.log('No vip associated');
+          } else if (error.error.message == 'User not professional.') {
+            this.notPro = true;
+            console.log('User not professional');
+          } else if (error.error.message == 'User not found.') {
+            this.notFound = true;
+            console.log('User not found');
+          } else if (error.error.message == 'Incorrect password') {
+            this.incorrectPwd = true;
+            console.log('Incorrect password');
+          }
+
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');
         })
@@ -53,7 +70,7 @@ export class LoginComponent {
         this.sharedService.smmUsername = this.userData.user;
         this.sharedService.accessToken = data.accessToken;
         this.sharedService.smmId = data.userid;
-        
+
         this.router.navigate(['/vipSelect']);
       });
   }

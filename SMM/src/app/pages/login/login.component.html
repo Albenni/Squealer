@@ -12,8 +12,19 @@
 
                     <div class="pt-2">
 
-                        <div *ngIf="wrongResponse" class="errorMessage">
-                            <p id="responseErr"> Username o password errata </p>
+                        <div *ngIf="noVip" class="errorMessage">
+                            <p id="responseErr"> Nessun VIP associato.</p>
+                        </div>
+                        <div *ngIf="notPro" class="errorMessage">
+                            <p id="responseErr">L'account non è di tipo PRO. </p>
+                        </div>
+
+                        <div *ngIf="notFound" class="errorMessage">
+                            <p id="responseErr"> Utente non trovato. </p>
+                        </div>
+
+                        <div *ngIf="incorrectPwd" class="errorMessage">
+                            <p id="responseErr"> Password errata. </p>
                         </div>
 
                         <form (submit)="onSubmit()" class="text-align-center container">
@@ -36,6 +47,9 @@
                     </div>
                 </tab>
             </tabset>
+        </div>
+        <div *ngIf="noVip"> 
+            <p class="text-center"> Visualizza <a href="/vipRequests">qui</a> le tue richieste</p>
         </div>
     </div>
 </div>
