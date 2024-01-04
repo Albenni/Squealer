@@ -90,7 +90,8 @@ function Feed() {
           <div className="trendbar">
             <TrendBar />
 
-            {sessionStorage.getItem("tempgeo") === "start" && (
+            {/* {sessionStorage.getItem("tempgeo") === "start" && ( */}
+            {true && (
               <div
                 className="container"
                 style={{
@@ -102,16 +103,17 @@ function Feed() {
                   color: "red",
                 }}
               >
-                Stai condividendo la tua posizione
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    sessionStorage.setItem("tempgeo", "stop");
-                    // window.location.reload();
-                  }}
-                >
-                  Interrompi.
-                </Button>
+                Stai condividendo la tua posizione.
+                <div>
+                  <Button
+                    variant="danger"
+                    onClick={() => {
+                      sessionStorage.setItem("tempgeo", "stop");
+                    }}
+                  >
+                    Interrompi.
+                  </Button>
+                </div>
               </div>
             )}
             {successfullSqueal && (
