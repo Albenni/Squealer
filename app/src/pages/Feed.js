@@ -3,7 +3,7 @@ import theme from "../config/theme";
 
 import { useState, useEffect } from "react";
 
-import { Spinner } from "react-bootstrap";
+import { Spinner, Button } from "react-bootstrap";
 
 import { PlusCircleFill } from "react-bootstrap-icons";
 
@@ -89,6 +89,31 @@ function Feed() {
           </div>
           <div className="trendbar">
             <TrendBar />
+
+            {sessionStorage.getItem("tempgeo") === "start" && (
+              <div
+                className="container"
+                style={{
+                  backgroundColor: theme.colors.white,
+                  borderRadius: "20px",
+                  border: "3px solid red",
+                  padding: "10px",
+                  textAlign: "center",
+                  color: "red",
+                }}
+              >
+                Stai condividendo la tua posizione
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    sessionStorage.setItem("tempgeo", "stop");
+                    // window.location.reload();
+                  }}
+                >
+                  Interrompi.
+                </Button>
+              </div>
+            )}
             {successfullSqueal && (
               <div
                 className="container"

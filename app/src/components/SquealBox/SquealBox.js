@@ -360,9 +360,10 @@ function SquealBox(props) {
   }
 
   function createTempGeo() {
-    sessionStorage.setItem("tempgeo", true);
+    sessionStorage.setItem("tempgeo", "start");
 
-    // props.setShowBox(false);
+    props.setShowBox(false);
+    // window.location.reload();
   }
 
   return (
