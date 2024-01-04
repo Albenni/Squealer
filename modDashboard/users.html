@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Users</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -130,13 +130,18 @@
             class="form-control"
             id="nameFilter"
             placeholder="Filter by Username"
+            aria-label="Filter by Username"
           />
         </div>
         <div class="col-md-3">
           <label for="professionalFilter" class="label-small"
             >Professional</label
           >
-          <select class="form-select" id="professionalFilter">
+          <select
+            class="form-select"
+            id="professionalFilter"
+            aria-label="Filter by Professional"
+          >
             <option value="" selected>Filter by Professional</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -144,7 +149,11 @@
         </div>
         <div class="col-md-3">
           <label for="verifiedFilter" class="label-small">Verified</label>
-          <select class="form-select" id="verifiedFilter">
+          <select
+            class="form-select"
+            id="verifiedFilter"
+            aria-label="Filter by Verified"
+          >
             <option value="" selected>Filter by Verified</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -152,7 +161,11 @@
         </div>
         <div class="col-md-3">
           <label for="blockedFilter" class="label-small">Blocked</label>
-          <select class="form-select" id="blockedFilter">
+          <select
+            class="form-select"
+            id="blockedFilter"
+            aria-label="Filter by Blocked"
+          >
             <option value="" selected>Filter by Blocked</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -165,7 +178,10 @@
       </button>
 
       <div class="table-container">
-        <table class="table table-bordered table-striped">
+        <table
+          class="table table-bordered table-striped"
+          aria-label="User list table"
+        >
           <thead>
             <tr>
               <th>Username</th>
