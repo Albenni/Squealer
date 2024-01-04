@@ -90,8 +90,7 @@ function Feed() {
           <div className="trendbar">
             <TrendBar />
 
-            {/* {sessionStorage.getItem("tempgeo") === "start" && ( */}
-            {true && (
+            {sessionStorage.getItem("tempgeo") === "start" && (
               <div
                 className="container"
                 style={{
