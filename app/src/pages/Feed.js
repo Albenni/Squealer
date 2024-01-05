@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 import { Spinner, Button } from "react-bootstrap";
 
-import { PlusCircleFill } from "react-bootstrap-icons";
+import { PencilSquare } from "react-bootstrap-icons";
 
 import SquealBox from "../components/SquealBox/SquealBox";
 
@@ -139,10 +139,23 @@ function Feed() {
         </div>
         {sessionStorage.getItem("userid") !== "guest" && (
           <div className="container-fluid">
-            <div className="fixed-bottom m-3" style={{ width: "5vw" }}>
-              <PlusCircleFill
-                size={isMobile ? "3em" : "4em"}
-                color={theme.colors.button}
+            <div
+              className="fixed-bottom m-3"
+              style={{
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                backgroundColor: theme.colors.bg2New,
+                border: "1px solid " + theme.colors.primary,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: "1",
+              }}
+            >
+              <PencilSquare
+                size={isMobile ? "30px" : "45px"}
+                color={theme.colors.primary}
                 onClick={() => setShowBox(true)}
                 style={{ cursor: "pointer" }}
               />

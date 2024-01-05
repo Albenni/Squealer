@@ -9,6 +9,8 @@ import {
 
 import { useMediaQuery } from "react-responsive";
 
+import squeallogo from "../../assets/SLogo.png";
+
 import SMMModal from "./SMMModal";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -77,13 +79,20 @@ function AccountPane({ user }) {
               <Card.Img
                 className="mx-auto d-block"
                 variant="top"
-                src="https://picsum.photos/200/"
-                // src={user.picture}
+                src={
+                  user.profilePic
+                    ? config.URL +
+                      "/profilePic/" +
+                      sessionStorage.getItem("userid") +
+                      user.profilePic
+                    : squeallogo
+                }
                 style={{
                   width: "50%",
                   height: "auto",
                   borderRadius: "10%",
                   border: "1px solid #000",
+                  objectFit: user.profilePic ? "cover" : "contain",
                 }}
               />
               <Card.Title className="pt-4 d-flex">

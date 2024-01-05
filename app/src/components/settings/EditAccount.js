@@ -4,6 +4,8 @@ import { useAccordionButton, Accordion, Button, Card } from "react-bootstrap";
 import ErrorMessage from "../ErrorMessage";
 import { useMediaQuery } from "react-responsive";
 
+import addimage from "../../assets/add-image.png";
+
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import config from "../../config/config";
 
@@ -14,6 +16,9 @@ function EditAccountPane() {
   const [user, setUser] = useState({});
 
   const [isImageError, setIsImageError] = useState(false);
+
+  const [image, setImage] = useState(null);
+  const [imagepreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     axiosInstance
@@ -49,14 +54,36 @@ function EditAccountPane() {
       });
   }
 
-  function handleChangeProfilePic(newprofilepic) {
-    if (newprofilepic === undefined) {
-      setIsImageError(true);
+  function handleProfilePicCheck(e) {
+    if (e.target.files[0] === undefined) {
+      setImage(null);
+      setImagePreview(null);
       return;
-    } else if (!newprofilepic.type.includes("image")) {
+    }
+
+    const file = e.target.files[0];
+    const imgfileRegex = /(image\/(png|jpg|jpeg|gif|svg|bmp|webp|HEIC))/i;
+
+    if (imgfileRegex.test(file.type)) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+      console.log(file);
+    } else {
+      setImage(null);
+      setImagePreview(null);
+      setIsImageError(true);
+      console.log("Not file");
+    }
+  }
+
+  function handleChangeProfilePic() {
+    if (image === null) {
       setIsImageError(true);
       return;
     }
+
+    const formData = new FormData();
+    formData.append("profilePic", image);
 
     axiosInstance
       .patch(
@@ -64,9 +91,8 @@ function EditAccountPane() {
           "/" +
           sessionStorage.getItem("userid") +
           "/profilePicture",
-        {
-          newprofilepic: newprofilepic,
-        }
+
+        formData
       )
       .then((response) => {
         console.log(response);
@@ -185,13 +211,33 @@ function EditAccountPane() {
           <Accordion.Collapse eventKey="1">
             <Card.Body>
               <div className="d-flex justify-content-start align-items-center">
-                <input
-                  type="file"
-                  id="propicchange"
-                  className="form-control"
-                  placeholder="Nuova immagine profilo"
-                  style={isMobile ? { width: "80%" } : { width: "50%" }}
-                />
+                <div className="me-3 mt-2">
+                  <img
+                    src={imagepreview || addimage}
+                    alt="profile"
+                    //   className="img-fluid"
+                    style={
+                      isMobile
+                        ? {
+                            cursor: "pointer",
+                            maxWidth: "150px",
+                            maxHeight: "150px",
+                          }
+                        : {
+                            cursor: "pointer",
+                            maxWidth: "250px",
+                            maxHeight: "250px",
+                          }
+                    }
+                    onClick={() => document.getElementById("fileInput").click()}
+                  />
+                  <input
+                    id="fileInput"
+                    type="file"
+                    hidden
+                    onChange={handleProfilePicCheck}
+                  />
+                </div>
                 <Button
                   variant="outline-secondary"
                   className="mx-3"
@@ -206,7 +252,7 @@ function EditAccountPane() {
               </div>
               <ErrorMessage
                 visible={isImageError}
-                error="Il file deve essere un'immagine"
+                error="Errore nel caricamento dell'immagine"
               />
             </Card.Body>
           </Accordion.Collapse>

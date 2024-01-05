@@ -1,8 +1,9 @@
 import "../../css/ChannelSelector.css";
 import { useState } from "react";
 import { InputGroup, Form, Button, ButtonGroup, Nav } from "react-bootstrap";
-
 import { Trash3, Plus } from "react-bootstrap-icons";
+
+import { useMediaQuery } from "react-responsive";
 
 import ErrorMessage from "../ErrorMessage";
 
@@ -11,6 +12,7 @@ import config from "../../config/config";
 
 function ChannelSelector(props) {
   const axiosInstance = useAxiosPrivate();
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [channelnotfound, setChannelNotFound] = useState(false);
   const [userorchannel, setUserOrChannel] = useState(false);
@@ -111,7 +113,7 @@ function ChannelSelector(props) {
     } else if (channeltype === "#") {
       axiosInstance
         .get(
-          config.endpoint.keyword + "?keyword=" + channel + "&exactMatch=true"
+          config.endpoint.keywords + "?keyword=" + channel + "&exactMatch=true"
         )
         .then((res) => {
           console.log(res);
@@ -181,20 +183,31 @@ function ChannelSelector(props) {
       ) : (
         <>
           <InputGroup className="mb-3">
-            <div className="col-md-2">
+            <div className="">
               <Form.Select
                 placeholder="Seleziona il canale"
                 id="SBoxControlSelectChannel"
                 aria-label="SelectChannel"
                 aria-describedby="SelectChannel"
                 onChange={(e) => props.setSquealType(e.target.value)}
-                style={{
-                  backgroundColor: "#e9ecef",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0,
-                }}
+                style={
+                  isMobile
+                    ? {
+                        backgroundColor: "#e9ecef",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                        width: "65px",
+                      }
+                    : {
+                        backgroundColor: "#e9ecef",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                      }
+                }
               >
                 <option value="Username">@</option>
                 <option disabled>_________</option>

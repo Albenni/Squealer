@@ -26,6 +26,7 @@ function TopBar() {
 
   const [showchat, setShowChat] = useState(false);
   const [username, setUsername] = useState({});
+  const [imageext, setImageext] = useState("");
 
   useEffect(() => {
     if (sessionStorage.getItem("userid") === "guest") {
@@ -39,6 +40,8 @@ function TopBar() {
         .then((res) => {
           const name = res.data.firstname;
           const lastname = res.data.surname;
+          const imageext = res?.data?.profilePic;
+          if (imageext) setImageext(imageext);
           setUsername({ name, lastname });
         })
         .catch((err) => {
@@ -163,8 +166,19 @@ function TopBar() {
                   <Dropdown.Toggle variant="light">
                     <img
                       alt="Profile"
-                      src="https://picsum.photos/200"
-                      style={{ maxHeight: "3rem" }}
+                      src={
+                        imageext[0] === "."
+                          ? config.URL +
+                            "/profilePic/" +
+                            sessionStorage.getItem("userid") +
+                            imageext
+                          : squeallogo
+                      }
+                      style={{
+                        width: "3.2rem",
+                        height: "3.2rem",
+                        objectFit: imageext[0] === "." ? "cover" : "contain",
+                      }}
                       className="rounded-circle"
                     />
                   </Dropdown.Toggle>

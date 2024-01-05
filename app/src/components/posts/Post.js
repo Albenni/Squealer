@@ -60,7 +60,7 @@ function Post({ item }) {
                 color: theme.colors.danger,
               }}
             >
-              Canale ufficiale squealer
+              Canale ufficiale
             </div>
           ) : item.publicSqueal ? (
             "Squeal pubblico"
@@ -68,17 +68,24 @@ function Post({ item }) {
 
           {!item.publicSqueal && !item.officialChannel ? (
             <div className="container">
-              {item.receivers.groupType}
               {item.receivers.map((receiver, key) => {
                 if (key > 1) return null;
                 if (key === 1)
                   return (
                     <div key={key}>
-                      <div key={key}>{receiver.group.name} e altri...</div>
+                      <div key={key}>
+                        {receiver.groupType === "Channel" ? "§" : "#"}
+                        {receiver.group.name} e altri...
+                      </div>
                     </div>
                   );
 
-                return <div key={key}>{receiver.group.name}</div>;
+                return (
+                  <div key={key}>
+                    {receiver.groupType === "Channel" ? "§" : "#"}
+                    {receiver.group.name}
+                  </div>
+                );
               })}
             </div>
           ) : null}
