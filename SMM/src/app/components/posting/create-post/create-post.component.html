@@ -1,92 +1,99 @@
 <button type="button" class="btn btn-secondary colored-btn" (click)="openPostModal(template)">Squeal</button>
 
-<ng-template #template >
-    <div style="padding: 1.5rem;"><div class="modal-header">
-        <h4 class="modal-title pull-left">Post a Squeal.</h4>
-        <button type="button" class="btn-close close pull-right colored-btn" aria-label="Close"
-            (click)="modalRef?.hide()">
-            <mat-icon class="icon-close">close</mat-icon>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="vip-infos row " style="margin-bottom: 1rem;">
-            <div class="col-3">
-                <div class="rounded-avatar ">
-                    <img class="rounded-avatar-img" id="imgVipProfilePic" [src]="vipProfilePic" alt="Avatar">
-                </div>
-            </div>
-
-            <div class="col-3">
-                <p style="font-weight: 500;">{{vipName}} {{vipSurname}}</p>
-                <p style="font-weight: 300;">@{{vipUsername}}</p>
-
-            </div>
-            <div class="col-6"></div>
+<ng-template #template>
+    <div style="padding: 1.5rem;">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Post a Squeal.</h4>
+            <button type="button" class="btn-close close pull-right colored-btn" aria-label="Close"
+                (click)="modalRef?.hide()">
+                <mat-icon class="icon-close">close</mat-icon>
+            </button>
         </div>
-        <div class="private-public" style="margin-bottom: 1rem;">
-            <button class="btn mx-1" type="button" [class.btn-primary]="activePubTab === 'pubblico'"
-                [class.btn-light]="activePubTab == 'privato'" (click)="activePubTab = 'pubblico'">Pubblico</button>
-            <button class="btn mx-1" type="button" [class.btn-primary]="activePubTab === 'privato'"
-                [class.btn-light]="activePubTab == 'pubblico'" (click)="activePubTab = 'privato'">Privato</button>
-        </div>
-        <div *ngIf="activePubTab== 'pubblico'" style="margin-bottom: 1rem;">
-        </div>
-        <div *ngIf="activePubTab== 'privato'" style="margin-bottom: 1rem;">
-            <div class="input-group mb-3">
-                <!-- <div class="input-group-prepend">
-
-                    <div class="btn-group" dropdown>
-                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                            aria-controls="dropdown-basic">
-                            {{channelChoice}}<span class="caret"></span>
-                        </button>
-                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
-                            aria-labelledby="button-basic">
-                            <li role="menuitem"><a class="dropdown-item" (click)="chooseChannel('@')">@</a></li>
-                            <li role="menuitem"><a class="dropdown-item" (click)="chooseChannel('§')">§</a></li>
-                            <li role="menuitem"><a class="dropdown-item" (click)="chooseChannel('#')">#</a></li>
-                        </ul>
+        <div class="modal-body">
+            <div class="vip-infos row " style="margin-bottom: 1rem;">
+                <div class="col-3">
+                    <div class="rounded-avatar ">
+                        <img class="rounded-avatar-img" id="imgVipProfilePic" [src]="vipProfilePic" alt="Avatar">
                     </div>
-                    
-                </div> -->
-                <div class="input-group-prepend"></div>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                    aria-describedby="basic-addon1" />
+                </div>
+
+                <div class="col-3">
+                    <p style="font-weight: 500;">{{vipName}} {{vipSurname}}</p>
+                    <p style="font-weight: 300;">@{{vipUsername}}</p>
+
+                </div>
+                <div class="col-6"></div>
             </div>
-        </div>
+            <div class="private-public" style="margin-bottom: 1rem;">
+                <button class="btn mx-1" type="button" [class.btn-primary]="activePubTab === 'pubblico'"
+                    [class.btn-light]="activePubTab == 'privato'" (click)="activePubTab = 'pubblico'">Pubblico</button>
+                <button class="btn mx-1" type="button" [class.btn-primary]="activePubTab === 'privato'"
+                    [class.btn-light]="activePubTab == 'pubblico'" (click)="activePubTab = 'privato'">Privato</button>
+            </div>
+            <div *ngIf="activePubTab== 'pubblico'" style="margin-bottom: 1rem;">
+            </div>
+            <div *ngIf="activePubTab== 'privato'" style="margin-bottom: 1rem;">
+               <!--  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
 
-        <div class="row"> 
-            <button class="col content-choice" (click)="chooseContent('text')">
-                Testo
-            </button>
-            <button class="col content-choice" (click)="chooseContent('image')">
-                Immagine
-            </button><button class="col content-choice" (click)="chooseContent('video')">
-                Video
-            </button><button class="col content-choice" (click)="chooseContent('geolocalization')">
-                Geolocalizzazione
-            </button>
-        </div>
-        <div *ngIf="contentChoice == 'text'"> 
-            <app-text-post [countChars]="countChars"
-            [characters]="characters"
-            (textChange)="onTextChange($event)" style="width: 100%; "></app-text-post>
-        </div>
-        <div *ngIf="contentChoice == 'image'">   <app-img-post (imgChange)="onImgChange($event)"></app-img-post>
-        </div>
-        <div *ngIf="contentChoice == 'video'"> <app-video-post (videoChange)="onVideoChange($event)"></app-video-post></div>
-        <div *ngIf="contentChoice == 'geolocalization'"><app-geolocalization-post (locationChange)="onLocationChange($event)"></app-geolocalization-post></div>
+                        <div class="btn-group" dropdown>
+                            <button id="button-basic" dropdownToggle type="button"
+                                class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+                                {{channelChoice}}<span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="button-basic">
+                                <li role="menuitem"><a class="dropdown-item" (click)="chooseChannel('§')">§</a></li>
+                                <li role="menuitem"><a class="dropdown-item" (click)="chooseChannel('#')">#</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <input type="text" class="form-control" id="inputReceiver" placeholder="Username"
+                        aria-label="Username" aria-describedby="basic-addon1" />
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary p-0 px-1 pt-1" type="button"
+                            (click)="addReceiver()"><mat-icon>add</mat-icon></button>
+                    </div>
+                </div> -->
+                <app-channel-selector></app-channel-selector>
+            </div>
+
+            <div class="row">
+                <button class="col content-choice" (click)="chooseContent('text')">
+                    Testo
+                </button>
+                <button class="col content-choice" (click)="chooseContent('image')">
+                    Immagine
+                </button><button class="col content-choice" (click)="chooseContent('video')">
+                    Video
+                </button><button class="col content-choice" (click)="chooseContent('geolocalization')">
+                    Geolocalizzazione
+                </button>
+            </div>
+            <div *ngIf="contentChoice == 'text'">
+                <app-text-post [countChars]="countChars" [characters]="characters" (textChange)="onTextChange($event)"
+                    style="width: 100%; "></app-text-post>
+            </div>
+            <div *ngIf="contentChoice == 'image'"> <app-img-post (imgChange)="onImgChange($event)"></app-img-post>
+            </div>
+            <div *ngIf="contentChoice == 'video'"> <app-video-post
+                    (videoChange)="onVideoChange($event)"></app-video-post></div>
+            <div *ngIf="contentChoice == 'geolocalization'"><app-geolocalization-post
+                    (locationChange)="onLocationChange($event)"></app-geolocalization-post></div>
 
 
+        </div>
+        <div class="modal-footer d-flex justify-content-between align-items-center">
+            <div class="" id="footer-chars">
+                <p>Caratteri giornalieri rimanenti: {{countChars.daily}} / {{characters.daily}}</p>
+                <p>Caratteri settimanali rimanenti: {{countChars.weekly}} / {{characters.weekly}} </p>
+                <p>Caratteri mensili rimanenti: {{countChars.monthly}} / {{characters.monthly}}</p>
+            </div>
+
+            <button type="button" class="btn btn-primary colored-btn" (click)="post()">Squeal</button>
+        </div>
     </div>
-    <div class="modal-footer d-flex justify-content-between align-items-center">
-        <div class="" id="footer-chars">
-            <p>Caratteri giornalieri rimanenti: {{countChars.daily}} / {{characters.daily}}</p>
-            <p>Caratteri settimanali rimanenti: {{countChars.weekly}} / {{characters.weekly}} </p>
-            <p>Caratteri mensili rimanenti: {{countChars.monthly}} / {{characters.monthly}}</p>
-        </div>
 
-        <button type="button" class="btn btn-primary colored-btn" (click)="post()">Squeal</button>
-    </div></div>
-    
 </ng-template>

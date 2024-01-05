@@ -16,8 +16,8 @@ import {
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
-  /*   channelChoice: string = '@';
-   */ contentChoice: string = '';
+/*   channelChoice: string = '§';
+ */  contentChoice: string = '';
   activePubTab: string = 'pubblico';
 
   textValue: string = '';
@@ -25,6 +25,8 @@ export class CreatePostComponent {
   videoValue: string | File | null = null;
   locationValue: string = '';
 
+/*   receivers: { id: string; type: string }[] = [];
+ */
   vipProfilePic: string = '';
   vipUsername: string = '';
   vipName: string = '';
@@ -51,6 +53,21 @@ export class CreatePostComponent {
   ngOnInit() {
     this.getChars();
   }
+
+ /*  addReceiver(){
+    const inputElement = document.querySelector<HTMLInputElement>('#inputReceiver');
+    if (inputElement && inputElement.value.trim() != '') {
+
+      const receiver ={
+        id: inputElement.value,
+        type: this.channelChoice === '§' ? 'channel' : 'keyword'
+      };
+      
+      this.receivers.push(receiver);
+
+      inputElement.value = '';
+    }
+  } */
 
   openPostModal(template: TemplateRef<any>) {
     this.vipName = sessionStorage.getItem('vipName')!;
@@ -133,7 +150,7 @@ export class CreatePostComponent {
 
   /* chooseChannel(channel: string) {
     this.channelChoice = channel;
-  } */
+  }  */
   chooseContent(content: string) {
     this.contentChoice = content;
     this.countChars.daily = this.characters.daily;
