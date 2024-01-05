@@ -35,7 +35,7 @@ export class ImgPostComponent {
         console.log("File selected:", this.selectedFile);
       } else {
         this.selectedFile = null;
-        fileInput.value = ''; // Reimposta il campo di input del file
+        fileInput.value = ''; 
         alert('Only images are allowed');
       }
     }

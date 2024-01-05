@@ -17,7 +17,7 @@ export class LoginComponent {
     pwd: '',
   };
 
-  logosrc: string = './assets/SLogo.png'; // Dichiarazione della proprietà logo
+  logosrc: string = './assets/SLogo.png'; 
   tryId: string = '';
 
   noVip: boolean = false;

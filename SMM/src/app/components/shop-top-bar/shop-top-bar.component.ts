@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./shop-top-bar.component.css']
 })
 export class ShopTopBarComponent {
-  logosrc: string = './assets/SLogo.png'; // Dichiarazione della proprietà logo
+  logosrc: string = './assets/SLogo.png'; 
 
   constructor(private router: Router) {}
 

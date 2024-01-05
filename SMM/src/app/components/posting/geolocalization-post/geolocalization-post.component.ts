@@ -105,9 +105,6 @@ export class GeolocalizationPostComponent implements OnInit, OnDestroy {
           );
           this.updateMarker(latlng);
           this.locationChange.emit(`${latlng.lat}, ${latlng.lng}`);
-        },
-        () => {
-          // Handle geolocation error here
         }
       );
     } else {

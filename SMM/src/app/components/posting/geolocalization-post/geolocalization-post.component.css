@@ -1,8 +1,8 @@
 #map-posting {
-    height: 50vh; /* 50% of the viewport height */
+    height: 50vh;
 }
 
-@media (min-width: 768px) { /* For medium devices and up */
+@media (min-width: 768px) {
     #map-posting {
         height: 300px;
     }

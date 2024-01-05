@@ -52,14 +52,12 @@ a {
   width: 80px;
 }
 
-/* Aggiunto stile per il link 'Hai dimenticato la password?' */
 #forgotPasswordLink {
   color: #007bff;
   text-decoration: underline;
   margin-top: 1rem;
 }
 
-/* Aggiunto stile per i messaggi di errore */
 .errorMessage {
   color: rgb(189, 0, 0);
   text-decoration: underline;

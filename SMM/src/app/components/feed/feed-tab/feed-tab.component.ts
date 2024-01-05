@@ -89,7 +89,7 @@ export class FeedTabComponent {
               contentType: squeal.contentType,
               impression: squeal.impression,
               createdAt: squeal.createdAt,
-              convertedDate: '', // Inizializzeremo con convertDate
+              convertedDate: '', 
               neg0Reac: 0,
               neg1Reac: 0,
               pos2Reac: 0,
@@ -245,13 +245,11 @@ export class FeedTabComponent {
     if (filterParams.contentTypes.includes('all')) {
       filteredSqueals = this.squeals;
     } else {
-      // Filtra gli squeals in base ai tipi di contenuto selezionati
       filteredSqueals = this.squeals.filter((squeal) =>
         filterParams.contentTypes.includes(squeal.contentType)
       );
     }
 
-    //mancano case 'liked' e 'disliked'
     switch (filterParams.orderBy) {
       case 'recent':
         filteredSqueals = filteredSqueals.sort((a, b) => {
@@ -288,7 +286,6 @@ export class FeedTabComponent {
         });
         break;
       default:
-        // Se l'opzione di ordinamento non è riconosciuta, mantieni l'ordine attuale
         break;
     }
 

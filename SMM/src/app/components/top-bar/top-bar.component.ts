@@ -40,15 +40,6 @@ export class TopBarComponent {
   vipNames: string[] = [];
   vipSurnames: string[] = [];
 
-  /*  vipsUsernames: string[] = ['vip1', 'vip2', 'vip3', 'vip4'];
-  vipsProfilePics: string[] = [
-    'https://picsum.photos/200',
-    'https://picsum.photos/200',
-    'https://picsum.photos/200',
-    'https://picsum.photos/200',
-  ];
- */
-
   reqVipIds: string[] = [];
   reqVipUsernames: string[] = [];
   reqVipProfilePics: string[] = [];

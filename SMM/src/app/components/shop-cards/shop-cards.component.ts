@@ -22,7 +22,6 @@ export class ShopCardsComponent {
         return throwError('Errore gestito');
       })
     ).subscribe((data) => {
-      //refresh della pagina
       window.location.reload();
     });
   }

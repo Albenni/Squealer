@@ -24,11 +24,6 @@ export class DashboardComponent implements OnInit {
     monthly: 0,
   };
 
-  /*
- vipUsername: string = this.sharedService.selectedVipUsername;
-  vipsUsernames: string[] = ['Aldo', 'Giovanni', 'Giacomo'];
-  vipsProfilePics: string[] = ['https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png', 'https://www.w3schools.com/howto/img_avatar.png'];
- */
   vipProfilePic: string = '';
   vipUsername: string = '';
   vipId: string = '';

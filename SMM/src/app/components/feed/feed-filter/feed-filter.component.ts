@@ -11,8 +11,8 @@ export class FeedFilterComponent {
 
   filterForm!: NgForm;
   filterParams: FilterParams = {
-    orderBy: 'oldest', // Valore predefinito per orderBy
-    contentTypes: ['all'], // Valore predefinito per contentType
+    orderBy: 'oldest',
+    contentTypes: ['all'], 
   };
 
   applyFilter(form: NgForm) {
