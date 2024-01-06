@@ -64,8 +64,8 @@ export class DashboardComponent implements OnInit {
 
   selectVip(index: number) {
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
+    
     this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
-
     this.refreshFeed = !this.refreshFeed;
     this.getChars();
   }

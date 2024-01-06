@@ -39,8 +39,8 @@ export class VipSelectPageComponent {
     private sharedService: SharedService
   ) {}
 
-
   ngOnInit(): void {
+
     this.sharedService.vipUsernames = [];
     this.sharedService.vipIds = [];
     this.sharedService.vipProfilePics = [];
@@ -89,13 +89,11 @@ export class VipSelectPageComponent {
         })
       )
       .subscribe((data) => {
-       
-          this.reqVipIds = data.map((item) => item.vipId);
+        this.reqVipIds = data.map((item) => item.vipId);
 
-          this.reqVipIds.forEach((vip) => {
-            this.fetchInfos(vip);
-          });
-        
+        this.reqVipIds.forEach((vip) => {
+          this.fetchInfos(vip);
+        });
       });
   }
 
@@ -125,12 +123,19 @@ export class VipSelectPageComponent {
         tap((data: GetInfosVip) => {
           this.vipUsernames.push(data.username);
           this.sharedService.vipUsernames.push(data.username);
-          this.vipIds.push(id);
 
+          this.vipIds.push(id);
           this.sharedService.vipIds.push(id);
 
-          this.vipImages.push(data.profilePic);
-          this.sharedService.vipProfilePics.push(data.profilePic);
+          if (data.profilePic != null) {
+            const source =  'http://localhost:3500/profilePic/'+ id+'.' + data.profilePic.split('.')[1];
+            this.vipImages.push(source);
+            this.sharedService.vipProfilePics.push(source);
+          } else {
+            this.vipImages.push('./assets/default-profile-pic.webp');
+            this.sharedService.vipProfilePics.push('./assets/default-profile-pic.webp');
+          }
+      
 
           this.vipNames.push(data.firstname);
           this.sharedService.vipNames.push(data.firstname);
@@ -170,6 +175,7 @@ export class VipSelectPageComponent {
       this.sharedService.selectedVipUsername = this.selectedAccountUsername;
 
       const index = this.vipUsernames.indexOf(this.selectedAccountUsername);
+
       const correspondingImage = this.vipImages[index];
       const correspondingId = this.vipIds[index];
       const correspondingName = this.vipNames[index];
@@ -191,8 +197,7 @@ export class VipSelectPageComponent {
     }
   }
 
-  acceptVip(index: number){
-
+  acceptVip(index: number) {
     this.http
       .post(
         'http://localhost:3500/api/users/' +
@@ -210,7 +215,5 @@ export class VipSelectPageComponent {
       .subscribe((data) => {
         this.router.navigate(['/login']);
       });
-
   }
- 
 }

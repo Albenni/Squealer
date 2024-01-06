@@ -14,6 +14,3 @@ Da fare:
 -visualizzazione se il post è di tipo pubblico o privato e in caso i ricevitori
 
 Da fixare:
-
--caricamento immagini profilo
- 
