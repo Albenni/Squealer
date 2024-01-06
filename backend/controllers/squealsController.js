@@ -126,6 +126,8 @@ const getAllSquealsInKeyword = async (req, res) => {
 const createSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
 
+  // console.log(req.body);
+
   const { content, contentType } = req.body;
   const publicSqueal =
     req.body.publicSqueal === "true" || req.body.publicSqueal === true;
@@ -139,6 +141,10 @@ const createSqueal = async (req, res) => {
     return res.status(400).json({ message: "Content type required" });
   // if (!req.body?.squealType)
   //   return res.status(400).json({ message: "Squeal type required" });
+
+  if (req?.body?.receivers) req.body.receivers = JSON.parse(req.body.receivers);
+
+  console.log(req.body.receivers);
 
   if (!publicSqueal)
     if (

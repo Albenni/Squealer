@@ -299,7 +299,7 @@ function SquealBox(props) {
         // };
       } else {
         formData.append("publicSqueal", isPublic);
-        formData.append("receivers", receivers);
+        formData.append("receivers", JSON.stringify(receivers));
         formData.append("contentType", contentType);
 
         // squealobj = {
@@ -334,6 +334,8 @@ function SquealBox(props) {
           } else setInsufficientChars(false);
           console.log(err);
         });
+
+      return;
     }
 
     console.log(squealobj);
