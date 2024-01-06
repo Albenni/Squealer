@@ -264,7 +264,7 @@ function SquealBox(props) {
       } else {
         squealobj = {
           publicSqueal: isPublic,
-          receivers: receivers,
+          receivers: JSON.stringify(receivers),
           content: squealcontent,
           contentType: contentType,
         };
@@ -281,7 +281,7 @@ function SquealBox(props) {
       } else {
         squealobj = {
           publicSqueal: isPublic,
-          receivers: receivers,
+          receivers: JSON.stringify(receivers),
           content: squeallocation,
           contentType: contentType,
         };
