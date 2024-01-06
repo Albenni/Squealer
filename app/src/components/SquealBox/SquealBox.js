@@ -327,6 +327,7 @@ function SquealBox(props) {
         .then((res) => {
           console.log(res);
           props.setSuccessfullSqueal(true);
+          props.setShowBox(false);
         })
         .catch((err) => {
           if (err.response.status === 406) {
