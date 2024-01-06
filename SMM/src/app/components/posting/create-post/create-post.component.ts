@@ -104,28 +104,24 @@ export class CreatePostComponent {
       formData.append('publicSqueal', 'true');
     }
 
-    for (var pair of (formData as any).entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-
-    try {
       const url = `http://localhost:3500/api/users/${sessionStorage.getItem(
         'vipId'
       )}/squeals`;
-      const response = await this.http
-        .post<SquealsResponse>(url, formData)
-        .toPromise();
-      // Handle the response
-      this.modalRef?.hide();
-      location.reload();
-    } catch (error) {
-      console.error('Error during the post operation:', error);
-    }
+
+      this.http.post<SquealsResponse>(url, formData).pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      ).subscribe((data) => {
+        this.modalRef?.hide();
+        location.reload();
+      });
+    
   }
 
   updateReceivers(receivers: { id: string; type: string; channel: string }[]) {
     this.receivers = receivers;
-    console.log(this.receivers);
   }
 
   openPostModal(template: TemplateRef<any>) {

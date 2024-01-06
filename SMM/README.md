@@ -11,9 +11,9 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 Da fare:
-
--posting in canali specifici
+-visualizzazione se il post è di tipo pubblico o privato e in caso i ricevitori
 
 Da fixare:
 
 -caricamento immagini profilo
+ 

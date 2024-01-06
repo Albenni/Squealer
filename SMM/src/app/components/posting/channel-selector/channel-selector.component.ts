@@ -33,7 +33,7 @@ export class ChannelSelectorComponent {
   
     const receiverName = inputElement.value;
     const receiverType = this.channelChoice === '§' ? 'channel' : 'keyword';
-  
+    const receiverTypeUppercase  = this.channelChoice === '§' ? 'Channel' : 'Keyword';
     if (this.checkDuplicateReceiver(receiverName)) {
       this.receiverDuplicateError = true
       inputElement.value = '';
@@ -49,7 +49,7 @@ export class ChannelSelectorComponent {
       this.receiverInexistentError = false
       const receiver = {
         id: this.receiverId,
-        type: receiverType,
+        type: receiverTypeUppercase,
         channel: this.channelChoice + receiverName
       };
 
