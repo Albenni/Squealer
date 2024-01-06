@@ -13,3 +13,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 Da fare:
 
 -posting in canali specifici
+
+Da fixare:
+
+-caricamento immagini profilo

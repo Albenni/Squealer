@@ -13,18 +13,18 @@
                     <div class="pt-2">
 
                         <div *ngIf="noVip" class="errorMessage">
-                            <p id="responseErr"> Nessun VIP associato.</p>
+                            <p class="responseErr"> Nessun VIP associato.</p>
                         </div>
                         <div *ngIf="notPro" class="errorMessage">
-                            <p id="responseErr">L'account non è di tipo PRO. </p>
+                            <p class="responseErr">L'account non è di tipo PRO. </p>
                         </div>
 
                         <div *ngIf="notFound" class="errorMessage">
-                            <p id="responseErr"> Utente non trovato. </p>
+                            <p class="responseErr"> Utente non trovato. </p>
                         </div>
 
                         <div *ngIf="incorrectPwd" class="errorMessage">
-                            <p id="responseErr"> Password errata. </p>
+                            <p class="responseErr"> Password errata. </p>
                         </div>
 
                         <form (submit)="onSubmit()" class="text-align-center container">

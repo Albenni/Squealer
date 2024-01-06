@@ -33,7 +33,7 @@
             <div *ngIf="activePubTab== 'pubblico'" style="margin-bottom: 1rem;">
             </div>
             <div *ngIf="activePubTab== 'privato'" style="margin-bottom: 1rem;">
-                <app-channel-selector></app-channel-selector>
+                <app-channel-selector *ngIf="activePubTab == 'privato'" (receiversChange)="updateReceivers($event)"></app-channel-selector>
             </div>
 
             <div class="row">

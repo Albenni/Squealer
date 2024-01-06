@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
@@ -8,6 +8,8 @@ import { throwError } from 'rxjs';
   styleUrls: ['./channel-selector.component.css'],
 })
 export class ChannelSelectorComponent {
+  @Output() receiversChange = new EventEmitter<{ id: string; type: string; channel: string }[]>();
+
   channelChoice: string = '§';
 
   receivers: { id: string; type: string; channel:string }[] = [];
@@ -16,8 +18,14 @@ export class ChannelSelectorComponent {
   receiverExists: boolean = false;
   receiverId: string = '';
   receiverInexistentError:boolean  = false
+  receiverDuplicateError:boolean = false
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
+
+  updateReceivers() {
+    this.receiversChange.emit(this.receivers);
+  }
 
   async addReceiver() {
     const inputElement = document.querySelector<HTMLInputElement>('#inputReceiver');
@@ -26,6 +34,13 @@ export class ChannelSelectorComponent {
     const receiverName = inputElement.value;
     const receiverType = this.channelChoice === '§' ? 'channel' : 'keyword';
   
+    if (this.checkDuplicateReceiver(receiverName)) {
+      this.receiverDuplicateError = true
+      inputElement.value = '';
+      return
+    }
+    this.receiverDuplicateError = false
+
     const receiverExists = await this.checkReceiver(receiverName, receiverType);
     
 
@@ -38,6 +53,7 @@ export class ChannelSelectorComponent {
         channel: this.channelChoice + receiverName
       };
 
+      this.updateReceivers();
       this.receivers.push(receiver);
       inputElement.value = '';
     } else {
@@ -46,14 +62,27 @@ export class ChannelSelectorComponent {
       inputElement.value = '';
     }
   }
+
+  checkDuplicateReceiver(receiverName: string): boolean {
+
+    const recCheck = this.channelChoice + receiverName
+
+    for (let i = 0; i < this.receivers.length; i++) {
+      if (this.receivers[i].channel === recCheck) {
+        return true
+      }
+    }
+
+    return false
+  }
   
   deleteReceiver(index: number) {
     if (index > -1 && index < this.receivers.length) {
       this.receivers.splice(index, 1);
       this.receiversNumber--; // Update the count of receivers
+      this.updateReceivers();
     }
-    console.log (this.receiversNumber)
-  }
+    }
   
   checkReceiver(receiverName: string, receiverType: string): Promise<boolean> {
     let apiType = this.channelChoice === '§' ? 'channels' : 'keywords';

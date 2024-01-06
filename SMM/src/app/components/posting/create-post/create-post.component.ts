@@ -1,5 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import {
+  Component,
+  TemplateRef,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../../services/shared.service';
 import { catchError } from 'rxjs/operators';
@@ -9,7 +14,7 @@ import {
   Characters,
   SquealsResponse,
 } from '../../../shared-interfaces';
-
+import { ChannelSelectorComponent } from '../channel-selector/channel-selector.component';
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
@@ -40,7 +45,13 @@ export class CreatePostComponent {
     monthly: 0,
   };
 
+  receivers: { id: string; type: string; channel: string }[] = [];
+
   modalRef?: BsModalRef;
+
+  @ViewChild(ChannelSelectorComponent)
+  channelSelector?: ChannelSelectorComponent;
+
   constructor(
     private modalService: BsModalService,
     private http: HttpClient,
@@ -51,6 +62,71 @@ export class CreatePostComponent {
     this.getChars();
   }
 
+  ngAfterViewInit() {}
+
+  async post() {
+    const formData: FormData = new FormData();
+    formData.append('contentType', this.contentChoice);
+    if (this.contentChoice === 'text') {
+      formData.append('content', this.textValue);
+    } else if (this.contentChoice === 'geolocalization') {
+      formData.append('content', this.locationValue);
+    } else if (this.contentChoice === 'image') {
+      if (this.imgValue != null) {
+        if (typeof this.imgValue === 'string') {
+          formData.append('content', this.imgValue);
+        } else {
+          formData.append('squeal', this.imgValue);
+        }
+      }
+    } else if (this.contentChoice === 'video') {
+      if (this.videoValue != null) {
+        if (typeof this.videoValue === 'string') {
+          formData.append('content', this.videoValue);
+        } else {
+          formData.append('squeal', this.videoValue);
+        }
+      }
+    }
+
+    if (this.activePubTab == 'privato') {
+      if (this.receivers.length != 0) {
+        const receiversToAppend = this.receivers.map((channel) => {
+          return {
+            group: channel.id,
+            groupType: channel.type,
+          };
+        });
+        formData.append('receivers', JSON.stringify(receiversToAppend));
+      }
+      formData.append('publicSqueal', 'false');
+    } else {
+      formData.append('publicSqueal', 'true');
+    }
+
+    for (var pair of (formData as any).entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+
+    try {
+      const url = `http://localhost:3500/api/users/${sessionStorage.getItem(
+        'vipId'
+      )}/squeals`;
+      const response = await this.http
+        .post<SquealsResponse>(url, formData)
+        .toPromise();
+      // Handle the response
+      this.modalRef?.hide();
+      location.reload();
+    } catch (error) {
+      console.error('Error during the post operation:', error);
+    }
+  }
+
+  updateReceivers(receivers: { id: string; type: string; channel: string }[]) {
+    this.receivers = receivers;
+    console.log(this.receivers);
+  }
 
   openPostModal(template: TemplateRef<any>) {
     this.vipName = sessionStorage.getItem('vipName')!;
@@ -82,55 +158,6 @@ export class CreatePostComponent {
         this.countChars.monthly = data.monthlyChar;
       });
   }
-  post() {
-    const formData: FormData = new FormData();
-    formData.append('contentType', this.contentChoice);
-    formData.append('publicSqueal', 'true');
-    if (this.contentChoice === 'text') {
-      formData.append('content', this.textValue);
-    } else if (this.contentChoice === 'geolocalization') {
-      formData.append('content', this.locationValue);
-    } else if (this.contentChoice === 'image') {
-      if (this.imgValue != null) {
-        if (typeof this.imgValue === 'string') {
-          formData.append('content', this.imgValue);
-        } else {
-          formData.append('squeal', this.imgValue);
-        }
-      }
-    } else if (this.contentChoice === 'video') {
-      if (this.videoValue != null) {
-        if (typeof this.videoValue === 'string') {
-          formData.append('content', this.videoValue);
-        } else {
-          formData.append('squeal', this.videoValue);
-        }
-      }
-    }
-
-    const url: string =
-      'http://localhost:3500/api/users/' +
-      sessionStorage.getItem('vipId') +
-      '/squeals';
-    this.http
-      .post<SquealsResponse>(url, formData)
-      .pipe(
-        catchError((error: any) => {
-          console.error('Si è verificato un errore:', error);
-          return throwError(() => new Error('Errore gestito'));
-        })
-      )
-      .subscribe({
-        next: (data) => {
-          this.modalRef?.hide();
-          location.reload();
-        },
-        error: (error) => {
-          console.error('Errore durante la sottoscrizione:', error);
-        },
-      });
-  }
-
 
   chooseContent(content: string) {
     this.contentChoice = content;

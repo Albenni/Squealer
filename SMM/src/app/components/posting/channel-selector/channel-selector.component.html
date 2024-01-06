@@ -1,6 +1,9 @@
 <div *ngIf="receiverInexistentError" class="errorMessage">
     <p class="responseErr">Canale o keyword inesistente!</p>
 </div>
+<div *ngIf="receiverDuplicateError" class="errorMessage">
+    <p class="responseErr">Canale o keyword già inserita!</p>
+</div>
 <div class="input-group mb-3">
 
     <div class="input-group-prepend">

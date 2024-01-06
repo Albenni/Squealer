@@ -27,7 +27,7 @@
   text-align: center;
 }
 
-#responseErr {
+.responseErr {
   color: rgb(189, 0, 0);
   text-decoration: underline;
   padding-left: 0.8rem;
