@@ -56,7 +56,7 @@ function KeywordPage({ keyword }) {
     };
 
     getKeywordInfo();
-  }, [axiosInstance, username]);
+  }, [axiosInstance, keyword]);
 
   useEffect(() => {
     if (postindex === 0) return;
@@ -109,9 +109,9 @@ function KeywordPage({ keyword }) {
             paddingTop: "10px",
           }}
         >
-          <div className="container">
+          {/* <div className="container">
             <UserBar user={keywordinfo} />
-          </div>
+          </div> */}
 
           <div className="container">
             {keywordposts.length === 0 ? (
