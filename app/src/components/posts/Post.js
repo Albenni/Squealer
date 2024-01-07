@@ -74,8 +74,8 @@ function Post({ item }) {
                   return (
                     <div key={key}>
                       <div key={key}>
-                        {receiver.groupType === "Channel" ? "§" : "#"}
-                        {receiver.group.name} e altri...
+                        {receiver?.groupType === "Channel" ? "§" : "#"}
+                        {receiver.group?.name} e altri...
                       </div>
                     </div>
                   );
