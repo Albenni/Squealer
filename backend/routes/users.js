@@ -76,6 +76,10 @@ router
   .get(squealsController.getAllSquealsByUser)
   .post(squealsController.createSqueal);
 
+router
+  .route("/:userId/squeals/smm")
+  .get(squealsController.getAllSquealsByUserSmm);
+
 router.route("/:userId/tempSqueals").post(squealsController.createTempSqueal);
 
 module.exports = router;

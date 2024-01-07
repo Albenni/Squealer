@@ -63,6 +63,28 @@ const getAllSquealsByUser = async (req, res) => {
   res.json(squeals);
 };
 
+const getAllSquealsByUserSmm = async (req, res) => {
+  const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
+  let index = 0;
+  if (!isNaN(req?.query?.index)) {
+    index = parseInt(req.query.index);
+  }
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "Invalid user ID" });
+
+  const squeals = await Squeal.find({
+    author: req.params.userId,
+  })
+    .skip(squealLengthBlock * index)
+    .limit(squealLengthBlock * (index + 1))
+    .exec();
+
+  if (!squeals?.length)
+    return res.status(204).json({ message: "No squeals found" });
+
+  res.json(squeals);
+};
+
 const getAllSquealsInChannel = async (req, res) => {
   const squealLengthBlock = 10; //numero di squeal ritornati ad ogni richiesta
   let index = 0;
@@ -568,6 +590,7 @@ const removeReceiver = async (req, res) => {
 module.exports = {
   searchSqueal,
   getAllSquealsByUser,
+  getAllSquealsByUserSmm,
   getAllSquealsInChannel,
   getAllSquealsInKeyword,
   createSqueal,
