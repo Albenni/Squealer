@@ -12,3 +12,4 @@ Da testare:
 
 - Ordinare gli squeal dei canali/keyword/user per data
 - Aggiungere nel group il nome anche delle keyword
+- Aggiungere exact match per le keyword e rendere le api uguali ai canali
