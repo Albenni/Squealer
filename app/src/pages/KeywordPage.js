@@ -2,18 +2,17 @@ import theme from "../config/theme";
 import { useEffect, useState } from "react";
 
 import TopBar from "../components/TopBar";
-import UserBar from "../components/UserBar";
 import PostList from "../components/posts/PostList";
 import { Spinner } from "react-bootstrap";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
 
-function AccountPage({ username }) {
+function KeywordPage({ keyword }) {
   const axiosInstance = useAxiosPrivate();
 
-  const [user, setUser] = useState({});
-  const [userposts, setUserposts] = useState([]);
+  const [keywordinfo, setKeywordInfo] = useState({});
+  const [keywordposts, setKeywordposts] = useState([]);
 
   // Scroll variables
   const [pageBottom, setPageBottom] = useState(false);
@@ -32,22 +31,22 @@ function AccountPage({ username }) {
   };
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    const getKeywordInfo = async () => {
       try {
-        const userInfoResponse = await axiosInstance.get(
-          config.endpoint.users + "?username=" + username + "&exactMatch=true"
+        const keywordInfoResponse = await axiosInstance.get(
+          config.endpoint.keywords + "?keyword=" + keyword + "&exactMatch=true"
         );
-        setUser(userInfoResponse.data);
+        setKeywordInfo(keywordInfoResponse.data);
 
         const userPostsResponse = await axiosInstance.get(
           config.endpoint.users +
             "/" +
-            userInfoResponse.data._id +
+            keywordInfoResponse.data._id +
             "/squeals?index=" +
             postindex
         );
 
-        setUserposts(userPostsResponse.data);
+        setKeywordposts(userPostsResponse.data);
         setPostIndex(postindex + 1);
 
         console.log(userPostsResponse.data);
@@ -56,7 +55,7 @@ function AccountPage({ username }) {
       }
     };
 
-    getUserInfo();
+    getKeywordInfo();
   }, [axiosInstance, username]);
 
   useEffect(() => {
@@ -65,7 +64,11 @@ function AccountPage({ username }) {
     if (pageBottom === false) {
       axiosInstance
         .get(
-          config.endpoint.users + "/" + user._id + "/squeals?index=" + postindex
+          config.endpoint.users +
+            "/" +
+            keyword._id +
+            "/squeals?index=" +
+            postindex
         )
         .then((response) => {
           if (response.status === 204) {
@@ -73,7 +76,7 @@ function AccountPage({ username }) {
             return;
           }
           setPostEnd(false);
-          setUserposts([...userposts, ...response.data]);
+          setKeywordposts([...keywordposts, ...response.data]);
           setPostIndex(postindex + 1);
         })
         .catch((error) => {
@@ -93,7 +96,7 @@ function AccountPage({ username }) {
         <TopBar />
       </div>
 
-      {!user ? (
+      {!keywordinfo ? (
         <div className="container">
           <p className="text-center py-3 pe-none">
             L'utente ricercato non esiste
@@ -107,16 +110,16 @@ function AccountPage({ username }) {
           }}
         >
           <div className="container">
-            <UserBar user={user} />
+            <UserBar user={keywordinfo} />
           </div>
 
           <div className="container">
-            {userposts.length === 0 ? (
+            {keywordposts.length === 0 ? (
               <p className="text-center py-3 pe-none">
                 L'utente non ha pubblicato nessun post
               </p>
             ) : (
-              <PostList getposts={userposts} />
+              <PostList getposts={keywordposts} />
             )}
           </div>
         </div>
@@ -130,4 +133,4 @@ function AccountPage({ username }) {
   );
 }
 
-export default AccountPage;
+export default KeywordPage;

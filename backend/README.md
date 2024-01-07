@@ -9,3 +9,6 @@ Da testare:
 - aggiunta/rimozione destinatari dagli squeal
 - delete reaction ad uno squeal
 - Modificare la quota giornaliera di caratteri in base alle reazioni ricevute
+
+- Ordinare gli squeal dei canali/keyword/user per data
+- Aggiungere nel group il nome anche delle keyword

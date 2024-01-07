@@ -71,7 +71,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
     axiosInstance
       .get(config.endpoint.squeals + "/" + postid + "/reactions")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.yourReac === undefined) return;
 
         // check which reaction has been returned and set the state accordingly (0...3)

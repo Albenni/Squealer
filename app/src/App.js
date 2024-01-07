@@ -12,7 +12,7 @@ import AccountPage from "./pages/AccountPage";
 import ChannelsPage from "./pages/ChannelsPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import loading from "./assets/Loading.gif";
-import KeywordsPage from "./pages/KeywordsPage";
+import KeywordPage from "./pages/KeywordPage";
 import ChannelPage from "./pages/ChannelPage";
 
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
@@ -124,7 +124,7 @@ export default function App() {
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="channels" element={<ChannelsPage />} />
                 <Route path="channel/:channelname" element={<Channel />} />
-                <Route path="keywords" element={<KeywordsPage />} />
+                <Route path="keyword/:keyword" element={<Keyword />} />
               </>
             )}
           </Route>
@@ -173,4 +173,10 @@ function Channel() {
   let { channelname } = useParams();
 
   return <ChannelPage channelname={channelname} />;
+}
+
+function Keyword() {
+  let { keyword } = useParams();
+
+  return <KeywordPage keyword={keyword} />;
 }
