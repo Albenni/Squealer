@@ -108,14 +108,11 @@ function SearchBar() {
       navigate("/" + wordEntered.slice(1), { replace: true });
     } else if (wordEntered[0] === "§") {
       navigate("/channel/" + wordEntered.slice(1), { replace: true });
-    } else {
-      sessionStorage.setItem("searchedkeyword", wordEntered.slice(1));
-      if (location.pathname !== "/keywords") {
-        navigate("/keywords", { replace: true });
-        return;
-      }
+    } else if (wordEntered[0] === "#") {
+      navigate("/keyword/" + wordEntered.slice(1), { replace: true });
     }
-    window.location.reload();
+
+    // window.location.reload();
   }
 
   function handleDropdownClick(event) {

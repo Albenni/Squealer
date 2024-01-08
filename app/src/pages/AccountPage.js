@@ -39,6 +39,8 @@ function AccountPage({ username }) {
         );
         setUser(userInfoResponse.data);
 
+        if (userInfoResponse.data._id === undefined) return;
+
         const userPostsResponse = await axiosInstance.get(
           config.endpoint.users +
             "/" +
@@ -94,9 +96,15 @@ function AccountPage({ username }) {
       </div>
 
       {!user ? (
-        <div className="container">
+        <div
+          className="container"
+          style={{
+            color: theme.colors.white,
+            fontWeight: "bold",
+          }}
+        >
           <p className="text-center py-3 pe-none">
-            L'utente ricercato non esiste
+            L'utente ricercato non esiste!
           </p>
         </div>
       ) : (

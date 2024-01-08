@@ -75,16 +75,16 @@ function Post({ item }) {
                     <div key={key}>
                       <div key={key}>
                         {receiver?.groupType === "Channel" ? "§" : "#"}
-                        {console.log(receiver)}
-                        {receiver.group?.name} e altri...
+                        {/* {console.log(receiver)} */}
+                        {receiver?.group?.name} e altri...
                       </div>
                     </div>
                   );
 
                 return (
                   <div key={key}>
-                    {receiver.groupType === "Channel" ? "§" : "#"}
-                    {receiver.group.name}
+                    {receiver?.groupType === "Channel" ? "§" : "#"}
+                    {receiver?.group?.name}
                   </div>
                 );
               })}

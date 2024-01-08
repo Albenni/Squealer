@@ -2,6 +2,7 @@ import theme from "../config/theme";
 import { useEffect, useState } from "react";
 
 import TopBar from "../components/TopBar";
+import KeywordBar from "../components/KeywordBar";
 import PostList from "../components/posts/PostList";
 import { Spinner } from "react-bootstrap";
 
@@ -36,20 +37,26 @@ function KeywordPage({ keyword }) {
         const keywordInfoResponse = await axiosInstance.get(
           config.endpoint.keywords + "?keyword=" + keyword + "&exactMatch=true"
         );
+
         setKeywordInfo(keywordInfoResponse.data);
 
-        const userPostsResponse = await axiosInstance.get(
-          config.endpoint.users +
+        console.log("Info: ");
+        console.log(keywordInfoResponse.data);
+
+        if (keywordInfoResponse.data._id === undefined) return;
+
+        const keywordPostsResponse = await axiosInstance.get(
+          config.endpoint.keywords +
             "/" +
             keywordInfoResponse.data._id +
             "/squeals?index=" +
             postindex
         );
+        console.log("Posts: ");
+        console.log(keywordPostsResponse.data);
 
-        setKeywordposts(userPostsResponse.data);
+        setKeywordposts(keywordPostsResponse.data);
         setPostIndex(postindex + 1);
-
-        console.log(userPostsResponse.data);
       } catch (err) {
         console.log(err);
       }
@@ -97,9 +104,15 @@ function KeywordPage({ keyword }) {
       </div>
 
       {!keywordinfo ? (
-        <div className="container">
+        <div
+          className="container"
+          style={{
+            color: theme.colors.white,
+            fontWeight: "bold",
+          }}
+        >
           <p className="text-center py-3 pe-none">
-            L'utente ricercato non esiste
+            La keyword ricercata non esiste!
           </p>
         </div>
       ) : (
@@ -109,14 +122,20 @@ function KeywordPage({ keyword }) {
             paddingTop: "10px",
           }}
         >
-          {/* <div className="container">
-            <UserBar user={keywordinfo} />
-          </div> */}
+          <div className="container">
+            <KeywordBar keywordinfo={keywordinfo} />
+          </div>
 
           <div className="container">
             {keywordposts.length === 0 ? (
-              <p className="text-center py-3 pe-none">
-                L'utente non ha pubblicato nessun post
+              <p
+                className="text-center py-3 pe-none"
+                style={{
+                  color: theme.colors.white,
+                  fontWeight: "bold",
+                }}
+              >
+                Nessuno ha ancora pubblicato post con questa keyword.
               </p>
             ) : (
               <PostList getposts={keywordposts} />
