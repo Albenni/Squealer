@@ -529,7 +529,7 @@ const removeReaction = async (req, res) => {
 };
 
 const addReceiver = async (req, res) => {
-  if (!req.authorized || !req.isMod) return res.sendStatus(403);
+  if (!req.authorized) return res.sendStatus(403);
 
   try {
     const { groupType } = req.body;

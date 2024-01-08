@@ -114,14 +114,13 @@ export class FeedTabComponent {
             );
           });
 
-          console.log(this.displayedReceivers);
-
           this.displayedSqueals = this.squeals;
         } else {
           this.getSqueals = [];
           this.squeals = [];
           this.displayedSqueals = [];
         }
+        console.log(this.displayedReceivers);
       });
   }
 
@@ -147,9 +146,35 @@ export class FeedTabComponent {
     }
   }
 
-  removeReceiver(squealIndex: number, receiverIndex: number) {
+  removeReceiver(squealId: string, receiverId: string) {
+    //receiverIndex is the index of the receiver in a single squeal
+    const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers'+ '/' + receiverId;
 
-    
+    console.log(url);
+
+    this.http.delete(url).pipe(
+      catchError((error: any) => {
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe((data) => {
+      this.uploadSqueals();
+    });
+  }
+  addReceiver(squealId: string) {
+
+    const receiverId = ''
+/*     (<HTMLInputElement>document.getElementById('receiverId')).value;
+ */    const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers'+ '/' + receiverId;
+
+    this.http.delete(url).pipe(
+      catchError((error: any) => {
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      })
+    ).subscribe((data) => {
+      this.uploadSqueals();
+    });
   }
   openConfirmationModal(squealIndex: number) {}
   getReactions(squeal: SquealsInfo) {

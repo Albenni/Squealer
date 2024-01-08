@@ -40,6 +40,8 @@ export class GeolocalizationPostComponent implements OnInit, OnDestroy {
   }
 
   private onMapClick(e: L.LeafletMouseEvent): void {
+    const latlng = e.latlng;
+    this.locationChange.emit(`${latlng.lat}, ${latlng.lng}`);
     this.updateMarker(e.latlng);
   }
 

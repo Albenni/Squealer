@@ -29,22 +29,22 @@
                 <button mat-icon-button [matMenuTriggerFor]="menu" class="btn " data-toggle="dropdown"
                     type="button"><mat-icon>expand_more</mat-icon></button>
                 <mat-menu #menu="matMenu" style="width: 20rem;">
-                    <div matMenuItem class="m-2 row ">
-                        <p class="col-10">Aggiungi destinatario </p>
-                        <button class="col-3" mat-icon-button> <mat-icon>add</mat-icon></button>
+                    <div matMenuItem class="m-2 " style="display: flex; justify-content: center; align-items: center;">
+                        <p style="text-align: center;">Aggiungi destinatario </p>
+                        <button class="pt-1" mat-icon-button (click)="addReceiver(squeal._id)"> <mat-icon>add</mat-icon></button>
                     </div>
                     <mat-divider></mat-divider>
                     <p class="m-2" style="text-align: center;">Rimuovi destinatario</p>
                     <ng-container matMenuItem
                         *ngFor="let receiver of displayedReceivers[index]; let receiverIndex = index">
-                        <div class="row p-3">
-                            <div class="col-8">
-                                <p>{{ receiver.group.infoName }}</p>
-
+                        <div class="row mx-3 my-1" style="border-radius: 2%; background-color: rgba(33, 37, 41, 0.07); ">
+                            <div class="col-8" >
+                                <p *ngIf="receiver.groupType == 'Channel'" style="padding-top: 8%;">§{{ receiver.group.infoName }}</p>
+                                <p *ngIf="receiver.groupType == 'Keyword'" style="padding-top: 8%;">#{{ receiver.group.infoName }}</p>
 
                             </div>
                             <button class="col-4" mat-icon-button
-                                (click)="squeal.receivers.length > 1 ? removeReceiver(index, receiverIndex) : openConfirmationModal(index)">
+                                (click)="squeal.receivers.length > 1 ? removeReceiver(squeal._id, receiver.group._id) : openConfirmationModal(index)">
                                 <mat-icon>
                                     delete_forever
                                 </mat-icon> </button>
