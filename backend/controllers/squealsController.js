@@ -103,7 +103,6 @@ const getAllSquealsInChannel = async (req, res) => {
     "receivers.group": req.params.channelId,
     publicSqueal: false,
   })
-
     .populate("receivers.group", "name private editorialChannel profilePic")
     .skip(squealLengthBlock * index)
     .limit(squealLengthBlock * (index + 1))
@@ -133,8 +132,7 @@ const getAllSquealsInKeyword = async (req, res) => {
     "receivers.group": req.params.keywordId,
     publicSqueal: false,
   })
-
-    .populate("receivers.group", "name private editorialChannel profilePic")
+    .populate("receivers.group", "name profilePic")
     .skip(squealLengthBlock * index)
     .limit(squealLengthBlock * (index + 1))
     .exec();
