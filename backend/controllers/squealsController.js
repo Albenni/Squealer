@@ -562,7 +562,7 @@ const addReceiver = async (req, res) => {
 };
 
 const removeReceiver = async (req, res) => {
-  if (!req.authorized || !req.isMod) return res.sendStatus(403);
+  if (!req.authorized ) return res.sendStatus(403);
 
   try {
     const squealId = req.params.squealId;
