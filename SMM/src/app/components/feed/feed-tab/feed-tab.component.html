@@ -21,8 +21,44 @@
                     [idVideo]="squeal._id"></app-video-format>
             </div>
         </div>
-        <div class="card-footer text-body-secondary py-0 px-1 row" style="font-size: smaller; width: 18rem;">
-            <div class="col-9 p-0 mt-3" style="font-size: small;"> {{squeal.convertedDate}}
+        <div class="card-footer text-body-secondary py-0 px-1 row" [id]="'cardFooterContainer-' + index"
+            [style.width]="displayedReceivers[index].length > 0 ? '22rem' : '18rem'"
+            style="font-size: smaller; width: 18rem;">
+            <div class="col-2 p-0 " *ngIf="displayedReceivers[index].length > 0" [id]="'receiversBtnContainer-' + index"
+                dropdown>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="btn " data-toggle="dropdown"
+                    type="button"><mat-icon>expand_more</mat-icon></button>
+                <mat-menu #menu="matMenu" style="width: 20rem;">
+                    <div matMenuItem class="m-2 row ">
+                        <p class="col-10">Aggiungi destinatario </p>
+                        <button class="col-3" mat-icon-button> <mat-icon>add</mat-icon></button>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <p class="m-2" style="text-align: center;">Rimuovi destinatario</p>
+                    <ng-container matMenuItem
+                        *ngFor="let receiver of displayedReceivers[index]; let receiverIndex = index">
+                        <div class="row p-3">
+                            <div class="col-8">
+                                <p>{{ receiver.group.infoName }}</p>
+
+
+                            </div>
+                            <button class="col-4" mat-icon-button
+                                (click)="squeal.receivers.length > 1 ? removeReceiver(index, receiverIndex) : openConfirmationModal(index)">
+                                <mat-icon>
+                                    delete_forever
+                                </mat-icon> </button>
+                        </div>
+
+                    </ng-container>
+                </mat-menu>
+
+
+            </div>
+
+
+            <div [class]="displayedReceivers[index].length > 0 ? 'col-7' : 'col-9'" class="p-0 mt-3"
+                style="font-size: small;" [id]="'convertedDateContainer-' + index"> {{squeal.convertedDate}}
             </div>
             <div class="col-3 p-0"><button mat-icon-button (click)="openCommentModal(index)"
                     aria-label="Icon button with a comment icon">
@@ -62,9 +98,9 @@
                     <div class="my-1" style="text-align: center;">
                         <p class="m-0">{{comment.content}}</p>
                     </div>
-                    <mat-divider ></mat-divider>
+                    <mat-divider></mat-divider>
 
-                    <div >
+                    <div>
                         <p style="font-style: italic;" class="m-0 mx-2 mt-1">@{{comment.usernameAuthor}}</p>
                     </div>
                 </div>

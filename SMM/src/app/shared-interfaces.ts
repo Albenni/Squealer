@@ -50,17 +50,49 @@ export interface Characters {
   monthly: number;
 }
 
+export interface Group {
+  _id: string;
+  name: string;
+  private: boolean;
+  editorialChannel: boolean;
+  profilePic: string;
+}
+
+export interface Receiver{
+  group: Group;
+  groupType: string;
+  _id: string;
+}
+
+export interface GroupInfo {
+  _id: string;
+  infoName: string;
+  private: boolean;
+  editorialChannel: boolean;
+  profilePic: string;
+}
+
+export interface ReceiverInfo{
+  group: GroupInfo;
+  groupType: string;
+  _id: string;
+}
+
+
+
 export interface SquealsResponse {
   _id: string;
   author: string;
   publicSqueal: boolean;
+  receivers: Receiver[];
   officialChannel: boolean;
   content: string;
   contentType: string;
   impression: number;
   createdAt: string;
+  tempGeolocation: boolean;
   __v: number;
-  receivers: string[];
+  category: string;
 }
 
 export interface SquealsInfo{
@@ -72,6 +104,11 @@ export interface SquealsInfo{
   contentType: string;
   impression: number;
   createdAt: string;
+  __v: number;
+  receivers: Receiver[];
+  category: string;
+  tempGeolocation: boolean;
+  
   convertedDate: string;
   neg0Reac: number;
   neg1Reac: number;
@@ -79,8 +116,6 @@ export interface SquealsInfo{
   pos3Reac: number;
   weightedPosReac: number;
   weightedNegReac: number;
-  __v: number;
-  receivers: string[];
 }
 
 export interface GetReactionResponse {

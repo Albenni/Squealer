@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   SimpleChanges,
   ViewChild,
@@ -15,15 +14,23 @@ import {
   GetCommentResponse,
   CommentInfo,
   GetInfosVip,
+  ReceiverInfo,
+  Receiver,
 } from '../../../shared-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
+import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 @Component({
   selector: 'app-feed-tab',
   templateUrl: './feed-tab.component.html',
   styleUrls: ['./feed-tab.component.css'],
+  providers: [
+    {
+      provide: BsDropdownConfig,
+      useValue: { isAnimated: true, autoClose: true },
+    },
+  ],
 })
 export class FeedTabComponent {
   modalRef?: BsModalRef;
@@ -38,6 +45,7 @@ export class FeedTabComponent {
 
   comments: GetCommentResponse[] = [];
   displayedComments: CommentInfo[] = [];
+  displayedReceivers: ReceiverInfo[][] = [];
   idPostToDelete: string = '';
 
   existComments: boolean = false;
@@ -47,10 +55,6 @@ export class FeedTabComponent {
     private http: HttpClient,
     private modalService: BsModalService
   ) {}
-
-  ngOnInit() {
-    this.uploadSqueals();
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -67,7 +71,7 @@ export class FeedTabComponent {
       .get<SquealsResponse[]>(
         'http://localhost:3500/api/users/' +
           sessionStorage.getItem('vipId') +
-          '/squeals'
+          '/squeals/smm'
       )
       .pipe(
         catchError((error: any) => {
@@ -89,7 +93,7 @@ export class FeedTabComponent {
               contentType: squeal.contentType,
               impression: squeal.impression,
               createdAt: squeal.createdAt,
-              convertedDate: '', 
+              convertedDate: '',
               neg0Reac: 0,
               neg1Reac: 0,
               pos2Reac: 0,
@@ -97,12 +101,20 @@ export class FeedTabComponent {
               weightedPosReac: 0,
               weightedNegReac: 0,
               __v: squeal.__v,
+              category: squeal.category,
+              tempGeolocation: squeal.tempGeolocation,
             };
           });
-          this.squeals.forEach((squeal) => {
+
+          this.squeals.forEach((squeal, index) => {
             this.convertDate(squeal);
             this.getReactions(squeal);
+            this.displayedReceivers[index] = this.convertReceivers(
+              squeal.receivers
+            );
           });
+
+          console.log(this.displayedReceivers);
 
           this.displayedSqueals = this.squeals;
         } else {
@@ -112,6 +124,34 @@ export class FeedTabComponent {
         }
       });
   }
+
+  convertReceivers(receivers: Receiver[]): ReceiverInfo[] {
+    if (receivers.length === 0) {
+      // If the receivers array is empty, return an empty array
+      return [];
+    } else {
+      // Convert each receiver to ReceiverInfo format
+      return receivers.map((receiver) => {
+        return {
+          _id: receiver._id,
+          groupType: receiver.groupType,
+          group: {
+            _id: receiver.group._id,
+            infoName: receiver.group.name,
+            private: receiver.group.private,
+            editorialChannel: receiver.group.editorialChannel,
+            profilePic: receiver.group.profilePic,
+          },
+        };
+      });
+    }
+  }
+
+  removeReceiver(squealIndex: number, receiverIndex: number) {
+
+    
+  }
+  openConfirmationModal(squealIndex: number) {}
   getReactions(squeal: SquealsInfo) {
     this.http
       .get<GetReactionResponse>(
