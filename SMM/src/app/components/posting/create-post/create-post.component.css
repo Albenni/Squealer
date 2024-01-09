@@ -8,7 +8,8 @@
   font-weight: 600;
   letter-spacing: 2px;
   background-color: white;
-  color: #6269e488;
+  font-size: large;
+  color: #131ddd88;
   overflow: hidden;
   box-shadow: 0 0 0 0 transparent;
   -webkit-transition: all 0.2s ease-in;
@@ -128,4 +129,9 @@ button:active {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
+}
+.responseErr {
+  color: rgb(189, 0, 0);
+  text-decoration: underline;
+  padding-left: 0.8rem;
 }

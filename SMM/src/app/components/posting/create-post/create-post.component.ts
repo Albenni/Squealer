@@ -23,6 +23,7 @@ import { ChannelSelectorComponent } from '../channel-selector/channel-selector.c
 export class CreatePostComponent {
   contentChoice: string = '';
   activePubTab: string = 'pubblico';
+  notEnoughCharsAlert: boolean = false;
 
   textValue: string = '';
   imgValue: string | File | null = null;
@@ -110,7 +111,9 @@ export class CreatePostComponent {
 
       this.http.post<SquealsResponse>(url, formData).pipe(
         catchError((error: any) => {
-          console.error('Si è verificato un errore:', error);
+          if (error.error.message === 'Not enough character available'){
+            this.notEnoughChars();
+          }
           return throwError('Errore gestito');
         })
       ).subscribe((data) => {
@@ -118,6 +121,24 @@ export class CreatePostComponent {
         location.reload();
       });
     
+  }
+
+  notEnoughChars() {
+    this.notEnoughCharsAlert = true;
+    
+  }
+  buy200Chars() {
+    const url = 'http://localhost:3500/api/users/'+sessionStorage.getItem('vipId')+'/charAvailable';
+    this.http.post<GetCharsResponse>(url, {
+      char: 200,
+      }).pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      ).subscribe((data) => {
+        this.getChars();
+      });
   }
 
   updateReceivers(receivers: { id: string; type: string; channel: string }[]) {
@@ -152,6 +173,7 @@ export class CreatePostComponent {
         this.countChars.daily = data.dailyChar;
         this.countChars.weekly = data.weeklyChar;
         this.countChars.monthly = data.monthlyChar;
+        this.notEnoughCharsAlert = false;
       });
   }
 

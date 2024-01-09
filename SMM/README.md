@@ -11,6 +11,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 Da fare:
--visualizzazione se il post è di tipo pubblico o privato e in caso i ricevitori
+-rimuovere receivers
+-mostrare alert se finisci i caratteri, comprarli d'emergenza
 
 Da fixare:
