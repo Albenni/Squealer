@@ -52,7 +52,7 @@
             </div>
             <div *ngIf="contentChoice == 'text'">
                 <app-text-post [countChars]="countChars" [characters]="characters" (textChange)="onTextChange($event)"
-                    style="width: 100%; "></app-text-post>
+                  (tooManyEmergencyChars)="tooManyEmergencyChars($event)"  style="width: 100%; "></app-text-post>
             </div>
             <div *ngIf="contentChoice == 'image'"> <app-img-post (imgChange)="onImgChange($event)"></app-img-post>
             </div>
@@ -65,6 +65,15 @@
         </div>
         <div *ngIf="notEnoughCharsAlert">
             <p class="responseErr mb-0"> Non hai abbastanza caratteri per pubblicare questo post.
+            </p>
+            <br>
+            <p class=" px-3">Per effettuare un acquisto di emergenza di 200 caratteri a prezzo maggiorato clicca <button
+                class="btn btn-light " id="buy200Chars" (click)="buy200Chars()" style="text-decoration: underline;">
+                QUI</button></p>
+            
+        </div>
+        <div *ngIf="tooManyEmergencyCharsAlert">
+            <p class="responseErr mb-0"> Non puoi continuare a scrivere questo squeal senza acquistare caratteri aggiuntivi.
             </p>
             <br>
             <p class=" px-3">Per effettuare un acquisto di emergenza di 200 caratteri a prezzo maggiorato clicca <button

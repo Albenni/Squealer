@@ -17,12 +17,30 @@ export class TextPostComponent {
     monthly: 0,
   };
   @Output() textChange: EventEmitter<string> = new EventEmitter();
+  @Output() tooManyEmergencyChars: EventEmitter<boolean> = new EventEmitter();
 
+  maxLengthChars: number = 0;
   textValue: string = '';
+  ngOnInit() {
+    this.maxLengthChars = this.maxLength();
+  }
   onInputChange(): void {
+
     this.countChars.daily = this.characters.daily - this.textValue.length;
     this.countChars.weekly = this.characters.weekly - this.textValue.length;
     this.countChars.monthly = this.characters.monthly - this.textValue.length;
-    this.textChange.emit(this.textValue);
+
+    if( this.countChars.daily < -199 || this.countChars.weekly < -199 || this.countChars.monthly < -199){
+      this.tooManyEmergencyChars.emit(true);
+    } else {
+      this.tooManyEmergencyChars.emit(false);
+    }
+      this.textChange.emit(this.textValue);
+  }
+
+  maxLength(){
+    let min = Math.min(this.characters.daily,this.characters.weekly,this.characters.monthly);
+    console.log(min + 200);
+    return min+200;
   }
 }

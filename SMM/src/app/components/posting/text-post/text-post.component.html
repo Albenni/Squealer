@@ -1,7 +1,7 @@
 <textarea
 placeholder="Scrivi qui il tuo Squeal..."
 required="true"
-[maxlength]="countChars.daily"
+[maxlength]="maxLengthChars"
 [(ngModel)]="textValue"
 (input)="onInputChange()"
 style="width: 80%; margin-left: 2rem; margin-top: 1rem; margin-bottom: 1rem; padding: 0.5rem;"

@@ -24,7 +24,7 @@ export class CreatePostComponent {
   contentChoice: string = '';
   activePubTab: string = 'pubblico';
   notEnoughCharsAlert: boolean = false;
-
+  tooManyEmergencyCharsAlert: boolean = false;
   textValue: string = '';
   imgValue: string | File | null = null;
   videoValue: string | File | null = null;
@@ -60,7 +60,7 @@ export class CreatePostComponent {
   ) {}
 
   ngOnInit() {
-    this.getChars();
+    this.getChars(false);
   }
 
   ngAfterViewInit() {}
@@ -105,39 +105,53 @@ export class CreatePostComponent {
       formData.append('publicSqueal', 'true');
     }
 
-      const url = `http://localhost:3500/api/users/${sessionStorage.getItem(
-        'vipId'
-      )}/squeals`;
+    const url = `http://localhost:3500/api/users/${sessionStorage.getItem(
+      'vipId'
+    )}/squeals`;
 
-      this.http.post<SquealsResponse>(url, formData).pipe(
+    this.http
+      .post<SquealsResponse>(url, formData)
+      .pipe(
         catchError((error: any) => {
-          if (error.error.message === 'Not enough character available'){
+          if (error.error.message === 'Not enough character available') {
             this.notEnoughChars();
           }
           return throwError('Errore gestito');
         })
-      ).subscribe((data) => {
+      )
+      .subscribe((data) => {
         this.modalRef?.hide();
         location.reload();
       });
-    
+  }
+  tooManyEmergencyChars(event: boolean) {
+    if (event) {
+      this.tooManyEmergencyCharsAlert = true;
+    } else {
+      this.tooManyEmergencyCharsAlert = false;
+    }
   }
 
   notEnoughChars() {
     this.notEnoughCharsAlert = true;
-    
   }
   buy200Chars() {
-    const url = 'http://localhost:3500/api/users/'+sessionStorage.getItem('vipId')+'/charAvailable';
-    this.http.post<GetCharsResponse>(url, {
-      char: 200,
-      }).pipe(
+    const url =
+      'http://localhost:3500/api/users/' +
+      sessionStorage.getItem('vipId') +
+      '/charAvailable';
+    this.http
+      .post<GetCharsResponse>(url, {
+        char: 200,
+      })
+      .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');
         })
-      ).subscribe((data) => {
-        this.getChars();
+      )
+      .subscribe((data) => {
+        this.getChars(true);
       });
   }
 
@@ -153,7 +167,7 @@ export class CreatePostComponent {
     this.modalRef = this.modalService.show(template);
   }
 
-  getChars() {
+  getChars(onEmergency: boolean) {
     this.http
       .get<GetCharsResponse>(
         'http://localhost:3500/api/users/' +
@@ -170,9 +184,12 @@ export class CreatePostComponent {
         this.characters.daily = data.dailyChar;
         this.characters.weekly = data.weeklyChar;
         this.characters.monthly = data.monthlyChar;
-        this.countChars.daily = data.dailyChar;
-        this.countChars.weekly = data.weeklyChar;
-        this.countChars.monthly = data.monthlyChar;
+        if (!onEmergency) {
+          this.countChars.daily = data.dailyChar;
+          this.countChars.weekly = data.weeklyChar;
+          this.countChars.monthly = data.monthlyChar;
+        }
+
         this.notEnoughCharsAlert = false;
       });
   }

@@ -12,6 +12,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 -rimuovere receivers
--mostrare alert se finisci i caratteri, comprarli d'emergenza
 
 Da fixare:
