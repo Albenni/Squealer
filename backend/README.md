@@ -14,3 +14,5 @@ Da testare:
 - Aggiungere nel group il nome anche delle keyword
 - Aggiungere exact match per le keyword e rendere le api uguali ai canali
 - Aggiungere get followers per le keyword
+
+-Controllare label category per gli squeals

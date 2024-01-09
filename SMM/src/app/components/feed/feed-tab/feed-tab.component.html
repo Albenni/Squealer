@@ -4,16 +4,15 @@
     <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center"
         style="align-items: center;">
 
-        <div *ngIf="squeal.publicSqueal==true">
-            <p style="font-style: italic;">
-                Pubblico
-            </p>
+        <div style="width: 20rem;font-style: italic;" *ngIf="squeal.publicSqueal==true" class="row">
+            <p class="col-6" style="text-align: start;"> Pubblico</p>
+            <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squeal.category)}">{{squeal.category}}</p>
         </div>
-        <div *ngIf="squeal.publicSqueal !== true">
-            <p style="font-style: italic;">
-                Privato
-            </p>
+        <div style="width: 20rem;font-style: italic;" *ngIf="squeal.publicSqueal!==true" class="row">
+            <p class="col-6" style="text-align: start;"> Privato</p>
+            <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squeal.category)}">{{squeal.category}}</p>
         </div>
+                     
         <div class="card-header row  py-0 px-1" style="width: 18rem;">
             <app-reactions-card-header class="col-9 mt-3" [neg0Reac]="squeal.neg0Reac" [neg1Reac]="squeal.neg1Reac"
                 [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>

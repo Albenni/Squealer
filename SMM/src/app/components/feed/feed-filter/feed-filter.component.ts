@@ -13,6 +13,7 @@ export class FeedFilterComponent {
   filterParams: FilterParams = {
     orderBy: 'oldest',
     contentTypes: ['all'], 
+    contentPopularity: ['all'],
   };
 
   applyFilter(form: NgForm) {

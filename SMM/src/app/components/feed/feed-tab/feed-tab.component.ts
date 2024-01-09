@@ -117,6 +117,8 @@ export class FeedTabComponent {
             );
           });
 
+          console.log(this.squeals);
+
           this.displayedSqueals = this.squeals;
         } else {
           this.getSqueals = [];
@@ -336,7 +338,11 @@ export class FeedTabComponent {
         filterParams.contentTypes.includes(squeal.contentType)
       );
     }
-
+    if (!filterParams.contentPopularity.includes('all')) {
+      filteredSqueals = filteredSqueals.filter(squeal =>
+        filterParams.contentPopularity.includes(squeal.category)
+      );
+    }
     switch (filterParams.orderBy) {
       case 'recent':
         filteredSqueals = filteredSqueals.sort((a, b) => {
@@ -377,5 +383,17 @@ export class FeedTabComponent {
     }
 
     this.displayedSqueals = filteredSqueals;
+  }
+  getColor(category: string): string {
+    switch (category) {
+      case 'popolare':
+        return 'green';
+      case 'impopolare':
+        return 'red';
+      case 'controverso':
+        return 'sandybrown';
+      default:
+        return 'black'; // default color
+    }
   }
 }

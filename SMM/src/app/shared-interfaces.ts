@@ -138,6 +138,7 @@ export interface CommentInfo {
 export interface FilterParams {
   orderBy: string;
   contentTypes: string[];
+  contentPopularity: string[];
 }
 export interface Vip {
   id: string;

@@ -14,13 +14,23 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="px-2 pt-2">
-            <mat-label>Mostra:</mat-label>
+            <mat-label>Seleziona per contenuto:</mat-label>
             <mat-select name="contentTypes" [(ngModel)]="filterParams.contentTypes" multiple>
                 <mat-option value="all">Tutti</mat-option>
                 <mat-option value="text">Testo</mat-option>
                 <mat-option value="image">Immagine</mat-option>
                 <mat-option value="video">Video</mat-option>
                 <mat-option value="geolocalization">Geolocalizzazione</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="px-2 pt-2">
+            <mat-label>Seleziona per popolarità:</mat-label>
+            <mat-select name="contentPopularity" [(ngModel)]="filterParams.contentPopularity" multiple>
+                <mat-option value="all">Tutti</mat-option>
+                <mat-option value="popolare">Popolari</mat-option>
+                <mat-option value="impopolare">Impopolari</mat-option>
+                <mat-option value="controverso">Controversi</mat-option>
             </mat-select>
         </mat-form-field>
 
