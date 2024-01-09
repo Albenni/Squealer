@@ -46,6 +46,9 @@ export class FeedTabComponent {
   comments: GetCommentResponse[] = [];
   displayedComments: CommentInfo[] = [];
   displayedReceivers: ReceiverInfo[][] = [];
+
+  receiversToAdd: { id: string; type: string; channel: string }[] = [];
+
   idPostToDelete: string = '';
 
   existComments: boolean = false;
@@ -120,7 +123,6 @@ export class FeedTabComponent {
           this.squeals = [];
           this.displayedSqueals = [];
         }
-        console.log(this.displayedReceivers);
       });
   }
 
@@ -148,33 +150,53 @@ export class FeedTabComponent {
 
   removeReceiver(squealId: string, receiverId: string) {
     //receiverIndex is the index of the receiver in a single squeal
-    const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers'+ '/' + receiverId;
+    const url =
+      'http://localhost:3500/api/squeals/' +
+      squealId +
+      '/receivers' +
+      '/' +
+      receiverId;
 
     console.log(url);
 
-    this.http.delete(url).pipe(
-      catchError((error: any) => {
-        console.error('Si è verificato un errore:', error);
-        return throwError('Errore gestito');
-      })
-    ).subscribe((data) => {
-      this.uploadSqueals();
-    });
+    this.http
+      .delete(url)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        this.uploadSqueals();
+      });
   }
-  addReceiver(squealId: string) {
 
-    const receiverId = ''
-/*     (<HTMLInputElement>document.getElementById('receiverId')).value;
- */    const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers'+ '/' + receiverId;
+  updateReceivers(receivers: { id: string; type: string; channel: string }[]) {
+    this.receiversToAdd = receivers;
 
-    this.http.delete(url).pipe(
-      catchError((error: any) => {
-        console.error('Si è verificato un errore:', error);
-        return throwError('Errore gestito');
-      })
-    ).subscribe((data) => {
-      this.uploadSqueals();
-    });
+  }
+  addReceivers(squealId: string) {
+    //per ogni receiversToAdd
+    this.receiversToAdd.forEach((receiver) => {
+      const receiverId = receiver.id;
+      const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers/' + receiverId;
+        
+      this.http
+      .post(url, {groupType: receiver.type})
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        console.log('Aggiunto receiver' + receiver.channel);
+      }); 
+    }); 
+      
+    location.reload();
+
   }
   openConfirmationModal(squealIndex: number) {}
   getReactions(squeal: SquealsInfo) {

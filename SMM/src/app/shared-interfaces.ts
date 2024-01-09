@@ -78,8 +78,6 @@ export interface ReceiverInfo{
   _id: string;
 }
 
-
-
 export interface SquealsResponse {
   _id: string;
   author: string;

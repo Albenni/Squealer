@@ -3,6 +3,17 @@
     style="flex-wrap: wrap; list-style-type: none; align-items: center; justify-content: center; ">
     <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center"
         style="align-items: center;">
+
+        <div *ngIf="squeal.publicSqueal==true">
+            <p style="font-style: italic;">
+                Pubblico
+            </p>
+        </div>
+        <div *ngIf="squeal.publicSqueal !== true">
+            <p style="font-style: italic;">
+                Privato
+            </p>
+        </div>
         <div class="card-header row  py-0 px-1" style="width: 18rem;">
             <app-reactions-card-header class="col-9 mt-3" [neg0Reac]="squeal.neg0Reac" [neg1Reac]="squeal.neg1Reac"
                 [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>
@@ -29,9 +40,10 @@
                 <button mat-icon-button [matMenuTriggerFor]="menu" class="btn " data-toggle="dropdown"
                     type="button"><mat-icon>expand_more</mat-icon></button>
                 <mat-menu #menu="matMenu" style="width: 20rem;">
-                    <div matMenuItem class="m-2 " style="display: flex; justify-content: center; align-items: center;">
+                    <div matMenuItem class="m-2 " style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
                         <p style="text-align: center;">Aggiungi destinatario </p>
-                        <button class="pt-1" mat-icon-button (click)="addReceiver(squeal._id)"> <mat-icon>add</mat-icon></button>
+                        <app-channel-selector (receiversChange)="updateReceivers($event)"></app-channel-selector>
+                        <button class="btn btn-light pt-1"  (click)="addReceivers(squeal._id)">Aggiungi tutti</button>
                     </div>
                     <mat-divider></mat-divider>
                     <p class="m-2" style="text-align: center;">Rimuovi destinatario</p>

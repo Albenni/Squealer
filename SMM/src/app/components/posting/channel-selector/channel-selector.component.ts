@@ -27,7 +27,9 @@ export class ChannelSelectorComponent {
     this.receiversChange.emit(this.receivers);
   }
 
-  async addReceiver() {
+  async addReceiver(event:Event) {
+    event.stopPropagation();
+
     const inputElement = document.querySelector<HTMLInputElement>('#inputReceiver');
     if (!inputElement || inputElement.value.trim() === '') return;
   
@@ -76,7 +78,9 @@ export class ChannelSelectorComponent {
     return false
   }
   
-  deleteReceiver(index: number) {
+  deleteReceiver(index: number, event: Event) {
+    event.stopPropagation();
+
     if (index > -1 && index < this.receivers.length) {
       this.receivers.splice(index, 1);
       this.receiversNumber--; // Update the count of receivers
@@ -106,7 +110,11 @@ export class ChannelSelectorComponent {
   }
   
 
-  chooseChannel(channel: string) {
+  chooseChannel(channel: string, event: Event) {
+    event.stopPropagation();
     this.channelChoice = channel;
+  }
+  stopEventPropagation(event: Event): void {
+    event.stopPropagation();
   }
 }
