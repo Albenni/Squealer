@@ -117,8 +117,6 @@ export class FeedTabComponent {
             );
           });
 
-          console.log(this.squeals);
-
           this.displayedSqueals = this.squeals;
         } else {
           this.getSqueals = [];

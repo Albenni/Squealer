@@ -1,12 +1,27 @@
 <div class="row">
     <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
-        <h1 style="text-align: center; font-style: italic;">Squeal più popolare:</h1>
+        <h1 style="text-align: center; font-style: italic; " class="mb-0">Squeal più popolare:</h1>
         <app-squeal-format [squealInput]="mostPopularSqueal"></app-squeal-format>
+        <h1 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più visualizzato:</h1>
+        <app-squeal-format [squealInput]="mostViewedSqueal"></app-squeal-format>
+        <h1 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più breve:</h1>
+        <app-squeal-format *ngIf="isShortestSquealNotEmpty" [squealInput]="shortestSqueal"></app-squeal-format>
+        <div *ngIf="!isShortestSquealNotEmpty" style="font-size: large; margin-top: 3%;">Non è ancora presente nessuno squeal di testo...</div>
 
     </div>
-    <mat-divider class="col-1 vertical-divider" [vertical]="true" style="border-right-color: rgba(0, 0, 0, 0.3); "></mat-divider>
+    <mat-divider class="col-1 vertical-divider" [vertical]="true"
+        style="border-right-color: rgba(0, 0, 0, 0.3); "></mat-divider>
     <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
-        <h1 style="text-align: center; font-style: italic;">Squeal più impopolare:</h1>
-        <app-squeal-format [squealInput]="mostUnpopularSqueal"></app-squeal-format>
+        <h1 style="text-align: center; font-style: italic;" class="mb-0">Squeal più impopolare:</h1>
+        <app-squeal-format [squealInput]="leastPopularSqueal"></app-squeal-format>
+
+        <h1 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal meno visualizzato:</h1>
+        <app-squeal-format [squealInput]="leastViewedSqueal"></app-squeal-format>
+
+        <h1 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più lungo:</h1>
+        <app-squeal-format *ngIf="isLongestSquealNotEmpty"  [squealInput]="longestSqueal"></app-squeal-format>
+        <div *ngIf="!isLongestSquealNotEmpty" style="font-size: large; margin-top: 3%;">Non è ancora presente nessuno squeal di testo...</div>
+
     </div>
 </div>
+

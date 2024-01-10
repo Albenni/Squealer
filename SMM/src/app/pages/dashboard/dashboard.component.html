@@ -64,7 +64,7 @@
     </div>
 
     <div *ngIf="activeTab == 'trend'" id="dashTrendTab">
-        <app-trend-tab></app-trend-tab>
+        <app-trend-tab [refreshFeed]="refreshFeed"></app-trend-tab>
     </div>
 
 </div>
