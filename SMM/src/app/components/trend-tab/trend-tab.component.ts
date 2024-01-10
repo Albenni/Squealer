@@ -1,12 +1,21 @@
-import { Component, SimpleChanges, Input } from '@angular/core';
+import {
+  Component,
+  SimpleChanges,
+  Input,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, of } from 'rxjs';
 import {
   SquealsResponse,
   SquealsInfo,
   GetReactionResponse,
+  GetCommentResponse,
 } from '../../shared-interfaces';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-trend-tab',
   templateUrl: './trend-tab.component.html',
@@ -15,8 +24,12 @@ import {
 export class TrendTabComponent {
   @Input() refreshFeed: boolean = false;
 
+  modalRef?: BsModalRef;
+  @ViewChild('infosModal') infosModal?: TemplateRef<any>;
+
   getSqueals: SquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
+  existSqueals: boolean = false;
 
   mostPopularSqueal: SquealsInfo = {} as SquealsInfo;
   leastPopularSqueal: SquealsInfo = {} as SquealsInfo;
@@ -24,8 +37,13 @@ export class TrendTabComponent {
   leastViewedSqueal: SquealsInfo = {} as SquealsInfo;
   shortestSqueal: SquealsInfo = {} as SquealsInfo;
   longestSqueal: SquealsInfo = {} as SquealsInfo;
+  mostInteractedSqueal: SquealsInfo = {} as SquealsInfo;
+  leastInteractedSqueal: SquealsInfo = {} as SquealsInfo;
+  monthlySqueal: SquealsInfo = {} as SquealsInfo;
 
-  constructor(private http: HttpClient) {}
+  commentsNumber: number[] = [];
+
+  constructor(private http: HttpClient, private modalService: BsModalService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -33,7 +51,6 @@ export class TrendTabComponent {
       changes['refreshFeed'].currentValue !==
         changes['refreshFeed'].previousValue
     ) {
-      console.log('Trend tab refresh');
       this.uploadSqueals();
     }
   }
@@ -52,6 +69,7 @@ export class TrendTabComponent {
       )
       .subscribe((data) => {
         if (data) {
+          this.existSqueals = true;
           this.getSqueals = data;
           this.squeals = this.getSqueals.map((squeal) => {
             return {
@@ -85,6 +103,7 @@ export class TrendTabComponent {
             this.getSquealsInfo();
           });
         } else {
+          this.existSqueals = false;
           this.getSqueals = [];
           this.squeals = [];
           this.mostPopularSqueal = {} as SquealsInfo;
@@ -93,6 +112,9 @@ export class TrendTabComponent {
           this.leastViewedSqueal = {} as SquealsInfo;
           this.shortestSqueal = {} as SquealsInfo;
           this.longestSqueal = {} as SquealsInfo;
+          this.monthlySqueal = {} as SquealsInfo; 
+          this.mostInteractedSqueal = {} as SquealsInfo;
+          this.leastInteractedSqueal = {} as SquealsInfo;
         }
       });
   }
@@ -114,6 +136,25 @@ export class TrendTabComponent {
       return prev.impression < current.impression ? prev : current;
     });
 
+    this.mostInteractedSqueal = this.squeals.reduce((prev, current) => {
+      if(current.weightedNegReac === 0 && current.weightedPosReac == 0) return prev
+      const prevWeight =
+        (prev.weightedPosReac - prev.weightedNegReac) / prev.impression;
+      const currentWeight =
+        (current.weightedPosReac - current.weightedNegReac) / current.impression;
+      return prevWeight > currentWeight ? prev : current;
+    });
+
+    this.leastInteractedSqueal = this.squeals.reduce((prev, current) => {
+      if(current.weightedNegReac === 0 && current.weightedPosReac == 0) return current
+      const prevWeight =
+        (prev.weightedPosReac - prev.weightedNegReac) / prev.impression;
+      const currentWeight =
+        (current.weightedPosReac - current.weightedNegReac) / current.impression;
+      return prevWeight < currentWeight ? prev : current;
+    });
+
+
     const textSqueals = this.squeals.filter(
       (squeal) => squeal.contentType === 'text'
     );
@@ -125,6 +166,7 @@ export class TrendTabComponent {
     } else {
       this.shortestSqueal = {} as SquealsInfo;
     }
+
     if (textSqueals.length > 0) {
       this.longestSqueal = textSqueals.reduce((prev, current) => {
         return prev.content.length > current.content.length ? prev : current;
@@ -132,15 +174,78 @@ export class TrendTabComponent {
     } else {
       this.longestSqueal = {} as SquealsInfo;
     }
-   
+
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    let previousMonth = currentMonth - 1;
+    let previousYear = currentYear;
+    if (previousMonth < 0) {
+      previousMonth = 11; // December is index 11 in JavaScript's Date
+      previousYear -= 1;
+    }
+    const squealsFromPreviousMonth = this.squeals.filter((squeal) => {
+      const squealDate = new Date(squeal.createdAt);
+
+      return (
+        squealDate.getMonth() === previousMonth &&
+        squealDate.getFullYear() === previousYear
+      );
+    });
+
+    Promise.all(
+      squealsFromPreviousMonth.map((squeal) => this.getComments(squeal))
+    ).then((commentsNumber) => {
+      if (squealsFromPreviousMonth.length > 0) {
+        this.monthlySqueal = squealsFromPreviousMonth.reduce(
+          (prev, current, index) => {
+            const prevWeight =
+              prev.weightedPosReac -
+              prev.weightedNegReac +
+              prev.impression +
+              commentsNumber[index];
+            const currentWeight =
+              current.weightedPosReac -
+              current.weightedNegReac +
+              current.impression +
+              commentsNumber[index];
+            return prevWeight > currentWeight ? prev : current;
+          }
+        );
+      } else {
+        this.monthlySqueal = {} as SquealsInfo;
+      }
+    });
   }
 
+  getComments(squealPrevMonth: SquealsInfo): Promise<number> {
+    return this.http
+      .get<GetCommentResponse[]>(
+        'http://localhost:3500/api/squeals/' + squealPrevMonth._id + '/comments'
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return of([]); // Return an empty array on error
+        })
+      )
+      .toPromise()
+      .then((data) => (data ? data.length : 0));
+  }
   get isShortestSquealNotEmpty(): boolean {
     return Object.keys(this.shortestSqueal).length > 0;
   }
 
   get isLongestSquealNotEmpty(): boolean {
     return Object.keys(this.longestSqueal).length > 0;
+  }
+
+  get isMonthlySquealNotEmpty(): boolean {
+    return Object.keys(this.monthlySqueal).length > 0;
+  }
+  openInfosModal() {
+    this.modalRef = this.modalService.show(this.infosModal!, {
+      class: 'modal-md',
+    });
   }
 
   getReactions(squeal: SquealsInfo): Promise<SquealsInfo> {

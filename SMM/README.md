@@ -15,5 +15,3 @@ Da fare:
 -visualizzare squeal geolocalizzazione temporizzata
 Da fixare:
 
-Facoltativo:
--grafici (iniziato trend)
