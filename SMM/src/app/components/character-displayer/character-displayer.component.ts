@@ -9,6 +9,7 @@ export class CharacterDisplayerComponent {
   @Input() dailyChars: number = 0;
   @Input() weeklyChars: number = 0;
   @Input() monthlyChars: number = 0;
+  @Input() isTab: boolean = false;
 
   dailyAlert: number = 100;
   weeklyAlert: number = 700;

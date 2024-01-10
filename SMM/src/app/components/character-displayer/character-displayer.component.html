@@ -1,10 +1,12 @@
-<div id="charDisplayer">
-        <div id="dailyQuota" class="charContainer"> Caratteri giornalieri rimanenti: <span id="dailyChars"
+<div id="charDisplayer" [style.width]="isTab ? '40rem' : '25rem'">
+
+        <div id="dailyQuota" class="charContainer"><mat-icon>calendar_view_day</mat-icon> 
+                Caratteri giornalieri rimanenti: <span id="dailyChars"
                         [ngClass]="{'coloredDaily': dailyChars < dailyAlert}">{{ dailyChars }}</span> </div>
-        <div id="weeklyQuota" class="charContainer"> Caratteri settimanali rimanenti:<span id="weeklyChars"
+        <div id="weeklyQuota" class="charContainer"><mat-icon>calendar_view_week</mat-icon>  Caratteri settimanali rimanenti:<span id="weeklyChars"
                         [ngClass]="{'coloredWeekly': weeklyChars < weeklyAlert}"> {{ weeklyChars
                         }} </span> </div>
-        <div id="monthlyQuota" class="charContainer"> Caratteri mensili rimanenti: <span id="monthlyChars"
+        <div id="monthlyQuota" class="charContainer"><mat-icon>calendar_view_month</mat-icon>  Caratteri mensili rimanenti: <span id="monthlyChars"
                         [ngClass]="{'coloredMonthly': monthlyChars < monthlyAlert}">{{ monthlyChars
                         }}
                 </span> </div>

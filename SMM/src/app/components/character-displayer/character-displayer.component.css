@@ -1,32 +1,38 @@
-#charDisplayer{
-    font-size: 1.5rem; 
-    font-weight: 300; 
-    text-align: center;
-    border-top: 1rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background-color: rgb(236, 245, 245);
+#charDisplayer {
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-align: center;
+  border-top: 1rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  background-color: rgb(236, 245, 245);
 
-    margin-right: 1rem;
-    margin-top: 1rem;
-    border-radius: 0.5rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
 }
 
-.charContainer{
-    padding: 1rem;
+.charContainer {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.coloredDaily, .coloredWeekly,  .coloredMonthly{
-    color: red;
+.coloredDaily,
+.coloredWeekly,
+.coloredMonthly {
+  color: red;
 }
 
 @media screen and (max-width: 800px) {
-    #charDisplayer {
-        font-size: 1.5rem;
-    }
+  #charDisplayer {
+    font-size: 1.5rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    #charDisplayer {
-        font-size: 1rem;
-    }
+  #charDisplayer {
+    font-size: 1rem;
+  }
 }

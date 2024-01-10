@@ -16,11 +16,9 @@ export class CharacterTabComponent {
     monthly: 0,
   };
   pricesText =
-    'Comprare caratteri aggiuntivi costa * a carattere. È possibile comprare caratteri di emergenza se si sta scrivendo uno Squeal e si finiscono i caratteri, i caratteri di emergenza vengono pagati dopo aver postato ad un prezzo maggiorato di ** per carattere.';
-
+    'Caratteri extra? * ciascuno. A corto mentre scrivi uno Squeal? Usa caratteri di emergenza e paga dopo a ** per ciascuno! #SmartWriting #SquealSmart';
   usageText =
-    'I caratteri di testo pesano 1 carattere ognuno mentre immagini, video e georeferenziazioni pesano 125 caratteri ciascuno .';
-
+    'Testo = 1 carattere per simbolo (es. 300 caratteri = 300). Immagini, video e geotag = 125 ciascuno. #BudgetYourCharacters #SocialStrategy';
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dailyChars']) {
       this.characters['daily'] = this.dailyChars;
