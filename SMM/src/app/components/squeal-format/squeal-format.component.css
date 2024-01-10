@@ -1,0 +1,5 @@
+.square-container {
+    max-height: 25rem; 
+    width: 25rem; 
+    overflow:auto;
+  }

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
+        <h1 style="text-align: center; font-style: italic;">Squeal più popolare:</h1>
+        <app-squeal-format [squealInput]="mostPopularSqueal"></app-squeal-format>
+
+    </div>
+    <mat-divider class="col-1 vertical-divider" [vertical]="true" style="border-right-color: rgba(0, 0, 0, 0.3); "></mat-divider>
+    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
+        <h1 style="text-align: center; font-style: italic;">Squeal più impopolare:</h1>
+        <app-squeal-format [squealInput]="mostUnpopularSqueal"></app-squeal-format>
+    </div>
+</div>

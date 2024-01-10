@@ -44,6 +44,8 @@ import { GeolocalizationPostComponent } from './components/posting/geolocalizati
 import { VipSelectPageComponent } from './pages/vip-select-page/vip-select-page.component';
 import { ImageFormatComponent } from './components/feed/image-format/image-format.component';
 import { ChannelSelectorComponent } from './components/posting/channel-selector/channel-selector.component';
+import { TrendTabComponent } from './components/trend-tab/trend-tab.component';
+import { SquealFormatComponent } from './components/squeal-format/squeal-format.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { ChannelSelectorComponent } from './components/posting/channel-selector/
     VipSelectPageComponent,
     ImageFormatComponent,
     ChannelSelectorComponent,
+    TrendTabComponent,
+    SquealFormatComponent,
   ],
   imports: [
     BrowserModule,

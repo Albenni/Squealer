@@ -18,17 +18,26 @@
                 </div>
 
             </div>
-            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%;"><app-create-post></app-create-post></div>
+            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%;"><app-create-post></app-create-post>
+            </div>
 
             <tabset type="pills" class="col-4" style="margin-top: 0.5rem;">
                 <div class="row">
                     <tab class="col-6"><ng-template tabHeading>
                             <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed' "><span
-                                    class="" style=" font-weight: 500; font-size: 1.2rem; color: #6392c1;">Feed</span></button>
+                                    class=""
+                                    style=" font-weight: 500; font-size: 1.2rem; color: #6392c1;">Feed</span></button>
                         </ng-template></tab>
                     <tab class="col-6"><ng-template tabHeading>
                             <button id="showCharsButton" class="mx-2 p-0 text btn " (click)="activeTab = 'chars' "><span
-                                    class="" style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Caratteri</span></button>
+                                    class=""
+                                    style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Caratteri</span></button>
+
+                        </ng-template></tab>
+                    <tab class="col-6"><ng-template tabHeading>
+                            <button id="showTrendButton" class="mx-2 p-0 text btn " (click)="activeTab = 'trend' "><span
+                                    class=""
+                                    style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Trend</span></button>
 
                         </ng-template></tab>
 
@@ -52,6 +61,10 @@
 
         </div>
 
+    </div>
+
+    <div *ngIf="activeTab == 'trend'" id="dashTrendTab">
+        <app-trend-tab></app-trend-tab>
     </div>
 
 </div>

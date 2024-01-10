@@ -12,6 +12,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 -rimuovere receivers
--visualizzare popolare impopolare controverso
 -visualizzare squeal geolocalizzazione temporizzata
 Da fixare:
+
+Facoltativo:
+-grafici (iniziato trend)

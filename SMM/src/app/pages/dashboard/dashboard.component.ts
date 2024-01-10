@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   refreshFeed: boolean = false;
 
   logosrc: string = './assets/SLogo.png';
-  activeTab: string = 'feed';
+  activeTab: string = 'trend';
 
   characters: Characters = {
     daily: 0,
