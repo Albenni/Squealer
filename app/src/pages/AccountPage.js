@@ -120,8 +120,14 @@ function AccountPage({ username }) {
 
           <div className="container">
             {userposts.length === 0 ? (
-              <p className="text-center py-3 pe-none">
-                L'utente non ha pubblicato nessun post
+              <p
+                className="text-center py-3 pe-none"
+                style={{
+                  color: theme.colors.white,
+                  fontWeight: "bold",
+                }}
+              >
+                L'utente non ha pubblicato nessun post!
               </p>
             ) : (
               <PostList getposts={userposts} />

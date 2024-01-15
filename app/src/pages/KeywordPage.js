@@ -56,11 +56,15 @@ function KeywordPage({ keyword }) {
         console.log(keywordPostsResponse.data);
 
         setKeywordposts(keywordPostsResponse.data);
+
         setPostIndex(postindex + 1);
       } catch (err) {
         console.log(err);
       }
     };
+
+    console.log("Keyword: " + keyword);
+    console.log("Post index: " + postindex);
 
     getKeywordInfo();
   }, [axiosInstance, keyword]);
@@ -71,9 +75,9 @@ function KeywordPage({ keyword }) {
     if (pageBottom === false) {
       axiosInstance
         .get(
-          config.endpoint.users +
+          config.endpoint.keywords +
             "/" +
-            keyword._id +
+            keywordinfo._id +
             "/squeals?index=" +
             postindex
         )
@@ -90,7 +94,7 @@ function KeywordPage({ keyword }) {
           console.log(error);
         });
     }
-  }, [pageBottom]);
+  }, [pageBottom, keyword]);
 
   return (
     <div

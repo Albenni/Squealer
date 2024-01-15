@@ -21,7 +21,6 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
     .replaceAll("%20", " ");
 
   const [isFollowedChannel, setIsFollowedChannel] = useState(false);
-
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -56,6 +55,9 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
         .catch((err) => {
           console.log(err);
         });
+    }
+    if (channelinfo.private && !isAdmin && !isFollowedChannel) {
+      setShowPosts(false);
     }
 
     checkFollow();
@@ -96,8 +98,6 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
   }
 
   if (channelinfo.private && !isAdmin && !isFollowedChannel) {
-    setShowPosts(false);
-
     return (
       <div
         className="container"

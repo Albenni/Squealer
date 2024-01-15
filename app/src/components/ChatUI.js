@@ -194,10 +194,6 @@ function ChatUI({ myself }) {
   }
 
   function handleCovoChange(cname) {
-    cname.user2.profilePic = cname.user2.profilePic
-      ? cname.user2.profilePic
-      : guesticon;
-
     setActiveConversation(cname);
     console.log(cname);
 
@@ -427,10 +423,14 @@ function ChatUI({ myself }) {
                     marginBottom: "10px",
                   }}
                 >
+                  {console.log(convo)}
                   <Avatar
                     src={
                       convo.user2?.profilePic
-                        ? convo.user2.profilePic
+                        ? config.URL +
+                          "/profilePic/" +
+                          convo.user2._id +
+                          convo.user2.profilePic
                         : guesticon
                     }
                     name={convo.user2?.firstname}
@@ -470,7 +470,10 @@ function ChatUI({ myself }) {
               <Avatar
                 src={
                   activeconversation.user2?.profilePic
-                    ? activeconversation.user2.profilePic
+                    ? config.URL +
+                      "/profilePic/" +
+                      activeconversation.user2?._id +
+                      activeconversation.user2?.profilePic
                     : guesticon
                 }
                 name={activeconversation.user2.firstname}
@@ -501,8 +504,18 @@ function ChatUI({ myself }) {
                       <Avatar
                         src={
                           message.author === myself._id
-                            ? myself.profilePic
+                            ? myself?.profilePic
+                              ? config.URL +
+                                "/profilePic/" +
+                                myself._id +
+                                myself.profilePic
+                              : guesticon
                             : activeconversation.user2?.profilePic
+                            ? config.URL +
+                              "/profilePic/" +
+                              activeconversation.user2?._id +
+                              activeconversation.user2?.profilePic
+                            : guesticon
                         }
                       />
                     </Message>

@@ -95,7 +95,7 @@ function SearchBar() {
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
+    // event.preventDefault();
 
     if (sessionStorage.getItem("userid") === "guest") {
       navigate("/", { replace: true });

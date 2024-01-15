@@ -18,6 +18,8 @@ https://mui.com/material-ui/react-menu/
 
 - Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
 
-- Finire pagina keyword
-
 - Rendere sito accessibile
+
+- Finire pagina keyword (manca api followers)
+
+- Search bar buggata?
