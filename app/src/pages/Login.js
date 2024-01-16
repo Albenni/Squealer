@@ -79,6 +79,7 @@ function Login() {
       })
       .then((response) => {
         setShowAlert(true);
+        setUserNameTaken(false);
         // setAuth(response?.data?.accessToken);
 
         // navigate(from, { replace: true });
@@ -297,7 +298,7 @@ function Login() {
                       />
                     </div>
                     <ErrorMessage
-                      error="Username già in uso"
+                      error="Username o email già in uso"
                       visible={userNameTaken}
                     />
                     <div className="form-group py-2">

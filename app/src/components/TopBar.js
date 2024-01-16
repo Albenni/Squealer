@@ -38,11 +38,9 @@ function TopBar() {
       axiosInstance
         .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
         .then((res) => {
-          const name = res.data.firstname;
-          const lastname = res.data.surname;
-          const imageext = res?.data?.profilePic;
-          if (imageext) setImageext(imageext);
-          setUsername({ name, lastname });
+          if (res.data?.profilePic) setImageext(res.data.profilePic);
+
+          setUsername(res.data.username);
         })
         .catch((err) => {
           console.log(err);
@@ -184,7 +182,7 @@ function TopBar() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu align={"end"}>
                     <Dropdown.ItemText>
-                      <h6>Ciao, {username.name + " " + username.lastname}!</h6>
+                      <h6>Ciao, {username}!</h6>
                     </Dropdown.ItemText>
                     <Dropdown.Item href="/settings">Impostazioni</Dropdown.Item>
                     <div className="responsive-addons">

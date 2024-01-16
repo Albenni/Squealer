@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import { PatchCheckFill } from "react-bootstrap-icons";
 // import { Button } from "react-bootstrap";
 import guesticon from "../../assets/guesticon.png";
+import config from "../../config/config";
 
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,11 @@ function PostHeader({ item }) {
       <div className="d-flex">
         <div className="m-1">
           <Avatar
-            src={item?.profilePic !== undefined ? item.profilePic : guesticon}
+            src={
+              item?.profilePic
+                ? config.URL + "/profilePic/" + item._id + item.profilePic
+                : guesticon
+            }
             alt={"Immagine profilo di" + item?.firstname + item?.surname}
           />
         </div>

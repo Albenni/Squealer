@@ -4,10 +4,12 @@ import { Modal, Button, ListGroup, Form } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import guesticon from "../../assets/guesticon.png";
 import config from "../../config/config";
 
 function CommentsModal(props) {
   const [comments, setComments] = useState([]);
+  const [myprofilePic, setMyProfilePic] = useState(null);
 
   const axiosInstance = useAxiosPrivate();
 
@@ -22,22 +24,40 @@ function CommentsModal(props) {
 
         if (res.status === 204) return;
 
-        const userinfo = await axiosInstance.get(
-          config.endpoint.users + "/" + res.data[0].author
-        );
+        res.data.forEach(async (comment) => {
+          console.log(comment);
+          const userinfo = await axiosInstance.get(
+            config.endpoint.users + "/" + comment.author
+          );
 
-        res.data.forEach((comment) => {
+          comment.authorid = comment.author;
           comment.author = userinfo.data.username;
+          userinfo.data?.profilePic
+            ? (comment.profilePic = userinfo.data.profilePic)
+            : (comment.profilePic = null);
           comment.createdAt =
             comment.createdAt.split("T")[0] +
             " " +
             comment.createdAt.split("T")[1].split(".")[0];
-        });
 
-        setComments(res.data);
+          console.log(comment);
+
+          setComments((comments) => [...comments, comment]);
+        });
       } catch (err) {
         console.log(err);
       }
+    }
+
+    if (sessionStorage.getItem("userid") !== "guest") {
+      axiosInstance
+        .get(config.endpoint.users + "/" + sessionStorage.getItem("userid"))
+        .then((res) => {
+          setMyProfilePic(res.data?.profilePic ? res.data.profilePic : null);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     if (props.postid) getComments();
@@ -52,6 +72,8 @@ function CommentsModal(props) {
       createdAt:
         date.toISOString().split("T")[0] + " " + date.toLocaleTimeString(),
       author: sessionStorage.getItem("username"),
+      profilePic: myprofilePic,
+      authorid: sessionStorage.getItem("userid"),
     };
 
     // console.log(event.target[0].value);
@@ -109,8 +131,16 @@ function CommentsModal(props) {
                   pointerEvents: "none",
                 }}
               >
+                {console.log(comment)}
                 <img
-                  src={"https://picsum.photos/200/300"}
+                  src={
+                    comment.profilePic
+                      ? config.URL +
+                        "/profilePic/" +
+                        comment.authorid +
+                        comment.profilePic
+                      : guesticon
+                  }
                   alt="profile"
                   className="rounded-circle"
                   style={{ width: "30px", height: "30px" }}

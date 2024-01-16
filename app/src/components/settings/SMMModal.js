@@ -19,7 +19,7 @@ function SMMModal(props) {
         config.endpoint.users + "?username=" + usernameSMM + "&exactMatch=true"
       );
 
-      if (!smmInfo.data || !smmInfo.data.professional) {
+      if (!smmInfo?.data || !smmInfo.data?.professional) {
         setSmmError(true);
         return;
       }
@@ -41,7 +41,7 @@ function SMMModal(props) {
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <h4>Aggiungi un SMM</h4>
+        <h4>Aggiungi un Social Media Manager</h4>
       </Modal.Header>
       <Modal.Body>
         <p
@@ -49,12 +49,14 @@ function SMMModal(props) {
             pointerEvents: "none",
           }}
         >
-          Scegli il tuo Social Media Manager preferito e sincronizzalo con il
-          tuo account.
+          Scegli il tuo Social Media Manager preferito.
+          <br />
+          Una volta scelto, il tuo SMM potrà accetta la tua richiesta tramite
+          l'app di gestione clienti.
         </p>
         <Form.Control
           type="text"
-          placeholder="@usernameSMM"
+          placeholder="usernameSMM"
           className="mb-3"
           onChange={(e) => setUsernameSMM(e.target.value)}
         />
