@@ -1,7 +1,8 @@
-import { useEffect } from "react";
 import theme from "../../config/theme";
+import config from "../../config/config";
 
 import { useMediaQuery } from "react-responsive";
+import guesticon from "../../assets/guesticon.png";
 
 function SquealUser({ user, chars }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
@@ -19,8 +20,15 @@ function SquealUser({ user, chars }) {
       >
         <img
           alt="Profile"
-          src={"https://picsum.photos/100"}
-          style={{ borderRadius: "50%" }}
+          src={
+            user?.profilePic
+              ? config.URL +
+                "/profilePic/" +
+                sessionStorage.getItem("userid") +
+                user.profilePic
+              : guesticon
+          }
+          style={{ borderRadius: "50%", height: "100px", width: "100px" }}
         />
       </div>
       <div className="col">

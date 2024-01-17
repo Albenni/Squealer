@@ -48,6 +48,7 @@ function EditAccountPane() {
       .then((response) => {
         console.log(response);
         setUser(response.data);
+        sessionStorage.setItem("username", newusername);
       })
       .catch((error) => {
         console.log(error);
@@ -302,7 +303,7 @@ function EditAccountPane() {
           </Card.Header>
           <Accordion.Collapse eventKey="3">
             <Card.Body>
-              <div className="d-flex justify-content-start align-items-center">
+              <div className="flex-column justify-content-start align-items-center">
                 <input
                   type="password"
                   id="oldpasswordchange"
@@ -313,13 +314,15 @@ function EditAccountPane() {
                 <input
                   type="password"
                   id="newpasswordchange"
-                  className="form-control"
+                  className="form-control mt-2"
                   placeholder="Nuova password"
                   style={isMobile ? { width: "80%" } : { width: "50%" }}
                 />
                 <Button
                   variant="outline-secondary"
-                  className="mx-3"
+                  aria-label="Bottone cambia password"
+                  aria-describedby="Premi per salvare le modifiche"
+                  className="mt-3"
                   onClick={() =>
                     handleChangePassword(
                       document.getElementById("oldpasswordchange")?.value,
