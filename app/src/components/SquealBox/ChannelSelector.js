@@ -221,6 +221,12 @@ function ChannelSelector(props) {
               aria-label="Channel"
               aria-describedby="Channel"
               autoFocus
+              // Blocco la possibilità di postare in un canale ufficiale
+              onChange={(e) =>
+                props.squealType === "Channel"
+                  ? (e.target.value = e.target.value.toLowerCase())
+                  : e.target.value
+              }
             />
             <Button variant="outline-secondary" onClick={AddSquealChannel}>
               <Plus />
