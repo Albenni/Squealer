@@ -13,6 +13,8 @@ const connectDB = require("./config/dbConn");
 const cron = require("node-cron");
 const PORT = process.env.PORT || 3500;
 const User = require("./models/User");
+const Squeal = require("./models/Squeal");
+const Channel = require("./models/Channel");
 const fileupload = require("express-fileupload");
 
 mongoose.set("strictQuery", false);
@@ -74,6 +76,15 @@ mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
 
   cron.schedule("0 0 * * *", async () => {
+    try {
+      createWikiSqueal();
+      console.log("Squeal automatici creati");
+    } catch (error) {
+      console.log("Errore nella creazione degli squeal automatici: ", error);
+    }
+  });
+
+  cron.schedule("0 0 * * *", async () => {
     const users = await User.find({});
     for (const user of users) {
       if (user.aumentoDuration < Date.now()) {
@@ -103,3 +114,58 @@ mongoose.connection.once("open", () => {
 
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
+
+function createWikiSqueal() {
+  var url = "https://en.wikipedia.org/w/api.php";
+
+  const params = {
+    format: "json",
+    action: "query",
+    generator: "random",
+    grnnamespace: 0,
+    prop: "extracts",
+    exintro: true,
+    explaintext: true,
+    grnlimit: "1",
+  };
+
+  url = url + "?";
+  Object.keys(params).forEach(function (key) {
+    url += "&" + key + "=" + params[key];
+  });
+
+  fetch(url)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(async function (response) {
+      const pages = response.query.pages;
+
+      for (const i in pages) {
+        let channel = await Channel.findOne({
+          name: "WIKIPEDIA",
+        });
+        if (!channel)
+          channel = await Channel.create({
+            name: "WIKIPEDIA",
+            private: false,
+            editorialChannel: true,
+          });
+        const squeal = await Squeal.create({
+          author: "6515e4fbf2b9aa95e4c6e42b", //serve l'id di un utente che rappresenta Squealer, questo è "filo"
+          receivers: [
+            {
+              group: channel._id,
+              groupType: "Channel",
+            },
+          ],
+          officialChannel: true,
+          content: pages[i].extract,
+          contentType: "text",
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
