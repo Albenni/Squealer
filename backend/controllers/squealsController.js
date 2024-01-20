@@ -49,7 +49,7 @@ const getAllSquealsByUser = async (req, res) => {
     author: req.params.userId,
     publicSqueal: true,
   })
-
+    .sort("-createdAt")
     .populate("receivers.group", "name private editorialChannel profilePic")
     .skip(squealLengthBlock * index)
     .limit(squealLengthBlock * (index + 1))
@@ -77,6 +77,7 @@ const getAllSquealsByUserSmm = async (req, res) => {
   const squeals = await Squeal.find({
     author: req.params.userId,
   })
+    .sort("-createdAt")
     .populate("author", "username firstname surname ")
     .populate("receivers.group", "name private editorialChannel profilePic")
     .skip(squealLengthBlock * index)
@@ -103,6 +104,7 @@ const getAllSquealsInChannel = async (req, res) => {
     "receivers.group": req.params.channelId,
     publicSqueal: false,
   })
+    .sort("-createdAt")
     .populate("receivers.group", "name private editorialChannel profilePic")
     .skip(squealLengthBlock * index)
     .limit(squealLengthBlock * (index + 1))
@@ -132,6 +134,7 @@ const getAllSquealsInKeyword = async (req, res) => {
     "receivers.group": req.params.keywordId,
     publicSqueal: false,
   })
+    .sort("-createdAt")
     .populate("receivers.group", "name profilePic")
     .skip(squealLengthBlock * index)
     .limit(squealLengthBlock * (index + 1))
@@ -562,7 +565,7 @@ const addReceiver = async (req, res) => {
 };
 
 const removeReceiver = async (req, res) => {
-  if (!req.authorized ) return res.sendStatus(403);
+  if (!req.authorized) return res.sendStatus(403);
 
   try {
     const squealId = req.params.squealId;
