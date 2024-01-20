@@ -92,7 +92,7 @@ function UserBar({ user }) {
     >
       <div className="col">
         <div
-          className={isMobile ? "row py-2" : "row py-4"}
+          className={isMobile ? "py-2" : "py-4"}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -100,10 +100,18 @@ function UserBar({ user }) {
           }}
         >
           <Image
-            src={user.profilePic ? user.profilePic : noImage}
+            src={
+              user.profilePic
+                ? config.URL + "/profilePic/" + user._id + user.profilePic
+                : noImage
+            }
             alt="profile"
             className="rounded-circle"
-            style={isMobile ? { maxWidth: "25vw" } : { maxWidth: "10vw" }}
+            style={{
+              height: "100px",
+              width: "100px",
+              objectFit: "cover",
+            }}
           />
         </div>
         <div

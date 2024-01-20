@@ -6,6 +6,7 @@ const Smm = require("../models/Smm");
 const Channel = require("../models/Channel");
 // const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const Keyword = require("../models/Keyword");
 
 const searchUser = async (req, res) => {
   try {
@@ -315,6 +316,29 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserSubscribedKeywords = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+    return res.status(400).json({ message: "User ID invalid" });
+
+  try {
+    const keywords = await Follower.find({
+      followingUserId: req.params.userId,
+      followedType: "Keyword",
+    }).select("followedId -_id");
+    if (!keywords)
+      return res.status(204).json({ message: "No keywords found" });
+
+    const keyId = keywords.map((keyword) => keyword.followedId);
+    const keywordComplete = await Keyword.find({ _id: { $in: keyId } });
+
+    res.json(keywordComplete);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
 const getUserSubscribedChannels = async (req, res) => {
   if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
 
@@ -465,6 +489,7 @@ module.exports = {
   updateEmail,
   updateProfilePic,
   upgradeToProfessional,
+  getUserSubscribedKeywords,
   getUserSubscribedChannels,
   getSmmId,
   requestSmm,

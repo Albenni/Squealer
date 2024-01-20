@@ -15,67 +15,71 @@ function KeywordBar({ keywordinfo }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const axiosInstance = useAxiosPrivate();
   const location = useLocation();
-  const followedUsername = location.pathname.split("/")[1];
+  const keywordspathname = window.location.pathname
+    .split("/")[2]
+    .replaceAll("%20", " ");
 
-  const [isFollowed, setIsFollowed] = useState(false);
+  const [isFollowedKeyword, setIsFollowedKeyword] = useState(false);
 
   useEffect(() => {
-    // const checkFollow = async () => {
-    //   axiosInstance
-    //     .get(
-    //       config.endpoint.users +
-    //         "/" +
-    //         sessionStorage.getItem("userid") +
-    //         "/followed"
-    //     )
-    //     .then((res) => {
-    //       res.data.forEach((followed) => {
-    //         if (followed.username === followedUsername) {
-    //           setIsFollowed(true);
-    //         }
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-    // checkFollow();
-  }, []);
+    const checkFollow = async () => {
+      axiosInstance
+        .get(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/keywords"
+        )
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.name === keywordspathname) {
+              setIsFollowedKeyword(true);
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    checkFollow();
+  }, [keywordinfo]);
 
   const handleFollow = async (followedId) => {
-    // axiosInstance
-    //   .post(
-    //     config.endpoint.users +
-    //       "/" +
-    //       sessionStorage.getItem("userid") +
-    //       "/followed/" +
-    //       followedId
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     setIsFollowed(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    console.log(followedId);
+    axiosInstance
+      .post(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/keywords/" +
+          followedId
+      )
+      .then((res) => {
+        console.log(res);
+        setIsFollowedKeyword(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleUnFollow = async (followedId) => {
-    // axiosInstance
-    //   .delete(
-    //     config.endpoint.users +
-    //       "/" +
-    //       sessionStorage.getItem("userid") +
-    //       "/followed/" +
-    //       followedId
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //     setIsFollowed(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axiosInstance
+      .delete(
+        config.endpoint.users +
+          "/" +
+          sessionStorage.getItem("userid") +
+          "/keywords/" +
+          followedId
+      )
+      .then((res) => {
+        console.log(res);
+        setIsFollowedKeyword(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -103,7 +107,7 @@ function KeywordBar({ keywordinfo }) {
 
         <div className="text-center">
           <div>
-            {!isFollowed ? (
+            {!isFollowedKeyword ? (
               <Button
                 variant="success"
                 className="mt-2"

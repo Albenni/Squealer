@@ -53,6 +53,15 @@ router
   .delete(followersController.unfollowUser); //da testare
 
 router
+  .route("/:userId/keywords")
+  .get(usersController.getUserSubscribedKeywords);
+
+router
+  .route("/:userId/keywords/:keywordId")
+  .post(followersController.followKeyword)
+  .delete(followersController.unfollowKeyword);
+
+router
   .route("/:userId/channels")
   .get(usersController.getUserSubscribedChannels);
 

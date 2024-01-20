@@ -62,16 +62,16 @@ const followKeyword = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
     return res.status(400).json({ message: "User ID invalid" });
-  if (!mongoose.Types.ObjectId.isValid(req?.body?.keywordId))
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.keywordId))
     return res.status(400).json({ message: "Channel ID not valid" });
 
-  const keyword = await Keyword.findById(req.body.keywordId);
+  const keyword = await Keyword.findById(req.params.keywordId);
   if (!keyword) return res.status(400).json({ message: "Keyword not found" });
 
   try {
     const result = await Follower.create({
       followingUserId: req.params.userId,
-      followedId: req.body.keywordId,
+      followedId: req.params.keywordId,
       followedType: "Keyword",
     });
     res.json(result);

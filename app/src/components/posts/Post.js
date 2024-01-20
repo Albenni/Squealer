@@ -42,31 +42,35 @@ function Post({ item }) {
         }}
       >
         <div
-          style={{
-            fontWeight: "bold",
-            color: theme.colors.lightgrey,
-            backgroundColor: theme.colors.bg2New,
-            borderRadius: "10px",
-            border: "1px solid " + theme.colors.lightgrey,
-            padding: "5px",
-            zIndex: "1",
-            display: "flex",
-            flexDirection: "column",
-          }}
+          style={
+            item.officialChannel
+              ? {
+                  fontWeight: "bold",
+                  color: theme.colors.lightgrey,
+                  backgroundColor: "green",
+                  borderRadius: "10px",
+                  border: "1px solid " + theme.colors.lightgrey,
+                  padding: "5px",
+                  zIndex: "1",
+                  display: "flex",
+                  flexDirection: "column",
+                }
+              : {
+                  fontWeight: "bold",
+                  color: theme.colors.lightgrey,
+                  backgroundColor: theme.colors.bg2New,
+                  borderRadius: "10px",
+                  border: "1px solid " + theme.colors.lightgrey,
+                  padding: "5px",
+                  zIndex: "1",
+                  display: "flex",
+                  flexDirection: "column",
+                }
+          }
         >
-          {item.officialChannel ? (
-            <div
-              style={{
-                color: theme.colors.danger,
-              }}
-            >
-              Canale ufficiale
-            </div>
-          ) : item.publicSqueal ? (
-            "Squeal pubblico"
-          ) : null}
+          {item.publicSqueal ? "Squeal pubblico" : null}
 
-          {!item.publicSqueal && !item.officialChannel ? (
+          {!item.publicSqueal ? (
             <div className="container">
               {item.receivers.map((receiver, key) => {
                 if (key > 1) return null;
