@@ -79,6 +79,7 @@ mongoose.connection.once("open", () => {
     try {
       createWikiSqueal();
       createNorrisSqueal();
+      createMathSqueal();
       console.log("Squeal automatici creati");
     } catch (error) {
       console.log("Errore nella creazione degli squeal automatici: ", error);
@@ -214,3 +215,48 @@ async function createNorrisSqueal() {
     console.error(error);
   }
 }
+
+async function createMathSqueal() {
+  const url =
+    "https://numbersapi.p.rapidapi.com/random/math?min=0&max=200000&fragment=true&json=true";
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "06c330c9d9msh4b91588776642fep1ba2f7jsnb17304ffd2a9",
+      "X-RapidAPI-Host": "numbersapi.p.rapidapi.com",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.json();
+
+    let channel = await Channel.findOne({
+      name: "MATH",
+    });
+    if (!channel)
+      channel = await Channel.create({
+        name: "MATH",
+        description: "Random math facts",
+        private: false,
+        editorialChannel: true,
+      });
+    const squeal = await Squeal.create({
+      author: "6515e4fbf2b9aa95e4c6e42b", //serve l'id di un utente che rappresenta Squealer, questo è "filo"
+      receivers: [
+        {
+          group: channel._id,
+          groupType: "Channel",
+        },
+      ],
+      officialChannel: true,
+      content: result.number + ": " + result.text,
+      contentType: "text",
+    });
+    console.log(squeal);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function createFinanceSqueal() {}
