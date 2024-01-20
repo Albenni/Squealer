@@ -68,4 +68,28 @@ const createKeyword = async (req, res) => {
   }
 };
 
-module.exports = { searchKeywords, createKeyword };
+const getFollowers = async (req, res) => {
+  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+
+  if (!mongoose.Types.ObjectId.isValid(req?.params?.keywordId))
+    return res.status(400).json({ message: "Channel ID invalid" });
+
+  try {
+    const users = await Follower.find({
+      followedId: req.params.keywordId,
+      followedType: "Keyword",
+    }).select("followingUserId -_id");
+
+    const usersId = users.map((user) => user.followingUserId);
+    const usersComplete = await User.find({ _id: { $in: usersId } });
+
+    if (!usersComplete?.length)
+      return res.status(204).json({ message: "No users found" });
+
+    res.json(usersComplete);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
+
+module.exports = { searchKeywords, createKeyword, getFollowers };

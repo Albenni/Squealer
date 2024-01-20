@@ -12,4 +12,6 @@ router
   .route("/:keywordId/squeals")
   .get(squealsController.getAllSquealsInKeyword);
 
+router.route("/:keywordId/followers").get(keywordsController.getFollowers);
+
 module.exports = router;

@@ -2,10 +2,7 @@ api da fare (poche):
 
 - Messaggi temporizzati
 
-- Ordinare gli squeal dei canali/keyword/user per data
 - Aggiungere nel group il nome anche delle keyword
-- Aggiungere exact match per le keyword e rendere le api uguali ai canali
-- Aggiungere get followers per le keyword
 
 Da testare:
 
