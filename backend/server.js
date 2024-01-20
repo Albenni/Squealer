@@ -78,6 +78,7 @@ mongoose.connection.once("open", () => {
   cron.schedule("0 0 * * *", async () => {
     try {
       createWikiSqueal();
+      createNorrisSqueal();
       console.log("Squeal automatici creati");
     } catch (error) {
       console.log("Errore nella creazione degli squeal automatici: ", error);
@@ -148,10 +149,11 @@ function createWikiSqueal() {
         if (!channel)
           channel = await Channel.create({
             name: "WIKIPEDIA",
+            description: "Random facts from wikipedia",
             private: false,
             editorialChannel: true,
           });
-        const squeal = await Squeal.create({
+        await Squeal.create({
           author: "6515e4fbf2b9aa95e4c6e42b", //serve l'id di un utente che rappresenta Squealer, questo è "filo"
           receivers: [
             {
@@ -168,4 +170,47 @@ function createWikiSqueal() {
     .catch(function (error) {
       console.log(error);
     });
+}
+
+async function createNorrisSqueal() {
+  const url =
+    "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random";
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      "X-RapidAPI-Key": "06c330c9d9msh4b91588776642fep1ba2f7jsnb17304ffd2a9",
+      "X-RapidAPI-Host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.json();
+
+    let channel = await Channel.findOne({
+      name: "CHUCK NORRIS",
+    });
+    if (!channel)
+      channel = await Channel.create({
+        name: "CHUCK NORRIS",
+        description: "Random jokes by Chuck Norris",
+        private: false,
+        editorialChannel: true,
+      });
+    await Squeal.create({
+      author: "6515e4fbf2b9aa95e4c6e42b", //serve l'id di un utente che rappresenta Squealer, questo è "filo"
+      receivers: [
+        {
+          group: channel._id,
+          groupType: "Channel",
+        },
+      ],
+      officialChannel: true,
+      content: result.value,
+      contentType: "text",
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
