@@ -475,38 +475,43 @@ async function manageReactions(squeal, req) {
       }));
 
   //stabiliamo se un post è popolare o impopolare
-  if (
-    (numReactionPos >= squeal.impression * 0, 25) &&
-    (numReactionNeg >= squeal.impression * 0, 25)
-  ) {
-    squeal.category = "controverso";
-    await squeal.save();
-  } else if ((numReactionPos >= squeal.impression * 0, 25)) {
-    squeal.category = "popolare";
-    await squeal.save();
-    //aumento quota se questo è il decimo squeal popolare
-    const contPop = await Squeal.count({
-      author: squeal.author,
-      category: "popolare",
-    });
-    if (contPop % 10 === 0) {
-      const author = await User.findById(squeal.author);
-      author.dailyChar = author.dailyChar + constants.DAILY_CHAR / 100;
-      await author.save();
-    }
-  } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
-    squeal.category = "impopolare";
-    await squeal.save();
-    //diminuisco quota se questo è il terzo squeal impopolare
-    const contImpop = await Squeal.count({
-      author: squeal.author,
-      category: "impopolare",
-    });
-    if (contImpop % 3 === 0) {
-      const author = await User.findById(squeal.author);
-      author.dailyChar = author.dailyChar - constants.DAILY_CHAR / 100;
-      if (author.dailyChar < 0) author.dailyChar = 0;
-      await author.save();
+  if (numReactionPos > 10 || numReactionNeg > 10) {
+    if (
+      (numReactionPos >= squeal.impression * 0, 25) &&
+      (numReactionNeg >= squeal.impression * 0, 25)
+    ) {
+      squeal.category = "controverso";
+      await squeal.save();
+    } else if ((numReactionPos >= squeal.impression * 0, 25)) {
+      squeal.category = "popolare";
+      await squeal.save();
+      //aumento quota se questo è il decimo squeal popolare
+      const contPop = await Squeal.count({
+        author: squeal.author,
+        category: "popolare",
+      });
+      if (contPop % 10 === 0) {
+        const author = await User.findById(squeal.author);
+        author.dailyChar = author.dailyChar + constants.DAILY_CHAR / 100;
+        await author.save();
+      }
+    } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
+      squeal.category = "impopolare";
+      await squeal.save();
+      //diminuisco quota se questo è il terzo squeal impopolare
+      const contImpop = await Squeal.count({
+        author: squeal.author,
+        category: "impopolare",
+      });
+      if (contImpop % 3 === 0) {
+        const author = await User.findById(squeal.author);
+        author.dailyChar = author.dailyChar - constants.DAILY_CHAR / 100;
+        if (author.dailyChar < 0) author.dailyChar = 0;
+        await author.save();
+      }
+    } else {
+      squeal.category = null;
+      await squeal.save();
     }
   } else {
     squeal.category = null;
