@@ -258,5 +258,3 @@ async function createMathSqueal() {
     console.error(error);
   }
 }
-
-async function createFinanceSqueal() {}

@@ -131,7 +131,7 @@ function createNewChannel() {
   const token = sessionStorage.getItem("token");
   const url = `http://localhost:3500/api/channels`;
 
-  const channelName = $("#newChannelBox").val();
+  const channelName = $("#newChannelBox").val()?.toUpperCase();
 
   $.ajax({
     type: "POST",
