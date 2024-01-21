@@ -1,6 +1,7 @@
-<div class="row">
+<div class="row my-2" style=" width: 120%;">
     <p class="col-1" style="text-align: center; margin-top: 1rem; color: #d9d9d9; font: 1em sans-serif; font-size: medium;" role="heading" aria-level="2">Filtri:</p>
-    <form class="col" (ngSubmit)="applyFilter(filterForm)" #filterForm="ngForm" role="form" aria-labelledby="filterForm">
+    <form class="col-10 " (ngSubmit)="applyFilter(filterForm)" #filterForm="ngForm" role="form" aria-labelledby="filterForm" style="display: flex; align-items: center; flex-wrap: wrap;">
+        
         <mat-form-field appearance="fill" class="px-2 pt-2">
             <mat-label>Ordina per:</mat-label>
             <mat-select name="orderBy" [(ngModel)]="filterParams.orderBy" aria-label="Seleziona l'ordine dei post">
@@ -34,7 +35,7 @@
             </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button type="submit" aria-label="Applica filtri">Applica filtri</button>
+        <button mat-raised-button type="submit" aria-label="Applica filtri" style="width: 8rem;">Applica filtri</button>
 
     </form>
 
