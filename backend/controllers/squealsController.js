@@ -527,11 +527,11 @@ async function manageReactions(squeal, req) {
         await author.save();
       }
     } else {
-      squeal.category = null;
+      delete squeal.category;
       await squeal.save();
     }
   } else {
-    squeal.category = null;
+    delete squeal.category;
     await squeal.save();
   }
 }
