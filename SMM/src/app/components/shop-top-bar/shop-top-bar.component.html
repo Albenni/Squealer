@@ -1,12 +1,13 @@
-<div class="row no-gutters px-2" id="shopTopBar">
+<div class="row no-gutters px-2" id="shopTopBar" role="banner">
     <div class="col-2" id="logoContainer">
-        <img id="logo" [src]="logosrc" alt="Logo">
+        <img id="logo" [src]="logosrc" alt="Logo di Squealer Shop SMM">
     </div>
     <div id="titleContainer" class="col-8">
-        <h1 class=" align-middle" id="title">Squealer Shop SMM</h1>
+        <h1 class="align-middle" id="title" role="heading" aria-level="1">Squealer Shop SMM</h1>
     </div>
-    <div class="col-2" >
-        <button mat-icon-button (click)="homeButton()"> <mat-icon>home</mat-icon>
+    <div class="col-2">
+        <button mat-icon-button (click)="homeButton()" aria-label="Torna alla home">
+            <mat-icon>home</mat-icon>
         </button>   
     </div>
 </div>

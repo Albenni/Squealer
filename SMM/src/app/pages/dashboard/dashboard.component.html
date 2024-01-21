@@ -1,71 +1,67 @@
-<div id="dashboardContainer">
+<div id="dashboardContainer" role="main">
     <div id="backgroundImg"></div>
-    <div class="sticky-top" style="z-index: 500;">
-        <app-top-bar (vipSelected)="selectVip($event)"></app-top-bar>
-        <div class="row px-2" id="profileTabDashboard" style="background-color: rgb(30, 43, 61); ">
-            <div class="col-5" id="tabProfile">
+    <div class="sticky-top" style="z-index: 500;" role="navigation">
+        <app-top-bar (vipSelected)="selectVip($event)" aria-label="Barra superiore"></app-top-bar>
+        <div class="row px-2" id="profileTabDashboard" style="background-color: rgb(30, 43, 61);" aria-label="Pannello del profilo">
+            <div class="col-5" id="tabProfile" aria-labelledby="vipUsername">
                 <div class="row" style="margin-left: 3%;">
-                    <div class="col-6 " style="padding: 1.5%;" id="vipProfilePic">
+                    <div class="col-6" style="padding: 1.5%;" id="vipProfilePic" aria-label="Immagine del profilo VIP">
                         <div class="rounded-avatar">
-                            <img *ngIf="vipProfilePic" class="rounded-avatar-img" id="imgVipProfilePic"
-                                [src]="vipProfilePic" alt="Avatar">
+                            <img *ngIf="vipProfilePic" class="rounded-avatar-img" id="imgVipProfilePic" [src]="vipProfilePic" alt="Immagine del profilo di {{vipUsername}}">
                         </div>
                     </div>
-                    <div class="col-6" id="vipUsername " style="color: white; margin-top: 1rem;">
+                    <div class="col-6" id="vipUsername" style="color: white; margin-top: 1rem;">
                         <h2 style="font-family:'CenturyGothic';">{{vipUsername}}</h2>
                     </div>
-
                 </div>
-
             </div>
-            
 
-            <tabset type="pills" class="col-4" style="margin-top: 0.5rem;">
+            <tabset type="pills" class="col-4" style="margin-top: 0.5rem;" aria-label="Navigazione schede">
                 <div class="row">
-                    <tab class="col-6"><ng-template tabHeading>
-                            <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed' "><span
-                                    class=""
-                                    style=" font-weight: 500; font-size: 1.2rem; color: #6392c1;">Feed</span></button>
-                        </ng-template></tab>
-                    <tab class="col-6"><ng-template tabHeading>
-                            <button id="showCharsButton" class="mx-2 p-0 text btn " (click)="activeTab = 'chars' "><span
-                                    class=""
-                                    style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Caratteri</span></button>
-
-                        </ng-template></tab>
-                    <tab class="col-6"><ng-template tabHeading>
-                            <button id="showTrendButton" class="mx-2 p-0 text btn " (click)="activeTab = 'trend' "><span
-                                    class=""
-                                    style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Trend</span></button>
-
-                        </ng-template></tab>
-
+                    <tab class="col-6">
+                        <ng-template tabHeading>
+                            <button id="showFeedButton" class="mx-2 p-0 text btn" (click)="activeTab = 'feed'" aria-label="Mostra Feed" [attr.aria-selected]="activeTab == 'feed' ? 'true' : 'false'">
+                                <span style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Feed</span>
+                            </button>
+                            
+                        </ng-template>
+                    </tab>
+                    <tab class="col-6">
+                        <ng-template tabHeading>
+                            <button id="showCharsButton" class="mx-2 p-0 text btn" (click)="activeTab = 'chars'" aria-label="Mostra Caratteri" [attr.aria-selected]="activeTab == 'chars' ? 'true' : 'false'">
+                                <span style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Caratteri</span>
+                            </button>
+                        </ng-template>
+                    </tab>
+                    <tab class="col-6">
+                        <ng-template tabHeading>
+                            <button id="showTrendButton" class="mx-2 p-0 text btn" (click)="activeTab = 'trend'" aria-label="Mostra Trend" [attr.aria-selected]="activeTab == 'trend' ? 'true' : 'false'">
+                                <span style="font-weight: 500; font-size: 1.2rem; color: #6392c1;">Trend</span>
+                            </button>
+                        </ng-template>
+                    </tab>
                 </div>
             </tabset>
-            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%; display: flex ; justify-content: end; "><app-create-post style="margin-right: 3%;"></app-create-post>
+
+            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%; display: flex; justify-content: end;" aria-label="Pulsante per creare post">
+                <app-create-post style="margin-right: 3%;"></app-create-post>
             </div>
         </div>
     </div>
 
-    <div *ngIf="activeTab == 'feed'" id="dashFeedTab">
+    <div *ngIf="activeTab == 'feed'" id="dashFeedTab" aria-label="Tab Feed">
         <app-feed-tab [refreshFeed]="refreshFeed"></app-feed-tab>
     </div>
 
-    <div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab">
-        <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
-            [monthlyChars]="characters.monthly"></app-character-tab>
+    <div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab" aria-label="Tab Caratteri">
+        <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly" [monthlyChars]="characters.monthly"></app-character-tab>
         <div class="shop-card" style="background-color: #8e8ea0;">
             <div class="shop-title">Shop Notice</div>
-
-            <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri
-                aggiuntivi! </p>
-
+            <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']" aria-label="Link allo shop">shop</a> per comprare caratteri aggiuntivi!</p>
         </div>
-
     </div>
 
-    <div *ngIf="activeTab == 'trend'" id="dashTrendTab">
+    <div *ngIf="activeTab == 'trend'" id="dashTrendTab" aria-label="Tab Trend">
         <app-trend-tab [refreshFeed]="refreshFeed"></app-trend-tab>
     </div>
-
 </div>

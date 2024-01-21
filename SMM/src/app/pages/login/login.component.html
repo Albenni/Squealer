@@ -1,45 +1,43 @@
 <div class="container-fluid row" id="login-container">
-    <div class="col-md-4" id="login-logo">
-        <img class="img-fluid" [src]="logosrc" alt="Logo">
+    <div class="col-md-4" id="login-logo" role="img" aria-label="Logo del sito">
+        <img class="img-fluid" [src]="logosrc" alt="Logo di Squealer">
     </div>
     <div class="col-md-3">
-        <div id="login-title" class="row d-flex justify-content-center pb-4">
+        <div id="login-title" class="row d-flex justify-content-center pb-4" role="heading" aria-level="1">
             Squealer
         </div>
-        <div id="login-form">
+        <div id="login-form" role="form" aria-labelledby="login-title">
             <tabset>
-                <tab heading="Accedi">
-
+                <tab heading="Accedi" role="tabpanel" aria-labelledby="tab-login">
                     <div class="pt-2">
 
-                        <div *ngIf="noVip" class="errorMessage">
+                        <div *ngIf="noVip" class="errorMessage" role="alert">
                             <p class="responseErr"> Nessun VIP associato.</p>
                         </div>
-                        <div *ngIf="notPro" class="errorMessage">
+                        <div *ngIf="notPro" class="errorMessage" role="alert">
                             <p class="responseErr">L'account non è di tipo PRO. </p>
                         </div>
 
-                        <div *ngIf="notFound" class="errorMessage">
+                        <div *ngIf="notFound" class="errorMessage" role="alert">
                             <p class="responseErr"> Utente non trovato. </p>
                         </div>
 
-                        <div *ngIf="incorrectPwd" class="errorMessage">
+                        <div *ngIf="incorrectPwd" class="errorMessage" role="alert">
                             <p class="responseErr"> Password errata. </p>
                         </div>
 
-                        <div *ngIf="blocked" class="errorMessage">
+                        <div *ngIf="blocked" class="errorMessage" role="alert">
                             <p class="responseErr"> Utente bloccato. </p>
                         </div>
-                        <form (submit)="onSubmit()" class="text-align-center container">
+
+                        <form (submit)="onSubmit()" class="text-align-center container" aria-label="Form di login">
                             <div class="form-group pb-2">
                                 <label for="user">Username</label>
-                                <input type="username" class="form-control" placeholder="Inserisci username" id="user"
-                                    name="user" [(ngModel)]="userData.user" required>
+                                <input type="username" class="form-control" placeholder="Inserisci username" id="user" name="user" [(ngModel)]="userData.user" required aria-required="true">
                             </div>
                             <div class="form-group py-2">
                                 <label for="pwd">Password</label>
-                                <input type="password" class="form-control" id="pwd" name="pwd"
-                                    placeholder="Inserisci password" [(ngModel)]="userData.pwd" required>
+                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Inserisci password" [(ngModel)]="userData.pwd" required aria-required="true">
                             </div>
                             <p class="mt-3">
                                 <a href="#" id="forgotPasswordLink">Hai dimenticato la password?</a>

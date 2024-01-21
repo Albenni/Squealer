@@ -1,11 +1,12 @@
-<div class="shop-page">
-    <div id="backgroundImg"></div><app-shop-top-bar></app-shop-top-bar>
-    <h1 id="shop-title" style="padding-top: 4%;">Il tuo shop dei caratteri.</h1>
-    <div class="row" style="display: flex; align-items: center; "> <app-shop-cards class="col-6"></app-shop-cards>
-        <mat-divider class="col-1" vertical></mat-divider>
+<div class="shop-page" role="main">
+    <div id="backgroundImg" role="presentation"></div>
+    <app-shop-top-bar aria-label="Barra superiore dello shop"></app-shop-top-bar>
+    <h1 id="shop-title" style="padding-top: 4%;" role="heading" aria-level="1">Il tuo shop dei caratteri.</h1>
+    <div class="row" style="display: flex; align-items: center;" aria-label="Prodotti dello shop">
+        <app-shop-cards class="col-6" role="complementary" aria-label="Carte dei prodotti"></app-shop-cards>
+        <mat-divider class="col-1" vertical role="separator"></mat-divider>
         <app-character-displayer class="col-5" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
-            [monthlyChars]="characters.monthly" [isTab] = false>
+            [monthlyChars]="characters.monthly" [isTab] = false role="complementary" aria-label="Visualizzatore di caratteri">
         </app-character-displayer>
     </div>
-
 </div>

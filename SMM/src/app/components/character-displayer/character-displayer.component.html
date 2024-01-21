@@ -1,13 +1,19 @@
-<div id="charDisplayer" [style.width]="isTab ? '40rem' : '35rem'">
-
-        <div id="dailyQuota" class="charContainer"><mat-icon>calendar_view_day</mat-icon> 
-                Caratteri giornalieri rimanenti: <span id="dailyChars"
-                        [ngClass]="{'coloredDaily': dailyChars < dailyAlert}">{{ dailyChars }}</span> </div>
-        <div id="weeklyQuota" class="charContainer"><mat-icon>calendar_view_week</mat-icon>  Caratteri settimanali rimanenti:<span id="weeklyChars"
-                        [ngClass]="{'coloredWeekly': weeklyChars < weeklyAlert}"> {{ weeklyChars
-                        }} </span> </div>
-        <div id="monthlyQuota" class="charContainer"><mat-icon>calendar_view_month</mat-icon>  Caratteri mensili rimanenti: <span id="monthlyChars"
-                        [ngClass]="{'coloredMonthly': monthlyChars < monthlyAlert}">{{ monthlyChars
-                        }}
-                </span> </div>
+<div id="charDisplayer" role="region" aria-live="polite" [style.width]="isTab ? '40rem' : '35rem'">
+        <div id="dailyQuota" class="charContainer">
+                <mat-icon aria-hidden="true">calendar_view_day</mat-icon>
+                Caratteri giornalieri rimanenti:
+                <span id="dailyChars" [ngClass]="{'coloredDaily': dailyChars < dailyAlert}">{{ dailyChars }}</span>
+        </div>
+        <div id="weeklyQuota" class="charContainer">
+                <mat-icon aria-hidden="true">calendar_view_week</mat-icon>
+                Caratteri settimanali rimanenti:
+                <span id="weeklyChars" [ngClass]="{'coloredWeekly': weeklyChars < weeklyAlert}"> {{ weeklyChars }}
+                </span>
+        </div>
+        <div id="monthlyQuota" class="charContainer">
+                <mat-icon aria-hidden="true">calendar_view_month</mat-icon>
+                Caratteri mensili rimanenti:
+                <span id="monthlyChars" [ngClass]="{'coloredMonthly': monthlyChars < monthlyAlert}">{{ monthlyChars
+                        }}</span>
+        </div>
 </div>

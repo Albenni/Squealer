@@ -12,6 +12,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 -rimuovere receivers
--accessibilità
 Da fixare:
-
+-caricare ulteriori squeal oltre i 10

@@ -1,33 +1,27 @@
-<div class="square-container p-2 m-4 card text-center" style="align-items: center;">
+<div class="square-container p-2 m-4 card text-center" style="align-items: center;" role="article" >
+    <div style="width: 20rem; font-style: italic;" class="row" [attr.aria-label]="squealInput.publicSqueal ? 'Squeal Pubblico' : 'Squeal Privato'">
+        <p class="col-6" style="text-align: start;">{{squealInput.publicSqueal == true ? 'Pubblico' : 'Privato'}}</p>
+        <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squealInput.category)}">{{squealInput.category}}</p>
+    </div>
 
-    <div style="width: 20rem;font-style: italic;" *ngIf="squealInput.publicSqueal==true" class="row">
-        <p class="col-6" style="text-align: start;"> Pubblico</p>
-        <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squealInput.category)}">
-            {{squealInput.category}}</p>
-    </div>
-    <div style="width: 20rem;font-style: italic;" *ngIf="squealInput.publicSqueal!==true" class="row">
-        <p class="col-6" style="text-align: start;"> Privato</p>
-        <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squealInput.category)}">
-            {{squealInput.category}}</p>
-    </div>
     <div class="card-header py-0 px-1 pt-3" style="width: 18rem;">
-        <app-reactions-card-header class="" [neg0Reac]="squealInput.neg0Reac"
-            [neg1Reac]="squealInput.neg1Reac" [pos2Reac]="squealInput.pos2Reac"
-            [pos3Reac]="squealInput.pos3Reac"></app-reactions-card-header>
+        <app-reactions-card-header [neg0Reac]="squealInput.neg0Reac" [neg1Reac]="squealInput.neg1Reac" [pos2Reac]="squealInput.pos2Reac" [pos3Reac]="squealInput.pos3Reac"></app-reactions-card-header>
     </div>
-    <div class="p-1 card-body" style="width: 20rem; border-radius: 3%; ">
-        <div *ngIf="squealInput.contentType=== 'image'"> <app-image-format [format]="squealInput.content"
-                [idImage]="squealInput._id"></app-image-format></div>
-        <p *ngIf="squealInput.contentType === 'text'">{{ squealInput.content}}</p>
-        <div *ngIf="squealInput.contentType === 'geolocalization'"><app-localization-format
-                [coordinates]="squealInput.content"></app-localization-format></div>
-        <div *ngIf="squealInput.contentType === 'video'"> <app-video-format [format]="squealInput.content"
-                [idVideo]="squealInput._id"></app-video-format>
+
+    <div class="p-1 card-body" style="width: 20rem; border-radius: 3%;">
+        <div *ngIf="squealInput.contentType === 'image'">
+            <app-image-format [format]="squealInput.content" [idImage]="squealInput._id"></app-image-format>
+        </div>
+        <p *ngIf="squealInput.contentType === 'text'">{{squealInput.content}}</p>
+        <div *ngIf="squealInput.contentType === 'geolocalization'">
+            <app-localization-format [coordinates]="squealInput.content"></app-localization-format>
+        </div>
+        <div *ngIf="squealInput.contentType === 'video'">
+            <app-video-format [format]="squealInput.content" [idVideo]="squealInput._id"></app-video-format>
         </div>
     </div>
 
     <div class="card-footer text-body-secondary py-0 px-1 row" style="font-size: smaller; width: 18rem;">
-        <div class="p-0 my-2" style="font-size: small;"> {{squealInput.convertedDate}}
-        </div>
+        <div class="p-0 my-2" style="font-size: small;">{{squealInput.convertedDate}}</div>
     </div>
 </div>

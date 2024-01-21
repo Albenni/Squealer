@@ -1,9 +1,9 @@
 <div class="row">
-    <p class="col-1" style="text-align: center; margin-top: 1rem; color: #d9d9d9; font: 1em sans-serif; font-size: medium;">Filtri:</p>
-    <form class="col" (ngSubmit)="applyFilter(filterForm)" #filterForm="ngForm">
+    <p class="col-1" style="text-align: center; margin-top: 1rem; color: #d9d9d9; font: 1em sans-serif; font-size: medium;" role="heading" aria-level="2">Filtri:</p>
+    <form class="col" (ngSubmit)="applyFilter(filterForm)" #filterForm="ngForm" role="form" aria-labelledby="filterForm">
         <mat-form-field appearance="fill" class="px-2 pt-2">
             <mat-label>Ordina per:</mat-label>
-            <mat-select name="orderBy" [(ngModel)]="filterParams.orderBy">
+            <mat-select name="orderBy" [(ngModel)]="filterParams.orderBy" aria-label="Seleziona l'ordine dei post">
                 <mat-option value="recent">Più recenti</mat-option>
                 <mat-option value="oldest">Meno recenti</mat-option>
                 <mat-option value="liked">Più reazioni positive</mat-option>
@@ -15,7 +15,7 @@
 
         <mat-form-field appearance="fill" class="px-2 pt-2">
             <mat-label>Seleziona per contenuto:</mat-label>
-            <mat-select name="contentTypes" [(ngModel)]="filterParams.contentTypes" multiple>
+            <mat-select name="contentTypes" [(ngModel)]="filterParams.contentTypes" multiple aria-label="Seleziona i tipi di contenuto">
                 <mat-option value="all">Tutti</mat-option>
                 <mat-option value="text">Testo</mat-option>
                 <mat-option value="image">Immagine</mat-option>
@@ -26,7 +26,7 @@
 
         <mat-form-field appearance="fill" class="px-2 pt-2">
             <mat-label>Seleziona per popolarità:</mat-label>
-            <mat-select name="contentPopularity" [(ngModel)]="filterParams.contentPopularity" multiple>
+            <mat-select name="contentPopularity" [(ngModel)]="filterParams.contentPopularity" multiple aria-label="Seleziona per popolarità">
                 <mat-option value="all">Tutti</mat-option>
                 <mat-option value="popolare">Popolari</mat-option>
                 <mat-option value="impopolare">Impopolari</mat-option>
@@ -34,7 +34,7 @@
             </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button type="submit">Applica filtri</button>
+        <button mat-raised-button type="submit" aria-label="Applica filtri">Applica filtri</button>
 
     </form>
 

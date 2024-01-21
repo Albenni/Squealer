@@ -1,6 +1,6 @@
-<li class="user-item">
-    <div> <c-avatar class="img-fluid" [src]="userProfileImage" alt="Immagine profilo" size="sm"
-            shape="rounded"></c-avatar>
+<li class="user-item" role="listitem" aria-label="Profilo utente">
+    <div>
+        <c-avatar class="img-fluid" [src]="userProfileImage" alt="Immagine del profilo " size="sm" shape="rounded"></c-avatar>
     </div>
-    <div class="username">{{ username }}</div>
+    <div class="username" aria-hidden="true">{{ username }}</div>
 </li>

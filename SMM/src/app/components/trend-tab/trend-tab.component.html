@@ -1,79 +1,80 @@
-<div class="mt-4" id="monthlySqueal" style="display: flex;  align-items: center; flex-direction: column;">
-    <h1 style=" font-weight: 500; ">Squeal del mese <span id="monthlySquealInfo"
-            style=" cursor: pointer; position: relative; top: -10px; right: -20px;" (click)="openInfosModal()"
-            class="position-relative top-0 translate-middle badge rounded-pill  text-bg-info">Info</span>
+<div class="mt-4" id="monthlySqueal" style="display: flex; align-items: center; flex-direction: column;" role="region"
+    aria-labelledby="monthlySquealTitle">
+    <h1 id="monthlySquealTitle" style="font-weight: 500;">Squeal del mese
+        <span id="monthlySquealInfo" style="cursor: pointer; position: relative; top: -10px; right: -20px;"
+            (click)="openInfosModal()" class="position-relative top-0 translate-middle badge rounded-pill text-bg-info"
+            role="button" aria-label="Informazioni sugli Squeal del mese">Info</span>
     </h1>
     <app-squeal-format *ngIf="isMonthlySquealNotEmpty" [squealInput]="monthlySqueal"></app-squeal-format>
     <div *ngIf="!isMonthlySquealNotEmpty" style="font-size: large; margin-top: 1%;">Non hai postato nessuno squeal il
-        mese scorso ...</div>
+        mese scorso...</div>
 </div>
-
 <div class="row mt-5">
-    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
-        <h2 style="text-align: center; font-style: italic; " class="mb-0">Squeal più popolare:</h2>
+    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;" role="region" aria-labelledby="trend1Title">
+        <h2 id="trend1Title" style="text-align: center; font-style: italic;" class="mb-0" role="heading" aria-level="2">Squeal più popolare:</h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="mostPopularSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
 
-        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più visualizzato:</h2>
+        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3" role="heading" aria-level="2">Squeal più visualizzato:</h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="mostViewedSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
 
-        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più breve:</h2>
+        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3" role="heading" aria-level="2">Squeal più breve:</h2>
         <app-squeal-format *ngIf="isShortestSquealNotEmpty" [squealInput]="shortestSqueal"></app-squeal-format>
         <div *ngIf="!isShortestSquealNotEmpty" style="font-size: large; margin-top: 3%;">Non è ancora presente nessuno
             squeal di testo...</div>
 
-        <h2 style="text-align: center; " class="mb-0 mt-3"> <span style="font-style: italic;">Squeal più
+        <h2 style="text-align: center; " class="mb-0 mt-3" role="heading" aria-level="2"> <span style="font-style: italic;" role="heading" aria-level="2">Squeal più
                 interagito:</span> <br> <span style="font-size: medium;">&#40;Maggior
-            rapporto reazioni/visualizzazioni&#41;</span></h2>
+                rapporto reazioni/visualizzazioni&#41;</span></h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="mostInteractedSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
     </div>
-    
+
     <mat-divider class="col-1 vertical-divider" [vertical]="true"
         style="border-right-color: rgba(0, 0, 0, 0.3); "></mat-divider>
-        <div class="col-1"> </div>
-    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
-        <h2 style="text-align: center; font-style: italic;" class="mb-0">Squeal più impopolare:</h2>
+    <div class="col-1"> </div>
+    <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;" aria-labelledby="trend2Title">
+        <h2 style="text-align: center; font-style: italic;" class="mb-0" role="heading" aria-level="2">Squeal più impopolare:</h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="leastPopularSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
 
-        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal meno visualizzato:</h2>
+        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3" role="heading" aria-level="2">Squeal meno visualizzato:</h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="leastViewedSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
 
-        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3">Squeal più lungo:</h2>
+        <h2 style="text-align: center; font-style: italic;" class="mb-0 mt-3" role="heading" aria-level="2">Squeal più lungo:</h2>
         <app-squeal-format *ngIf="isLongestSquealNotEmpty" [squealInput]="longestSqueal"></app-squeal-format>
         <div *ngIf="!isLongestSquealNotEmpty" style="font-size: large; margin-top: 3%;">Non è ancora presente nessuno
             squeal di testo...</div>
 
-        <h2 style="text-align: center; " class="mb-0 mt-3"> <span style=" font-style: italic; ">Squeal meno
+        <h2 style="text-align: center; " class="mb-0 mt-3" role="heading" aria-level="2"> <span style=" font-style: italic; ">Squeal meno
                 interagito:</span> <br> <span style="font-size: medium;">&#40;Minor
-            rapporto reazioni/visualizzazioni&#41;</span></h2>
+                rapporto reazioni/visualizzazioni&#41;</span></h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="leastInteractedSqueal"></app-squeal-format>
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
     </div>
-    <ng-template #infosModal let-modal="modalRef">
-        <div class="modal-header">
-            <h5 class="modal-title" style="font-size: large;">Cos'è lo squeal del mese?</h5>
-            <button type="button" mat-icon-button class="close" aria-label="Close" (click)="modalRef?.hide()">
-                <mat-icon aria-hidden="true">close</mat-icon>
-            </button>
-        </div>
-        <div class="modal-body scrollable-modal-bod">
-            <p style="font-size: medium;">
-                Squeal in Evidenza del Mese: <br> <br>Questo è lo squeal che si è distinto nel mese
-                precedente, eccellendo nella classifica grazie a un notevole numero di visualizzazioni, reazioni e
-                commenti.
-                <br> <br>
-                Uno spettacolo di numeri e un vero successo sui social!
-            </p>
-        </div>
-
-    </ng-template>
+</div>
+<ng-template #infosModal let-modal="modalRef">
+    <div class="modal-header">
+        <h5 class="modal-title" style="font-size: large;" role="heading" aria-level="2">Cos'è lo squeal del mese?
+        </h5>
+        <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
+            <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body scrollable-modal-bod">
+        <p style="font-size: medium;">
+            Squeal in Evidenza del Mese: <br> <br>Questo è lo squeal che si è distinto nel mese precedente,
+            eccellendo nella classifica grazie a un notevole numero di visualizzazioni, reazioni e commenti.
+            <br> <br>
+            Uno spettacolo di numeri e un vero successo sui social!
+        </p>
+    </div>
+</ng-template>

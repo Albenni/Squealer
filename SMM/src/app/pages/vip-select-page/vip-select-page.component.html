@@ -1,64 +1,46 @@
-<div id="welcome-container">
+<div id="welcome-container" role="main">
 
-    <div id="logoContainer">
-        <img class="img-fluid" [src]="logosrc" alt="Logo" id="logo" aria-label="Logo dell'applicazione">
+    <div id="logoContainer" role="img" aria-label="Logo di Squealer SMM">
+        <img class="img-fluid" [src]="logosrc" alt="Logo di Squealer SMM" id="logo">
     </div>
 
-    <div class="p-2" style="position: fixed; top: 18%;" id="titleContainer">
-        <h1 id="title" class="pb-3" style="font-weight: 600; font-size: xx-large; color: #636060;">Benvenuto su Squealer SMM {{
-            smmUsername }}!</h1>
-        <p *ngIf="!existVips" style="color: #333333; font-size: medium; text-align: center;"> <span
-                style="font-weight: 500;">Non hai ancora aggiunto nessun account VIP.</span> <br> Aggiungine
-            uno per iniziare ad
-            utilizzare Squealer SMM! <br> All'accettazione verrai rediretto alla pagina di login.</p>
-
-        <p *ngIf="existVips" style="color: #333333; font-size: medium; text-align: center;"> <span
-                style="font-weight: 500;">Seleziona l'account VIP da gestire.</span> <br> Alla selezione verrai
-            rediretto alla pagina home.</p>
+    <div class="p-2" style="position: fixed; top: 18%;" id="titleContainer" aria-labelledby="title">
+        <h1 id="title" class="pb-3" style="font-weight: 600; font-size: xx-large; color: #636060;">Benvenuto su Squealer SMM {{ smmUsername }}!</h1>
+        <p *ngIf="!existVips" style="color: #333333; font-size: medium; text-align: center;"> <span style="font-weight: 500;">Non hai ancora aggiunto nessun account VIP.</span> <br> Aggiungine uno per iniziare ad utilizzare Squealer SMM! <br> All'accettazione verrai rediretto alla pagina di login.</p>
+        <p *ngIf="existVips" style="color: #333333; font-size: medium; text-align: center;"> <span style="font-weight: 500;">Seleziona l'account VIP da gestire.</span> <br> Alla selezione verrai rediretto alla pagina home.</p>
     </div>
 
-    <div *ngIf="existVips" class="account-selection-container py-4 px-5" style="bottom: 18vh; position: fixed; ">
-
+    <div *ngIf="existVips" class="account-selection-container py-4 px-5" style="bottom: 18vh; position: fixed;" aria-label="Seleziona account VIP">
         <div class="account-selection-form">
             <mat-form-field appearance="fill">
                 <mat-label aria-live="polite" style="color: #333333;">Seleziona account</mat-label>
-                <mat-select [(ngModel)]="selectedAccountUsername" placeholder="Account"
-                    aria-label="Seleziona l'account da gestire">
-                    <mat-option *ngFor="let username of vipUsernames; let i = index" [value]="username">
+                <mat-select [(ngModel)]="selectedAccountUsername" placeholder="Account" aria-label="Elenco degli account VIP disponibili">
+                    <mat-option *ngFor="let username of vipUsernames; let i = index" [value]="username" role="option">
                         <div class="row py-1" style="width: 300px;">
                             <div class="col-3">
-                                <div class="rounded-avatar"> <img class="rounded-avatar-img"
-                                        [src]="vipImages[i]" alt="Profile image"></div>
+                                <div class="rounded-avatar"> <img class="rounded-avatar-img" [src]="vipImages[i]" alt="Immagine del profilo di {{ username }}"></div>
                             </div>
-                            <div class="col-4" style="text-align: center; margin-top: 1rem; font-size: large;">{{
-                                username }}</div>
+                            <div class="col-4" style="text-align: center; margin-top: 1rem; font-size: large;">{{ username }}</div>
                         </div>
-
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
-
-        <button mat-raised-button color="primary" (click)="onSubmit()" style="border-radius: 20px;">Seleziona</button>
-
-
+        <button mat-raised-button color="primary" (click)="onSubmit()" style="border-radius: 20px;" aria-label="Seleziona account VIP">Seleziona</button>
     </div>
 
-    <div *ngIf="!existVips"class="account-selection-container py-4 px-5" style="bottom: 10vh; position: fixed;">
-        <div *ngIf="!existVips" class="account-selection-form">
-
-            <div class="card-header">
-                <h5 class="card-title" style="font-size: large;">Richieste</h5>
-
+    <div *ngIf="!existVips" class="account-selection-container py-4 px-5" style="bottom: 10vh; position: fixed;" aria-label="Gestione delle richieste VIP">
+        <div class="account-selection-form">
+            <div class="card-header" role="banner">
+                <h2 class="card-title" style="font-size: large;" aria-level="2">Richieste VIP</h2>
             </div>
-            <div class="card-body" style="max-height: 40vh; overflow-y: auto; overflow-x: hidden;">
-
-                <div class="card mb-2" *ngFor="let reqVipUsername of reqVipUsernames; let i = index">
+            <div class="card-body" style="max-height: 40vh; overflow-y: auto; overflow-x: hidden;" role="region" aria-labelledby="vip-requests">
+                <div class="card mb-2" *ngFor="let reqVipUsername of reqVipUsernames; let i = index" role="article">
                     <div class="card-body p-2">
                         <div class="row">
                             <div class="col-4">
-                                <div class="rounded-avatar"> <img class="rounded-avatar-img"
-                                        *ngIf="reqVipProfilePics[i]" [src]="reqVipProfilePics[i]" alt="Profile image">
+                                <div class="rounded-avatar"> 
+                                    <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]" [src]="reqVipProfilePics[i]" alt="Immagine del profilo di {{ reqVipUsername }}">
                                 </div>
                             </div>
                             <div class="col-8">
@@ -68,16 +50,13 @@
                                             <div class="col-12" style="font-size: large;">{{ reqVipUsername }}</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-12" style="font-size: small;">{{ reqVipUsernames[i] }}
-                                                ha richiesto di diventare tuo VIP</div>
+                                            <div class="col-12" style="font-size: small;" aria-live="polite">{{ reqVipUsername }} ha richiesto di diventare tuo VIP</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12" style="text-align: center;">
-                                        <button mat-raised-button color="primary"
-                                            (click)="acceptVip(i)">Accetta</button>
-
+                                        <button mat-raised-button color="primary" (click)="acceptVip(i)" [attr.aria-label]="'Accetta richiesta VIP da ' + reqVipUsername">Accetta</button>
                                     </div>
                                 </div>
                             </div>
@@ -87,3 +66,5 @@
             </div>
         </div>
     </div>
+    
+</div>

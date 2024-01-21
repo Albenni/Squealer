@@ -10,7 +10,7 @@
 
         <div class="btn-group" dropdown>
             <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                aria-controls="dropdown-basic" (click)="stopEventPropagation($event)">
+                aria-controls="dropdown-basic" (click)="stopEventPropagation($event)" aria-label="Seleziona il canale">
                 {{channelChoice}}<span class="caret"></span>
             </button>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
@@ -21,7 +21,7 @@
 
     </div>
     <input type="text" class="form-control" id="inputReceiver" placeholder="Username" aria-label="Username"
-        aria-describedby="basic-addon1" (input)="stopEventPropagation($event)" (click)="stopEventPropagation($event)"/>
+        aria-describedby="basic-addon1" (input)="stopEventPropagation($event)" (click)="stopEventPropagation($event)" />
 
     <div class="input-group-append">
         <button class="btn btn-outline-secondary p-0 px-1 pt-1" type="button"
@@ -31,9 +31,11 @@
 <div *ngIf="receiversNumber > 0">
     <ul class="receivers-list">
         <div role="group" class="pb-1 btn-group" *ngFor="let rec of receivers; let i = index">
-            <button type="button" disabled="" class="btn btn-outline-dark">{{ rec.channel }}</button>
-            <button type="button" class="btn btn-outline-danger" (click)="deleteReceiver(i, $event)">
-                <mat-icon>delete</mat-icon>
+            <button type="button" disabled="" class="btn btn-outline-dark" aria-label="Canale o keyword selezionata">
+                {{ rec.channel }}
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="deleteReceiver(i, $event)"
+                aria-label="Rimuovi il canale o la keyword">
             </button>
         </div>
     </ul>

@@ -1,29 +1,27 @@
 <div style="display: flex; flex-direction: column; align-items: center;">
     <app-character-displayer class="mt-4" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
-        [monthlyChars]="characters.monthly" [isTab] = "true">
+        [monthlyChars]="characters.monthly" [isTab]="true">
     </app-character-displayer>
-    <mat-card class="characters-card">
-        <mat-card-header style=" align-self: center;">
-            <mat-card-title>Caratteri</mat-card-title>
+    <mat-card class="characters-card" role="complementary">
+        <mat-card-header style="align-self: center;">
+            <mat-card-title role="heading" aria-level="2">Caratteri</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <mat-card id="characters-usage-card">
+            <mat-card id="characters-usage-card" role="article">
                 <mat-card-header>
-                    <mat-card-title>Utilizzo</mat-card-title>
+                    <mat-card-title role="heading" aria-level="3">Utilizzo</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <p>{{usageText}}</p>
                 </mat-card-content>
-
             </mat-card>
-            <mat-card id="characters-prices-card">
+            <mat-card id="characters-prices-card" role="article">
                 <mat-card-header>
-                    <mat-card-title>Prezzi</mat-card-title>
+                    <mat-card-title role="heading" aria-level="3">Prezzi</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <p>{{pricesText}}</p>
                 </mat-card-content>
-
             </mat-card>
         </mat-card-content>
     </mat-card>

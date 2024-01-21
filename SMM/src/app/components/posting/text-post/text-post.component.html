@@ -1,9 +1,12 @@
-<textarea
-placeholder="Scrivi qui il tuo Squeal..."
-required="true"
-[maxlength]="maxLengthChars"
-[(ngModel)]="textValue"
-(input)="onInputChange()"
-style="width: 80%; margin-left: 2rem; margin-top: 1rem; margin-bottom: 1rem; padding: 0.5rem;"
 
+<textarea
+  id="squealText"
+  placeholder="Scrivi qui il tuo Squeal..."
+  [(ngModel)]="textValue"
+  (input)="onInputChange()"
+  style="width: 80%; margin-left: 2rem; margin-top: 1rem; margin-bottom: 1rem; padding: 0.5rem;"
+  aria-required="true"
+  aria-label="Textarea for Squeal input"
+  [maxlength]="maxLengthChars"
+  required
 ></textarea>

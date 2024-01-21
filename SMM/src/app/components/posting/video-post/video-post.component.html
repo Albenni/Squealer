@@ -1,31 +1,14 @@
 <div>
-    <label for="videoUrl">Video URL:</label>
-    <input
-      type="text"
-      id="videoUrl"
-      [(ngModel)]="videoUrl"
-      (change)="onUrlChange(fileInput)"
-      class="form-control"
-    />
-    <br />
-    <label for="videoFile">Oppure importa un file:</label>
-    <input
-      type="file"
-      id="videoFile"
-      #fileInput
-      (change)="onFileSelected($event, fileInput)"
-      class="form-control"
-    />
+  <label for="videoUrl">Video URL:</label>
+  <input type="text" id="videoUrl" [(ngModel)]="videoUrl" (change)="onUrlChange(fileInput)" class="form-control" />
+  <br />
+  <label for="videoFile">Oppure importa un file:</label>
+  <input type="file" id="videoFile" #fileInput (change)="onFileSelected($event, fileInput)" class="form-control" />
 
-    <div class="pt-3"  id="showVideo" *ngIf="isFileSelected">
-      <div style="width: 80%; margin: auto;"><video 
-        controls
-        autoplay
-        loop
-        muted
-        [src]="fileToShow"
-        class="img-fluid"
-      ></video></div>
-      
+  <div class="pt-3" id="showVideo" *ngIf="isFileSelected">
+    <div style="width: 80%; margin: auto;">
+      <video controls autoplay loop muted [src]="fileToShow" class="img-fluid"></video>
     </div>
+  </div>
+
 </div>

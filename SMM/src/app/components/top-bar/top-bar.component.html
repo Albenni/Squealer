@@ -1,78 +1,71 @@
-<nav class="navbar" id="topBarContainer">
+<nav class="navbar" id="topBarContainer" role="navigation">
     <div class="container-fluid row no-gutters" id="topTabDashboard">
         <div class="col-2" id="logoContainer">
-            <img id="logo" [src]="logosrc" alt="Logo">
+            <img id="logo" [src]="logosrc" alt="Logo di Squealer SMM">
         </div>
         <div id="titleContainer" class="col-6">
-            <h1 class=" align-middle" id="title">Squealer SMM</h1>
+            <h1 class="align-middle" id="title" role="heading" aria-level="1">Squealer SMM</h1>
         </div>
         <div class="col-2">
             <div class="row">
                 <div class="col">
-                    <button (click)="openNotificationsModal()" mat-icon-button aria-label="Button with a notifications icon"><mat-icon>notifications_active</mat-icon></button>
-                    
+                    <button (click)="openNotificationsModal()" mat-icon-button aria-label="Apri notifiche">
+                        <mat-icon>notifications_active</mat-icon>
+                    </button>
                 </div>
-                <div class="col"><button (click)="shopButton()" mat-icon-button 
-                        aria-label="Button with a shop icon">
+                <div class="col">
+                    <button (click)="shopButton()" mat-icon-button aria-label="Vai allo shop">
                         <mat-icon>shopping_cart</mat-icon>
-                    </button></div>
-
+                    </button>
+                </div>
                 <div class="col btn-group" dropdown>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Button with a menu icon">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Apri menu VIP">
                         <mat-icon>groups</mat-icon>
                     </button>
-                    <mat-menu #menu="matMenu" >
-
-                        <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
-                            style="overflow:hidden ;" (click)="changeVip(i)">
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let username of vipUsernames; let i = index" (click)="changeVip(i)">
                             <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
                                 <div class="col-4 p-0">
-                                    <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
-                                        [src]="vipProfilePics[i]" alt="Profile image"></div>
+                                    <div class="rounded-avatar">
+                                        <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]" [src]="vipProfilePics[i]" alt="Immagine del profilo di {{ username }}">
+                                    </div>
                                 </div>
                                 <div class="col-8 p-0 username" style="text-align: center; margin-top: 1rem; font-size: large; color: #000;">
                                     {{ username }}
                                 </div>
                             </div>
-
                         </button>
                         <mat-divider></mat-divider>
-                        <button mat-menu-item (click)="logout()" style="overflow:hidden ;">
-                            <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
-                               
-                                <div class=" p-0 username" style="text-align: center; font-size: larger; color: #000;">
+                        <button mat-menu-item (click)="logout()" style="overflow:hidden;">
+                            <div class="row py-1" style="padding-left: 1rem;">
+                                <div class="p-0 username" style="text-align: center; font-size: larger; color: #000;">
                                     Logout
                                 </div>
                             </div>
                         </button>
                     </mat-menu>
                 </div>
-                
-
             </div>
-
         </div>
-
-
     </div>
 </nav>
-
 <ng-template #notificationsModal>
-    <div class="modal-header">
-      <h5 class="modal-title" style="font-size: large;">Notifiche</h5>
-      <button type="button" mat-icon-button class="close" aria-label="Close" (click)="modalRef?.hide()">
+    <div class="modal-header" role="dialog" aria-modal="true" aria-labelledby="notificationModalTitle">
+      <h5 id="notificationModalTitle" class="modal-title" style="font-size: large;">Notifiche</h5>
+      <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
         <mat-icon aria-hidden="true">close</mat-icon>
-    </button>
+      </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" role="document">
         <div *ngIf="!existNotifications" style="font-size: medium;">Nessuna richiesta al momento...</div>
         <div *ngIf="existNotifications">
-            <div class="card" *ngFor="let reqVipUsername of reqVipUsernames; let i = index">
+            <div class="card" *ngFor="let reqVipUsername of reqVipUsernames; let i = index" role="listitem">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-4">
-                            <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]"
-                                [src]="reqVipProfilePics[i]" alt="Profile image"></div>
+                            <div class="rounded-avatar">
+                                <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]" [src]="reqVipProfilePics[i]" alt="Immagine del profilo di {{ reqVipUsername }}">
+                            </div>
                         </div>
                         <div class="col-8">
                             <div class="row">
@@ -97,5 +90,4 @@
             </div>
         </div>
     </div>
-  </ng-template>
-  
+</ng-template>

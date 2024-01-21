@@ -1,18 +1,17 @@
 <div class="shopCards">
-    <div class="row ">
-        <mat-card class="card col-sm-6 mx-4" (click)="handleCardClick(100)">
+    <div class="row">
+        <mat-card class="card col-sm-6 mx-4" (click)="handleCardClick(100)" role="button" aria-label="Compra 100 caratteri">
 
-            <img mat-card-image class=" mat-card" src="../../../assets/compra1.png">
+            <img mat-card-image class="mat-card" src="../../../assets/compra1.png" alt="Immagine per Compra 100 caratteri">
             <mat-card-content>
                 <p style="font-size: large; color: rgb(47, 47, 47);">
                     Compra 100 caratteri
                 </p>
-                
             </mat-card-content>
         </mat-card>
 
-        <mat-card class="card col-sm-6" (click)="handleCardClick(200)">
-            <img mat-card-image class=" mat-card" src="../../../assets/compra2.png">
+        <mat-card class="card col-sm-6" (click)="handleCardClick(200)" role="button" aria-label="Compra 200 caratteri">
+            <img mat-card-image class="mat-card" src="../../../assets/compra2.png" alt="Immagine per Compra 200 caratteri">
             <mat-card-content>
                 <p style="font-size: large; color: rgb(47, 47, 47);">
                     Compra 200 caratteri
@@ -22,19 +21,21 @@
     </div>
 
     <div class="row mt-4 mb-3">
-        <mat-card class="card col-sm-6 mx-4" (click)="handleCardClick(300)">
-            <img mat-card-image class="  mat-card" src="../../../assets/compra3.png">
+        <mat-card class="card col-sm-6 mx-4" (click)="handleCardClick(300)" role="button" aria-label="Compra 300 caratteri">
+            <img mat-card-image class="mat-card" src="../../../assets/compra3.png" alt="Immagine per Compra 300 caratteri">
             <mat-card-content>
                 <p style="font-size: large; color: rgb(47, 47, 47);">
                     Compra 300 caratteri
                 </p>
-            </mat-card-content> </mat-card>
-        <mat-card class="card col-sm-6" (click)="handleCardClick(400)">
-            <img mat-card-image class=" mat-card" src="../../../assets/compra4.png">
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card col-sm-6" (click)="handleCardClick(400)" role="button" aria-label="Compra 400 caratteri">
+            <img mat-card-image class="mat-card" src="../../../assets/compra4.png" alt="Immagine per Compra 400 caratteri">
             <mat-card-content>
                 <p style="font-size: large; color: rgb(47, 47, 47);">
                     Compra 400 caratteri
                 </p>
-            </mat-card-content> </mat-card>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>
