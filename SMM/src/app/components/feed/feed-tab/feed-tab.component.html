@@ -122,3 +122,18 @@
         </div>
     </div>
 </ng-template>
+
+<ng-template #confirmModal >
+    <div class="modal-header" role="banner">
+        <h2 class="modal-title" style="font-size: large;">Conferma eliminazione</h2>
+        <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
+            <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body scrollable-modal-bod" role="document">
+        <p style="font-size: medium;">Se rimuovi l'unico destinatario il post verrà eliminato. <br> sicuro di voler eliminare questo post?</p>
+    </div>
+    <div class="modal-footer" role="contentinfo">
+        <button type="button" class="btn btn-danger" (click)="confirmDeletePost()">Si.</button>
+    </div>
+</ng-template>

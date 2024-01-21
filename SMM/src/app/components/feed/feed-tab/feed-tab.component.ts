@@ -38,6 +38,7 @@ export class FeedTabComponent {
   @Input() refreshFeed: boolean = false;
   @ViewChild('deleteModal') deleteModal?: TemplateRef<any>;
   @ViewChild('commentModal') commentModal?: TemplateRef<any>;
+  @ViewChild('confirmModal') confirmModal?: TemplateRef<any>;
 
   getSqueals: SquealsResponse[] = [];
   squeals: SquealsInfo[] = [];
@@ -198,7 +199,12 @@ export class FeedTabComponent {
     location.reload();
 
   }
-  openConfirmationModal(squealIndex: number) {}
+  openConfirmationModal(squealIndex: number) {
+    this.idPostToDelete = this.squeals[squealIndex]._id;
+    this.modalRef = this.modalService.show(this.confirmModal!, {
+      class: 'modal-sm',
+    });
+  }
   getReactions(squeal: SquealsInfo) {
     this.http
       .get<GetReactionResponse>(
@@ -252,6 +258,7 @@ export class FeedTabComponent {
 
     squeal.convertedDate = `${dayOfWeek}, ${day} ${month} ${year}`;
   }
+
   openDeleteModal(index: number) {
     this.idPostToDelete = this.squeals[index]._id;
     this.modalRef = this.modalService.show(this.deleteModal!, {
