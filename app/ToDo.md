@@ -20,16 +20,8 @@ https://mui.com/material-ui/react-menu/
 
 - Rendere sito accessibile
 
-- Finire pagina keyword (manca api followers)
-
 - Search bar buggata?
 
-- Aggiungere messaggio utente bloccato nel login
+-
 
-- Quando crea la conversazione non manda il messaggio
-
-- Canale proprietario non appare nella sezione giusta
-
-- Aggiungi bottone canale sui post
-
-- Aggiungi menzione che porta al profilo
+- Per qualche motivo se mandi un messaggio a più persone, al primo viene mandato due volte

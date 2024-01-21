@@ -12,11 +12,13 @@ import config from "../../config/config";
 
 import { Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Post({ item }) {
   const useapi = useAxiosPrivate();
 
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     useapi
@@ -29,6 +31,14 @@ function Post({ item }) {
         console.log(err);
       });
   }, []);
+
+  const handleClickChannel = (receiver) => {
+    console.log(receiver);
+    if (receiver.groupType === "Channel")
+      navigate("/channel/" + receiver.group.name);
+    else if (receiver.groupType === "Keyword")
+      navigate("/keyword/" + receiver.group.name);
+  };
 
   return (
     <>
@@ -76,17 +86,23 @@ function Post({ item }) {
                 if (key > 1) return null;
                 if (key === 1)
                   return (
-                    <div key={key}>
-                      <div key={key}>
-                        {receiver?.groupType === "Channel" ? "§" : "#"}
-                        {/* {console.log(receiver)} */}
-                        {receiver?.group?.name} e altri...
-                      </div>
+                    <div
+                      key={key}
+                      onClick={() => handleClickChannel(receiver)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {receiver?.groupType === "Channel" ? "§" : "#"}
+                      {/* {console.log(receiver)} */}
+                      {receiver?.group?.name} e altri...
                     </div>
                   );
 
                 return (
-                  <div key={key}>
+                  <div
+                    key={key}
+                    onClick={() => handleClickChannel(receiver)}
+                    style={{ cursor: "pointer" }}
+                  >
                     {receiver?.groupType === "Channel" ? "§" : "#"}
                     {receiver?.group?.name}
                   </div>

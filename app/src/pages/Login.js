@@ -107,11 +107,6 @@ function Login() {
     authapi
       .postLogin({ user: loginobj.username, pwd: loginobj.password })
       .then((response) => {
-        if (response.data.blocked) {
-          setUserBlocked(true);
-          return;
-        }
-
         setAuth(response?.data?.accessToken);
 
         // sessionStorage.setItem("token", response?.data?.accessToken);
@@ -122,10 +117,7 @@ function Login() {
       })
       .catch((err) => {
         setLoginFailed(true);
-        if (err.response.status === 400)
-          alert("Username e password sono obbligatori");
-        else if (err.response.status === 401)
-          alert("Username e password sbagliati");
+        if (err.response.status === 403) setUserBlocked(true);
       });
   }
 

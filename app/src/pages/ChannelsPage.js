@@ -255,7 +255,7 @@ const ChannelsPage = () => {
             color: theme.colors.white,
           }}
         >
-          Scopri nuovi canali
+          Canali della community
         </h2>
         <ListGroup>
           {channels.map(
