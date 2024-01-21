@@ -23,7 +23,6 @@ function fetchUserData() {
 function populateUserList(users) {
   const nameFilter = $("#nameFilter").val().toLowerCase();
   const professionalFilter = $("#professionalFilter").val();
-  const verifiedFilter = $("#verifiedFilter").val();
   const blockedFilter = $("#blockedFilter").val();
 
   const userList = $("#userList");
@@ -34,7 +33,6 @@ function populateUserList(users) {
       (nameFilter === "" || user.username.toLowerCase().includes(nameFilter)) &&
       (professionalFilter === "" ||
         user.professional?.toString() === professionalFilter) &&
-      (verifiedFilter === "" || user.verified?.toString() === verifiedFilter) &&
       (blockedFilter === "" || user.blocked?.toString() === blockedFilter)
     ) {
       userList.append(
@@ -71,7 +69,7 @@ $(document).ready(function () {
     window.location.href = "./";
   }
   // Add event listeners to the filters
-  $("#nameFilter, #verifiedFilter, #professionalFilter, #blockedFilter").on(
+  $("#nameFilter, #professionalFilter, #blockedFilter").on(
     "input",
     function () {
       populateUserList(usersData);
@@ -86,11 +84,6 @@ $(document).ready(function () {
   // Listener for labels visibility
   $("#professionalFilter").change(function () {
     const label = $('label[for="professionalFilter"]');
-    label.css("visibility", this.value !== "" ? "visible" : "hidden");
-  });
-
-  $("#verifiedFilter").change(function () {
-    const label = $('label[for="verifiedFilter"]');
     label.css("visibility", this.value !== "" ? "visible" : "hidden");
   });
 
