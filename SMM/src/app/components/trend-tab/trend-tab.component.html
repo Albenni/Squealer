@@ -32,8 +32,10 @@
         <div *ngIf="!existSqueals" style="font-size: large; margin-top: 3%;">Non hai ancora postato nessuno squeal...
         </div>
     </div>
+    
     <mat-divider class="col-1 vertical-divider" [vertical]="true"
         style="border-right-color: rgba(0, 0, 0, 0.3); "></mat-divider>
+        <div class="col-1"> </div>
     <div class="col mt-2" style="display: flex; align-items: center; flex-direction: column;">
         <h2 style="text-align: center; font-style: italic;" class="mb-0">Squeal più impopolare:</h2>
         <app-squeal-format *ngIf="existSqueals" [squealInput]="leastPopularSqueal"></app-squeal-format>

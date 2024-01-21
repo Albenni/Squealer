@@ -1,13 +1,13 @@
 #shopTopBar{
   
-    background-color: rgb(217, 240, 240);
+  background-color: #202123;
 }
 #logo {
   max-height: 2.5rem;
   margin-top: 0.5rem;
 }
 #title {
-  color: #18020c;
+  color: #ffffff;
   font-family: "CenturyGothic";
   font-size: 1.8rem;
   font-weight: bold;
@@ -18,7 +18,9 @@
   color: #0d6efd;
   text-decoration: none;
 }
-
+button {
+  color: #ffffff;
+}
 button:hover {
   color: #0d6efd;
 }

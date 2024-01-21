@@ -3,7 +3,7 @@
     <div class="sticky-top" style="z-index: 500;">
         <app-top-bar (vipSelected)="selectVip($event)"></app-top-bar>
         <div class="row px-2" id="profileTabDashboard" style="background-color: rgb(30, 43, 61); ">
-            <div class="col-4" id="tabProfile">
+            <div class="col-5" id="tabProfile">
                 <div class="row" style="margin-left: 3%;">
                     <div class="col-6 " style="padding: 1.5%;" id="vipProfilePic">
                         <div class="rounded-avatar">
@@ -18,8 +18,7 @@
                 </div>
 
             </div>
-            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%;"><app-create-post></app-create-post>
-            </div>
+            
 
             <tabset type="pills" class="col-4" style="margin-top: 0.5rem;">
                 <div class="row">
@@ -43,6 +42,8 @@
 
                 </div>
             </tabset>
+            <div class="col-3" *ngIf="activeTab == 'feed'" style="margin-top: 0.5%; display: flex ; justify-content: end; "><app-create-post style="margin-right: 3%;"></app-create-post>
+            </div>
         </div>
     </div>
 

@@ -4,12 +4,12 @@
   text-align: center;
   border-top: 1rem;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  background-color: rgb(236, 245, 245);
+  background-color: #8e8ea0;
 
   margin-right: 1rem;
   margin-top: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
 }
 
 .charContainer {

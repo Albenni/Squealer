@@ -1,5 +1,5 @@
 nav {
-  background-color: grey;
+  background-color: #202123;
 
   right: 0;
   left: 0;
@@ -13,7 +13,7 @@ nav {
 }
 
 #title {
-  color: #18020c;
+  color: #ffffff;
   font-family: "CenturyGothic";
   font-size: 1.8rem;
   font-weight: bold;
@@ -24,6 +24,10 @@ nav {
 #title:hover {
   color: #0d6efd;
   text-decoration: none;
+}
+
+button {
+  color: #ffffff;
 }
 
 button:hover {
