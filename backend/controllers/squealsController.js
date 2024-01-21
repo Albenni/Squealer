@@ -453,33 +453,29 @@ async function manageReactions(squeal, req) {
   const numReactionPos =
     (await Reaction.countDocuments({
       squealId: req.params.squealId,
-      userId: req.id,
       reactionType: 2,
     })) +
     2 *
       (await Reaction.countDocuments({
         squealId: req.params.squealId,
-        userId: req.id,
         reactionType: 3,
       }));
   const numReactionNeg =
     (await Reaction.countDocuments({
       squealId: req.params.squealId,
-      userId: req.id,
       reactionType: 1,
     })) +
     2 *
       (await Reaction.countDocuments({
         squealId: req.params.squealId,
-        userId: req.id,
         reactionType: 0,
       }));
 
   //stabiliamo se un post è popolare o impopolare
   if (numReactionPos > 10 || numReactionNeg > 10) {
     if (
-      (numReactionPos >= squeal.impression * 0, 25) &&
-      (numReactionNeg >= squeal.impression * 0, 25)
+      numReactionPos >= squeal.impression * 0.25 &&
+      numReactionNeg >= squeal.impression * 0.25
     ) {
       squeal.category = "controverso";
       if (!squeal.publicSqueal) {
@@ -499,7 +495,7 @@ async function manageReactions(squeal, req) {
         squeal.receivers.push(destinatario);
       }
       await squeal.save();
-    } else if ((numReactionPos >= squeal.impression * 0, 25)) {
+    } else if (numReactionPos >= squeal.impression * 0.25) {
       squeal.category = "popolare";
       await squeal.save();
       //aumento quota se questo è il decimo squeal popolare
@@ -512,7 +508,7 @@ async function manageReactions(squeal, req) {
         author.dailyChar = author.dailyChar + constants.DAILY_CHAR / 100;
         await author.save();
       }
-    } else if ((numReactionNeg >= squeal.impression * 0, 25)) {
+    } else if (numReactionNeg >= squeal.impression * 0.25) {
       squeal.category = "impopolare";
       await squeal.save();
       //diminuisco quota se questo è il terzo squeal impopolare
