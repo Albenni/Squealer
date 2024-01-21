@@ -27,6 +27,9 @@
                             <p class="responseErr"> Password errata. </p>
                         </div>
 
+                        <div *ngIf="blocked" class="errorMessage">
+                            <p class="responseErr"> Utente bloccato. </p>
+                        </div>
                         <form (submit)="onSubmit()" class="text-align-center container">
                             <div class="form-group pb-2">
                                 <label for="user">Username</label>

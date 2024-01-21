@@ -24,6 +24,7 @@ export class LoginComponent {
   notPro: boolean = false;
   notFound: boolean = false;
   incorrectPwd: boolean = false;
+  blocked: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -42,6 +43,9 @@ export class LoginComponent {
           this.notPro = false;
           this.notFound = false;
           this.incorrectPwd = false;
+          this.blocked = false;
+
+          console.log(error.error.message);
 
           if (error.error.message == 'No VIP associated.') {
             this.noVip = true;
@@ -51,7 +55,10 @@ export class LoginComponent {
             this.notFound = true;
           } else if (error.error.message == 'Incorrect password') {
             this.incorrectPwd = true;
+          } else if (error.error.message == 'Account Blocked') {
+            this.blocked = true;
           }
+
 
           console.error('Si è verificato un errore:', error);
           return throwError('Errore gestito');

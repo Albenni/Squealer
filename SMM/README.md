@@ -14,4 +14,4 @@ Da fare:
 -rimuovere receivers
 -accessibilità
 Da fixare:
--account bloccato login
+
