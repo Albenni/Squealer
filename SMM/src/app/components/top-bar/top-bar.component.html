@@ -21,7 +21,7 @@
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Button with a menu icon">
                         <mat-icon>groups</mat-icon>
                     </button>
-                    <mat-menu #menu="matMenu">
+                    <mat-menu #menu="matMenu" >
 
                         <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
                             style="overflow:hidden ;" (click)="changeVip(i)">
@@ -30,7 +30,7 @@
                                     <div class="rounded-avatar"> <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
                                         [src]="vipProfilePics[i]" alt="Profile image"></div>
                                 </div>
-                                <div class="col-8 p-0 username" style="text-align: center; margin-top: 1rem; font-size: large;">
+                                <div class="col-8 p-0 username" style="text-align: center; margin-top: 1rem; font-size: large; color: #000;">
                                     {{ username }}
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                         <button mat-menu-item (click)="logout()" style="overflow:hidden ;">
                             <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
                                
-                                <div class=" p-0 username" style="text-align: center; font-size: larger;">
+                                <div class=" p-0 username" style="text-align: center; font-size: larger; color: #000;">
                                     Logout
                                 </div>
                             </div>
