@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 const Squeal = require("../models/Squeal");
 const Keyword = require("../models/Keyword");
+const Channel = require("../models/Channel");
 const Reaction = require("../models/Reaction");
 const constants = require("../config/constants");
-const { ObjectId } = require("mongodb");
 
 const searchSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
@@ -482,6 +482,22 @@ async function manageReactions(squeal, req) {
       (numReactionNeg >= squeal.impression * 0, 25)
     ) {
       squeal.category = "controverso";
+      if (!squeal.publicSqueal) {
+        let channel = await Channel.findOne({ name: "CONTROVERSIAL" });
+        if (!channel) {
+          channel = await Channel.create({
+            name: "CONTROVERSIAL",
+            description: "Last controversial squeals",
+            private: false,
+            editorialChannel: true,
+          });
+        }
+        const destinatario = {
+          group: channel._id,
+          groupType: "Channel",
+        };
+        squeal.receivers.push(destinatario);
+      }
       await squeal.save();
     } else if ((numReactionPos >= squeal.impression * 0, 25)) {
       squeal.category = "popolare";
