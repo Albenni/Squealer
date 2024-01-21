@@ -16,7 +16,7 @@ export class CharacterTabComponent {
     monthly: 0,
   };
   pricesText =
-    'Caratteri extra? * ciascuno. A corto mentre scrivi uno Squeal? Usa caratteri di emergenza e paga dopo a ** per ciascuno! #SmartWriting #SquealSmart';
+    'Caratteri extra? 0.04€ ciascuno. A corto mentre scrivi uno Squeal? Usa caratteri di emergenza e paga dopo a 0.1€ per ciascuno! #SmartWriting #SquealSmart';
   usageText =
     'Testo = 1 carattere per simbolo (es. 300 caratteri = 300). Immagini, video e geotag = 125 ciascuno. #BudgetYourCharacters #SocialStrategy';
   ngOnChanges(changes: SimpleChanges): void {

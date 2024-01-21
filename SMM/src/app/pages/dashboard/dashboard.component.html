@@ -54,7 +54,7 @@
     <div *ngIf="activeTab == 'chars'" class="chars-tab" id="dashCharsTab">
         <app-character-tab [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
             [monthlyChars]="characters.monthly"></app-character-tab>
-        <div class="shop-card">
+        <div class="shop-card" style="background-color: #8e8ea0;">
             <div class="shop-title">Shop Notice</div>
 
             <p class="description">Dai un'occhiata allo <a [routerLink]="['/shop']">shop</a> per comprare caratteri

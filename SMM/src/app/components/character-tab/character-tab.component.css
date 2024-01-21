@@ -2,12 +2,12 @@
   margin-top: 1rem;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgb(236, 245, 245);
+  background-color: #8e8ea0;
 
   max-width: 45vw;
 }
 
 #characters-usage-card, #characters-prices-card {
     margin: 2rem;    
-
+    background-color: #acacbe;
 }
