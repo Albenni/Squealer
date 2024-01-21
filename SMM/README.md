@@ -12,6 +12,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Da fare:
 -rimuovere receivers
--visualizzare squeal geolocalizzazione temporizzata
+-accessibilità
 Da fixare:
-
+-account bloccato login

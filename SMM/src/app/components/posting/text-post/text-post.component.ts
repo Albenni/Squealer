@@ -40,7 +40,6 @@ export class TextPostComponent {
 
   maxLength(){
     let min = Math.min(this.characters.daily,this.characters.weekly,this.characters.monthly);
-    console.log(min + 200);
     return min+200;
   }
 }

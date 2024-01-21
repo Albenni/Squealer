@@ -78,6 +78,22 @@ export class TopBarComponent {
     this.modalRef = this.modalService.show(this.notificationsModal);
   }
 
+  logout() {
+    this.http
+      .get('http://localhost:3500/api/logout')
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+
+        sessionStorage.clear();
+        this.router.navigate(['/login']);
+      });
+  }
+
   fetchNotification() {
     this.http
       .get<GetVipsResponse[]>(
