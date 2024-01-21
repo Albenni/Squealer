@@ -4,6 +4,7 @@ const Squeal = require("../models/Squeal");
 const Keyword = require("../models/Keyword");
 const Reaction = require("../models/Reaction");
 const constants = require("../config/constants");
+const { ObjectId } = require("mongodb");
 
 const searchSqueal = async (req, res) => {
   if (!req.authorized) return res.sendStatus(403);
@@ -580,14 +581,17 @@ const removeReceiver = async (req, res) => {
       return res.status(404).json({ error: "Squeal non trovato" });
     }
 
-    const index = squeal.group.indexOf(req.params.receiverId);
+    const index = squeal.receivers.findIndex((rec) =>
+      rec.group.equals(req.params.receiverId)
+    );
+
     if (index === -1) {
       return res
         .status(404)
         .json({ error: "Destinatario non trovato nell'array" });
     }
 
-    squeal.group.splice(index, 1);
+    squeal.receivers.splice(index, 1);
     await squeal.save();
 
     return res
