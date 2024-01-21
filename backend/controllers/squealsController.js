@@ -488,11 +488,16 @@ async function manageReactions(squeal, req) {
             editorialChannel: true,
           });
         }
-        const destinatario = {
-          group: channel._id,
-          groupType: "Channel",
-        };
-        squeal.receivers.push(destinatario);
+        const index = squeal.receivers.findIndex((rec) =>
+          rec.group.equals(channel._id)
+        );
+        if (index === -1) {
+          const destinatario = {
+            group: channel._id,
+            groupType: "Channel",
+          };
+          squeal.receivers.push(destinatario);
+        }
       }
       await squeal.save();
     } else if (numReactionPos >= squeal.impression * 0.25) {
