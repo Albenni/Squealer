@@ -1,15 +1,8 @@
-api da fare (poche):
+# Da testare:
 
-- Messaggi temporizzati
-
-Da testare:
-
-- generateFeed: bisogna testare populate quando c'è una keyword
-- comments
-- aggiunta/rimozione destinatari dagli squeal
-- delete reaction ad uno squeal
+- rimozione destinatari dagli squeal
 - Modificare la quota giornaliera di caratteri in base alle reazioni ricevute
-
+- canale controversial/trending/ste cazzate qua
 - Controllare label category per gli squeals
 
 # IN TEORIA GIÁ FATTE
