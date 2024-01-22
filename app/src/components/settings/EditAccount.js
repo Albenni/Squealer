@@ -8,10 +8,12 @@ import addimage from "../../assets/add-image.png";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import config from "../../config/config";
+import { useNavigate } from "react-router-dom";
 
 function EditAccountPane() {
   const axiosInstance = useAxiosPrivate();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({});
 
@@ -31,7 +33,9 @@ function EditAccountPane() {
       });
   }, []);
 
-  function handleChangeUsername(newusername) {
+  function handleChangeUsername(e) {
+    e.preventDefault();
+    const newusername = document.getElementById("usernamechange")?.value;
     // console.log(newusername);
 
     axiosInstance
@@ -48,7 +52,9 @@ function EditAccountPane() {
       .then((response) => {
         console.log(response);
         setUser(response.data);
-        sessionStorage.setItem("username", newusername);
+        // sessionStorage.setItem("username", newusername);
+        sessionStorage.clear();
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         console.log(error);
@@ -97,6 +103,7 @@ function EditAccountPane() {
       )
       .then((response) => {
         console.log(response);
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -188,11 +195,7 @@ function EditAccountPane() {
                 <Button
                   variant="outline-secondary"
                   className="mx-3"
-                  onClick={() =>
-                    handleChangeUsername(
-                      document.getElementById("usernamechange")?.value
-                    )
-                  }
+                  onClick={handleChangeUsername}
                 >
                   Cambia
                 </Button>

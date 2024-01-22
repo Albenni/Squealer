@@ -21,7 +21,3 @@ https://mui.com/material-ui/react-menu/
 - Rendere sito accessibile
 
 - Search bar buggata?
-
--
-
-- Per qualche motivo se mandi un messaggio a più persone, al primo viene mandato due volte

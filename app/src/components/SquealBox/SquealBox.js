@@ -120,78 +120,82 @@ function SquealBox(props) {
           console.log("Invio dei messaggi: ");
           console.log(convosid);
 
-          convosid.forEach((conversation) => {
-            // Check if the message is a file or a text
-            if (contentType === "geolocalization") {
-              // Send the squeal with the location
-              axiosInstance
-                .post(
-                  config.endpoint.users +
-                    "/" +
-                    sessionStorage.getItem("userid") +
-                    "/conversations/" +
-                    conversation.conversationId,
-                  {
-                    content: squeallocation,
-                    contentType: "geolocalization",
-                  }
-                )
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } else if (
-              (contentType === "image" || contentType === "video") &&
-              squealfile
-            ) {
-              // Send the squeal with the file
-              console.log("Sending file");
-              const formData = new FormData();
-              formData.append("message", squealfile);
-              formData.append("contentType", contentType);
-              axiosInstance
-                .post(
-                  config.endpoint.users +
-                    "/" +
-                    sessionStorage.getItem("userid") +
-                    "/conversations/" +
-                    conversation.conversationId,
-                  formData
-                )
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } else if (
-              contentType === "text" ||
-              ((contentType === "image" || contentType === "video") &&
-                squealcontent &&
-                !squealfile)
-            ) {
-              axiosInstance
-                .post(
-                  config.endpoint.users +
-                    "/" +
-                    sessionStorage.getItem("userid") +
-                    "/conversations/" +
-                    conversation.conversationId,
-                  {
-                    content: squealcontent,
-                    contentType: "text",
-                  }
-                )
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          });
+          if (convosid.length === squealchannel.length) {
+            convosid.forEach((conversation) => {
+              // Check if the message is a file or a text
+              if (contentType === "geolocalization") {
+                // Send the squeal with the location
+                axiosInstance
+                  .post(
+                    config.endpoint.users +
+                      "/" +
+                      sessionStorage.getItem("userid") +
+                      "/conversations/" +
+                      conversation.conversationId,
+                    {
+                      content: squeallocation,
+                      contentType: "geolocalization",
+                    }
+                  )
+                  .then((res) => {
+                    console.log(res.data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else if (
+                (contentType === "image" || contentType === "video") &&
+                squealfile
+              ) {
+                // Send the squeal with the file
+                console.log("Sending file");
+                const formData = new FormData();
+                formData.append("message", squealfile);
+                formData.append("contentType", contentType);
+                axiosInstance
+                  .post(
+                    config.endpoint.users +
+                      "/" +
+                      sessionStorage.getItem("userid") +
+                      "/conversations/" +
+                      conversation.conversationId,
+                    formData
+                  )
+                  .then((res) => {
+                    console.log(res.data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else if (
+                contentType === "text" ||
+                ((contentType === "image" || contentType === "video") &&
+                  squealcontent &&
+                  !squealfile)
+              ) {
+                console.log("Mando messaggio iter");
+
+                axiosInstance
+                  .post(
+                    config.endpoint.users +
+                      "/" +
+                      sessionStorage.getItem("userid") +
+                      "/conversations/" +
+                      conversation.conversationId,
+                    {
+                      content: squealcontent,
+                      contentType: "text",
+                    }
+                  )
+                  .then((res) => {
+                    console.log(res.data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            });
+          }
         });
       })
       .catch((err) => {
