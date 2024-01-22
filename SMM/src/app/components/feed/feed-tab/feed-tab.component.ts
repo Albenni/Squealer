@@ -51,8 +51,10 @@ export class FeedTabComponent {
   receiversToAdd: { id: string; type: string; channel: string }[] = [];
 
   idPostToDelete: string = '';
+  feedIndex: number = 0;
 
   existComments: boolean = false;
+  showRefresh: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -66,6 +68,7 @@ export class FeedTabComponent {
       changes['refreshFeed'].currentValue !==
         changes['refreshFeed'].previousValue
     ) {
+      this.feedIndex = 0;
       this.uploadSqueals();
     }
   }
@@ -119,6 +122,12 @@ export class FeedTabComponent {
           });
 
           this.displayedSqueals = this.squeals;
+          if(this.displayedSqueals.length === 10){
+            this.showRefresh = true;
+          } else {
+            this.showRefresh = false;
+          }
+
         } else {
           this.getSqueals = [];
           this.squeals = [];
@@ -127,12 +136,76 @@ export class FeedTabComponent {
       });
   }
 
+  increaseIndex() {
+    this.feedIndex++;
+    this.uploadMoreSqueals();
+  }
+
+  uploadMoreSqueals() {
+    const url =
+      'http://localhost:3500/api/users/' +
+      sessionStorage.getItem('vipId') +
+      '/squeals/smm' +
+      '?index=' +
+      this.feedIndex;
+
+    this.http
+      .get<SquealsResponse[]>(url)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        if (data) {
+          this.getSqueals = data;
+          this.getSqueals.forEach((squeal) => {
+            this.squeals.push({
+              _id: squeal._id,
+              author: squeal.author,
+              publicSqueal: squeal.publicSqueal,
+              receivers: squeal.receivers,
+              officialChannel: squeal.officialChannel,
+              content: squeal.content,
+              contentType: squeal.contentType,
+              impression: squeal.impression,
+              createdAt: squeal.createdAt,
+              convertedDate: '',
+              neg0Reac: 0,
+              neg1Reac: 0,
+              pos2Reac: 0,
+              pos3Reac: 0,
+              weightedPosReac: 0,
+              weightedNegReac: 0,
+              __v: squeal.__v,
+              category: squeal.category,
+              tempGeolocation: squeal.tempGeolocation,
+            });
+          });
+          this.squeals.forEach((squeal, index) => {
+            this.convertDate(squeal);
+            this.getReactions(squeal);
+            this.displayedReceivers[index] = this.convertReceivers(
+              squeal.receivers
+            );
+          });
+
+          this.displayedSqueals = this.squeals;
+          
+          if(this.displayedSqueals.length === 10* (this.feedIndex + 1)){
+            this.showRefresh = true;
+          } else {
+            this.showRefresh = false;
+          }
+        }
+      });
+  }
+
   convertReceivers(receivers: Receiver[]): ReceiverInfo[] {
     if (receivers.length === 0) {
-      // If the receivers array is empty, return an empty array
       return [];
     } else {
-      // Convert each receiver to ReceiverInfo format
       return receivers.map((receiver) => {
         return {
           _id: receiver._id,
@@ -150,7 +223,6 @@ export class FeedTabComponent {
   }
 
   removeReceiver(squealId: string, receiverId: string) {
-    //receiverIndex is the index of the receiver in a single squeal
     const url =
       'http://localhost:3500/api/squeals/' +
       squealId +
@@ -175,29 +247,31 @@ export class FeedTabComponent {
 
   updateReceivers(receivers: { id: string; type: string; channel: string }[]) {
     this.receiversToAdd = receivers;
-
   }
   addReceivers(squealId: string) {
     //per ogni receiversToAdd
     this.receiversToAdd.forEach((receiver) => {
       const receiverId = receiver.id;
-      const url = 'http://localhost:3500/api/squeals/' + squealId + '/receivers/' + receiverId;
-        
-      this.http
-      .post(url, {groupType: receiver.type})
-      .pipe(
-        catchError((error: any) => {
-          console.error('Si è verificato un errore:', error);
-          return throwError('Errore gestito');
-        })
-      )
-      .subscribe((data) => {
-        console.log('Aggiunto receiver' + receiver.channel);
-      }); 
-    }); 
-      
-    location.reload();
+      const url =
+        'http://localhost:3500/api/squeals/' +
+        squealId +
+        '/receivers/' +
+        receiverId;
 
+      this.http
+        .post(url, { groupType: receiver.type })
+        .pipe(
+          catchError((error: any) => {
+            console.error('Si è verificato un errore:', error);
+            return throwError('Errore gestito');
+          })
+        )
+        .subscribe((data) => {
+          console.log('Aggiunto receiver' + receiver.channel);
+        });
+    });
+
+    location.reload();
   }
   openConfirmationModal(squealIndex: number) {
     this.idPostToDelete = this.squeals[squealIndex]._id;
@@ -344,7 +418,7 @@ export class FeedTabComponent {
       );
     }
     if (!filterParams.contentPopularity.includes('all')) {
-      filteredSqueals = filteredSqueals.filter(squeal =>
+      filteredSqueals = filteredSqueals.filter((squeal) =>
         filterParams.contentPopularity.includes(squeal.category)
       );
     }

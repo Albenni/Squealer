@@ -1,22 +1,25 @@
-<div style="display: flex; justify-content: center;"><app-feed-filter (filterChange)="applyFilter($event)" role="complementary" aria-label="Filtra feed"></app-feed-filter></div>
+<div style="display: flex; justify-content: center;"><app-feed-filter (filterChange)="applyFilter($event)"
+        role="complementary" aria-label="Filtra feed"></app-feed-filter></div>
 <ul class="d-flex flex-row p-0"
     style="flex-wrap: wrap; list-style-type: none; align-items: center; justify-content: center;" role="list">
-    <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center" style="align-items: center;" role="listitem">
+    <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center"
+        style="align-items: center;" role="listitem">
         <div style="width: 20rem;font-style: italic;" class="row">
             <p class="col-6" style="text-align: start;">{{squeal.publicSqueal==true ? 'Pubblico' : 'Privato'}}</p>
             <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squeal.category)}">
                 {{squeal.category}}</p>
         </div>
-    
+
         <div class="card-header row py-0 px-1" style="width: 18rem;">
-            <app-reactions-card-header class="col-9 mt-3" [neg0Reac]="squeal.neg0Reac" [neg1Reac]="squeal.neg1Reac" [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>
+            <app-reactions-card-header class="col-9 mt-3" [neg0Reac]="squeal.neg0Reac" [neg1Reac]="squeal.neg1Reac"
+                [pos2Reac]="squeal.pos2Reac" [pos3Reac]="squeal.pos3Reac"></app-reactions-card-header>
             <div class="col-3 p-0">
                 <button (click)="openDeleteModal(index)" mat-icon-button aria-label="Elimina post">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
             </div>
         </div>
-    
+
         <div class="p-1 card-body" style="width: 20rem; border-radius: 3%; ">
             <div *ngIf="squeal.contentType === 'image'">
                 <app-image-format [format]="squeal.content" [idImage]="squeal._id"></app-image-format>
@@ -80,6 +83,12 @@
         </div>
     </li>
 </ul>
+<div *ngIf="showRefresh" style="display: flex; justify-content: center; margin-bottom: 3%; flex-direction: column; align-items: center; justify-items: center;"><p style="margin-top: 1%; margin-bottom: 0;   color: #ffffff;
+    ">Carica altri...</p><button type="button" mat-icon-button
+        aria-label="Carica altri" (click)="increaseIndex()" style="  color: #ffffff;
+        "><mat-icon>refresh</mat-icon></button>
+    
+</div>
 <ng-template #deleteModal let-modal="modalRef">
     <div class="modal-header" role="banner">
         <h2 class="modal-title" style="font-size: large;">Conferma eliminazione</h2>
@@ -123,7 +132,7 @@
     </div>
 </ng-template>
 
-<ng-template #confirmModal >
+<ng-template #confirmModal>
     <div class="modal-header" role="banner">
         <h2 class="modal-title" style="font-size: large;">Conferma eliminazione</h2>
         <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
@@ -131,7 +140,8 @@
         </button>
     </div>
     <div class="modal-body scrollable-modal-bod" role="document">
-        <p style="font-size: medium;">Se rimuovi l'unico destinatario il post verrà eliminato. <br> sicuro di voler eliminare questo post?</p>
+        <p style="font-size: medium;">Se rimuovi l'unico destinatario il post verrà eliminato. <br> sicuro di voler
+            eliminare questo post?</p>
     </div>
     <div class="modal-footer" role="contentinfo">
         <button type="button" class="btn btn-danger" (click)="confirmDeletePost()">Si.</button>

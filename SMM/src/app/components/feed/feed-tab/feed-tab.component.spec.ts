@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedComponent } from './feed.component';
+import { FeedTabComponent } from './feed-tab.component';
 
-describe('FeedComponent', () => {
-  let component: FeedComponent;
-  let fixture: ComponentFixture<FeedComponent>;
+describe('FeedTabComponent', () => {
+  let component: FeedTabComponent;
+  let fixture: ComponentFixture<FeedTabComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeedComponent]
+      declarations: [FeedTabComponent]
     });
-    fixture = TestBed.createComponent(FeedComponent);
+    fixture = TestBed.createComponent(FeedTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
