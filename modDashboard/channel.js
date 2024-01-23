@@ -48,6 +48,7 @@ function fetchMessageData(channelId) {
 
       if (data.editorialChannel) {
         document.getElementById("deleteChannelDiv").style.display = "block";
+        document.getElementById("deleteChannelDiv").style.display = "block";
       }
     },
     error: function (xhr, status, error) {
@@ -136,6 +137,39 @@ function deleteChannel() {
       console.log("Channel deleted:", data);
       alert("Channel eliminato");
       window.location.href = "/channels.html";
+    },
+    error: function (error) {
+      alert("error");
+      console.error("Error deleting the channel", error);
+    },
+  });
+}
+
+function createSqueal() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const channel = urlParams.get("id");
+
+  const token = sessionStorage.getItem("token");
+  const url = "http://localhost:3500/api/squeals";
+
+  const content = $("#squealContent").val();
+  const data = JSON.stringify({
+    content,
+    contentType: "text",
+    channel,
+  });
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    contentType: "application/json",
+    data,
+    success: function (data) {
+      console.log("squeal creato:", data);
+      alert("Squeal creato con successo");
     },
     error: function (error) {
       alert("error");

@@ -276,6 +276,31 @@ const createSqueal = async (req, res) => {
   //Crea il file con ObjectId dell'utente come nome
 };
 
+const createEditorialSqueal = async (req, res) => {
+  try {
+    if (!req.authorized && !req.isMod) return res.sendStatus(403);
+
+    const { content, contentType, channel } = req.body;
+
+    await Squeal.create({
+      author: "6515e4fbf2b9aa95e4c6e42b", //serve l'id di un utente che rappresenta Squealer, questo è "filo"
+      content,
+      contentType,
+      officialChannel: true,
+      receivers: [
+        {
+          group: channel,
+          groupType: "Channel",
+        },
+      ],
+    });
+    return res.status(200).json({ messsage: "squeal created" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(e);
+  }
+};
+
 //params: userId
 //body: index, squealId(dalla seconda request)
 const createTempSqueal = async (req, res) => {
@@ -629,6 +654,7 @@ module.exports = {
   getAllSquealsInChannel,
   getAllSquealsInKeyword,
   createSqueal,
+  createEditorialSqueal,
   createTempSqueal,
   deleteSqueal,
   getReactions,

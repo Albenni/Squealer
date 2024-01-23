@@ -140,24 +140,48 @@
                 </div>
               </form>
               <div
-                class="container mt-5"
+                class="container my-4"
                 id="deleteChannelDiv"
                 style="display: none"
               >
                 <div class="text-center">
-                  <h4>
-                    Delete Editorial Channel:
-                    <button
-                      type="button"
-                      id="deleteChannelBtn"
-                      class="btn btn-danger"
-                      onclick="deleteChannel()"
-                    >
-                      Delete
-                    </button>
-                  </h4>
+                  <h4>Delete Editorial Channel:</h4>
+                  <button
+                    type="button"
+                    id="deleteChannelBtn"
+                    class="btn btn-danger my-2"
+                    onclick="deleteChannel()"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
+              <div class="text-center">
+                <h4>Create editorial squeal:</h4>
+              </div>
+              <form id="createSquealForm">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="squealContent"
+                        placeholder="Squeal"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-block"
+                      onclick="createSqueal()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 ## MODERATOR DASHBOARD:
 
-- crea squeal editoriali
 - accessibile
-- canale controversial
+- gestisci admin lato backend
+- profilo ufficiale "Squeal" per gli squeal degli editori
