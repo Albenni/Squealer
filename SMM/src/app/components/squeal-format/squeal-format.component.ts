@@ -18,7 +18,7 @@ export class SquealFormatComponent {
       case 'controverso':
         return 'sandybrown';
       default:
-        return 'black'; // default color
+        return 'black';
     }
   }
 }

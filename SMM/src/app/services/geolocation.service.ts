@@ -25,23 +25,4 @@ export class GeolocationService {
     });
   }
 
-
-  /*
-  per usarlo:
-  export class YourComponent implements OnInit {
-
-  constructor(private geolocationService: GeolocationService) { }
-
-  ngOnInit(): void {
-    this.geolocationService.getCurrentPosition().subscribe(
-      (position: GeolocationCoordinates) => {
-        console.log('Current position:', position);
-        // Do something with the position data
-      },
-      (error: any) => {
-        console.error('Error getting current position:', error);
-      }
-    );
-  }
-  */
 }

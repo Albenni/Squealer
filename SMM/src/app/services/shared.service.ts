@@ -4,19 +4,15 @@ import { Injectable, EventEmitter } from '@angular/core';
   providedIn: 'root',
 })
 export class SharedService {
-  //settati inizialmente nella onSubmit del login.component.ts
   public smmUsername: string = '';
   public smmId: string = '';
 
-  //settati inizialmente nella onSubmit del vip-select.component.ts
-  //in seguito vengono cambiati nella selectVip del dashboard.component.ts
   public selectedVipId: string = '';
   public selectedVipUsername: string = '';
   public selectedVipProfilePic: string = '';
   public selectedVipName: string = '';
   public selectedVipSurname: string = '';
 
-  //settati inizialmente nella onSubmit del vip-select.component.ts
   public vipIds: string[] = [];
   public vipUsernames: string[] = [];
   public vipProfilePics: string[] = [];

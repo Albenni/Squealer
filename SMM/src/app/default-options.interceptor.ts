@@ -67,7 +67,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
         }),
         switchMap(() => {
           this.isRefreshing = false;
-          return from(Promise.resolve()); // Return a resolved promise to match the return type
+          return from(Promise.resolve()); 
         })
       )
       .toPromise();
@@ -87,7 +87,6 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
 
       const currentTime = Math.floor(Date.now() / 1000);
 
-      // se è scaduto ritorna true
       return tokenData.exp < currentTime;
     } catch (error) {
       console.log('Errore in isTokenExpired');
