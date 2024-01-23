@@ -4,8 +4,7 @@
     <h1 id="shop-title" style="padding-top: 4%;" role="heading" aria-level="1">Il tuo shop dei caratteri.</h1>
     <div class="row" style="display: flex; align-items: center;" aria-label="Prodotti dello shop">
         <app-shop-cards class="col-6" role="complementary" aria-label="Carte dei prodotti"></app-shop-cards>
-        <mat-divider class="col-1" vertical role="separator"></mat-divider>
-        <app-character-displayer class="col-5" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
+        <app-character-displayer id="charDisplayer" class="col-5" [dailyChars]="characters.daily" [weeklyChars]="characters.weekly"
             [monthlyChars]="characters.monthly" [isTab] = false role="complementary" aria-label="Visualizzatore di caratteri">
         </app-character-displayer>
     </div>

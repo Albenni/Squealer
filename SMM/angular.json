@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            
             "outputPath": "dist/smm",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,7 +30,8 @@
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.js",
               "./node_modules/leaflet/dist/leaflet.js"
-            ]
+            ],
+            "allowedCommonJsDependencies": ["leaflet"]
           },
           "configurations": {
             "production": {

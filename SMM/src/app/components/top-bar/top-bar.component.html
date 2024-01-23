@@ -23,22 +23,27 @@
                         <mat-icon>groups</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item *ngFor="let username of vipUsernames; let i = index" (click)="changeVip(i)">
+                        <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
+                            (click)="changeVip(i)">
                             <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
                                 <div class="col-4 p-0">
                                     <div class="rounded-avatar">
-                                        <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]" [src]="vipProfilePics[i]" alt="Immagine del profilo di {{ username }}">
+                                        <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
+                                            [src]="vipProfilePics[i]" alt="Immagine del profilo di {{ username }}">
                                     </div>
                                 </div>
-                                <div class="col-8 p-0 username" style="text-align: center; margin-top: 1rem; font-size: large; color: #000;">
+                                <div class="col-8 p-0 username"
+                                    style="text-align: center; margin-top: 1rem; font-size: large; color: #000;">
                                     {{ username }}
                                 </div>
                             </div>
                         </button>
                         <mat-divider></mat-divider>
-                        <button mat-menu-item (click)="logout()" style="overflow:hidden;">
-                            <div class="row py-1" style="padding-left: 1rem;">
-                                <div class="p-0 username" style="text-align: center; font-size: larger; color: #000;">
+                        <button mat-menu-item (click)="logout()" style="overflow:hidden; display: flex; justify-self: center;">
+                            <div class="py-1"
+                                style="padding-left: 1rem; width: 100%; display: flex; justify-items: center; justify-content: center; align-items: center;">
+                                <mat-icon>logout</mat-icon>
+                                <div class=" p-0 username" style="text-align: center; font-size: larger; color: #000;">
                                     Logout
                                 </div>
                             </div>
@@ -51,10 +56,10 @@
 </nav>
 <ng-template #notificationsModal>
     <div class="modal-header" role="dialog" aria-modal="true" aria-labelledby="notificationModalTitle">
-      <h5 id="notificationModalTitle" class="modal-title" style="font-size: large;">Notifiche</h5>
-      <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
-        <mat-icon aria-hidden="true">close</mat-icon>
-      </button>
+        <h5 id="notificationModalTitle" class="modal-title" style="font-size: large;">Notifiche</h5>
+        <button type="button" mat-icon-button class="close" aria-label="Chiudi" (click)="modalRef?.hide()">
+            <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
     </div>
     <div class="modal-body" role="document">
         <div *ngIf="!existNotifications" style="font-size: medium;">Nessuna richiesta al momento...</div>
@@ -64,7 +69,8 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="rounded-avatar">
-                                <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]" [src]="reqVipProfilePics[i]" alt="Immagine del profilo di {{ reqVipUsername }}">
+                                <img class="rounded-avatar-img" *ngIf="reqVipProfilePics[i]"
+                                    [src]="reqVipProfilePics[i]" alt="Immagine del profilo di {{ reqVipUsername }}">
                             </div>
                         </div>
                         <div class="col-8">
@@ -74,7 +80,8 @@
                                         <div class="col-12" style="font-size: large;">{{ reqVipUsername }}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12" style="font-size: small;">{{ reqVipUsernames[i] }} ha richiesto di diventare tuo VIP</div>
+                                        <div class="col-12" style="font-size: small;">{{ reqVipUsernames[i] }} ha
+                                            richiesto di diventare tuo VIP</div>
                                     </div>
                                 </div>
                             </div>
