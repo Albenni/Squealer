@@ -63,6 +63,7 @@ function ShopPane({ user }) {
         style={{
           borderBottom: "1px solid black",
         }}
+        tabIndex={0}
       >
         <h3>Aumenta la quota di caratteri giornalieri</h3>
       </div>
@@ -73,6 +74,8 @@ function ShopPane({ user }) {
             className="p-3"
             onClick={() => handleBuyQuote(100 * (idx + 1))}
             style={{ cursor: "pointer" }}
+            tabIndex={0}
+            aria-label="Clicca per aumentare la quota di caratteri giornalieri"
           >
             <Card
               className="shopcard"
@@ -93,10 +96,10 @@ function ShopPane({ user }) {
               />
 
               <Card.Body>
-                <Card.Title>
+                <Card.Title tabIndex={0}>
                   Aumenta la quota di {100 * (idx + 1)} caratteri
                 </Card.Title>
-                <Card.Text style={{ pointerEvents: "none" }}>
+                <Card.Text style={{ pointerEvents: "none" }} tabIndex={0}>
                   Clicca qui per aumentare la quota di {100 * (idx + 1)}{" "}
                   caratteri per un anno.
                 </Card.Text>
@@ -113,6 +116,7 @@ function ShopPane({ user }) {
               ? "container-fluid p-4 text-center mt-4"
               : "container-fluid pt-5 p-4 text-center"
           }
+          tabIndex={0}
         >
           <h2>
             Passa a Squealer pro per comprare caratteri in qualsiasi momento.
@@ -125,6 +129,7 @@ function ShopPane({ user }) {
             style={{
               borderBottom: "1px solid black",
             }}
+            tabIndex={0}
           >
             <h3>Shop per i caratteri</h3>
           </div>
@@ -155,8 +160,10 @@ function ShopPane({ user }) {
                   />
 
                   <Card.Body>
-                    <Card.Title>Compra {100 * (idx + 1)} caratteri</Card.Title>
-                    <Card.Text style={{ pointerEvents: "none" }}>
+                    <Card.Title tabIndex={0}>
+                      Compra {100 * (idx + 1)} caratteri
+                    </Card.Title>
+                    <Card.Text style={{ pointerEvents: "none" }} tabIndex={0}>
                       Clicca qui per comprare {100 * (idx + 1)} caratteri.
                     </Card.Text>
                   </Card.Body>

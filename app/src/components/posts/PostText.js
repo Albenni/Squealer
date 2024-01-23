@@ -36,7 +36,7 @@ function PostText({ item, user }) {
 
   return (
     <Card.Body>
-      <blockquote className="blockquote mb-0">
+      <blockquote className="blockquote mb-0" tabIndex={0}>
         {item.content.includes("@") ? (
           handleMention(item.content)
         ) : (

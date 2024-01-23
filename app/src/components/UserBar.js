@@ -121,6 +121,7 @@ function UserBar({ user }) {
             alignItems: "center",
             fontSize: "2em",
           }}
+          tabIndex={0}
         >
           {user.verified ? (
             <PatchCheckFill size={"2.5vh"} className="mx-2" color="green" />
@@ -135,6 +136,7 @@ function UserBar({ user }) {
             fontSize: "1em",
             color: theme.colors.lightgrey,
           }}
+          tabIndex={0}
         >
           {user.firstname} {user.surname}
         </div>

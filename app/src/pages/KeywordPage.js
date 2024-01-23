@@ -114,6 +114,7 @@ function KeywordPage({ keyword }) {
             color: theme.colors.white,
             fontWeight: "bold",
           }}
+          tabIndex={0}
         >
           <p className="text-center py-3 pe-none">
             La keyword ricercata non esiste!
@@ -138,6 +139,7 @@ function KeywordPage({ keyword }) {
                   color: theme.colors.white,
                   fontWeight: "bold",
                 }}
+                tabIndex={0}
               >
                 Nessuno ha ancora pubblicato post con questa keyword.
               </p>

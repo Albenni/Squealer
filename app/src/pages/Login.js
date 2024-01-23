@@ -200,6 +200,7 @@ function Login() {
                   fontSize: "2rem",
                   fontWeight: "bold",
                 }}
+                tabIndex={0}
               >
                 Squealer
               </div>
@@ -211,8 +212,8 @@ function Login() {
                 borderRadius: "1rem",
               }}
             >
-              <Tabs defaultActiveKey="accedi" justify>
-                <Tab eventKey="accedi" title="Accedi">
+              <Tabs defaultActiveKey="accedi" justify tabIndex={0}>
+                <Tab eventKey="accedi" title="Accedi" tabIndex={0}>
                   <form
                     className="text-align-center container"
                     onSubmit={submitFormLogin}

@@ -233,6 +233,8 @@ function EditAccountPane() {
                             maxHeight: "250px",
                           }
                     }
+                    tabIndex={0}
+                    aria-label="Clicca per selezionare l'immagine profilo"
                     onClick={() => document.getElementById("fileInput").click()}
                   />
                   <input

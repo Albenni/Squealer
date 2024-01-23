@@ -100,7 +100,8 @@ function CommentsModal(props) {
       show={props.show}
       onHide={() => props.setShowComments(false)}
       size="lg"
-      aria-labelledby="contained-modal-title-comments"
+      aria-labelledby="Finestra moale per i commenti"
+      aria-modal="true"
       backdrop="static"
       centered
       scrollable
@@ -118,6 +119,7 @@ function CommentsModal(props) {
                 style={{
                   color: theme.colors.lightgrey,
                 }}
+                tabIndex={0}
               >
                 Nessun commento
               </p>

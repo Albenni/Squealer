@@ -155,7 +155,7 @@ function Geolocation(props) {
 
   if (loadError)
     return (
-      <div className="text-center py-4">
+      <div className="text-center py-4" tabIndex={0}>
         {" "}
         Modifica i permessi per accedere a questa funzionalità
       </div>
@@ -164,7 +164,9 @@ function Geolocation(props) {
   return loading ? (
     <div className="d-flex justify-content-center align-items-center">
       <Spinner animation="border" role="status">
-        <span className="visually-hidden">Caricamento mappa...</span>
+        <span className="visually-hidden" tabIndex={0}>
+          Caricamento mappa...
+        </span>
       </Spinner>
     </div>
   ) : props.temporized ? (
@@ -219,7 +221,7 @@ function Geolocation(props) {
                     ? endtemp
                     : logo
                 }
-                alt="Tragitto attuale"
+                alt="Tragitto itinerario attuale"
                 style={{
                   width: "40px",
                   height: "40px",
@@ -274,6 +276,7 @@ function Geolocation(props) {
                 backgroundColor: "#ffffff",
                 padding: "5px",
               }}
+              tabIndex={0}
             />
           </Marker>
         </Map>

@@ -121,6 +121,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                       alignItems: "end",
                     }
               }
+              tabIndex={0}
             >
               Popolare
               <GraphUpArrow
@@ -147,6 +148,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                       alignItems: "end",
                     }
               }
+              tabIndex={0}
             >
               Controverso
               <Fire
@@ -173,6 +175,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                       alignItems: "end",
                     }
               }
+              tabIndex={0}
             >
               Impopolare
               <GraphDownArrow
@@ -186,7 +189,10 @@ function PostReaction({ postid, postimpression, postcategory }) {
             </div>
           ) : null}
         </div>
-        <div className="ms-auto d-flex align-items-center">
+        <div
+          className="ms-auto d-flex align-items-center"
+          aria-label="Numero di visualizzazioni"
+        >
           <EyeFill
             style={{
               color: theme.colors.lightgrey,
@@ -195,7 +201,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
               paddingRight: "5px",
             }}
           />
-          {postimpression}
+          <div tabIndex={0}>{postimpression}</div>
         </div>
       </div>
       <div className="container-fluid p-3">
@@ -208,6 +214,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
               }}
               disabled={reaction.reallydislike}
               onClick={() => handleReaction("reallydislike")}
+              tabIndex={0}
             >
               {reaction.reallydislike ? (
                 <EmojiAngryFill
@@ -216,6 +223,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Hai già inserito una reazione molto negativa"
                 />
               ) : (
                 <EmojiAngry
@@ -224,6 +232,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Inserisci una reazione molto negativa"
                 />
               )}
             </Button>
@@ -236,6 +245,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
               }}
               disabled={reaction.dislike}
               onClick={() => handleReaction("dislike")}
+              tabIndex={0}
             >
               {reaction.dislike ? (
                 <EmojiFrownFill
@@ -244,6 +254,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Hai già inserito una reazione negativa"
                 />
               ) : (
                 <EmojiFrown
@@ -252,6 +263,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Inserisci una reazione negativa"
                 />
               )}
             </Button>
@@ -265,6 +277,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
               }}
               disabled={reaction.like}
               onClick={() => handleReaction("like")}
+              tabIndex={0}
             >
               {reaction.like ? (
                 <EmojiSmileFill
@@ -273,6 +286,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Hai già inserito una reazione positiva"
                 />
               ) : (
                 <EmojiSmile
@@ -281,6 +295,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Inserisci una reazione positiva"
                 />
               )}
             </Button>
@@ -293,6 +308,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
               }}
               disabled={reaction.reallylike}
               onClick={() => handleReaction("reallylike")}
+              tabIndex={0}
             >
               {reaction.reallylike ? (
                 <EmojiHeartEyesFill
@@ -301,6 +317,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Hai già inserito una reazione molto positiva"
                 />
               ) : (
                 <EmojiHeartEyes
@@ -309,6 +326,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
                     height: isMobile ? "28px" : "25px",
                     width: isMobile ? "28px" : "25px",
                   }}
+                  aria-label="Inserisci una reazione positiva"
                 />
               )}
             </Button>
@@ -317,6 +335,7 @@ function PostReaction({ postid, postimpression, postcategory }) {
             <Button
               variant="outline-secondary"
               onClick={() => setShowComments(true)}
+              aria-label="Bottone per aprire la sezione commenti"
             >
               <Chat />
             </Button>

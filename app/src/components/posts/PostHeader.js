@@ -24,10 +24,15 @@ function PostHeader({ item }) {
                 ? config.URL + "/profilePic/" + item._id + item.profilePic
                 : guesticon
             }
-            alt={"Immagine profilo di" + item?.firstname + item?.surname}
+            alt={"Immagine profilo di " + item?.firstname + item?.surname}
+            tabIndex="0"
           />
         </div>
-        <div className="p-1 usernametext" onClick={handleUserClick}>
+        <div
+          className="p-1 usernametext"
+          onClick={handleUserClick}
+          tabIndex={0}
+        >
           {item?.firstname} {item?.surname}
         </div>
 
@@ -42,6 +47,7 @@ function PostHeader({ item }) {
           style={{
             color: theme.colors.lightgrey,
           }}
+          tabIndex={0}
         >
           @{item?.username}
         </div>

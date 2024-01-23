@@ -49,6 +49,8 @@ function PostImage({ item, user }) {
               border: "solid 1px #000000",
               borderRadius: "15px",
             }}
+            tabIndex={0}
+            alt="Immagine post"
           />
         ) : (
           <Card.Img
@@ -65,6 +67,8 @@ function PostImage({ item, user }) {
               border: "solid 1px #000000",
               borderRadius: "15px",
             }}
+            tabIndex={0}
+            alt="Immagine post"
           />
         )}
       </div>

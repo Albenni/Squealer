@@ -422,8 +422,9 @@ function ChatUI({ myself }) {
                     borderRadius: "20px",
                     marginBottom: "10px",
                   }}
+                  tabIndex={0}
                 >
-                  {console.log(convo)}
+                  {/* {console.log(convo)} */}
                   <Avatar
                     src={
                       convo.user2?.profilePic
@@ -459,12 +460,15 @@ function ChatUI({ myself }) {
                 top: "0",
                 zIndex: "1",
               }}
+              tabIndex={1}
             >
               <ConversationHeader.Back
                 onClick={() => {
                   setActiveConversation({});
                   setShowSidebar(!showsidebar);
                 }}
+                tabIndex={1}
+                aria-label="Clicca per tornare alle conversazioni"
               />
 
               <Avatar
@@ -477,10 +481,12 @@ function ChatUI({ myself }) {
                     : guesticon
                 }
                 name={activeconversation.user2.firstname}
+                tabIndex={0}
               />
 
               <ConversationHeader.Content
                 userName={activeconversation.user2.firstname}
+                tabIndex={0}
               />
             </ConversationHeader>
 
@@ -500,6 +506,8 @@ function ChatUI({ myself }) {
                             ? "outgoing"
                             : "incoming",
                       }}
+                      tabIndex={0}
+                      aria-label={"Testo del messaggio: " + message.content}
                     >
                       <Avatar
                         src={
@@ -542,9 +550,10 @@ function ChatUI({ myself }) {
                           alt="Immagine"
                           aria-label="Messaggio di tipo immagine"
                           width={isMobile ? "280px" : "500px"}
+                          tabIndex={0}
                         />
                       ) : (
-                        <Message.TextContent>
+                        <Message.TextContent tabIndex={0}>
                           Immagine non disponibile
                         </Message.TextContent>
                       )}
@@ -560,6 +569,7 @@ function ChatUI({ myself }) {
                             ? "outgoing"
                             : "incoming",
                       }}
+                      tabIndex={0}
                     >
                       {message.content[0] === "." ? (
                         <Message.CustomContent
@@ -578,10 +588,11 @@ function ChatUI({ myself }) {
                             controls={true}
                             width="100%"
                             height="100%"
+                            tabIndex={0}
                           />
                         </Message.CustomContent>
                       ) : (
-                        <Message.TextContent>
+                        <Message.TextContent tabIndex={0}>
                           Video non disponibile
                         </Message.TextContent>
                       )}
@@ -643,6 +654,7 @@ function ChatUI({ myself }) {
                 border: "none",
                 marginLeft: "0px",
               }}
+              aria-label="Clicca per aggiungere una geolocazione"
             >
               <Signpost size={25} color="#6495ED" />
             </Button>

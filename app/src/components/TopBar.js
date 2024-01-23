@@ -67,13 +67,18 @@ function TopBar() {
 
   return (
     <>
-      <Navbar bg="light" data-bs-theme="dark" className="bg-body-tertiary">
+      <Navbar
+        bg="light"
+        data-bs-theme="dark"
+        className="bg-body-tertiary"
+        aria-label="Barra di navigazione"
+      >
         <Container fluid>
           <Navbar.Brand href="/feed">
             <div className="row">
               <div className="col">
                 <img
-                  alt="Logo"
+                  alt="Logo Squealer"
                   src={squeallogo}
                   style={{ maxHeight: "3rem" }}
                 />
@@ -142,7 +147,10 @@ function TopBar() {
                       setNotifs(false);
                     }}
                   >
-                    <Button variant="outline-primary">
+                    <Button
+                      variant="outline-primary"
+                      aria-label="Bottone sezione messaggi"
+                    >
                       <Bell size={20} />
                     </Button>
                     {notifs && (
@@ -161,9 +169,12 @@ function TopBar() {
                   </Nav.Link>
                 </div>
                 <Dropdown>
-                  <Dropdown.Toggle variant="light">
+                  <Dropdown.Toggle
+                    variant="light"
+                    aria-label="Dropdown informazioni profilo"
+                  >
                     <img
-                      alt="Profile"
+                      alt="Immagine profilo"
                       src={
                         imageext[0] === "."
                           ? config.URL +

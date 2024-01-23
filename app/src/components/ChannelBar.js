@@ -130,7 +130,9 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
             />
           </div>
           <div className="col">
-            <h2 style={{ color: theme.colors.white }}>§{channelinfo.name}</h2>
+            <h2 style={{ color: theme.colors.white }} tabIndex={0}>
+              §{channelinfo.name}
+            </h2>
           </div>
           <div className="col d-flex justify-content-end">
             <Button
@@ -150,8 +152,8 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
               color: theme.colors.white,
             }}
           >
-            <h5>Descrizione: </h5>
-            <p>
+            <h5 tabIndex={0}>Descrizione: </h5>
+            <p tabIndex={0}>
               {channelinfo.description
                 ? channelinfo.description
                 : "Nessuna descrizione."}
@@ -164,6 +166,7 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
             style={{
               color: theme.colors.white,
             }}
+            tabIndex={0}
           >
             Il canale è privato, chiedi all'amministratore di diventare membro
             per vederne le attività.
@@ -205,7 +208,9 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
           />
         </div>
         <div className="col">
-          <h2 style={{ color: theme.colors.white }}>§{channelinfo.name}</h2>
+          <h2 style={{ color: theme.colors.white }} tabIndex={0}>
+            §{channelinfo.name}
+          </h2>
         </div>
         <div className="col d-flex justify-content-end">
           <Button
@@ -225,8 +230,8 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
             color: theme.colors.white,
           }}
         >
-          <h5>Descrizione: </h5>
-          <p>
+          <h5 tabIndex={0}>Descrizione: </h5>
+          <p tabIndex={0}>
             {channelinfo.description
               ? channelinfo.description
               : "Nessuna descrizione."}

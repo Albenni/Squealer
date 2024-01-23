@@ -102,6 +102,7 @@ function AccountPage({ username }) {
             color: theme.colors.white,
             fontWeight: "bold",
           }}
+          tabIndex={0}
         >
           <p className="text-center py-3 pe-none">
             L'utente ricercato non esiste!
@@ -126,6 +127,7 @@ function AccountPage({ username }) {
                   color: theme.colors.white,
                   fontWeight: "bold",
                 }}
+                tabIndex={0}
               >
                 L'utente non ha pubblicato nessun post!
               </p>

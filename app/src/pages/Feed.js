@@ -158,6 +158,8 @@ function Feed() {
                 color={theme.colors.primary}
                 onClick={() => setShowBox(true)}
                 style={{ cursor: "pointer" }}
+                tabIndex="1"
+                aria-label="Crea nuovo post"
               />
             </div>
           </div>

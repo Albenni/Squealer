@@ -131,13 +131,16 @@ function SearchBar() {
           type="text"
           placeholder="Cerca"
           className="me-1"
-          aria-label="Cerca"
-          aria-describedby="Cerca utenti, canali e keyword"
+          aria-label="Cerca utenti, canali e keyword"
           onChange={handleChange}
           value={wordEntered}
           style={{ borderWidth: "1px", borderColor: "black" }}
         />
-        <Button type="submit" variant="dark">
+        <Button
+          type="submit"
+          variant="dark"
+          aria-label="Bottone per la ricerca"
+        >
           <Search />
         </Button>
       </Form>

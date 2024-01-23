@@ -77,8 +77,9 @@ function Post({ item }) {
                   flexDirection: "column",
                 }
           }
+          aria-label="Destinatari Squeal"
         >
-          {item.publicSqueal ? "Squeal pubblico" : null}
+          {item.publicSqueal ? <div tabIndex={0}>Squeal pubblico</div> : null}
 
           {!item.publicSqueal ? (
             <div className="container">
@@ -90,6 +91,7 @@ function Post({ item }) {
                       key={key}
                       onClick={() => handleClickChannel(receiver)}
                       style={{ cursor: "pointer" }}
+                      tabIndex={0}
                     >
                       {receiver?.groupType === "Channel" ? "§" : "#"}
                       {/* {console.log(receiver)} */}
@@ -102,6 +104,7 @@ function Post({ item }) {
                     key={key}
                     onClick={() => handleClickChannel(receiver)}
                     style={{ cursor: "pointer" }}
+                    tabIndex={0}
                   >
                     {receiver?.groupType === "Channel" ? "§" : "#"}
                     {receiver?.group?.name}

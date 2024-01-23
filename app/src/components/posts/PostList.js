@@ -20,6 +20,7 @@ function PostList({ getposts }) {
           fontWeight: "bold",
           pointerEvents: "none",
         }}
+        tabIndex={0}
       >
         Nessun post trovato
       </p>
@@ -45,6 +46,7 @@ function PostList({ getposts }) {
                 fontWeight: "bold",
                 pointerEvents: "none",
               }}
+              tabIndex={0}
             >
               Post non riconosciuto
             </p>

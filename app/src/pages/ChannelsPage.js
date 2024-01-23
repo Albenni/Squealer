@@ -112,6 +112,7 @@ const ChannelsPage = () => {
           style={{
             color: theme.colors.white,
           }}
+          tabIndex={0}
         >
           I tuoi canali
         </h2>
@@ -146,6 +147,7 @@ const ChannelsPage = () => {
                             replace: true,
                           });
                         }}
+                        tabIndex={0}
                       >
                         {channel.name}
                       </h4>
@@ -172,6 +174,7 @@ const ChannelsPage = () => {
           style={{
             color: theme.colors.white,
           }}
+          tabIndex={0}
         >
           Canali ufficiali Squealer
         </h2>
@@ -202,6 +205,7 @@ const ChannelsPage = () => {
                             replace: true,
                           });
                         }}
+                        tabIndex={0}
                       >
                         {channel.name}
                       </h4>
@@ -254,6 +258,7 @@ const ChannelsPage = () => {
           style={{
             color: theme.colors.white,
           }}
+          tabIndex={0}
         >
           Canali della community
         </h2>
@@ -285,6 +290,7 @@ const ChannelsPage = () => {
                             replace: true,
                           });
                         }}
+                        tabIndex={0}
                       >
                         {channel.name}
                       </h4>

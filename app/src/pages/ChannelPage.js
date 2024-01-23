@@ -148,6 +148,7 @@ function Channel({ channelname }) {
             paddingTop: "50px",
           }}
           className="text-center"
+          tabIndex={0}
         >
           Il canale non esiste!
         </div>

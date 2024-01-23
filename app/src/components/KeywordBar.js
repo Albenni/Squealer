@@ -101,6 +101,7 @@ function KeywordBar({ keywordinfo }) {
             alignItems: "center",
             fontSize: "2em",
           }}
+          tabIndex={0}
         >
           #{keywordinfo.name}
         </div>

@@ -95,7 +95,7 @@ function AccountPane({ user }) {
                   objectFit: user.profilePic ? "cover" : "contain",
                 }}
               />
-              <Card.Title className="pt-4 d-flex">
+              <Card.Title className="pt-4 d-flex" tabIndex={0}>
                 Benvenuto, {user.firstname}!
                 <div className="px-2">
                   {user.verified ? (
@@ -109,15 +109,15 @@ function AccountPane({ user }) {
                   )}
                 </div>
               </Card.Title>
-              <Card.Text className="pt-2 pe-none">
+              <Card.Text className="pt-2 pe-none" tabIndex={0}>
                 La tua mail: {user.email}
               </Card.Text>
-              <Card.Text className="pt-2 pe-none">
+              <Card.Text className="pt-2 pe-none" tabIndex={0}>
                 Il tuo tipo di account:{" "}
                 {user.professional ? "Professional" : "Regular"}
               </Card.Text>
 
-              <div className="pt-2">
+              <div className="pt-2" tabIndex={0}>
                 <p>
                   I tuoi §canali: {channels.length === 0 && "Nessun canale."}
                 </p>
@@ -152,11 +152,19 @@ function AccountPane({ user }) {
                 <div className="d-flex justify-content-center align-items-center py-2">
                   <ChatDots size={"3vh"} color={theme.colors.dark} />
                 </div>
-                <Card.Title className="pt-3">I tuoi caratteri.</Card.Title>
+                <Card.Title className="pt-3" tabIndex={0}>
+                  I tuoi caratteri.
+                </Card.Title>
 
-                <Card.Text>Caratteri giornalieri: {user.dailyChar}</Card.Text>
-                <Card.Text>Caratteri settimanali: {user.weeklyChar}</Card.Text>
-                <Card.Text>Caratteri mensili: {user.monthlyChar}</Card.Text>
+                <Card.Text tabIndex={0}>
+                  Caratteri giornalieri: {user.dailyChar}
+                </Card.Text>
+                <Card.Text tabIndex={0}>
+                  Caratteri settimanali: {user.weeklyChar}
+                </Card.Text>
+                <Card.Text tabIndex={0}>
+                  Caratteri mensili: {user.monthlyChar}
+                </Card.Text>
               </Card.Body>
             </Card>
           </div>
@@ -167,7 +175,9 @@ function AccountPane({ user }) {
                   <PersonFillGear size={"3vh"} color={theme.colors.dark} />
                 </div>
 
-                <Card.Title className="pt-3">I tuoi amministratori.</Card.Title>
+                <Card.Title className="pt-3" tabIndex={0}>
+                  I tuoi amministratori.
+                </Card.Title>
 
                 {user.professional ? (
                   <div className="d-flex justify-content-between align-items-center">
@@ -176,6 +186,7 @@ function AccountPane({ user }) {
                       style={{
                         marginBottom: "0px",
                       }}
+                      tabIndex={0}
                     >
                       Scegli il tuo Social Media Manager
                     </Card.Text>
@@ -191,24 +202,12 @@ function AccountPane({ user }) {
                     style={{
                       color: theme.colors.dark,
                     }}
+                    tabIndex={0}
                   >
                     Passa ad un account Professional per avere un Social Media
                     Manager.
                   </div>
                 )}
-                <Card.Text
-                  className="pe-none"
-                  style={{
-                    color: theme.colors.danger,
-                  }}
-                >
-                  Gli amministratori del tuo canale: Se hai un canale, puoi
-                  aggiungere un amministratore che gestirà il tuo canale per te.
-                  <br />
-                  Senno "Non sei proprietario di nessun canale."
-                  <br />
-                  Oppure "Non hai nessun amministratore."
-                </Card.Text>
               </Card.Body>
             </Card>
           </div>

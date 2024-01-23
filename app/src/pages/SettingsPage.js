@@ -103,6 +103,8 @@ function SettingsPage() {
                 fontSize: "1.5rem",
                 fontWeight: "bold",
               }}
+              tabIndex={0}
+              aria-label="Sezione attualmente aperta"
             >
               {activetab} <ChevronDown size={"2vh"} />
             </Button>
@@ -123,8 +125,12 @@ function SettingsPage() {
                     }}
                   >
                     <Accordion.Body>
-                      <Nav variant="pills" className="flex-column p-5">
-                        <Nav.Item>
+                      <Nav
+                        variant="pills"
+                        className="flex-column p-5"
+                        aria-label="Navigazione impostazioni account"
+                      >
+                        <Nav.Item tabIndex={0}>
                           <Nav.Link
                             eventKey="first"
                             onClick={() => setActivetab("Il mio profilo")}
@@ -132,7 +138,7 @@ function SettingsPage() {
                             Il mio profilo
                           </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
+                        <Nav.Item tabIndex={0}>
                           <Nav.Link
                             eventKey="second"
                             onClick={() => setActivetab("Modifica account")}
@@ -140,7 +146,7 @@ function SettingsPage() {
                             Modifica account
                           </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
+                        <Nav.Item tabIndex={0}>
                           <Nav.Link
                             eventKey="third"
                             onClick={() => setActivetab("Negozio squeal")}
@@ -148,7 +154,7 @@ function SettingsPage() {
                             Negozio squeal
                           </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
+                        <Nav.Item tabIndex={0}>
                           <Nav.Link
                             eventKey="fourth"
                             onClick={() =>
@@ -174,9 +180,16 @@ function SettingsPage() {
               </>
             ) : (
               <div className="col-md-3">
-                <h1 className="text-center pt-5 px-3"> {activetab}</h1>
+                <h1
+                  className="text-center pt-5 px-3"
+                  tabIndex={0}
+                  aria-label="Sezione attualmente aperta"
+                >
+                  {" "}
+                  {activetab}
+                </h1>
                 <Nav variant="pills" className="flex-column p-5">
-                  <Nav.Item>
+                  <Nav.Item tabIndex={0}>
                     <Nav.Link
                       eventKey="first"
                       onClick={() => setActivetab("Il mio profilo")}
@@ -184,7 +197,7 @@ function SettingsPage() {
                       Il mio profilo
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  <Nav.Item tabIndex={0}>
                     <Nav.Link
                       eventKey="second"
                       onClick={() => setActivetab("Modifica account")}
@@ -192,7 +205,7 @@ function SettingsPage() {
                       Modifica account
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  <Nav.Item tabIndex={0}>
                     <Nav.Link
                       eventKey="third"
                       onClick={() => setActivetab("Negozio squeal")}
@@ -200,7 +213,7 @@ function SettingsPage() {
                       Negozio squeal
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  <Nav.Item tabIndex={0}>
                     <Nav.Link
                       eventKey="fourth"
                       onClick={() => setActivetab("Squealer Professional")}
@@ -250,18 +263,18 @@ function SettingsPage() {
                   >
                     <Card style={{ borderRadius: "2vh" }}>
                       <Card.Body>
-                        <Card.Title className="p-3 text-center ">
+                        <Card.Title className="p-3 text-center " tabIndex={0}>
                           Squealer Professional
                         </Card.Title>
 
-                        <Card.Text className="pe-none">
+                        <Card.Text className="pe-none" tabIndex={0}>
                           Squealer Professional è un abbonamento che ti permette
                           di avere accesso a funzionalità esclusive, come
                           caratteri aggiuntivi, canali personalizzati e la
                           possibilità di avere un Social Media Manager.
                         </Card.Text>
 
-                        <Card.Text className="pe-none">
+                        <Card.Text className="pe-none" tabIndex={0}>
                           L'abbonamento costa 9,99€ al mese.
                         </Card.Text>
 
@@ -273,6 +286,7 @@ function SettingsPage() {
                               fontWeight: "bold",
                               fontSize: "1.3rem",
                             }}
+                            tabIndex={0}
                           >
                             Sei già uno Squealer Professional!
                           </div>
