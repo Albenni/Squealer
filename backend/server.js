@@ -78,28 +78,12 @@ app.use("/smm", express.static(path.join(__dirname, "../SMM/dist/smm")));
 app.use("/smm", (req, res) => {
   res.sendFile(path.join(__dirname, "../SMM/dist/smm", "index.html"));
 });
-// {
-//   setHeaders: function (res, path) {
-//     res.type("text/javascript");
-//   }
-// }
 
 //react app
 app.use(express.static(path.join(__dirname, "../app/build")));
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../app/build", "index.html"));
 });
-
-// app.all("*", (req, res) => {
-//   res.status(404);
-//   if (req.accepts("html")) {
-//     res.sendFile(path.join(__dirname, "views", "404.html"));
-//   } else if (req.accepts("json")) {
-//     res.json({ error: "404 Not Found" });
-//   } else {
-//     res.type("txt").send("404 Not Found");
-//   }
-// });
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
