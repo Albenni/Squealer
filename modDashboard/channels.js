@@ -12,7 +12,7 @@ let channelsData = []; // To store the channel data
 
 function fetchChannelData() {
   $.ajax({
-    url: "http://localhost:3500/api/channels",
+    url: `${constants.url}channels`,
     method: "GET",
     beforeSend: function (xhr) {
       xhr.setRequestHeader(
@@ -126,7 +126,7 @@ $(document).ready(function () {
 
 function createNewChannel() {
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/channels`;
+  const url = `${constants.url}channels`;
 
   const channelName = $("#newChannelBox").val()?.toUpperCase();
 

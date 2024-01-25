@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function fetchMessageData(channelId) {
   $.ajax({
-    url: `http://localhost:3500/api/channels/${channelId}`,
+    url: `${constants.url}channels/${channelId}`,
     method: "GET",
     beforeSend: function (xhr) {
       xhr.setRequestHeader(
@@ -70,7 +70,7 @@ function changeName() {
 
   $.ajax({
     type: "PATCH",
-    url: "http://localhost:3500/api/channels/" + channelId + "/name",
+    url: `${constants.url}channels/` + channelId + "/name",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -100,7 +100,7 @@ function changeDescription() {
 
   $.ajax({
     type: "PATCH",
-    url: "http://localhost:3500/api/channels/" + channelId + "/description",
+    url: `${constants.url}channels/` + channelId + "/description",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -124,7 +124,7 @@ function deleteChannel() {
   const channelId = urlParams.get("id");
 
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/channels/${channelId}`;
+  const url = `${constants.url}channels/${channelId}`;
 
   $.ajax({
     type: "DELETE",
@@ -150,7 +150,7 @@ function createSqueal() {
   const channel = urlParams.get("id");
 
   const token = sessionStorage.getItem("token");
-  const url = "http://localhost:3500/api/squeals";
+  const url = `${constants.url}squeals`;
 
   const content = $("#squealContent").val();
   const data = JSON.stringify({

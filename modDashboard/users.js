@@ -11,7 +11,7 @@ $(function () {
 let usersData = []; // To store the user data
 // Function to fetch user data
 function fetchUserData() {
-  $.get("http://localhost:3500/api/users", function (data) {
+  $.get(`${constants.url}users`, function (data) {
     // Store user data and populate the user list
 
     usersData = data;
@@ -142,7 +142,7 @@ function actionButtonClick(userId) {
 // Funzione per bloccare l'utente
 function blockUser(userId) {
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/users/${userId}/blocked`;
+  const url = `${constants.url}users/${userId}/blocked`;
 
   $.ajax({
     type: "PATCH",
@@ -167,7 +167,7 @@ function blockUser(userId) {
 // Funzione per aggiungere 500 caratteri
 function add500Chars(userId) {
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/users/${userId}/charAvailable`;
+  const url = `${constants.url}users/${userId}/charAvailable`;
 
   const requestBody = {
     char: 500,
@@ -198,7 +198,7 @@ function add500Chars(userId) {
 // Funzione per aggiungere 1000 caratteri
 function add1000Chars(userId) {
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/users/${userId}/charAvailable`;
+  const url = `${constants.url}users/${userId}/charAvailable`;
 
   const requestBody = {
     char: 1000,

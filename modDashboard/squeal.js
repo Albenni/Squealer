@@ -36,8 +36,7 @@ function addReceiver() {
   // Make the POST request
   $.ajax({
     type: "POST",
-    url:
-      "http://localhost:3500/api/squeals/" + squealId + "/receivers/" + boxId,
+    url: `${constants.url}squeals/` + squealId + "/receivers/" + boxId,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -61,7 +60,7 @@ function getReactions(squealId) {
 
   $.ajax({
     type: "GET",
-    url: "http://localhost:3500/api/squeals/" + squealId + "/reactions",
+    url: `${constants.url}squeals/` + squealId + "/reactions",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -94,7 +93,7 @@ function addReactions() {
   // Make the POST request
   $.ajax({
     type: "POST",
-    url: "http://localhost:3500/api/squeals/" + squealId + "/reactions",
+    url: `${constants.url}squeals/` + squealId + "/reactions",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -116,7 +115,7 @@ function addReactions() {
 
 function fetchMessageData(squealId) {
   $.ajax({
-    url: `http://localhost:3500/api/squeals?id=${squealId}`,
+    url: `${constants.url}squeals?id=${squealId}`,
     method: "GET",
     beforeSend: function (xhr) {
       xhr.setRequestHeader(
@@ -158,7 +157,7 @@ function fetchMessageData(squealId) {
 
 function deleteSqueal(squealId) {
   const token = sessionStorage.getItem("token");
-  const url = `http://localhost:3500/api/squeals/${squealId}`;
+  const url = `${constants.url}squeals/${squealId}`;
 
   $.ajax({
     type: "DELETE",

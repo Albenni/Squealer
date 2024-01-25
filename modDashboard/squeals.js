@@ -13,7 +13,7 @@ let messagesData = []; // To store the message data
 // Function to fetch message data
 function fetchMessageData() {
   $.ajax({
-    url: "http://localhost:3500/api/squeals",
+    url: `${constants.url}squeals`,
     method: "GET",
     beforeSend: function (xhr) {
       xhr.setRequestHeader(
