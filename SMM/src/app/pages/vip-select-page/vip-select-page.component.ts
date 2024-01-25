@@ -9,6 +9,7 @@ import {
   UserData,
 } from 'src/app/shared-interfaces';
 import { SharedService } from 'src/app/services/shared.service';
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-vip-select-page',
   templateUrl: './vip-select-page.component.html',
@@ -48,8 +49,8 @@ export class VipSelectPageComponent {
     this.sharedService.vipSurnames = [];
 
     this.http
-      .get<GetVipsResponse[]>(
-        'http://localhost:3500/api/users/' +
+      .get<GetVipsResponse[]>(API_CONFIG.url+
+        'users/' +
           this.smmId +
           '/vips?onlyAccepted=true'
       )
@@ -77,8 +78,8 @@ export class VipSelectPageComponent {
 
   getVipRequests() {
     this.http
-      .get<GetVipsResponse[]>(
-        'http://localhost:3500/api/users/' +
+      .get<GetVipsResponse[]>(API_CONFIG.url+
+        'users/' +
           sessionStorage.getItem('smmId') +
           '/vips?onlyAccepted=false'
       )
@@ -99,7 +100,7 @@ export class VipSelectPageComponent {
 
   fetchInfos(id: string) {
     this.http
-      .get<GetInfosVip>('http://localhost:3500/api/users/' + id)
+      .get<GetInfosVip>(API_CONFIG.url+'users/' + id)
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -114,7 +115,7 @@ export class VipSelectPageComponent {
 
   getInfosVipById(id: string) {
     return this.http
-      .get<GetInfosVip>('http://localhost:3500/api/users/' + id)
+      .get<GetInfosVip>(API_CONFIG.url+'users/' + id)
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -128,7 +129,7 @@ export class VipSelectPageComponent {
           this.sharedService.vipIds.push(id);
 
           if (data.profilePic != null) {
-            const source =  'http://localhost:3500/profilePic/'+ id+'.' + data.profilePic.split('.')[1];
+            const source = API_CONFIG.noapiurl+ 'profilePic/'+ id+'.' + data.profilePic.split('.')[1];
             this.vipImages.push(source);
             this.sharedService.vipProfilePics.push(source);
           } else {
@@ -200,7 +201,7 @@ export class VipSelectPageComponent {
   acceptVip(index: number) {
     this.http
       .post(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url+'users/' +
           sessionStorage.getItem('smmId') +
           '/vips/' +
           this.reqVipIds[index],

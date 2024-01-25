@@ -13,11 +13,11 @@ import { catchError, throwError, switchMap, map } from 'rxjs';
 
 import { jwtDecode } from 'jwt-decode';
 import { RefreshTokenResponse } from './shared-interfaces';
-
+import { API_CONFIG } from './api.config';
 @Injectable()
 export class DefaultOptionsInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-
+  
   constructor(private sharedService: SharedService, private http: HttpClient) {}
 
   intercept(
@@ -52,7 +52,7 @@ export class DefaultOptionsInterceptor implements HttpInterceptor {
 
   refreshToken(httpOptions: any): Promise<void> {
     return this.http
-      .get<RefreshTokenResponse>('http://localhost:3500/api/refresh/')
+      .get<RefreshTokenResponse>(API_CONFIG.url +'refresh/')
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);

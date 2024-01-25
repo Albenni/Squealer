@@ -21,6 +21,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, map } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-feed-tab',
   templateUrl: './feed-tab.component.html',
@@ -76,7 +78,8 @@ export class FeedTabComponent {
   private uploadSqueals() {
     this.http
       .get<SquealsResponse[]>(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('vipId') +
           '/squeals/smm'
       )
@@ -122,12 +125,11 @@ export class FeedTabComponent {
           });
 
           this.displayedSqueals = this.squeals;
-          if(this.displayedSqueals.length === 10){
+          if (this.displayedSqueals.length === 10) {
             this.showRefresh = true;
           } else {
             this.showRefresh = false;
           }
-
         } else {
           this.getSqueals = [];
           this.squeals = [];
@@ -143,7 +145,8 @@ export class FeedTabComponent {
 
   uploadMoreSqueals() {
     const url =
-      'http://localhost:3500/api/users/' +
+      API_CONFIG.url +
+      'users/' +
       sessionStorage.getItem('vipId') +
       '/squeals/smm' +
       '?index=' +
@@ -192,8 +195,8 @@ export class FeedTabComponent {
           });
 
           this.displayedSqueals = this.squeals;
-          
-          if(this.displayedSqueals.length === 10* (this.feedIndex + 1)){
+
+          if (this.displayedSqueals.length === 10 * (this.feedIndex + 1)) {
             this.showRefresh = true;
           } else {
             this.showRefresh = false;
@@ -224,11 +227,7 @@ export class FeedTabComponent {
 
   removeReceiver(squealId: string, receiverId: string) {
     const url =
-      'http://localhost:3500/api/squeals/' +
-      squealId +
-      '/receivers' +
-      '/' +
-      receiverId;
+      API_CONFIG.url + 'squeals/' + squealId + '/receivers' + '/' + receiverId;
 
     console.log(url);
 
@@ -253,10 +252,7 @@ export class FeedTabComponent {
     this.receiversToAdd.forEach((receiver) => {
       const receiverId = receiver.id;
       const url =
-        'http://localhost:3500/api/squeals/' +
-        squealId +
-        '/receivers/' +
-        receiverId;
+        API_CONFIG.url + 'squeals/' + squealId + '/receivers/' + receiverId;
 
       this.http
         .post(url, { groupType: receiver.type })
@@ -282,7 +278,7 @@ export class FeedTabComponent {
   getReactions(squeal: SquealsInfo) {
     this.http
       .get<GetReactionResponse>(
-        'http://localhost:3500/api/squeals/' + squeal._id + '/reactions'
+        API_CONFIG.url + 'squeals/' + squeal._id + '/reactions'
       )
       .pipe(
         catchError((error: any) => {
@@ -350,7 +346,7 @@ export class FeedTabComponent {
   uploadComments(idPost: string) {
     this.http
       .get<GetCommentResponse[]>(
-        'http://localhost:3500/api/squeals/' + idPost + '/comments'
+        API_CONFIG.url + 'squeals/' + idPost + '/comments'
       )
       .pipe(
         catchError((error: any) => {
@@ -373,9 +369,7 @@ export class FeedTabComponent {
           });
           this.comments.forEach((comment, index) => {
             this.http
-              .get<GetInfosVip>(
-                'http://localhost:3500/api/users/' + comment.author
-              )
+              .get<GetInfosVip>(API_CONFIG.url + 'users/' + comment.author)
               .pipe(
                 catchError((error: any) => {
                   console.error('Si è verificato un errore:', error);
@@ -393,7 +387,7 @@ export class FeedTabComponent {
   confirmDeletePost() {
     this.http
       .delete<SquealsResponse>(
-        'http://localhost:3500/api/squeals/' + this.idPostToDelete
+        API_CONFIG.url + 'squeals/' + this.idPostToDelete
       )
       .pipe(
         catchError((error: any) => {

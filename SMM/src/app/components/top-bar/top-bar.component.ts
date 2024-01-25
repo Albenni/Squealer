@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
@@ -80,7 +80,7 @@ export class TopBarComponent {
 
   logout() {
     this.http
-      .get('http://localhost:3500/api/logout')
+      .get(API_CONFIG.url + 'logout')
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -88,7 +88,6 @@ export class TopBarComponent {
         })
       )
       .subscribe((data) => {
-
         sessionStorage.clear();
         this.router.navigate(['/login']);
       });
@@ -97,7 +96,8 @@ export class TopBarComponent {
   fetchNotification() {
     this.http
       .get<GetVipsResponse[]>(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('smmId') +
           '/vips?onlyAccepted=false'
       )
@@ -122,7 +122,7 @@ export class TopBarComponent {
 
   fetchInfos(id: string) {
     this.http
-      .get<GetInfosVip>('http://localhost:3500/api/users/' + id)
+      .get<GetInfosVip>(API_CONFIG.url + 'users/' + id)
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -139,7 +139,7 @@ export class TopBarComponent {
   acceptVip(index: number) {
     this.http
       .post(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url + 'users/' +
           sessionStorage.getItem('smmId') +
           '/vips/' +
           this.reqVipIds[index],
@@ -160,7 +160,7 @@ export class TopBarComponent {
   refuseVip(index: number) {
     this.http
       .delete(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url + 'users/' +
           sessionStorage.getItem('smmId') +
           '/vips/' +
           this.reqVipIds[index],

@@ -5,7 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { LoginResponse } from '../../shared-interfaces';
-
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -33,7 +33,7 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    const url = 'http://localhost:3500/api/auth/smm';
+    const url = API_CONFIG.url+'auth/smm';
 
     this.http
       .post<LoginResponse>(url, this.userData)

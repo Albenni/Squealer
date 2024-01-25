@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Characters, GetCharsResponse } from '../../shared-interfaces';
-
+import { API_CONFIG } from 'src/app/api.config';
 import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-shop-page',
@@ -21,8 +21,8 @@ export class ShopPageComponent {
 
   ngOnInit() {
     this.http
-      .get<GetCharsResponse>(
-        'http://localhost:3500/api/users/' + sessionStorage.getItem('vipId') + '/charAvailable'
+      .get<GetCharsResponse>(API_CONFIG.url+
+        'users/' + sessionStorage.getItem('vipId') + '/charAvailable'
       )
       .pipe(
         catchError((error: any) => {

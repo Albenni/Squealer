@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Characters, GetCharsResponse } from '../../shared-interfaces';
-
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -45,7 +45,8 @@ export class DashboardComponent implements OnInit {
   getChars() {
     this.http
       .get<GetCharsResponse>(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('vipId') +
           '/charAvailable'
       )
@@ -64,7 +65,7 @@ export class DashboardComponent implements OnInit {
 
   selectVip(index: number) {
     this.vipUsername = sessionStorage.getItem('vipUsername')!;
-    
+
     this.vipProfilePic = sessionStorage.getItem('vipProfilePic')!;
     this.refreshFeed = !this.refreshFeed;
     this.getChars();

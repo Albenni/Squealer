@@ -15,6 +15,7 @@ import {
   SquealsResponse,
 } from '../../../shared-interfaces';
 import { ChannelSelectorComponent } from '../channel-selector/channel-selector.component';
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
@@ -105,9 +106,8 @@ export class CreatePostComponent {
       formData.append('publicSqueal', 'true');
     }
 
-    const url = `http://localhost:3500/api/users/${sessionStorage.getItem(
-      'vipId'
-    )}/squeals`;
+    const url =
+      API_CONFIG.url + `users/${sessionStorage.getItem('vipId')}/squeals`;
 
     this.http
       .post<SquealsResponse>(url, formData)
@@ -137,7 +137,8 @@ export class CreatePostComponent {
   }
   buy200Chars() {
     const url =
-      'http://localhost:3500/api/users/' +
+      API_CONFIG.url +
+      'users/' +
       sessionStorage.getItem('vipId') +
       '/charAvailable';
     this.http
@@ -170,7 +171,8 @@ export class CreatePostComponent {
   getChars(onEmergency: boolean) {
     this.http
       .get<GetCharsResponse>(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('vipId') +
           '/charAvailable'
       )

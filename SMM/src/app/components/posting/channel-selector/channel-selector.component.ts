@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-channel-selector',
   templateUrl: './channel-selector.component.html',
@@ -91,7 +92,7 @@ export class ChannelSelectorComponent {
   checkReceiver(receiverName: string, receiverType: string): Promise<boolean> {
     let apiType = this.channelChoice === '§' ? 'channels' : 'keywords';
   
-    let url = `http://localhost:3500/api/${apiType}?${receiverType}=${receiverName}&exactMatch=true`;
+    let url =  API_CONFIG.url + `${apiType}?${receiverType}=${receiverName}&exactMatch=true`;
   
     return this.http
       .get(url, { observe: 'response' })

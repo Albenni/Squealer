@@ -15,7 +15,7 @@ import {
   GetCommentResponse,
 } from '../../shared-interfaces';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
+import { API_CONFIG } from 'src/app/api.config';
 @Component({
   selector: 'app-trend-tab',
   templateUrl: './trend-tab.component.html',
@@ -57,7 +57,7 @@ export class TrendTabComponent {
   private uploadSqueals() {
     this.http
       .get<SquealsResponse[]>(
-        'http://localhost:3500/api/users/' +
+        API_CONFIG.url + 'users/' +
           sessionStorage.getItem('vipId') +
           '/squeals/smm'
       )
@@ -220,7 +220,7 @@ export class TrendTabComponent {
   getComments(squealPrevMonth: SquealsInfo): Promise<number> {
     return this.http
       .get<GetCommentResponse[]>(
-        'http://localhost:3500/api/squeals/' + squealPrevMonth._id + '/comments'
+        API_CONFIG.url + 'squeals/' + squealPrevMonth._id + '/comments'
       )
       .pipe(
         catchError((error: any) => {
@@ -251,7 +251,7 @@ export class TrendTabComponent {
   getReactions(squeal: SquealsInfo): Promise<SquealsInfo> {
     return this.http
       .get<GetReactionResponse>(
-        'http://localhost:3500/api/squeals/' + squeal._id + '/reactions'
+        API_CONFIG.url + 'squeals/' + squeal._id + '/reactions'
       )
       .pipe(
         catchError((error: any) => {
