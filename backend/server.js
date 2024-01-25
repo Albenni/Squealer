@@ -68,10 +68,21 @@ app.get("/moddash", (req, res) => {
 });
 
 //smm app
+app.use((req, res, next) => {
+  if (path.extname(req.path).toLowerCase() === ".js") {
+    res.type("text/javascript");
+  }
+  next();
+});
 app.use("/smm", express.static(path.join(__dirname, "../SMM/dist/smm")));
 app.use("/smm", (req, res) => {
   res.sendFile(path.join(__dirname, "../SMM/dist/smm", "index.html"));
 });
+// {
+//   setHeaders: function (res, path) {
+//     res.type("text/javascript");
+//   }
+// }
 
 //react app
 app.use(express.static(path.join(__dirname, "../app/build")));
