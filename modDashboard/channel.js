@@ -136,7 +136,7 @@ function deleteChannel() {
     success: function (data) {
       console.log("Channel deleted:", data);
       alert("Channel eliminato");
-      window.location.href = "/channels.html";
+      window.location.href = "/moddash/channels.html";
     },
     error: function (error) {
       alert("error");

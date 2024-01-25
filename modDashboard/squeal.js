@@ -170,7 +170,7 @@ function deleteSqueal(squealId) {
     success: function (data) {
       console.log("Squeal deleted:", data);
       alert("Squeal eliminato");
-      window.location.href = "/squeals.html";
+      window.location.href = "/moddash/squeals.html";
     },
     error: function (error) {
       alert("error");

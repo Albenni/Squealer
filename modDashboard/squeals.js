@@ -77,7 +77,7 @@ function populateMessageList(messages) {
           "</td><td>" +
           new Date(message.createdAt).toLocaleDateString() +
           "</td><td>" +
-          `<button class='btn btn-primary' onclick='window.location.href="/squeal.html?id=${message._id}"'>Details</button>` +
+          `<button class='btn btn-primary' onclick='window.location.href="/moddash/squeal.html?id=${message._id}"'>Details</button>` +
           "</td></tr>"
       );
     }

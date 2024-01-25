@@ -75,7 +75,7 @@ function populateChannelList(channels) {
           "</td><td>" +
           channel.blocked +
           "</td><td>" +
-          `<button class='btn btn-primary' onclick='window.location.href="/channel.html?id=${channel._id}"'>Details</button>` +
+          `<button class='btn btn-primary' onclick='window.location.href="/moddash/channel.html?id=${channel._id}"'>Details</button>` +
           "</td></tr>"
       );
     }
@@ -125,9 +125,6 @@ $(document).ready(function () {
 });
 
 function createNewChannel() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const channelId = urlParams.get("id");
-
   const token = sessionStorage.getItem("token");
   const url = `http://localhost:3500/api/channels`;
 
@@ -147,7 +144,7 @@ function createNewChannel() {
     success: function (data) {
       console.log("Channel created:", data);
       alert("Channel created");
-      window.location.href = "/channels.html";
+      window.location.href = "/moddash/channels.html";
     },
     error: function (error) {
       alert("error");
