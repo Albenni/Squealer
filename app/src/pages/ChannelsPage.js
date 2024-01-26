@@ -100,7 +100,7 @@ const ChannelsPage = () => {
         >
           <TrendBar />
           <div className="d-flex justify-content-center pt-3">
-            <Button variant="secondary" onClick={() => setShowCreate(true)}>
+            <Button variant="primary" onClick={() => setShowCreate(true)}>
               Crea un canale
             </Button>
           </div>
