@@ -17,7 +17,7 @@ function ChannelSelector(props) {
   const [channelnotfound, setChannelNotFound] = useState(false);
   const [userorchannel, setUserOrChannel] = useState(false);
 
-  function AddSquealChannel() {
+  async function AddSquealChannel() {
     setChannelNotFound(false);
 
     const channel = document.getElementById("SBoxControlInputChannel").value;
@@ -117,6 +117,12 @@ function ChannelSelector(props) {
         )
         .then((res) => {
           console.log(res);
+          // You can add a keyword only if there are no users in the squealchannel array
+          if (props.squealchannel.some((item) => item.type === "Username")) {
+            setUserOrChannel(true);
+            return;
+          }
+
           if (res.status === 200) {
             toadd = {
               id: res.data._id,
@@ -124,15 +130,25 @@ function ChannelSelector(props) {
               channel: channeltype + channel,
             };
 
-            // You can add a keyword only if there are no users in the squealchannel array
-            if (props.squealchannel.some((item) => item.type === "Username")) {
-              setUserOrChannel(true);
-              return;
-            }
-
             props.setSquealChannel([...props.squealchannel, toadd]);
           } else if (res.status === 204) {
-            setChannelNotFound(true);
+            axiosInstance
+              .post(config.endpoint.keywords, {
+                name: channel,
+              })
+              .then((res) => {
+                console.log(res);
+                toadd = {
+                  id: res.data._id,
+                  type: props.squealType,
+                  channel: channeltype + channel,
+                };
+
+                props.setSquealChannel([...props.squealchannel, toadd]);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }
         })
         .catch((err) => {
