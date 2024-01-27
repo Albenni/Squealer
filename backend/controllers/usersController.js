@@ -376,6 +376,7 @@ const getSmmId = async (req, res) => {
     res.status(200).json(smm);
   } catch (error) {
     console.log(error);
+    res.sendStatus(500);
   }
 };
 const requestSmm = async (req, res) => {
