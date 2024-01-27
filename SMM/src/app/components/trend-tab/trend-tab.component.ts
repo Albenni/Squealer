@@ -31,6 +31,7 @@ export class TrendTabComponent {
   squeals: SquealsInfo[] = [];
   existSqueals: boolean = false;
 
+
   mostPopularSqueal: SquealsInfo = {} as SquealsInfo;
   leastPopularSqueal: SquealsInfo = {} as SquealsInfo;
   mostViewedSqueal: SquealsInfo = {} as SquealsInfo;
@@ -42,6 +43,7 @@ export class TrendTabComponent {
   monthlySqueal: SquealsInfo = {} as SquealsInfo;
 
   commentsNumber: number[] = [];
+  feedIndex: number = 0;
 
   constructor(private http: HttpClient, private modalService: BsModalService) {}
 
@@ -54,6 +56,70 @@ export class TrendTabComponent {
       this.uploadSqueals();
     }
   }
+
+  uploadMoreSqueals() {
+    const url =
+      API_CONFIG.url +
+      'users/' +
+      sessionStorage.getItem('vipId') +
+      '/squeals/smm' +
+      '?index=' +
+      this.feedIndex;
+
+    this.http
+      .get<SquealsResponse[]>(url)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Si è verificato un errore:', error);
+          return throwError('Errore gestito');
+        })
+      )
+      .subscribe((data) => {
+        if (data) {
+          this.getSqueals = data;
+          this.getSqueals.forEach((squeal) => {
+            this.squeals.push({
+              _id: squeal._id,
+              author: squeal.author,
+              publicSqueal: squeal.publicSqueal,
+              receivers: squeal.receivers,
+              officialChannel: squeal.officialChannel,
+              content: squeal.content,
+              contentType: squeal.contentType,
+              impression: squeal.impression,
+              createdAt: squeal.createdAt,
+              convertedDate: '',
+              neg0Reac: 0,
+              neg1Reac: 0,
+              pos2Reac: 0,
+              pos3Reac: 0,
+              weightedPosReac: 0,
+              weightedNegReac: 0,
+              __v: squeal.__v,
+              category: squeal.category,
+              tempGeolocation: squeal.tempGeolocation,
+            });
+          });
+
+          const reactionPromises = this.squeals.map((squeal) => {
+            this.convertDate(squeal);
+            return this.getReactions(squeal);
+          });
+
+          Promise.all(reactionPromises).then(() => {
+            this.getSquealsInfo();
+          });
+
+          if (this.squeals.length === 10 * (this.feedIndex + 1)) {
+            this.feedIndex += 1;
+            this.uploadMoreSqueals();
+          }
+
+        }
+      
+      });
+      }
+
   private uploadSqueals() {
     this.http
       .get<SquealsResponse[]>(
@@ -102,6 +168,10 @@ export class TrendTabComponent {
           Promise.all(reactionPromises).then(() => {
             this.getSquealsInfo();
           });
+          if (this.squeals.length === 10 * (this.feedIndex + 1)) {
+            this.feedIndex += 1;
+            this.uploadMoreSqueals();
+          }
         } else {
           this.existSqueals = false;
           this.getSqueals = [];
