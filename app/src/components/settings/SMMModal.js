@@ -32,6 +32,20 @@ function SMMModal(props) {
     }
   }
 
+  async function removeSMM() {
+    await axiosInstance
+      .delete(
+        config.endpoint.users + "/" + sessionStorage.getItem("userid") + "/smm"
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <Modal
       show={props.show}
@@ -41,7 +55,7 @@ function SMMModal(props) {
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <h4>Aggiungi un Social Media Manager</h4>
+        <h4>Scegli il Social Media Manager</h4>
       </Modal.Header>
       <Modal.Body>
         <p
@@ -49,10 +63,10 @@ function SMMModal(props) {
             pointerEvents: "none",
           }}
         >
-          Scegli il tuo Social Media Manager preferito.
-          <br />
-          Una volta scelto, il tuo SMM potrà accetta la tua richiesta tramite
+          Una volta scelto, il tuo SMM potrà accettare la tua richiesta tramite
           l'app di gestione clienti.
+          <br />
+          Nel caso tu abbia già un SMM, verrà sostituito con quello scelto.
         </p>
         <Form.Control
           type="text"
@@ -68,10 +82,15 @@ function SMMModal(props) {
       <Modal.Footer
         style={{
           border: "none",
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        <Button variant="danger" type="submit" onClick={checkSMM}>
-          Sincronizza
+        <Button variant="danger" type="submit" onClick={removeSMM}>
+          Rimuovi
+        </Button>
+        <Button variant="success" type="submit" onClick={checkSMM}>
+          Modifica
         </Button>
       </Modal.Footer>
     </Modal>

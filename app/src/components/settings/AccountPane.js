@@ -15,16 +15,20 @@ import SMMModal from "./SMMModal";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import config from "../../config/config";
+import { useNavigate } from "react-router-dom";
 
 function AccountPane({ user }) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const axiosInstance = useAxiosPrivate();
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [channels, setChannels] = useState([]);
+  const [smm, setSmm] = useState({});
 
   useEffect(() => {
     getChannels();
+    getSmm();
 
     async function getChannels() {
       await axiosInstance
@@ -45,23 +49,80 @@ function AccountPane({ user }) {
         });
     }
 
+    async function getSmm() {
+      await axiosInstance
+        .get(
+          config.endpoint.users +
+            "/" +
+            sessionStorage.getItem("userid") +
+            "/smm"
+        )
+        .then((res) => {
+          if (res.status === 204) {
+            setSmm(null);
+            return;
+          }
+
+          axiosInstance
+            .get(
+              config.endpoint.users + "/" + res.data.smmId + "?exactMatch=true"
+            )
+            .then((res) => {
+              console.log(res.data);
+              setSmm(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     return () => {
       setChannels([]);
     };
   }, [axiosInstance]);
 
-  function handleSync(smmid) {
-    axiosInstance
-      .post(config.endpoint.users + "/" + user._id + "/smm", {
-        smmId: smmid,
-      })
-      .then((res) => {
-        console.log(res);
-        setShow(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async function handleSync(smmid) {
+    if (!smm) {
+      await axiosInstance
+        .post(config.endpoint.users + "/" + user._id + "/smm", {
+          smmId: smmid,
+        })
+        .then((res) => {
+          console.log(res);
+          setShow(false);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      await axiosInstance
+        .delete(config.endpoint.users + "/" + user._id + "/smm", {
+          smmId: smm._id,
+        })
+        .then((res) => {
+          console.log(res);
+          axiosInstance
+            .post(config.endpoint.users + "/" + user._id + "/smm", {
+              smmId: smmid,
+            })
+            .then((res) => {
+              console.log(res);
+              setShow(false);
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   return (
@@ -70,6 +131,7 @@ function AccountPane({ user }) {
         show={show}
         onHide={() => setShow(false)}
         handleSync={handleSync}
+        smm={smm}
       />
 
       <div className={isMobile ? "p-3" : "row px-5 pb-5"}>
@@ -176,26 +238,55 @@ function AccountPane({ user }) {
                 </div>
 
                 <Card.Title className="pt-3" tabIndex={0}>
-                  I tuoi amministratori.
+                  Il tuo Social Media Manager.
                 </Card.Title>
 
                 {user.professional ? (
-                  <div className="d-flex justify-content-between align-items-center">
-                    <Card.Text
-                      className="pe-none"
-                      style={{
-                        marginBottom: "0px",
-                      }}
-                      tabIndex={0}
-                    >
-                      Scegli il tuo Social Media Manager
-                    </Card.Text>
-                    <Button
-                      variant="outline-dark"
-                      onClick={() => setShow(true)}
-                    >
-                      Aggiungi
-                    </Button>
+                  <div className="d-flex flex-column align-items-center">
+                    {!smm && (
+                      <div className="mb-3" tabIndex={0}>
+                        Non hai un Social Media Manager.
+                      </div>
+                    )}
+
+                    {smm && (
+                      <>
+                        <Button
+                          className="mb-3"
+                          variant="dark"
+                          style={{
+                            fontWeight: "bold",
+                            color: theme.colors.lightgrey,
+                            borderRadius: "10px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "5px 10px",
+                          }}
+                          onClick={() =>
+                            navigate("/" + smm.username, { replace: true })
+                          }
+                          tabIndex={0}
+                        >
+                          {smm?.firstname} {smm?.surname}
+                        </Button>
+                      </>
+                    )}
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        variant="outline-dark"
+                        onClick={() => setShow(true)}
+                        style={{
+                          borderTopWidth: "2px",
+                          borderTopStyle: "solid",
+                          borderTopColor: theme.colors.dark,
+                          borderRadius: "10px",
+                          padding: "5px 10px",
+                        }}
+                      >
+                        Modifica il tuo SMM
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   <div
