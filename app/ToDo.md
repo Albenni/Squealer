@@ -12,12 +12,4 @@ https://www.makeuseof.com/password-reset-forgot-react-node-how-handle/
 
 https://mui.com/material-ui/react-menu/
 
-- Codificare il token che teniamo all'interno dell'app ?
-
 #
-
-- Aggiungere controllo di avere sufficienti caratteri disponibili per postare (Fatto, da testare)
-
-- Rendere sito accessibile
-
-- Search bar buggata?

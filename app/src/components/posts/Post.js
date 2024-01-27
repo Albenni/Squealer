@@ -10,14 +10,16 @@ import PostLocation from "./PostLocation";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import config from "../../config/config";
 
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReceiversModal from "./ReceiversModal";
 
 function Post({ item }) {
   const useapi = useAxiosPrivate();
 
   const [user, setUser] = useState();
+  const [showReceivers, setShowReceivers] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,10 +40,18 @@ function Post({ item }) {
       navigate("/channel/" + receiver.group.name);
     else if (receiver.groupType === "Keyword")
       navigate("/keyword/" + receiver.group.name);
+
+    window.location.reload();
   };
 
   return (
     <>
+      <ReceiversModal
+        show={showReceivers}
+        setShowReceivers={setShowReceivers}
+        receivers={item.receivers}
+      />
+
       <div
         className="container-fluid d-flex justify-content-end"
         style={{
@@ -81,38 +91,47 @@ function Post({ item }) {
         >
           {item.publicSqueal ? <div tabIndex={0}>Squeal pubblico</div> : null}
 
-          {!item.publicSqueal ? (
+          {!item.publicSqueal && (
             <div className="container">
-              {item.receivers.map((receiver, key) => {
-                if (key > 1) return null;
-                if (key === 1)
-                  return (
-                    <div
-                      key={key}
-                      onClick={() => handleClickChannel(receiver)}
-                      style={{ cursor: "pointer" }}
-                      tabIndex={0}
-                    >
-                      {receiver?.groupType === "Channel" ? "§" : "#"}
-                      {/* {console.log(receiver)} */}
-                      {receiver?.group?.name} e altri...
-                    </div>
-                  );
-
-                return (
-                  <div
-                    key={key}
-                    onClick={() => handleClickChannel(receiver)}
-                    style={{ cursor: "pointer" }}
-                    tabIndex={0}
-                  >
-                    {receiver?.groupType === "Channel" ? "§" : "#"}
-                    {receiver?.group?.name}
-                  </div>
-                );
-              })}
+              {item.receivers.slice(0, 2).map((receiver, key) => (
+                <Button
+                  key={key}
+                  variant="outline-secondary"
+                  className="m-1"
+                  style={{
+                    color: theme.colors.lightgrey,
+                    fontWeight: "bold",
+                    fontSize: "0.8rem",
+                    padding: "2px 5px",
+                    border: "1px solid",
+                    borderRadius: "5px",
+                  }}
+                  tabIndex={0}
+                  onClick={() => handleClickChannel(receiver)}
+                >
+                  {receiver?.groupType === "Channel" ? "§" : "#"}
+                  {receiver?.group?.name}
+                </Button>
+              ))}
+              {item.receivers.length > 2 && (
+                <Button
+                  variant="outline-danger"
+                  className="m-1"
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "0.8rem",
+                    padding: "2px 5px",
+                    border: "1px solid",
+                    borderRadius: "5px",
+                  }}
+                  tabIndex={0}
+                  onClick={() => setShowReceivers(true)}
+                >
+                  e altri...
+                </Button>
+              )}
             </div>
-          ) : null}
+          )}
         </div>
       </div>
       <Card
