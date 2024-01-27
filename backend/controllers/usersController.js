@@ -363,15 +363,20 @@ const getUserSubscribedChannels = async (req, res) => {
 };
 
 const getSmmId = async (req, res) => {
-  if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
+  try {
+    if (!req.authorized)
+      return res.status(403).json({ message: "Unauthorized" });
 
-  if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
-    return res.status(400).json({ message: "User ID invalid" });
+    if (!mongoose.Types.ObjectId.isValid(req?.params?.userId))
+      return res.status(400).json({ message: "User ID invalid" });
 
-  const smm = Smm.findOne({ vipId: req.params.userId, accepted: true });
-  if (!smm) return res.status(204).json({ message: "No SMM associated" });
+    const smm = await Smm.findOne({ vipId: req.params.userId, accepted: true });
+    if (!smm) return res.status(204).json({ message: "No SMM associated" });
 
-  res.status(200).json(smm);
+    res.status(200).json(smm);
+  } catch (error) {
+    console.log(error);
+  }
 };
 const requestSmm = async (req, res) => {
   if (!req.authorized) return res.status(403).json({ message: "Unauthorized" });
