@@ -25,7 +25,7 @@
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item *ngFor="let username of vipUsernames; let i = index"
                             (click)="changeVip(i)">
-                            <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem;">
+                            <div class="row py-1" id="dropdownItemVip" style="padding-left: 1rem; padding-right: 2rem;">
                                 <div class="col-4 p-0">
                                     <div class="rounded-avatar">
                                         <img class="rounded-avatar-img" *ngIf="vipProfilePics[i]"
