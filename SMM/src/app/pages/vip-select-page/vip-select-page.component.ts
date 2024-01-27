@@ -41,7 +41,6 @@ export class VipSelectPageComponent {
   ) {}
 
   ngOnInit(): void {
-
     this.sharedService.vipUsernames = [];
     this.sharedService.vipIds = [];
     this.sharedService.vipProfilePics = [];
@@ -49,10 +48,8 @@ export class VipSelectPageComponent {
     this.sharedService.vipSurnames = [];
 
     this.http
-      .get<GetVipsResponse[]>(API_CONFIG.url+
-        'users/' +
-          this.smmId +
-          '/vips?onlyAccepted=true'
+      .get<GetVipsResponse[]>(
+        API_CONFIG.url + 'users/' + this.smmId + '/vips?onlyAccepted=true'
       )
       .pipe(
         catchError((error: any) => {
@@ -78,8 +75,9 @@ export class VipSelectPageComponent {
 
   getVipRequests() {
     this.http
-      .get<GetVipsResponse[]>(API_CONFIG.url+
-        'users/' +
+      .get<GetVipsResponse[]>(
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('smmId') +
           '/vips?onlyAccepted=false'
       )
@@ -100,7 +98,7 @@ export class VipSelectPageComponent {
 
   fetchInfos(id: string) {
     this.http
-      .get<GetInfosVip>(API_CONFIG.url+'users/' + id)
+      .get<GetInfosVip>(API_CONFIG.url + 'users/' + id)
       .pipe(
         catchError((error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -109,42 +107,52 @@ export class VipSelectPageComponent {
       )
       .subscribe((data) => {
         this.reqVipUsernames.push(data.username);
-        this.reqVipProfilePics.push(data.profilePic);
+        if (data.profilePic != null) {
+          const profilePicSource =
+            API_CONFIG.noapiurl + 'profilePic/' + data._id + data.profilePic;
+          this.reqVipProfilePics.push(profilePicSource);
+        } else {
+          this.reqVipProfilePics.push('./assets/default-profile-pic.webp');
+        }
       });
   }
 
   getInfosVipById(id: string) {
-    return this.http
-      .get<GetInfosVip>(API_CONFIG.url+'users/' + id)
-      .pipe(
-        catchError((error: any) => {
-          console.error('Si è verificato un errore:', error);
-          return throwError('Errore gestito');
-        }),
-        tap((data: GetInfosVip) => {
-          this.vipUsernames.push(data.username);
-          this.sharedService.vipUsernames.push(data.username);
+    return this.http.get<GetInfosVip>(API_CONFIG.url + 'users/' + id).pipe(
+      catchError((error: any) => {
+        console.error('Si è verificato un errore:', error);
+        return throwError('Errore gestito');
+      }),
+      tap((data: GetInfosVip) => {
+        this.vipUsernames.push(data.username);
+        this.sharedService.vipUsernames.push(data.username);
 
-          this.vipIds.push(id);
-          this.sharedService.vipIds.push(id);
+        this.vipIds.push(id);
+        this.sharedService.vipIds.push(id);
 
-          if (data.profilePic != null) {
-            const source = API_CONFIG.noapiurl+ 'profilePic/'+ id+'.' + data.profilePic.split('.')[1];
-            this.vipImages.push(source);
-            this.sharedService.vipProfilePics.push(source);
-          } else {
-            this.vipImages.push('./assets/default-profile-pic.webp');
-            this.sharedService.vipProfilePics.push('./assets/default-profile-pic.webp');
-          }
-      
+        if (data.profilePic != null) {
+          const source =
+            API_CONFIG.noapiurl +
+            'profilePic/' +
+            id +
+            '.' +
+            data.profilePic.split('.')[1];
+          this.vipImages.push(source);
+          this.sharedService.vipProfilePics.push(source);
+        } else {
+          this.vipImages.push('./assets/default-profile-pic.webp');
+          this.sharedService.vipProfilePics.push(
+            './assets/default-profile-pic.webp'
+          );
+        }
 
-          this.vipNames.push(data.firstname);
-          this.sharedService.vipNames.push(data.firstname);
+        this.vipNames.push(data.firstname);
+        this.sharedService.vipNames.push(data.firstname);
 
-          this.vipSurnames.push(data.surname);
-          this.sharedService.vipSurnames.push(data.surname);
-        })
-      );
+        this.vipSurnames.push(data.surname);
+        this.sharedService.vipSurnames.push(data.surname);
+      })
+    );
   }
 
   updateSessionStorage() {
@@ -201,7 +209,8 @@ export class VipSelectPageComponent {
   acceptVip(index: number) {
     this.http
       .post(
-        API_CONFIG.url+'users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('smmId') +
           '/vips/' +
           this.reqVipIds[index],

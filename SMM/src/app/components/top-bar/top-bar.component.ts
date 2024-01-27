@@ -131,7 +131,14 @@ export class TopBarComponent {
       )
       .subscribe((data) => {
         this.reqVipUsernames.push(data.username);
-        this.reqVipProfilePics.push(data.profilePic);
+
+        if (data.profilePic != null) {
+          const profilePicSource =
+            API_CONFIG.noapiurl + 'profilePic/' + data._id + data.profilePic;
+          this.reqVipProfilePics.push(profilePicSource);
+        } else {
+          this.reqVipProfilePics.push('./assets/default-profile-pic.webp');
+        }
         this.existNotifications = true;
       });
   }
