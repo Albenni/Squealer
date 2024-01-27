@@ -5,8 +5,9 @@
     <li *ngFor="let squeal of displayedSqueals; let index = index" class="square-container p-2 m-4 card text-center"
         style="align-items: center;" role="listitem">
         <div style="width: 20rem;font-style: italic;" class="row">
-            <p class="col-6" style="text-align: start;">{{squeal.publicSqueal==true ? 'Pubblico' : 'Privato'}}</p>
-            <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squeal.category)}">
+            <p class="col-4" style="text-align: start;">{{squeal.publicSqueal==true ? 'Pubblico' : 'Privato'}}</p>
+            <div class="col-4" style="display: flex; flex-direction: row;">{{squeal.impression}} <mat-icon style="margin-left: 0.5rem;">visibility</mat-icon>  </div>
+            <p class="col-4" style="text-align: end;" [ngStyle]="{'color': getColor(squeal.category)}">
                 {{squeal.category}}</p>
         </div>
 

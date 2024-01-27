@@ -1,7 +1,9 @@
 <div class="square-container p-2 m-4 card text-center" style="align-items: center;" role="article" >
     <div style="width: 20rem; font-style: italic;" class="row" [attr.aria-label]="squealInput.publicSqueal ? 'Squeal Pubblico' : 'Squeal Privato'">
-        <p class="col-6" style="text-align: start;">{{squealInput.publicSqueal == true ? 'Pubblico' : 'Privato'}}</p>
-        <p class="col-6" style="text-align: end;" [ngStyle]="{'color': getColor(squealInput.category)}">{{squealInput.category}}</p>
+        <p class="col-4" style="text-align: start;">{{squealInput.publicSqueal == true ? 'Pubblico' : 'Privato'}}</p>
+        <div class="col-4" style="display: flex; flex-direction: row;">{{squealInput.impression}} <mat-icon style="margin-left: 0.5rem;">visibility</mat-icon>  </div>
+
+        <p class="col-4" style="text-align: end;" [ngStyle]="{'color': getColor(squealInput.category)}">{{squealInput.category}}</p>
     </div>
 
     <div class="card-header py-0 px-1 pt-3" style="width: 18rem;">
