@@ -31,7 +31,6 @@ export class TrendTabComponent {
   squeals: SquealsInfo[] = [];
   existSqueals: boolean = false;
 
-
   mostPopularSqueal: SquealsInfo = {} as SquealsInfo;
   leastPopularSqueal: SquealsInfo = {} as SquealsInfo;
   mostViewedSqueal: SquealsInfo = {} as SquealsInfo;
@@ -114,16 +113,15 @@ export class TrendTabComponent {
             this.feedIndex += 1;
             this.uploadMoreSqueals();
           }
-
         }
-      
       });
-      }
+  }
 
   private uploadSqueals() {
     this.http
       .get<SquealsResponse[]>(
-        API_CONFIG.url + 'users/' +
+        API_CONFIG.url +
+          'users/' +
           sessionStorage.getItem('vipId') +
           '/squeals/smm'
       )
@@ -182,7 +180,7 @@ export class TrendTabComponent {
           this.leastViewedSqueal = {} as SquealsInfo;
           this.shortestSqueal = {} as SquealsInfo;
           this.longestSqueal = {} as SquealsInfo;
-          this.monthlySqueal = {} as SquealsInfo; 
+          this.monthlySqueal = {} as SquealsInfo;
           this.mostInteractedSqueal = {} as SquealsInfo;
           this.leastInteractedSqueal = {} as SquealsInfo;
         }
@@ -207,23 +205,34 @@ export class TrendTabComponent {
     });
 
     this.mostInteractedSqueal = this.squeals.reduce((prev, current) => {
-      if(current.weightedNegReac === 0 && current.weightedPosReac == 0) return prev
+      if (current.weightedNegReac === 0 && current.weightedPosReac == 0)
+        return prev;
       const prevWeight =
-        (prev.weightedPosReac - prev.weightedNegReac) / prev.impression;
+        (prev.neg0Reac + prev.neg1Reac + prev.pos2Reac + prev.pos3Reac) /
+        prev.impression;
       const currentWeight =
-        (current.weightedPosReac - current.weightedNegReac) / current.impression;
+        (current.neg0Reac +
+          current.neg1Reac +
+          current.pos2Reac +
+          current.pos3Reac) /
+        current.impression;
       return prevWeight > currentWeight ? prev : current;
     });
 
     this.leastInteractedSqueal = this.squeals.reduce((prev, current) => {
-      if(current.weightedNegReac === 0 && current.weightedPosReac == 0) return current
+      if (current.weightedNegReac === 0 && current.weightedPosReac == 0)
+        return current;
       const prevWeight =
-        (prev.weightedPosReac - prev.weightedNegReac) / prev.impression;
+        (prev.neg0Reac + prev.neg1Reac + prev.pos2Reac + prev.pos3Reac) /
+        prev.impression;
       const currentWeight =
-        (current.weightedPosReac - current.weightedNegReac) / current.impression;
+        (current.neg0Reac +
+          current.neg1Reac +
+          current.pos2Reac +
+          current.pos3Reac) /
+        current.impression;
       return prevWeight < currentWeight ? prev : current;
     });
-
 
     const textSqueals = this.squeals.filter(
       (squeal) => squeal.contentType === 'text'
