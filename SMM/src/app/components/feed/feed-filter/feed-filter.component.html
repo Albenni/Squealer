@@ -35,6 +35,15 @@
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field appearance="fill" class="px-2 pt-2">
+            <mat-label>Seleziona per riservatezza:</mat-label>
+            <mat-select name="contentPrivacy" [(ngModel)]="filterParams.contentPrivacy" multiple aria-label="Seleziona per riservatezza">
+                <mat-option value="all">Tutti</mat-option>
+                <mat-option value="pubblico">Pubblici</mat-option>
+                <mat-option value="privato">Privati</mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <button mat-raised-button type="submit" aria-label="Applica filtri" style="width: 8rem;">Applica filtri</button>
 
     </form>

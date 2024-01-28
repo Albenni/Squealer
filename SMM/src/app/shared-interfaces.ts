@@ -139,6 +139,7 @@ export interface FilterParams {
   orderBy: string;
   contentTypes: string[];
   contentPopularity: string[];
+  contentPrivacy: string[];
 }
 export interface Vip {
   id: string;

@@ -14,6 +14,7 @@ export class FeedFilterComponent {
     orderBy: 'recent',
     contentTypes: ['all'], 
     contentPopularity: ['all'],
+    contentPrivacy: ['all'],
   };
 
   applyFilter(form: NgForm) {

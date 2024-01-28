@@ -416,6 +416,15 @@ export class FeedTabComponent {
         filterParams.contentPopularity.includes(squeal.category)
       );
     }
+
+    if (!filterParams.contentPrivacy.includes('all')) {
+      filteredSqueals = filteredSqueals.filter((squeal) =>
+        filterParams.contentPrivacy.includes(
+          squeal.publicSqueal ? 'pubblico' : 'privato'
+        )
+      );
+    }
+
     switch (filterParams.orderBy) {
       case 'recent':
         filteredSqueals = filteredSqueals.sort((a, b) => {
