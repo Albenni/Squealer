@@ -125,7 +125,7 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
                 width: "70px",
                 height: "70px",
                 borderRadius: "50%",
-                objectFit: channelinfo.profilepic ? "cover" : "contain",
+                objectFit: channelinfo.profilePic ? "cover" : "contain",
               }}
             />
           </div>
@@ -203,7 +203,7 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
               width: "70px",
               height: "70px",
               borderRadius: "50%",
-              objectFit: channelinfo.profilepic ? "cover" : "contain",
+              objectFit: channelinfo.profilePic ? "cover" : "contain",
             }}
           />
         </div>

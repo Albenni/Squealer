@@ -6,6 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import ErrorMessage from "../components/ErrorMessage";
 import OTPInput from "../components/OTPInput";
 import GeneralAlert from "../components/GeneralAlert";
+import { useNavigate } from "react-router-dom";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
@@ -15,6 +16,7 @@ import config from "../config/config";
 function ResetPasswordPage() {
   const axiosInstance = useAxiosPrivate();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const navigate = useNavigate();
 
   const [useremail, setUserEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
@@ -68,7 +70,8 @@ function ResetPasswordPage() {
       })
       .then((res) => {
         console.log(res);
-        window.location.href = "/login";
+        sessionStorage.removeItem("OTP");
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);

@@ -28,7 +28,12 @@ function SquealUser({ user, chars }) {
                 user.profilePic
               : guesticon
           }
-          style={{ borderRadius: "50%", height: "100px", width: "100px" }}
+          style={{
+            borderRadius: "50%",
+            height: "100px",
+            width: "100px",
+            objectFit: user?.profilePic ? "cover" : "contain",
+          }}
         />
       </div>
       <div className="col">
