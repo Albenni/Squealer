@@ -503,30 +503,51 @@ async function manageReactions(squeal, req) {
       numReactionNeg >= squeal.impression * 0.25
     ) {
       squeal.category = "controverso";
-      if (!squeal.publicSqueal) {
-        let channel = await Channel.findOne({ name: "CONTROVERSIAL" });
-        if (!channel) {
-          channel = await Channel.create({
-            name: "CONTROVERSIAL",
-            description: "Last controversial squeals",
-            private: false,
-            editorialChannel: true,
-          });
-        }
-        const index = squeal.receivers.findIndex((rec) =>
-          rec.group.equals(channel._id)
-        );
-        if (index === -1) {
-          const destinatario = {
-            group: channel._id,
-            groupType: "Channel",
-          };
-          squeal.receivers.push(destinatario);
-        }
+
+      let channel = await Channel.findOne({ name: "CONTROVERSIAL" });
+      if (!channel) {
+        channel = await Channel.create({
+          name: "CONTROVERSIAL",
+          description: "Last controversial squeals",
+          private: false,
+          editorialChannel: true,
+        });
       }
+      const index = squeal.receivers.findIndex((rec) =>
+        rec.group.equals(channel._id)
+      );
+      if (index === -1) {
+        const destinatario = {
+          group: channel._id,
+          groupType: "Channel",
+        };
+        squeal.receivers.push(destinatario);
+      }
+
       await squeal.save();
     } else if (numReactionPos >= squeal.impression * 0.25) {
       squeal.category = "popolare";
+
+      let channel = await Channel.findOne({ name: "TRENDING" });
+      if (!channel) {
+        channel = await Channel.create({
+          name: "TRENDING",
+          description: "Trending squeals",
+          private: false,
+          editorialChannel: true,
+        });
+      }
+      const index = squeal.receivers.findIndex((rec) =>
+        rec.group.equals(channel._id)
+      );
+      if (index === -1) {
+        const destinatario = {
+          group: channel._id,
+          groupType: "Channel",
+        };
+        squeal.receivers.push(destinatario);
+      }
+
       await squeal.save();
       //aumento quota se questo è il decimo squeal popolare
       const contPop = await Squeal.count({
