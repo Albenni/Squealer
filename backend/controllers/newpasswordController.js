@@ -29,7 +29,7 @@ const sendResetOTP = async (req, res) => {
     OTPCreationTime: OTPCreationTime,
   };
 
-  console.log(OTPCreationTime);
+  // console.log(OTPCreationTime);
 
   const ncryptObject = new ncrypt(process.env.EN_KEY);
 
@@ -47,7 +47,7 @@ const sendResetOTP = async (req, res) => {
   } catch (error) {
     res.json({ message: error });
   }
-  // // Invio l'OTP all'utente per mail
+  // Invio l'OTP all'utente per mail
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -131,7 +131,7 @@ const resetPassword = async (req, res) => {
         .json({ message: "Password is the same as the old one" });
     }
 
-    // Aggiorno la password con save (update dice che è deprecato)
+    // Aggiorno la password con save
     foundUser.password = req.body.newpassword;
     await foundUser.save();
 

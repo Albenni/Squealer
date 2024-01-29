@@ -29,11 +29,15 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
       await axiosInstance
         .get(config.endpoint.users + "/" + userid + "/channels")
         .then((res) => {
-          res.data.forEach((item) => {
-            if (item.name === channelpathname) {
-              setIsFollowedChannel(true);
-            }
-          });
+          // res.data.forEach((item) => {
+          //   if (item.name === channelpathname) {
+          //     setIsFollowedChannel(true);
+          //   }
+          // });
+
+          if (res.data.find((obj) => obj.name === channelpathname)) {
+            setIsFollowedChannel(true);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -56,13 +60,18 @@ function ChannelBar({ channelinfo, setShowEdit, setShowPosts }) {
           console.log(err);
         });
     }
-    if (channelinfo.private && !isAdmin && !isFollowedChannel) {
-      setShowPosts(false);
-    }
 
     checkFollow();
     getChannels();
   }, [axiosInstance, channelinfo]);
+
+  useEffect(() => {
+    if (channelinfo.private && !isAdmin && !isFollowedChannel) {
+      setShowPosts(false);
+    } else {
+      setShowPosts(true);
+    }
+  }, [channelinfo, isAdmin, isFollowedChannel, setShowPosts]);
 
   async function handleFollowChannel() {
     await axiosInstance

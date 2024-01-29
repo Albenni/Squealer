@@ -10,6 +10,7 @@ import ErrorMessage from "./ErrorMessage";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import config from "../config/config";
+import theme from "../config/theme";
 
 function EditChannelBox({ show, setShowEdit, channelinfo }) {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
@@ -284,6 +285,31 @@ function EditChannelBox({ show, setShowEdit, channelinfo }) {
 
             {channelinfo.private ? (
               <>
+                <div>
+                  {followers.length > 0 &&
+                    followers.map((follower, key) => {
+                      return (
+                        <Button
+                          key={key}
+                          variant="outline-primary"
+                          style={{
+                            color: theme.colors.dark,
+                            border: "1px solid",
+                            borderRadius: "10px",
+                            padding: "5px",
+                            margin: "5px",
+                          }}
+                          onClick={() =>
+                            navigate("/" + follower.username, {
+                              replace: true,
+                            })
+                          }
+                        >
+                          @{follower.username}
+                        </Button>
+                      );
+                    })}
+                </div>
                 <InputGroup className="mb-3">
                   <Form.Control
                     placeholder={"Username"}
