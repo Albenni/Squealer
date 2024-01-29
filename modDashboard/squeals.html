@@ -3,7 +3,7 @@
   <head>
     <title>Squeals - Moderator DashBoard</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./SLogo.ico" />
+    <link rel="icon" type="image/x-icon" href="./SLogo.ico" alt="logo" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
       rel="stylesheet"
@@ -99,6 +99,7 @@
             class="form-control"
             id="authorFilter"
             placeholder="Filter by Author"
+            aria-label="Filter by Author"
           />
         </div>
         <div class="col-md-3">
@@ -108,13 +109,18 @@
             class="form-control"
             id="receiverFilter"
             placeholder="Filter by Receiver"
+            aria-label="Filter by Receiver"
           />
         </div>
         <div class="col-md-3">
           <label for="contentTypeFilter" class="label-small"
             >Content Type</label
           >
-          <select class="form-select" id="contentTypeFilter">
+          <select
+            class="form-select"
+            id="contentTypeFilter"
+            aria-label="Filter by content type"
+          >
             <option value="">Filter by Content Type</option>
             <option value="text">Text</option>
             <option value="image">Image</option>
@@ -124,7 +130,12 @@
         </div>
         <div class="col-md-3">
           <label for="dateFilter" class="label-small">Date</label>
-          <input type="date" class="form-control" id="dateFilter" />
+          <input
+            type="date"
+            class="form-control"
+            id="dateFilter"
+            aria-label="Filter by date"
+          />
         </div>
       </div>
       <button class="btn btn-primary mb-4" id="fetchMessagesButton">
