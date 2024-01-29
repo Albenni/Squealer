@@ -3,7 +3,7 @@
   <head>
     <title>Channels - Moderator Dashboard</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./SLogo.ico" />
+    <link rel="icon" type="image/x-icon" href="./SLogo.ico" alt="logo" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
       rel="stylesheet"
@@ -85,6 +85,7 @@
             class="form-control"
             id="nameFilter"
             placeholder="Filter by Channel Name"
+            aria-label="Filter by Channel Name"
           />
         </div>
         <div class="col-md-2">
@@ -94,6 +95,7 @@
             class="form-control"
             id="adminFilter"
             placeholder="Filter by Admin"
+            aria-label="Filter by Admin"
           />
         </div>
         <div class="col-md-1">
@@ -109,11 +111,16 @@
             class="form-control"
             id="followerFilter"
             min="0"
+            aria-label="Filter by Popularity"
           />
         </div>
         <div class="col-md-2">
           <label for="privateFilter" class="label-small">Private</label>
-          <select class="form-select" id="privateFilter">
+          <select
+            class="form-select"
+            id="privateFilter"
+            aria-label="Filter by Private"
+          >
             <option value="">Filter by Private</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -121,7 +128,11 @@
         </div>
         <div class="col-md-2">
           <label for="editorialFilter" class="label-small">Editorial</label>
-          <select class="form-select" id="editorialFilter">
+          <select
+            class="form-select"
+            id="editorialFilter"
+            aria-label="Filter by Editorial"
+          >
             <option value="">Filter by Editorial Channel</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -129,7 +140,11 @@
         </div>
         <div class="col-md-2">
           <label for="blockedFilter" class="label-small">Blocked</label>
-          <select class="form-select" id="blockedFilter">
+          <select
+            class="form-select"
+            id="blockedFilter"
+            aria-label="Filter by Blocked channels"
+          >
             <option value="">Filter by Blocked</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -148,12 +163,14 @@
             class="form-control"
             id="newChannelBox"
             placeholder="New Channel Name"
+            aria-label="New channel name"
           />
         </div>
         <div class="col-md-3">
           <button
             class="btn btn-success"
             id="createChannelBtn"
+            aria-label="Create new Channel"
             onclick="createNewChannel()"
           >
             Create Editorial Channel
