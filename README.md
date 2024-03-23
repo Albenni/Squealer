@@ -9,9 +9,9 @@ This project is a complete social media app, with dashboards for social media ma
 - *Social media manager dashboard* - Angular
 - *Moderator dashboard* - Vanilla Javascript
 - *Backend* - NodeJS e Express
-- *DB* - MongoDB
+- *DataBase* - MongoDB
 
-## Main social media features
+## Main features
 
 ### A common user can
 - Register/login functionalities
